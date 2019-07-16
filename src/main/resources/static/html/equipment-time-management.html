@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>设备大修/更换时间管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="stylesheet" href="../jsPackage/layui-v2.4.2/css/layui.css">
+    <link rel="stylesheet" href="../css/equipment-time.css" media="all">
+  </head>
+  <body>
+    <div class="layui-container">
+		<div class="layui-row" style="border:1px solid red;">
+			<div class="layui-col-xs12 layui-col-sm7 layui-col-md6">
+				<form class="layui-form">
+		    	    <div class="layui-form-item">
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 70px;">设备类别</label>
+					      <div class="layui-input-inline" style="width: 140px;">
+							 <select>
+							 	<option value="">请选择</option>
+							 	<option value="K类">K类</option>
+							 	<option value="P类">P类</option>
+							 </select>
+					      </div>
+					    </div>
+					    <div class="layui-inline">
+					      <label class="text-font layui-form-label" style="width: 70px;">设备位号</label>
+					      <div class="layui-input-inline" style="width: 140px;">
+					        <input type="text" id="problemdescribe" class="layui-input">
+					      </div>
+					    </div>
+					 </div>
+					 <div class="layui-form-item">
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
+					      <div class="layui-input-inline" style="width: 140px;">
+					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+					    <div class="layui-inline layui-inline-btn1"> 
+					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" data-type="reload" lay-event="querydata">
+								<i class="layui-icon">&#xe615;</i>查询
+							</button> 
+					    </div>
+					 </div>
+		    	</form>
+		    	<table id="equipmentInfo" class="layui-hide" lay-filter="equipmentInfo"> </table>
+   			</div>
+   			<div class="layui-col-xs12 layui-col-sm5 layui-col-md5 layui-col-md-offset1">
+   			<form class="layui-form" style="padding-top: 0px;">
+			  		<div class="layui-form-item">
+				  		<label class=" layui-form-label" style="width: 155px; padding-left: 5px;">录入设备大修或更换时间:</label>
+			  		</div>
+		    	    <div class="layui-form-item">
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 40px;">类别</label>
+					      <div class="layui-input-inline" style="width: 100px;">
+							 <select>
+							 	<option value="">请选择</option>
+							 	<option value="大修">大修</option>
+							 	<option value="更换">更换</option>
+							 </select>
+					      </div>
+					    </div>
+					    <div class="layui-inline">
+					      <label class="text-font layui-form-label" style="width: 35px;">时间</label>
+					      <div class="layui-input-inline" style="width: 100px;">
+					        <input type="text" class="layui-input layui-input-one" id="updatedate" autocomplete="off" placeholder="请选择">
+					      </div>
+					    </div>
+					    <div class="layui-inline layui-inline-btn"> 
+					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" data-type="reload" lay-event="querydata">
+								<i class="layui-icon">&#xe615;</i>添加
+							</button> 
+					    </div>
+					 </div>
+		    	</form>
+	   			<fieldset class="layui-elem-field layui-field-title" style="margin-bottom: 0px;">
+				  <legend style="font-size: 14px;">P-1301/A</legend>
+				</fieldset>
+				<table id="equipmentUpdateDate" class="layui-hide" lay-filter="equipmentUpdateDate"> </table>
+   			</div>
+		</div>
+	</div>
+
+<!--  
+	<script type="text/html" id="barBtn">
+  		<a class="layui-btn layui-btn-xs" lay-event="process">&nbsp;&nbsp;处理过程&nbsp;&nbsp;</a>
+	</script>
+-->
+	<script src="../jsPackage/js/jquery-1.9.1.min.js"></script>
+	<script src="../jsPackage/own/universal.js"></script>
+    <script type="text/javascript" src="../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/equipment-time-management.js"></script>
+  </body>
+</html>
