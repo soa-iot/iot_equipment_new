@@ -71,13 +71,6 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- activity集成 -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>5.22.0</version>
-        </dependency>
-        
         <!-- oracle 连接数据驱动包 -->
         <dependency>
 			<groupId>cn.easyproject</groupId>

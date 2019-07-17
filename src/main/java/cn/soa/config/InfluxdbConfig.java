@@ -57,7 +57,7 @@ public class InfluxdbConfig {
 					openurl, username, password );
 		try {
 			if (!influxDB.databaseExists( database )) {
-				logger.info( "-----指定数据库不存在--------");
+				logger.info( "-----指定数据库不存在-----创建---");
 				influxDB.createDatabase( database );
 				logger.info( "-----指定数据库创建成功-------");
 			}
@@ -70,7 +70,7 @@ public class InfluxdbConfig {
 			retentionPolicy = retentionPolicy == null || retentionPolicy.equals("") ? "autogen" : retentionPolicy;			
 			influxDB.setRetentionPolicy( retentionPolicy );
 		}
-		influxDB.setLogLevel(InfluxDB.LogLevel.NONE);
+		influxDB.setLogLevel(InfluxDB.LogLevel.BASIC);
 		logger.info( "-----指定数据库连接建立成功-------" + influxDB );
 		return influxDB;
 	}
