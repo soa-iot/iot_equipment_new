@@ -51,7 +51,7 @@ public class InfluxdbConfig {
         return new PropertySourcesPlaceholderConfigurer();  
     }  
 	
-	@Bean
+	@Bean(name="influxDB")
 	public InfluxDB influxDbBuild() {
 			InfluxDB influxDB = InfluxDBFactory.connect( 
 					openurl, username, password );
