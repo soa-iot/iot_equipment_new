@@ -158,32 +158,34 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 			layer.msg("时间不能为空", {icon: 7, time: 2000, offset: '150px'});
 			return false;
 		}
-		$.ajax({
-			async: false,
-			type: "POST",
-			url: "/iot_equipment/equipment/event/add",
-			data:{'positionNum':positionNum, 'event':event, 'eventTime':eventTime},
-			dataType: "json",
-			timeout:2000,
-			success: function(json){
-				if(json.state == 0){
-					layer.msg("添加数据成功", {icon: 1, time: 2000, offset: '150px'});
-					$("#event").val();
-					$("#eventTime").val();
-					eventTable.reload({
-			    		url: '/iot_equipment/equipment/event/'+positionNum
-			    	   ,page: {
-			    		   curr: 1 //重新从第 1 页开始
-			    	   }
-			    	});
-				}else{
-					layer.msg("添加数据失败", {icon: 2, time: 2000, offset: '150px'});
+		layer.confirm("是否确定添加？",{icon: 3, title:'提示',offset: '150px'}, function(index){
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "/iot_equipment/equipment/event/add",
+				data:{'positionNum':positionNum, 'event':event, 'eventTime':eventTime},
+				dataType: "json",
+				timeout:2000,
+				success: function(json){
+					if(json.state == 0){
+						layer.msg("添加数据成功", {icon: 1, time: 2000, offset: '150px'});
+						$("#event").val();
+						$("#eventTime").val();
+						eventTable.reload({
+				    		url: '/iot_equipment/equipment/event/'+positionNum
+				    	   ,page: {
+				    		   curr: 1 //重新从第 1 页开始
+				    	   }
+				    	});
+					}else{
+						layer.msg("添加数据失败", {icon: 2, time: 2000, offset: '150px'});
+					}
+				},
+				error: function(){
+					layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
 				}
-			},
-			error: function(){
-				layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
-			}
-		})
+			})
+		});
 		
 		return false;
 	})
