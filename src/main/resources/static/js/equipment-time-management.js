@@ -147,7 +147,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	/**
 	 * 动设备大事件添加事件
 	 */
-	form.on('submit(add-event)', function(data){
+	$('#add-event').click(function(){
 		var event = $("#event").val();
 		var eventTime = $("#eventTime").val();
 		if(event == ""){
@@ -169,8 +169,9 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 				success: function(json){
 					if(json.state == 0){
 						layer.msg("添加数据成功", {icon: 1, time: 2000, offset: '150px'});
-						$("#event").val();
-						$("#eventTime").val();
+						$("#event").val("");
+						$("#div-event .layui-input").val("");
+						$("#eventTime").val("");
 						eventTable.reload({
 				    		url: '/iot_equipment/equipment/event/'+positionNum
 				    	   ,page: {
@@ -186,8 +187,6 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 				}
 			})
 		});
-		
-		return false;
 	})
 	
 })

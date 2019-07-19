@@ -56,7 +56,7 @@ public class EquipmentC {
 	@PostMapping("/event/add")
 	public ResultJson<Void> addEvent(EquipmentBigEvent event){
 		
-		log.info("------动设备大事件添加信息：", event);
+		log.info("------动设备大事件添加信息：{}", event);
 		
 		Integer result = equipEventS.addEvent(event);
 		if(result == null) {
