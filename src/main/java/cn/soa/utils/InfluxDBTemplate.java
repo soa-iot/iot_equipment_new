@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import cn.soa.config.InfluxdbConfig;
 
-@Component
+/*@Component*/
 public class InfluxDBTemplate {
 	private static Logger logger = LoggerFactory.getLogger( InfluxDBTemplate.class );
 	

@@ -12,14 +12,14 @@
   </head>
   <body>
     <div class="layui-container">
-		<div class="layui-row" style="border:1px solid red;">
-			<div class="layui-col-xs12 layui-col-sm7 layui-col-md6">
+		<div class="layui-row">
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 				<form class="layui-form">
 		    	    <div class="layui-form-item">
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 70px;">设备类别</label>
 					      <div class="layui-input-inline" style="width: 140px;">
-							 <select>
+							 <select id="equipType">
 							 	<option value="">请选择</option>
 							 	<option value="K类">K类</option>
 							 	<option value="P类">P类</option>
@@ -29,7 +29,7 @@
 					    <div class="layui-inline">
 					      <label class="text-font layui-form-label" style="width: 70px;">设备位号</label>
 					      <div class="layui-input-inline" style="width: 140px;">
-					        <input type="text" id="problemdescribe" class="layui-input">
+					        <input type="text" id="positionNum" class="layui-input">
 					      </div>
 					    </div>
 					 </div>
@@ -37,11 +37,11 @@
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
 					      <div class="layui-input-inline" style="width: 140px;">
-					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					        <input type="text" id="name" class="layui-input layui-input-one" autocomplete="off">
 					      </div>
 					    </div>
 					    <div class="layui-inline layui-inline-btn1"> 
-					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" data-type="reload" lay-event="querydata">
+					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="query-equipment">
 								<i class="layui-icon">&#xe615;</i>查询
 							</button> 
 					    </div>
@@ -49,7 +49,7 @@
 		    	</form>
 		    	<table id="equipmentInfo" class="layui-hide" lay-filter="equipmentInfo"> </table>
    			</div>
-   			<div class="layui-col-xs12 layui-col-sm5 layui-col-md5 layui-col-md-offset1">
+   			<div class="layui-col-xs12 layui-col-sm5 layui-col-md5 layui-col-md-offset1 layui-col-sm-offset1">
    			<form class="layui-form" style="padding-top: 0px;">
 			  		<div class="layui-form-item">
 				  		<label class=" layui-form-label" style="width: 155px; padding-left: 5px;">录入设备大修或更换时间:</label>
@@ -58,7 +58,7 @@
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 40px;">类别</label>
 					      <div class="layui-input-inline" style="width: 100px;">
-							 <select>
+							 <select id="event">
 							 	<option value="">请选择</option>
 							 	<option value="大修">大修</option>
 							 	<option value="更换">更换</option>
@@ -68,29 +68,27 @@
 					    <div class="layui-inline">
 					      <label class="text-font layui-form-label" style="width: 35px;">时间</label>
 					      <div class="layui-input-inline" style="width: 100px;">
-					        <input type="text" class="layui-input layui-input-one" id="updatedate" autocomplete="off" placeholder="请选择">
+					        <input type="text" class="layui-input layui-input-one" id="eventTime" autocomplete="off" placeholder="请选择">
 					      </div>
 					    </div>
 					    <div class="layui-inline layui-inline-btn"> 
-					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" data-type="reload" lay-event="querydata">
-								<i class="layui-icon">&#xe615;</i>添加
+					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-submit lay-filter="add-event">
+								<i class="layui-icon">&#xe654;</i>添加
 							</button> 
 					    </div>
 					 </div>
 		    	</form>
 	   			<fieldset class="layui-elem-field layui-field-title" style="margin-bottom: 0px;">
-				  <legend style="font-size: 14px;">P-1301/A</legend>
+				  <legend style="font-size: 14px;" id="rfid"></legend>
 				</fieldset>
 				<table id="equipmentUpdateDate" class="layui-hide" lay-filter="equipmentUpdateDate"> </table>
    			</div>
 		</div>
 	</div>
-
-<!--  
+ 
 	<script type="text/html" id="barBtn">
-  		<a class="layui-btn layui-btn-xs" lay-event="process">&nbsp;&nbsp;处理过程&nbsp;&nbsp;</a>
+  		<a class="layui-btn layui-btn-xs" lay-event="bigevent">&nbsp;&nbsp;查看详情&nbsp;&nbsp;</a>
 	</script>
--->
 	<script src="../jsPackage/js/jquery-1.9.1.min.js"></script>
 	<script src="../jsPackage/own/universal.js"></script>
     <script type="text/javascript" src="../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>

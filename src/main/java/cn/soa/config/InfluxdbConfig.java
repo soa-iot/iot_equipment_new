@@ -16,8 +16,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-@Configuration
-@PropertySource(value = { "classpath:application.properties" })
+/*@Configuration
+@PropertySource(value = { "classpath:application.properties" })*/
 @SuppressWarnings( "serial" )
 @AllArgsConstructor
 @NoArgsConstructor
