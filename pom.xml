@@ -133,6 +133,18 @@
 			<artifactId>okio</artifactId>
 			<version>1.13.0</version>
 		</dependency>
+		
+		<!-- POI依赖解析excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
 	</dependencies>
 
 	<build>

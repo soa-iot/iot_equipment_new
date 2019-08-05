@@ -1,0 +1,31 @@
+body,.layui-table-body tr{
+	background-color: #FAFDFD;
+}
+
+.layui-container .layui-form,.layui-form-item,.layui-table-tool,.layui-table thead tr,.layui-table-header,.layui-table-total,.layui-table-total tr{
+	background-color: #EDF6FA;
+}
+
+.layui-container{
+	padding: 0px;
+	min-width: 960px;
+	width: 95%;
+}
+
+.layui-form-header{
+	padding-top: 10px;
+	padding-bottom: 1px;
+}
+
+.layui-inline .layui-form-label{
+	padding:9px 5px;
+	width: 70px;
+}
+
+.layui-inline .layui-input-inline{
+	width: 140px;
+}
+
+.layui-inline .equipment-type-detail{
+	width: 150px;
+}

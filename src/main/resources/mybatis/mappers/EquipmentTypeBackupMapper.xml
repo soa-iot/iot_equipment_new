@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.EquipmentTypeBackupMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1、条件查询设备台账导入备份信息	-->
+	<!-- List<EquipmentTypeBackup> findByCondition(
+			@Param("bname") String bname,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate,
+			@Param("bperson") String bperson),
+			@Param("page") String page),
+			@Param("limit") String limit)  -->
+	<select id="findByCondition" resultType="cn.soa.entity.EquipmentTypeBackup">
+		SELECT
+			BID, BNAME, BCREATETIME, BPERSON, BNOTE, BPATH, BTYPE, BREMARK1, BREMARK2
+		FROM
+			(
+				SELECT equipBackup1.*, ROWNUM rownum1
+				FROM
+					(
+						SELECT equipBackup.*
+						FROM
+							IOT_EQUIPMENT_TYPE_BACKUP equipBackup
+						<where>
+							<if test="bname != null and bname != ''">
+								BNAME = #{bname}
+							</if>
+							<if test="startDate != null and startDate != ''">
+								and TO_CHAR(BCREATETIME,'YYYY-MM-DD') &gt;= #{startDate}
+							</if>
+							<if test="endDate != null and endDate != ''">
+								and TO_CHAR(BCREATETIME,'YYYY-MM-DD') &lt;= #{endDate}
+							</if>
+							<if test="bperson != null and bperson != ''">
+								and BPERSON LIKE '%${bperson}%'
+							</if>
+						</where>
+						ORDER BY BCREATETIME DESC
+					) equipBackup1
+				 <where>
+				 	<if test="limit != null and page != null">
+						ROWNUM &lt;= ${page * limit}
+					</if>
+				 </where>
+			)
+		<where>
+			<if test="limit != null and page != null">
+				rownum1 &gt; ${(page - 1)* limit}
+			</if>
+		</where>
+	</select>
+	
+	<select id="countByCondition" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_TYPE_BACKUP
+		<where>
+			<if test="bname != null and bname != ''">
+				BNAME = #{bname}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				and TO_CHAR(BCREATETIME,'YYYY-MM-DD') &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and TO_CHAR(BCREATETIME,'YYYY-MM-DD') &lt;= #{endDate}
+			</if>
+			<if test="bperson != null and bperson != ''">
+				and BPERSON LIKE '%${bperson}%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 1.2、根据bid查询设备台账导入备份信息	-->
+	<!-- EquipmentTypeBackup findByBid(String bid)  -->
+	<select id="findByBid" resultType="cn.soa.entity.EquipmentTypeBackup">
+		SELECT
+			BID, BNAME, BCREATETIME, BPERSON, BNOTE, BPATH, BTYPE, BREMARK1, BREMARK2
+		FROM
+			IOT_EQUIPMENT_TYPE_BACKUP
+		WHERE
+			BID = #{bid, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- ===========================2、新增===============================  -->
+	<!-- 2.1、添加设备台账导入备份信息	-->
+	<!-- Integer insertBackupInfo(EquipmentTypeBackup backup) -->
+	<insert id="insertBackupInfo" parameterType="cn.soa.entity.EquipmentTypeBackup">
+		<selectKey order="BEFORE" resultType="string" keyProperty="bid">
+			select sys_guid() from dual 
+		</selectKey>
+		INSERT INTO
+			IOT_EQUIPMENT_TYPE_BACKUP
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="bid != null">
+					bid,
+				</if>
+				<if test="bname != null">
+					bname,
+				</if>
+				<if test="bcreatetime != null">
+					bcreatetime,
+				</if>
+				<if test="bperson != null">
+					bperson,
+				</if>
+				<if test="bnote != null">
+					bnote,
+				</if>
+				<if test="bpath != null">
+					bpath,
+				</if>
+				<if test="btype != null">
+					btype,
+				</if>
+				<if test="bremark1 != null">
+					bremark1,
+				</if>
+				<if test="bremark2 != null">
+					bremark2
+				</if>
+			</trim>
+		VALUES
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="bid != null">
+					#{bid},
+				</if>
+				<if test="bname != null">
+					#{bname},
+				</if>
+				<if test="bcreatetime != null">
+					#{bcreatetime},
+				</if>
+				<if test="bperson != null">
+					#{bperson},
+				</if>
+				<if test="bnote != null">
+					#{bnote},
+				</if>
+				<if test="bpath != null">
+					#{bpath},
+				</if>
+				<if test="btype != null">
+					#{btype},
+				</if>
+				<if test="bremark1 != null">
+					#{bremark1},
+				</if>
+				<if test="bremark2 != null">
+					#{bremark2}
+				</if>
+			</trim>	
+	</insert>
+	
+	<!-- ===========================3、修改===============================  -->
+
+	
+	<!-- ===========================4、删除===============================  -->
+	<!-- 4.1、根据bid删除设备台账导入备份信息	-->
+	<!-- Integer deleteByBid(String bid) -->
+	<delete id="deleteByBid">
+		DELETE FROM
+			IOT_EQUIPMENT_TYPE_BACKUP
+		WHERE
+			BID = #{bid}
+	</delete>
+</mapper>
+ 
+

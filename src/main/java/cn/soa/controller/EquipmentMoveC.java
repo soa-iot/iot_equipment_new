@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequestMapping("/equipment")
-public class EquipmentC {
+public class EquipmentMoveC {
 	
 	@Autowired
 	private EquipmentMoveRunningTimeSI equipMoveS;
