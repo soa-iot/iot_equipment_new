@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.EquipmentTypeBackup;
+import cn.soa.entity.EquipmentTypeForExcel;
 
 /**
  * 设备台账导入备份持久层
@@ -61,4 +62,18 @@ public interface EquipmentTypeBackupMapper {
 	 * @return 受影响行数
 	 */
 	Integer deleteByBid(String bid);
+	
+	/**
+	 * 根据设备位号还原设备备份数据
+	 * @param data 设备备份数据
+	 * @return 受影响行数
+	 */
+	Integer updateBackup(EquipmentTypeForExcel data);
+	
+	/**
+	 * 插入设备数据
+	 * @param data 设备数据
+	 * @return 受影响行数
+	 */
+	Integer insertBackup(EquipmentTypeForExcel data);
 }

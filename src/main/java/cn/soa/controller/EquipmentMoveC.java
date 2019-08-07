@@ -64,4 +64,16 @@ public class EquipmentMoveC {
 		}
 		return new ResultJson<>(ResultJson.SUCCESS, "插入动设备大事件成功");
 	}
+	
+	@PostMapping("/move/add")
+	public ResultJson<Void> addMoveEquipment(EquipmentMoveRunningTime equip){
+		
+		log.info("------新动设备添加信息：{}", equip);
+		
+		String result = equipMoveS.addOne(equip);
+		if("success".equals(result)) {
+			return new ResultJson<>(ResultJson.SUCCESS, "添加动设备数据成功");
+		}
+		return new ResultJson<>(ResultJson.ERROR, result);
+	}
 }

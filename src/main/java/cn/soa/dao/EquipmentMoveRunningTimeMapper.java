@@ -40,4 +40,11 @@ public interface EquipmentMoveRunningTimeMapper {
 	 * @return 设备mrid
 	 */
 	String findMridByPositionNum(String positionNum);
+	
+	/**
+	 * 添加动设备信息
+	 * @param equip 动设备信息对象
+	 * @return 受影响行数
+	 */
+	Integer insertOne(@Param("equip") EquipmentMoveRunningTime equip);
 }

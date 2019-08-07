@@ -123,11 +123,11 @@ public class EquipmentInfoC {
 	 * @return
 	 */
 	@GetMapping("/rollback/{bid}")
-	public ResultJson<Void> rollbackData(@PathVariable("bid") String bid){
+	public ResultJson<Boolean> rollbackData(@PathVariable("bid") String bid){
 		log.info("---------进入rollbackData开始数据还原--------");
 		log.info("---------bid = {}", bid);
-		
-		return null;
+		boolean result = equipTypeBackupS.RollbackData(bid);
+		return new ResultJson<>(result);
 	}
 	
 	/**

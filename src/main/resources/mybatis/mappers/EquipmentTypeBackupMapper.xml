@@ -155,8 +155,702 @@
 			</trim>	
 	</insert>
 	
+	<!-- 2.2、插入设备数据 -->
+	<!-- Integer insertBackup(EquipmentTypeForExcel data) -->
+	<insert id="insertBackup" parameterType="cn.soa.entity.EquipmentTypeForExcel">
+		INSERT INTO
+			CZ_EQUIPMENT_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="EQU_ID != null and EQU_ID != ''">
+				EQU_ID,
+			</if>
+			<if test="WEL_NAME != null and WEL_NAME != ''">
+				WEL_NAME,
+			</if>
+			<if test="WEL_UNIT != null and WEL_UNIT != ''">
+				WEL_UNIT,
+			</if>
+			<if test="EQU_POSITION_NUM != null and EQU_POSITION_NUM != ''">
+				EQU_POSITION_NUM,
+			</if>
+			<if test="EQU_MEMO_ONE != null and EQU_MEMO_ONE != ''">
+				EQU_MEMO_ONE,
+			</if>
+			<if test="EQU_NAME != null and EQU_NAME != ''">
+				EQU_NAME,
+			</if>
+			<if test="MANAGE_TYPE != null and MANAGE_TYPE != ''">
+				MANAGE_TYPE,
+			</if>
+			<if test="EQU_MODEL != null and EQU_MODEL != ''">
+				EQU_MODEL,
+			</if>
+			<if test="MEARING_RANGE != null and MEARING_RANGE != ''">
+				MEARING_RANGE,
+			</if>
+			<if test="MEASURE_ACC != null and MEASURE_ACC != ''">
+				MEASURE_ACC,
+			</if>
+			<if test="EQU_INSTALL_POSITION != null and EQU_INSTALL_POSITION != ''">
+				EQU_INSTALL_POSITION,
+			</if>
+			<if test="EQU_MANUFACTURER != null and EQU_MANUFACTURER != ''">
+				EQU_MANUFACTURER,
+			</if>
+			<if test="SERIAL_NUM != null and SERIAL_NUM != ''">
+				SERIAL_NUM,
+			</if>
+			<if test="CHECK_CYCLE != null and CHECK_CYCLE != ''">
+				CHECK_CYCLE,
+			</if>
+			<if test="CHECK_TIME != null and CHECK_TIME != ''">
+				CHECK_TIME,
+			</if>
+			<if test="NEXT_CHECK_TIME != null and NEXT_CHECK_TIME != ''">
+				NEXT_CHECK_TIME,
+			</if>
+			<if test="REMARK1 != null and REMARK1 != ''">
+				REMARK1,
+			</if>
+			<if test="DEEP_LENGTH != null and DEEP_LENGTH != ''">
+				DEEP_LENGTH,
+			</if>
+			<if test="INTER_SIZE != null and INTER_SIZE != ''">
+				INTER_SIZE,
+			</if>
+			<if test="MEDUIM_TYPE != null and MEDUIM_TYPE != ''">
+				MEDUIM_TYPE,
+			</if>
+			<if test="ORDER_NUM != null and ORDER_NUM != ''">
+				ORDER_NUM,
+			</if>
+			<if test="FLA_SIZE != null and FLA_SIZE != ''">
+				FLA_SIZE,
+			</if>
+			<if test="ACTION_MODLE != null and ACTION_MODLE != ''">
+				ACTION_MODLE,
+			</if>
+			<if test="HAVE_NOT != null and HAVE_NOT != ''">
+				HAVE_NOT,
+			</if>
+			<if test="ACTUAL_MODEL != null and ACTUAL_MODEL != ''">
+				ACTUAL_MODEL,
+			</if>
+			<if test="VAVLE_TYPE != null and VAVLE_TYPE != ''">
+				VAVLE_TYPE,
+			</if>
+			<if test="CV != null and CV != ''">
+				CV,
+			</if>
+			<if test="GAS_SOURCE != null and GAS_SOURCE != ''">
+				GAS_SOURCE,
+			</if>
+			<if test="POSITIONER != null and POSITIONER != ''">
+				POSITIONER,
+			</if>
+			<if test="PROCE_LINK_TYPE != null and PROCE_LINK_TYPE != ''">
+				PROCE_LINK_TYPE,
+			</if>
+			<if test="ACTUAL != null and ACTUAL != ''">
+				ACTUAL,
+			</if>
+			<if test="FLUX != null and FLUX != ''">
+				FLUX,
+			</if>
+			<if test="EQU_PRODUC_DATE != null and EQU_PRODUC_DATE != ''">
+				EQU_PRODUC_DATE,
+			</if>
+			<if test="PRESSURE_RANGE != null and PRESSURE_RANGE != ''">
+				PRESSURE_RANGE,
+			</if>
+			<if test="EQU_WORK_TEMP != null and EQU_WORK_TEMP != ''">
+				EQU_WORK_TEMP,
+			</if>
+			<if test="MEASURE_PRIN != null and MEASURE_PRIN != ''">
+				MEASURE_PRIN,
+			</if>
+			<if test="ELEC_MODEL != null and ELEC_MODEL != ''">
+				ELEC_MODEL,
+			</if>
+			<if test="EQU_COMMISSION_DATE != null and EQU_COMMISSION_DATE != ''">
+				EQU_COMMISSION_DATE,
+			</if>
+			<if test="EQU_LASTPERIODIC_DATE != null and EQU_LASTPERIODIC_DATE != ''">
+				EQU_LASTPERIODIC_DATE,
+			</if>
+			<if test="EQU_PERIODIC_CYCLE != null and EQU_PERIODIC_CYCLE != ''">
+				EQU_PERIODIC_CYCLE,
+			</if>
+			<if test="EQU_PERIODIC_WARNDAYS != null and EQU_PERIODIC_WARNDAYS != ''">
+				EQU_PERIODIC_WARNDAYS,
+			</if>
+			<if test="EXPERY_TIME != null and EXPERY_TIME != ''">
+				WEL_NAME,
+			</if>
+			<if test="ELEC != null and ELEC != ''">
+				WEL_NAME,
+			</if>
+			<if test="COUNT != null and COUNT != ''">
+				COUNT,
+			</if>
+			<if test="WEIGHT != null and WEIGHT != ''">
+				WEIGHT,
+			</if>
+			<if test="ELECTRIC_PRES != null and ELECTRIC_PRES != ''">
+				ELECTRIC_PRES,
+			</if>
+			<if test="POWER_RATE != null and POWER_RATE != ''">
+				POWER_RATE,
+			</if>
+			<if test="SPEED_RAT != null and SPEED_RAT != ''">
+				SPEED_RAT,
+			</if>
+			<if test="CAPCITY != null and CAPCITY != ''">
+				CAPCITY,
+			</if>
+			<if test="BEFORE_BEARING1 != null and BEFORE_BEARING1 != ''">
+				BEFORE_BEARING1,
+			</if>
+			<if test="BEFORE_BEARING2 != null and BEFORE_BEARING2 != ''">
+				BEFORE_BEARING2,
+			</if>
+			<if test="SPINDLE_SPEED != null and SPINDLE_SPEED != ''">
+				SPINDLE_SPEED,
+			</if>
+			<if test="MATERIAL != null and MATERIAL != ''">
+				MATERIAL,
+			</if>
+			<if test="DESIGN_TUBE_TEMP != null and DESIGN_TUBE_TEMP != ''">
+				DESIGN_TUBE_TEMP,
+			</if>
+			<if test="DESIGN_TUBE_PRES != null and DESIGN_TUBE_PRES != ''">
+				DESIGN_TUBE_PRES,
+			</if>
+			<if test="OPTION_SHELL_PRESS != null and OPTION_SHELL_PRESS != ''">
+				OPTION_SHELL_PRESS,
+			</if>
+			<if test="OPTION_SHELL_IN_TEMP != null and OPTION_SHELL_IN_TEMP != ''">
+				OPTION_SHELL_IN_TEMP,
+			</if>
+			<if test="DESIGN_SHELL_PRES != null and DESIGN_SHELL_PRES != ''">
+				DESIGN_SHELL_PRES,
+			</if>
+			<if test="DESIGN_SHELL_TEMP != null and DESIGN_SHELL_TEMP != ''">
+				DESIGN_SHELL_TEMP,
+			</if>
+			<if test="OPTION_SHELL_OUT_TEMP != null and OPTION_SHELL_OUT_TEMP != ''">
+				OPTION_SHELL_OUT_TEMP,
+			</if>
+			<if test="OPTION_SHELL_MEDUIM != null and OPTION_SHELL_MEDUIM != ''">
+				OPTION_SHELL_MEDUIM,
+			</if>
+			<if test="OPTION_TUBE_IN_TEMP != null and OPTION_TUBE_IN_TEMP != ''">
+				OPTION_TUBE_IN_TEMP,
+			</if>
+			<if test="OPTION_TUBE_OUT_TEMP != null and OPTION_TUBE_OUT_TEMP != ''">
+				OPTION_TUBE_OUT_TEMP,
+			</if>
+			<if test="OPTION_TUBE_MEDUIM != null and OPTION_TUBE_MEDUIM != ''">
+				OPTION_TUBE_MEDUIM,
+			</if>
+			<if test="SHELL_MATERIAL != null and SHELL_MATERIAL != ''">
+				SHELL_MATERIAL,
+			</if>
+			<if test="TUBE_MATERIAL != null and TUBE_MATERIAL != ''">
+				TUBE_MATERIAL,
+			</if>
+			<if test="ENGINE_NUMBER != null and ENGINE_NUMBER != ''">
+				ENGINE_NUMBER,
+			</if>
+			<if test="LICENSE_NUMBER != null and LICENSE_NUMBER != ''">
+				LICENSE_NUMBER,
+			</if>
+			<if test="CHASSIS_NUMBER != null and CHASSIS_NUMBER != ''">
+				CHASSIS_NUMBER,
+			</if>
+			<if test="ENERGY_CONSUMPTION != null and ENERGY_CONSUMPTION != ''">
+				ENERGY_CONSUMPTION,
+			</if>
+			<if test="ENERGY_CONSUMPTION_CAT != null and ENERGY_CONSUMPTION_CAT != ''">
+				ENERGY_CONSUMPTION_CAT,
+			</if>
+			<if test="HEIGHT_ELECTRIC_TENSION != null and HEIGHT_ELECTRIC_TENSION != ''">
+				HEIGHT_ELECTRIC_TENSION,
+			</if>
+			<if test="ELECTRIC_TENSION != null and ELECTRIC_TENSION != ''">
+				ELECTRIC_TENSION,
+			</if>
+			<if test="FREQUENCY != null and FREQUENCY != ''">
+				FREQUENCY,
+			</if>
+			<if test="BRAND != null and BRAND != ''">
+				BRAND
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="EQU_ID != null and EQU_ID != ''">
+				#{EQU_ID},
+			</if>
+			<if test="WEL_NAME != null and WEL_NAME != ''">
+				#{WEL_NAME},
+			</if>
+			<if test="WEL_UNIT != null and WEL_UNIT != ''">
+				#{WEL_UNIT},
+			</if>
+			<if test="EQU_POSITION_NUM != null and EQU_POSITION_NUM != ''">
+				#{EQU_POSITION_NUM},
+			</if>
+			<if test="EQU_MEMO_ONE != null and EQU_MEMO_ONE != ''">
+				#{EQU_MEMO_ONE},
+			</if>
+			<if test="EQU_NAME != null and EQU_NAME != ''">
+				#{EQU_NAME},
+			</if>
+			<if test="MANAGE_TYPE != null and MANAGE_TYPE != ''">
+				#{MANAGE_TYPE},
+			</if>
+			<if test="EQU_MODEL != null and EQU_MODEL != ''">
+				#{EQU_MODEL},
+			</if>
+			<if test="MEARING_RANGE != null and MEARING_RANGE != ''">
+				#{MEARING_RANGE},
+			</if>
+			<if test="MEASURE_ACC != null and MEASURE_ACC != ''">
+				#{MEASURE_ACC},
+			</if>
+			<if test="EQU_INSTALL_POSITION != null and EQU_INSTALL_POSITION != ''">
+				#{EQU_INSTALL_POSITION},
+			</if>
+			<if test="EQU_MANUFACTURER != null and EQU_MANUFACTURER != ''">
+				#{EQU_MANUFACTURER},
+			</if>
+			<if test="SERIAL_NUM != null and SERIAL_NUM != ''">
+				#{SERIAL_NUM},
+			</if>
+			<if test="CHECK_CYCLE != null and CHECK_CYCLE != ''">
+				#{CHECK_CYCLE},
+			</if>
+			<if test="CHECK_TIME != null and CHECK_TIME != ''">
+				#{CHECK_TIME},
+			</if>
+			<if test="NEXT_CHECK_TIME != null and NEXT_CHECK_TIME != ''">
+				#{NEXT_CHECK_TIME},
+			</if>
+			<if test="REMARK1 != null and REMARK1 != ''">
+				#{REMARK1},
+			</if>
+			<if test="DEEP_LENGTH != null and DEEP_LENGTH != ''">
+				#{DEEP_LENGTH},
+			</if>
+			<if test="INTER_SIZE != null and INTER_SIZE != ''">
+				#{INTER_SIZE},
+			</if>
+			<if test="MEDUIM_TYPE != null and MEDUIM_TYPE != ''">
+				#{MEDUIM_TYPE},
+			</if>
+			<if test="ORDER_NUM != null and ORDER_NUM != ''">
+				#{ORDER_NUM},
+			</if>
+			<if test="FLA_SIZE != null and FLA_SIZE != ''">
+				#{FLA_SIZE},
+			</if>
+			<if test="ACTION_MODLE != null and ACTION_MODLE != ''">
+				#{ACTION_MODLE},
+			</if>
+			<if test="HAVE_NOT != null and HAVE_NOT != ''">
+				#{HAVE_NOT},
+			</if>
+			<if test="ACTUAL_MODEL != null and ACTUAL_MODEL != ''">
+				#{ACTUAL_MODEL},
+			</if>
+			<if test="VAVLE_TYPE != null and VAVLE_TYPE != ''">
+				#{VAVLE_TYPE},
+			</if>
+			<if test="CV != null and CV != ''">
+				#{CV},
+			</if>
+			<if test="GAS_SOURCE != null and GAS_SOURCE != ''">
+				#{GAS_SOURCE},
+			</if>
+			<if test="POSITIONER != null and POSITIONER != ''">
+				#{POSITIONER},
+			</if>
+			<if test="PROCE_LINK_TYPE != null and PROCE_LINK_TYPE != ''">
+				#{PROCE_LINK_TYPE},
+			</if>
+			<if test="ACTUAL != null and ACTUAL != ''">
+				#{ACTUAL},
+			</if>
+			<if test="FLUX != null and FLUX != ''">
+				#{FLUX},
+			</if>
+			<if test="EQU_PRODUC_DATE != null and EQU_PRODUC_DATE != ''">
+				#{EQU_PRODUC_DATE},
+			</if>
+			<if test="PRESSURE_RANGE != null and PRESSURE_RANGE != ''">
+				#{PRESSURE_RANGE},
+			</if>
+			<if test="EQU_WORK_TEMP != null and EQU_WORK_TEMP != ''">
+				#{EQU_WORK_TEMP},
+			</if>
+			<if test="MEASURE_PRIN != null and MEASURE_PRIN != ''">
+				#{MEASURE_PRIN},
+			</if>
+			<if test="ELEC_MODEL != null and ELEC_MODEL != ''">
+				#{ELEC_MODEL},
+			</if>
+			<if test="EQU_COMMISSION_DATE != null and EQU_COMMISSION_DATE != ''">
+				#{EQU_COMMISSION_DATE},
+			</if>
+			<if test="EQU_LASTPERIODIC_DATE != null and EQU_LASTPERIODIC_DATE != ''">
+				#{EQU_LASTPERIODIC_DATE},
+			</if>
+			<if test="EQU_PERIODIC_CYCLE != null and EQU_PERIODIC_CYCLE != ''">
+				#{EQU_PERIODIC_CYCLE},
+			</if>
+			<if test="EQU_PERIODIC_WARNDAYS != null and EQU_PERIODIC_WARNDAYS != ''">
+				#{EQU_PERIODIC_WARNDAYS},
+			</if>
+			<if test="EXPERY_TIME != null and EXPERY_TIME != ''">
+				#{EXPERY_TIME},
+			</if>
+			<if test="ELEC != null and ELEC != ''">
+				#{ELEC},
+			</if>
+			<if test="COUNT != null and COUNT != ''">
+				#{COUNT},
+			</if>
+			<if test="WEIGHT != null and WEIGHT != ''">
+				#{WEIGHT},
+			</if>
+			<if test="ELECTRIC_PRES != null and ELECTRIC_PRES != ''">
+				#{ELECTRIC_PRES},
+			</if>
+			<if test="POWER_RATE != null and POWER_RATE != ''">
+				#{POWER_RATE},
+			</if>
+			<if test="SPEED_RAT != null and SPEED_RAT != ''">
+				#{SPEED_RAT},
+			</if>
+			<if test="CAPCITY != null and CAPCITY != ''">
+				#{CAPCITY},
+			</if>
+			<if test="BEFORE_BEARING1 != null and BEFORE_BEARING1 != ''">
+				#{BEFORE_BEARING1},
+			</if>
+			<if test="BEFORE_BEARING2 != null and BEFORE_BEARING2 != ''">
+				#{BEFORE_BEARING2},
+			</if>
+			<if test="SPINDLE_SPEED != null and SPINDLE_SPEED != ''">
+				#{SPINDLE_SPEED},
+			</if>
+			<if test="MATERIAL != null and MATERIAL != ''">
+				#{MATERIAL},
+			</if>
+			<if test="DESIGN_TUBE_TEMP != null and DESIGN_TUBE_TEMP != ''">
+				#{DESIGN_TUBE_TEMP},
+			</if>
+			<if test="DESIGN_TUBE_PRES != null and DESIGN_TUBE_PRES != ''">
+				#{DESIGN_TUBE_PRES},
+			</if>
+			<if test="OPTION_SHELL_PRESS != null and OPTION_SHELL_PRESS != ''">
+				#{OPTION_SHELL_PRESS},
+			</if>
+			<if test="OPTION_SHELL_IN_TEMP != null and OPTION_SHELL_IN_TEMP != ''">
+				#{OPTION_SHELL_IN_TEMP},
+			</if>
+			<if test="DESIGN_SHELL_PRES != null and DESIGN_SHELL_PRES != ''">
+				#{DESIGN_SHELL_PRES},
+			</if>
+			<if test="DESIGN_SHELL_TEMP != null and DESIGN_SHELL_TEMP != ''">
+				#{DESIGN_SHELL_TEMP},
+			</if>
+			<if test="OPTION_SHELL_OUT_TEMP != null and OPTION_SHELL_OUT_TEMP != ''">
+				#{OPTION_SHELL_OUT_TEMP},
+			</if>
+			<if test="OPTION_SHELL_MEDUIM != null and OPTION_SHELL_MEDUIM != ''">
+				#{OPTION_SHELL_MEDUIM},
+			</if>
+			<if test="OPTION_TUBE_IN_TEMP != null and OPTION_TUBE_IN_TEMP != ''">
+				#{OPTION_TUBE_IN_TEMP},
+			</if>
+			<if test="OPTION_TUBE_OUT_TEMP != null and OPTION_TUBE_OUT_TEMP != ''">
+				#{OPTION_TUBE_OUT_TEMP},
+			</if>
+			<if test="OPTION_TUBE_MEDUIM != null and OPTION_TUBE_MEDUIM != ''">
+				#{OPTION_TUBE_MEDUIM},
+			</if>
+			<if test="SHELL_MATERIAL != null and SHELL_MATERIAL != ''">
+				#{SHELL_MATERIAL},
+			</if>
+			<if test="TUBE_MATERIAL != null and TUBE_MATERIAL != ''">
+				#{TUBE_MATERIAL},
+			</if>
+			<if test="ENGINE_NUMBER != null and ENGINE_NUMBER != ''">
+				#{ENGINE_NUMBER},
+			</if>
+			<if test="LICENSE_NUMBER != null and LICENSE_NUMBER != ''">
+				#{LICENSE_NUMBER},
+			</if>
+			<if test="CHASSIS_NUMBER != null and CHASSIS_NUMBER != ''">
+				#{CHASSIS_NUMBER},
+			</if>
+			<if test="ENERGY_CONSUMPTION != null and ENERGY_CONSUMPTION != ''">
+				#{ENERGY_CONSUMPTION},
+			</if>
+			<if test="ENERGY_CONSUMPTION_CAT != null and ENERGY_CONSUMPTION_CAT != ''">
+				#{ENERGY_CONSUMPTION_CAT},
+			</if>
+			<if test="HEIGHT_ELECTRIC_TENSION != null and HEIGHT_ELECTRIC_TENSION != ''">
+				#{HEIGHT_ELECTRIC_TENSION},
+			</if>
+			<if test="ELECTRIC_TENSION != null and ELECTRIC_TENSION != ''">
+				#{ELECTRIC_TENSION},
+			</if>
+			<if test="FREQUENCY != null and FREQUENCY != ''">
+				#{FREQUENCY},
+			</if>
+			<if test="BRAND != null and BRAND != ''">
+				#{BRAND}
+			</if>
+		</trim>
+	</insert>
+	
+	
 	<!-- ===========================3、修改===============================  -->
-
+	<!-- 3.1、根据设备位号还原设备备份数据	-->
+	<!-- Integer updateBackup(EquipmentTypeForExcel data) -->
+	<update id="updateBackup" parameterType="cn.soa.entity.EquipmentTypeForExcel">
+		UPDATE
+			CZ_EQUIPMENT_INFO
+		<set>
+			<if test="WEL_NAME != null and WEL_NAME != ''">
+				WEL_NAME = #{WEL_NAME},
+			</if>
+			<if test="WEL_UNIT != null and WEL_UNIT != ''">
+				WEL_UNIT = #{WEL_UNIT},
+			</if>
+			<if test="EQU_POSITION_NUM != null and EQU_POSITION_NUM != ''">
+				EQU_POSITION_NUM = #{EQU_POSITION_NUM},
+			</if>
+			<if test="EQU_MEMO_ONE != null and EQU_MEMO_ONE != ''">
+				EQU_MEMO_ONE = #{EQU_MEMO_ONE},
+			</if>
+			<if test="EQU_NAME != null and EQU_NAME != ''">
+				EQU_NAME = #{EQU_NAME},
+			</if>
+			<if test="MANAGE_TYPE != null and MANAGE_TYPE != ''">
+				MANAGE_TYPE = #{MANAGE_TYPE},
+			</if>
+			<if test="EQU_MODEL != null and EQU_MODEL != ''">
+				EQU_MODEL = #{EQU_MODEL},
+			</if>
+			<if test="MEARING_RANGE != null and MEARING_RANGE != ''">
+				MEARING_RANGE = #{MEARING_RANGE},
+			</if>
+			<if test="MEASURE_ACC != null and MEASURE_ACC != ''">
+				MEASURE_ACC = #{MEASURE_ACC},
+			</if>
+			<if test="EQU_INSTALL_POSITION != null and EQU_INSTALL_POSITION != ''">
+				EQU_INSTALL_POSITION = #{EQU_INSTALL_POSITION},
+			</if>
+			<if test="EQU_MANUFACTURER != null and EQU_MANUFACTURER != ''">
+				EQU_MANUFACTURER = #{EQU_MANUFACTURER},
+			</if>
+			<if test="SERIAL_NUM != null and SERIAL_NUM != ''">
+				SERIAL_NUM = #{SERIAL_NUM},
+			</if>
+			<if test="CHECK_CYCLE != null and CHECK_CYCLE != ''">
+				CHECK_CYCLE = #{CHECK_CYCLE},
+			</if>
+			<if test="CHECK_TIME != null and CHECK_TIME != ''">
+				CHECK_TIME = #{CHECK_TIME},
+			</if>
+			<if test="NEXT_CHECK_TIME != null and NEXT_CHECK_TIME != ''">
+				NEXT_CHECK_TIME = #{NEXT_CHECK_TIME},
+			</if>
+			<if test="REMARK1 != null and REMARK1 != ''">
+				REMARK1 = #{REMARK1},
+			</if>
+			<if test="DEEP_LENGTH != null and DEEP_LENGTH != ''">
+				DEEP_LENGTH = #{DEEP_LENGTH},
+			</if>
+			<if test="INTER_SIZE != null and INTER_SIZE != ''">
+				INTER_SIZE = #{INTER_SIZE},
+			</if>
+			<if test="MEDUIM_TYPE != null and MEDUIM_TYPE != ''">
+				MEDUIM_TYPE = #{MEDUIM_TYPE},
+			</if>
+			<if test="ORDER_NUM != null and ORDER_NUM != ''">
+				ORDER_NUM = #{ORDER_NUM},
+			</if>
+			<if test="FLA_SIZE != null and FLA_SIZE != ''">
+				FLA_SIZE = #{FLA_SIZE},
+			</if>
+			<if test="ACTION_MODLE != null and ACTION_MODLE != ''">
+				ACTION_MODLE = #{ACTION_MODLE},
+			</if>
+			<if test="HAVE_NOT != null and HAVE_NOT != ''">
+				HAVE_NOT = #{HAVE_NOT},
+			</if>
+			<if test="ACTUAL_MODEL != null and ACTUAL_MODEL != ''">
+				ACTUAL_MODEL = #{ACTUAL_MODEL},
+			</if>
+			<if test="VAVLE_TYPE != null and VAVLE_TYPE != ''">
+				VAVLE_TYPE = #{VAVLE_TYPE},
+			</if>
+			<if test="CV != null and CV != ''">
+				CV = #{CV},
+			</if>
+			<if test="GAS_SOURCE != null and GAS_SOURCE != ''">
+				GAS_SOURCE = #{GAS_SOURCE},
+			</if>
+			<if test="POSITIONER != null and POSITIONER != ''">
+				POSITIONER = #{POSITIONER},
+			</if>
+			<if test="PROCE_LINK_TYPE != null and PROCE_LINK_TYPE != ''">
+				PROCE_LINK_TYPE = #{PROCE_LINK_TYPE},
+			</if>
+			<if test="ACTUAL != null and ACTUAL != ''">
+				ACTUAL = #{ACTUAL},
+			</if>
+			<if test="FLUX != null and FLUX != ''">
+				FLUX = #{FLUX},
+			</if>
+			<if test="EQU_PRODUC_DATE != null and EQU_PRODUC_DATE != ''">
+				EQU_PRODUC_DATE = #{EQU_PRODUC_DATE},
+			</if>
+			<if test="PRESSURE_RANGE != null and PRESSURE_RANGE != ''">
+				PRESSURE_RANGE = #{PRESSURE_RANGE},
+			</if>
+			<if test="EQU_WORK_TEMP != null and EQU_WORK_TEMP != ''">
+				EQU_WORK_TEMP = #{EQU_WORK_TEMP},
+			</if>
+			<if test="MEASURE_PRIN != null and MEASURE_PRIN != ''">
+				MEASURE_PRIN = #{MEASURE_PRIN},
+			</if>
+			<if test="ELEC_MODEL != null and ELEC_MODEL != ''">
+				ELEC_MODEL = #{ELEC_MODEL},
+			</if>
+			<if test="EQU_COMMISSION_DATE != null and EQU_COMMISSION_DATE != ''">
+				EQU_COMMISSION_DATE = #{EQU_COMMISSION_DATE},
+			</if>
+			<if test="EQU_LASTPERIODIC_DATE != null and EQU_LASTPERIODIC_DATE != ''">
+				EQU_LASTPERIODIC_DATE = #{EQU_LASTPERIODIC_DATE},
+			</if>
+			<if test="EQU_PERIODIC_CYCLE != null and EQU_PERIODIC_CYCLE != ''">
+				EQU_PERIODIC_CYCLE = #{EQU_PERIODIC_CYCLE},
+			</if>
+			<if test="EQU_PERIODIC_WARNDAYS != null and EQU_PERIODIC_WARNDAYS != ''">
+				EQU_PERIODIC_WARNDAYS = #{EQU_PERIODIC_WARNDAYS},
+			</if>
+			<if test="EXPERY_TIME != null and EXPERY_TIME != ''">
+				WEL_NAME = #{EXPERY_TIME},
+			</if>
+			<if test="ELEC != null and ELEC != ''">
+				WEL_NAME = #{ELEC},
+			</if>
+			<if test="COUNT != null and COUNT != ''">
+				COUNT = #{COUNT},
+			</if>
+			<if test="WEIGHT != null and WEIGHT != ''">
+				WEIGHT = #{WEIGHT},
+			</if>
+			<if test="ELECTRIC_PRES != null and ELECTRIC_PRES != ''">
+				ELECTRIC_PRES = #{ELECTRIC_PRES},
+			</if>
+			<if test="POWER_RATE != null and POWER_RATE != ''">
+				POWER_RATE = #{POWER_RATE},
+			</if>
+			<if test="SPEED_RAT != null and SPEED_RAT != ''">
+				SPEED_RAT = #{SPEED_RAT},
+			</if>
+			<if test="CAPCITY != null and CAPCITY != ''">
+				CAPCITY = #{CAPCITY},
+			</if>
+			<if test="BEFORE_BEARING1 != null and BEFORE_BEARING1 != ''">
+				BEFORE_BEARING1 = #{BEFORE_BEARING1},
+			</if>
+			<if test="BEFORE_BEARING2 != null and BEFORE_BEARING2 != ''">
+				BEFORE_BEARING2 = #{BEFORE_BEARING2},
+			</if>
+			<if test="SPINDLE_SPEED != null and SPINDLE_SPEED != ''">
+				SPINDLE_SPEED = #{SPINDLE_SPEED},
+			</if>
+			<if test="MATERIAL != null and MATERIAL != ''">
+				MATERIAL = #{MATERIAL},
+			</if>
+			<if test="DESIGN_TUBE_TEMP != null and DESIGN_TUBE_TEMP != ''">
+				DESIGN_TUBE_TEMP = #{DESIGN_TUBE_TEMP},
+			</if>
+			<if test="DESIGN_TUBE_PRES != null and DESIGN_TUBE_PRES != ''">
+				DESIGN_TUBE_PRES = #{DESIGN_TUBE_PRES},
+			</if>
+			<if test="OPTION_SHELL_PRESS != null and OPTION_SHELL_PRESS != ''">
+				OPTION_SHELL_PRESS = #{OPTION_SHELL_PRESS},
+			</if>
+			<if test="OPTION_SHELL_IN_TEMP != null and OPTION_SHELL_IN_TEMP != ''">
+				OPTION_SHELL_IN_TEMP = #{OPTION_SHELL_IN_TEMP},
+			</if>
+			<if test="DESIGN_SHELL_PRES != null and DESIGN_SHELL_PRES != ''">
+				DESIGN_SHELL_PRES = #{DESIGN_SHELL_PRES},
+			</if>
+			<if test="DESIGN_SHELL_TEMP != null and DESIGN_SHELL_TEMP != ''">
+				DESIGN_SHELL_TEMP = #{DESIGN_SHELL_TEMP},
+			</if>
+			<if test="OPTION_SHELL_OUT_TEMP != null and OPTION_SHELL_OUT_TEMP != ''">
+				OPTION_SHELL_OUT_TEMP = #{OPTION_SHELL_OUT_TEMP},
+			</if>
+			<if test="OPTION_SHELL_MEDUIM != null and OPTION_SHELL_MEDUIM != ''">
+				OPTION_SHELL_MEDUIM = #{OPTION_SHELL_MEDUIM},
+			</if>
+			<if test="OPTION_TUBE_IN_TEMP != null and OPTION_TUBE_IN_TEMP != ''">
+				OPTION_TUBE_IN_TEMP = #{OPTION_TUBE_IN_TEMP},
+			</if>
+			<if test="OPTION_TUBE_OUT_TEMP != null and OPTION_TUBE_OUT_TEMP != ''">
+				OPTION_TUBE_OUT_TEMP = #{OPTION_TUBE_OUT_TEMP},
+			</if>
+			<if test="OPTION_TUBE_MEDUIM != null and OPTION_TUBE_MEDUIM != ''">
+				OPTION_TUBE_MEDUIM = #{OPTION_TUBE_MEDUIM},
+			</if>
+			<if test="SHELL_MATERIAL != null and SHELL_MATERIAL != ''">
+				SHELL_MATERIAL = #{SHELL_MATERIAL},
+			</if>
+			<if test="TUBE_MATERIAL != null and TUBE_MATERIAL != ''">
+				TUBE_MATERIAL = #{TUBE_MATERIAL},
+			</if>
+			<if test="ENGINE_NUMBER != null and ENGINE_NUMBER != ''">
+				ENGINE_NUMBER = #{ENGINE_NUMBER},
+			</if>
+			<if test="LICENSE_NUMBER != null and LICENSE_NUMBER != ''">
+				LICENSE_NUMBER = #{LICENSE_NUMBER},
+			</if>
+			<if test="CHASSIS_NUMBER != null and CHASSIS_NUMBER != ''">
+				CHASSIS_NUMBER = #{CHASSIS_NUMBER},
+			</if>
+			<if test="ENERGY_CONSUMPTION != null and ENERGY_CONSUMPTION != ''">
+				ENERGY_CONSUMPTION = #{ENERGY_CONSUMPTION},
+			</if>
+			<if test="ENERGY_CONSUMPTION_CAT != null and ENERGY_CONSUMPTION_CAT != ''">
+				ENERGY_CONSUMPTION_CAT = #{ENERGY_CONSUMPTION_CAT},
+			</if>
+			<if test="HEIGHT_ELECTRIC_TENSION != null and HEIGHT_ELECTRIC_TENSION != ''">
+				HEIGHT_ELECTRIC_TENSION = #{HEIGHT_ELECTRIC_TENSION},
+			</if>
+			<if test="ELECTRIC_TENSION != null and ELECTRIC_TENSION != ''">
+				ELECTRIC_TENSION = #{ELECTRIC_TENSION},
+			</if>
+			<if test="FREQUENCY != null and FREQUENCY != ''">
+				FREQUENCY = #{FREQUENCY},
+			</if>
+			<if test="BRAND != null and BRAND != ''">
+				BRAND = #{BRAND}
+			</if>
+		</set>
+		WHERE
+			EQU_POSITION_NUM = #{EQU_POSITION_NUM}
+	</update>
 	
 	<!-- ===========================4、删除===============================  -->
 	<!-- 4.1、根据bid删除设备台账导入备份信息	-->

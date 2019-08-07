@@ -78,3 +78,11 @@ body,.layui-table-body tr{
 .layui-col-md5 .layui-table-view{
 	margin: 0px;
 }
+
+.layui-form-addequipment{
+	width: 400px;
+}
+
+#addEquipment{
+	background-color: #EDF6FA;
+}

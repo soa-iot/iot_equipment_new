@@ -105,6 +105,26 @@
 	</select>
 
 	<!-- ===========================2、新增===============================  -->
+	<!-- 2.1 添加动设备信息  -->
+	<!-- Integer insertOne(@Param("equip") EquipmentMoveRunningTime equip) -->
+	<insert id="insertOne" parameterType="cn.soa.entity.EquipmentMoveRunningTime">
+		<selectKey order="BEFORE" resultType="string" keyProperty="mrid">
+			select sys_guid() from dual 
+		</selectKey>
+		INSERT INTO
+			IOT_EQUIPMENT_MOVE_RUNNINGTIME
+			(MRID, POSITIONNUM, NAME, DCSPOSITIONNUM, EQUIPTYPE)
+		VALUES
+			<trim suffix=")" prefix="(" suffixOverrides=",">
+				#{mrid, jdbcType=VARCHAR},
+				#{equip.positionNum, jdbcType=VARCHAR},
+				#{equip.name, jdbcType=VARCHAR},
+				#{equip.dcsPositionNum, jdbcType=VARCHAR},
+				#{equip.equipType, jdbcType=VARCHAR}
+			</trim>
+			
+	</insert>
+	
 	
 	<!-- ===========================3、修改===============================  -->
 

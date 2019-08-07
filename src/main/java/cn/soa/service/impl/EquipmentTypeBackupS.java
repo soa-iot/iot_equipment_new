@@ -1,11 +1,14 @@
 package cn.soa.service.impl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,16 +18,23 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import cn.soa.dao.EquipmentTypeBackupMapper;
 import cn.soa.entity.EquipmentTypeBackup;
+import cn.soa.entity.EquipmentTypeForExcel;
 import cn.soa.entity.ResultJsonForTable;
 import cn.soa.service.intel.EquipmentTypeBackupSI;
 import cn.soa.utils.CommonUtil;
+import cn.soa.utils.RollbackEquipmentBackupExcel;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,6 +51,8 @@ public class EquipmentTypeBackupS implements EquipmentTypeBackupSI {
 	private RestTemplate restTemplate;
 	@Autowired
 	private EquipmentTypeBackupMapper equipTypeBackupMapper;
+	@Autowired
+	private DataSourceTransactionManager transactionManager; //事务管理器
 	
 	@Value("${export.excel.url}")
 	private String url;  //从配置文件中读取excel导出路径
@@ -166,6 +178,88 @@ public class EquipmentTypeBackupS implements EquipmentTypeBackupSI {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * 还原设备台账导入备份信息
+	 * @param bid 主键id
+	 * @return 是否还原成功
+	 */
+	@Override
+	@Transactional
+	public boolean RollbackData(String bid) {
+		EquipmentTypeBackup result = equipTypeBackupMapper.findByBid(bid);
+		if(result == null) {
+			log.info("-------还原失败，bid={}的备份记录不存在-------", bid);
+			return false;
+		}
+		//取出备份excel文件的路径
+		String path = result.getBpath();
+		String equipType = result.getBname();
+		log.info("--------备份文件的路径为：{}", path);
+		log.info("--------备份文件的设备类型为：{}", equipType);
+		//读取备份文件，进行数据库还原操作
+		BufferedInputStream bis = null;
+		
+		//事务管理
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("txName");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try{
+			bis = new BufferedInputStream(new FileInputStream(path));
+			List<EquipmentTypeForExcel> list = RollbackEquipmentBackupExcel.readExcel(bis, equipType);
+			if(list == null || list.size() == 0) {
+				log.info("------- 备份数据为空，请检查备份文件：{} ------", path);
+				return false;
+			}
+			for(EquipmentTypeForExcel equ : list) {
+				if(equ.getEQU_POSITION_NUM() != null || equ.getEQU_POSITION_NUM() != "") {
+					try {
+						
+						Integer row = equipTypeBackupMapper.updateBackup(equ);
+						if(row == null || row == 0) {
+							String uuid = UUID.randomUUID().toString();
+							equ.setEQU_ID(uuid);
+							Integer row1 = equipTypeBackupMapper.insertBackup(equ);
+							if(row1 == null || row1 == 0) {
+								log.info("------数据还原失败，失败数据为：{}", equ);
+								return false;
+							}
+							
+						}
+					}catch (Exception e) {
+						transactionManager.rollback(status);
+						log.info("------数据还原失败，失败数据为：{}", equ);
+						log.info(e.getMessage());
+						throw e;
+					}			
+				}
+			}
+			log.info("------备份还原成功-------");
+			return true;
+			
+		} catch (FileNotFoundException e) {
+			log.info("-------备份文件未找到，路径为：{}", path);
+			log.info(e.getMessage());
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			log.info("-------POIFSFileSystem无法解析输入流-------");
+			log.info(e.getMessage());
+			
+		}finally {
+			if(bis != null) {
+				try {
+					bis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return false;
 	}
 
 }

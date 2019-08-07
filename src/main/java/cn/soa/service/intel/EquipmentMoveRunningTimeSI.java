@@ -23,8 +23,12 @@ public interface EquipmentMoveRunningTimeSI {
 	 * @return 动设备信息列表
 	 */
 	ResultJsonForTable<List<EquipmentMoveRunningTime>> findByPage(
-			@Param("equip") EquipmentMoveRunningTime equip, 
-			@Param("page") Integer page, 
-			@Param("limit") Integer limit);
-
+			EquipmentMoveRunningTime equip, Integer page, Integer limit);
+	
+	/**
+	 * 添加动设备数据
+	 * @param equip 动设备信息
+	 * @return 是否添加成功
+	 */
+	String addOne(EquipmentMoveRunningTime equip);
 }
