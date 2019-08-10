@@ -40,4 +40,11 @@ public interface EquipmentMoveRunningTimeMapper {
 	 * @return 设备mrid
 	 */
 	String findMridByPositionNum(String positionNum);
+	
+	/**   
+	 * @Title: findAll   
+	 * @Description: 查找所有的需要监控设备运行时间的设备  
+	 * @return: List<EquipmentMoveRunningTime>        
+	 */  
+	List<EquipmentMoveRunningTime> findAll();
 }

@@ -1,6 +1,7 @@
 package cn.soa.service.intel;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -26,5 +27,19 @@ public interface EquipmentMoveRunningTimeSI {
 			@Param("equip") EquipmentMoveRunningTime equip, 
 			@Param("page") Integer page, 
 			@Param("limit") Integer limit);
+
+	/**   
+	 * @Title: getRunningEquipment   
+	 * @Description:   获取需要监控运行时间的动设备   
+	 * @return: Map<String,String>        
+	 */  
+	List<EquipmentMoveRunningTime> getRunningEquipment();
+
+	/**   
+	 * @Title: getRunningEquipmentNum   
+	 * @Description: 获取所有动设备的代号   
+	 * @return: Map<String,String>        
+	 */  
+	Map<String, Object> getRunningEquipmentNum();
 
 }
