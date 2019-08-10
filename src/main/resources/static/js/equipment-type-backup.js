@@ -114,7 +114,24 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	    }
 	    if(obj.event === 'rollback'){
 	    	layer.confirm("是否确定还原数据？",{icon: 3, title:'提示',offset: '150px'}, function(index){
-	    		
+	    		$.ajax({
+	    			type: 'GET',
+	    			async: false,
+	    			url: '/iot_equipment/equipmentinfo/rollback/'+data.bid,
+	    			dataType: 'json',
+	    			success: function(json){
+	    				console.log("是否还原成功："+json.data);
+	    				if(json.data){
+	    					layer.msg("还原数据成功", {icon: 1, time: 2000, offset: '150px'});
+	    				}else{
+	    					layer.msg("还原数据失败", {icon: 2, time: 2000, offset: '150px'});
+	    				}
+	    			},
+	    			error: function(){
+	    				layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+	    			}
+	    		})
+	    		//layer.closeAll();
 	    	});
 	    }
 	});

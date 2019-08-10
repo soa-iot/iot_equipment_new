@@ -104,7 +104,7 @@ public class EquipmentRunningMonitor {
 			, Map<String,Object> positionNumMap ) {
 		try {
 			//批量插入数据
-			String measurement = "jhc2";
+			String measurement = "iot_equipment_running_monitor";
 			Map<String, String> tags = new HashMap<String,String>();
 			Map<String, Object> fields = new HashMap<String,Object>();			
 			BatchPoints batchPoints = BatchPoints

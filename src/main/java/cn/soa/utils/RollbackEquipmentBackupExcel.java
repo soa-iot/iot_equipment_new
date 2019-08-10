@@ -1,14 +1,35 @@
 package cn.soa.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
+import cn.soa.entity.EquipmentTypeForExcel;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 还原设备台账备份数据还原操作
  * @author Jiang, Hang
  *
  */
+@Slf4j
 public class RollbackEquipmentBackupExcel {
 	
 	
@@ -16,7 +37,7 @@ public class RollbackEquipmentBackupExcel {
 	 * 根据设备类型获取excel头信息对应的数据库表字段名
 	 * @param equipmentType
 	 */
-	public static void getHeaderConfigInfo(String equipmentType) {
+	private static LinkedHashMap<String, String> getHeaderConfigInfo(String equipmentType) {
 
 		Map<String, LinkedHashMap<String, String>> excelHeadConfig = new HashMap<String, LinkedHashMap<String, String>>();
 
@@ -111,7 +132,6 @@ public class RollbackEquipmentBackupExcel {
 		excelHeadQDFConfig.put("WEL_UNIT", "装置单元");
 		excelHeadQDFConfig.put("EQU_POSITION_NUM", "设备位号");
 		excelHeadQDFConfig.put("EQU_MEMO_ONE", "设备类别");
-		excelHeadQDFConfig.put("EQU_NAME", "设备名称");
 		excelHeadQDFConfig.put("EQU_NAME", "设备名称");
 		excelHeadQDFConfig.put("EQU_MODEL", "规格型号");
 		excelHeadQDFConfig.put("EQU_INSTALL_POSITION", "安装地点");
@@ -829,6 +849,96 @@ public class RollbackEquipmentBackupExcel {
 		excelHeadConfig.put("高压配电柜", excelHeadGPDGConfig);
 		excelHeadConfig.put("现场配电箱", excelHeadXPDXConfig);
 		excelHeadConfig.put("直流电源系统", excelHeadZLDYConfig);
-
+		
+		return excelHeadConfig.get(equipmentType);
 	}
+	
+	/**
+	 * 读取备份excel文件的数据
+	 * @param is 备份文件输入流
+	 * @param equipType 设备类型
+	 * @throws IOException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 */
+	public static List<EquipmentTypeForExcel> readExcel(InputStream is, String equipType) throws IOException{
+		log.info("------开始解析备份excel文件数据------");
+		POIFSFileSystem pfs = new POIFSFileSystem(is);
+		HSSFWorkbook workbook = new HSSFWorkbook(pfs);
+		HSSFSheet sheet = workbook.getSheetAt(0);
+		//获取最大行数
+		int rowNum = sheet.getLastRowNum();
+		log.info("------备份文件最大行数为：{}", rowNum);
+		if(rowNum < 3) {
+			log.info("------备份文件没有数据------");
+		}
+		
+		//根据设备类型获取excel表头信息
+		LinkedHashMap<String, String> headerInfo = getHeaderConfigInfo(equipType);
+		Set<String> keySet = headerInfo.keySet();
+		System.err.println("headerInfo: "+headerInfo);
+		int colNum = keySet.size();
+		String[] colArray = keySet.toArray(new String[colNum]);
+		//逐行读取数据
+		List<EquipmentTypeForExcel> list = new LinkedList<>();
+		for(int i=3;i<=rowNum;i++) {
+			HSSFRow row = sheet.getRow(i);
+			EquipmentTypeForExcel equipObj = new EquipmentTypeForExcel();
+			for(int j=1;j<colNum;j++) {
+				HSSFCell cell = row.getCell(j);
+				String cellValue = getCellStringValue(cell);
+				//System.err.println("cellValue="+cellValue);
+				//通过内省JavaBean工具BeanUtils设置属性值
+				try {
+					BeanUtils.setProperty(equipObj, colArray[j], cellValue);
+				} catch (IllegalAccessException e) {
+					log.info("------BeanUtils设置属性值失败- 属性名：{}，值：{}", colArray[j], cellValue);
+					log.info(e.getMessage());
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					log.info("------BeanUtils设置属性值失败- 属性名：{}，值：{}", colArray[j], cellValue);
+					log.info(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			list.add(equipObj);
+		}
+		workbook.close();
+		pfs.close();
+		return list;
+	}
+	
+	private static String getCellStringValue(HSSFCell cell) {      
+        String cellValue = "";      
+        switch (cell.getCellType()) {      
+        case HSSFCell.CELL_TYPE_STRING://字符串类型   
+            cellValue = cell.getStringCellValue();      
+            if(cellValue.trim().equals("")||cellValue.trim().length()<=0)      
+                cellValue="";      
+            break;      
+        case HSSFCell.CELL_TYPE_NUMERIC: //数值类型   
+            if(HSSFDateUtil.isCellDateFormatted(cell)) {
+            	 Date date = cell.getDateCellValue();
+                 DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+                 cellValue = formater.format(date);
+            }else {
+            	cellValue = String.valueOf(cell.getNumericCellValue());
+            }    
+            break;      
+        case HSSFCell.CELL_TYPE_FORMULA: //公式   
+            cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);      
+            cellValue = String.valueOf(cell.getNumericCellValue());      
+            break;      
+        case HSSFCell.CELL_TYPE_BLANK:      
+            cellValue="";      
+            break;      
+        case HSSFCell.CELL_TYPE_BOOLEAN:      
+            break;      
+        case HSSFCell.CELL_TYPE_ERROR:      
+            break;      
+        default:      
+            break;      
+        }      
+        return cellValue;      
+    }     
 }

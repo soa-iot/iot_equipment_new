@@ -42,8 +42,11 @@
 					    </div>
 					    <div class="layui-inline layui-inline-btn1"> 
 					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="query-equipment">
-								<i class="layui-icon">&#xe615;</i>查询
+								<i class="layui-icon">&#xe615;</i>查&nbsp;&nbsp;&nbsp;询
 							</button> 
+							<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="add-equipment">
+								<i class="layui-icon">&#xe654;</i>添加设备
+							</button>
 					    </div>
 					 </div>
 		    	</form>
@@ -73,7 +76,7 @@
 					    </div>
 					    <div class="layui-inline layui-inline-btn"> 
 					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-submit id="add-event">
-								<i class="layui-icon">&#xe654;</i>添加
+								<i class="layui-icon">&#xe654;</i>添&nbsp;&nbsp;&nbsp;加
 							</button> 
 					    </div>
 					 </div>
@@ -85,7 +88,41 @@
    			</div>
 		</div>
 	</div>
- 
+ 	
+ 	<!-- 添加设备弹窗 -->
+ 	<div id="addequipment-window" style="display: none;padding-top: 15px;">
+ 		<form class="layui-form layui-form-addequipment">
+ 			<div class="layui-form-item" id="equipType-div">
+				 <label class="text-font layui-form-label">设备类别</label>
+				 <div class="layui-input-block" style="width: 200px;">
+					<select id="equipType_">
+						<option value="">请选择</option>
+						<option value="K类">K类</option>
+						<option value="P类">P类</option>
+					</select>
+				</div>
+ 			</div>
+ 			<div class="layui-form-item"> 
+				<label class="text-font layui-form-label">设备名称</label>
+				<div class="layui-input-block" style="width: 200px;">
+					<input type="text" id="name_" class="layui-input">
+				</div>
+ 			</div>
+ 			<div class="layui-form-item"> 
+				<label class="text-font layui-form-label">设备位号</label>
+				<div class="layui-input-block" style="width: 200px;">
+					<input type="text" id="positionNum_" class="layui-input">
+				</div>
+ 			</div>
+ 			<div class="layui-form-item"> 
+				<label class="text-font layui-form-label">DCS点位号</label>
+				<div class="layui-input-block" style="width: 200px;">
+					<input type="text" id="dcsPositionNum_" class="layui-input">
+				</div>
+ 			</div>
+ 		</form>
+ 	</div>
+ 	
 	<script type="text/html" id="barBtn">
   		<a class="layui-btn layui-btn-xs" lay-event="bigevent">&nbsp;&nbsp;查看详情&nbsp;&nbsp;</a>
 	</script>

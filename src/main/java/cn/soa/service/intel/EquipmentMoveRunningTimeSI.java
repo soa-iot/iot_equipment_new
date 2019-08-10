@@ -41,5 +41,11 @@ public interface EquipmentMoveRunningTimeSI {
 	 * @return: Map<String,String>        
 	 */  
 	Map<String, Object> getRunningEquipmentNum();
-
+	
+	/**
+	 * 添加动设备数据
+	 * @param equip 动设备信息
+	 * @return 是否添加成功
+	 */
+	String addOne(EquipmentMoveRunningTime equip);
 }

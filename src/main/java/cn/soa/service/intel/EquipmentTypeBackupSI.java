@@ -46,4 +46,11 @@ public interface EquipmentTypeBackupSI {
 	 * @return 受影响行数
 	 */
 	Integer deleteByBid(String bid);
+	
+	/**
+	 * 还原设备台账导入备份信息
+	 * @param bid 主键id
+	 * @return 是否还原成功
+	 */
+	boolean RollbackData(String bid);
 }

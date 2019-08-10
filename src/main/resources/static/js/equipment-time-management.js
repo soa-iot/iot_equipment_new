@@ -189,4 +189,78 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		});
 	})
 	
+	/**
+	 * 添加设备弹窗
+	 */
+	$('#add-equipment').click(function(){
+		//显示设备添加弹窗
+		layer.open({
+			type: 1,
+			id:"addEquipment",
+			title: '添加动设备',
+			content: $('#addequipment-window'),
+			area: ['400px','330px'],
+			offset: '120px',
+			btn: ['添&nbsp;&nbsp;加', '取消'],
+			btnAlign: 'c', //按钮居中对齐
+			yes: function(index, layero){
+				
+				if($("#equipType_").val() == ''){
+					layer.msg("设备类别不能为空", {icon: 7, offset: '150px'});
+					return false;
+				}
+				if($("#name_").val() == ''){
+					layer.msg("设备名称不能为空", {icon: 7, offset: '150px'});
+					return false;
+				}
+				if($("#positionNum_").val() == ''){
+					layer.msg("设备位号不能为空", {icon: 7, offset: '150px'});
+					return false;
+				}
+				if($("#dcsPositionNum_").val() == ''){
+					layer.msg("DCS点位号不能为空", {icon: 7, offset: '150px'});
+					return false;
+				}
+				//同步请求后台添加设备数据
+				$.ajax({
+					type: 'POST',
+					async: false,
+					url: '/iot_equipment/equipment/move/add',
+					data:{ 
+						"equipType": $("#equipType_").val(),
+						"name": $("#name_").val(),
+						"positionNum": $("#positionNum_").val(),
+						"dcsPositionNum": $("#dcsPositionNum_").val()
+					},
+					dataType: 'JSON',
+					success: function(json){
+						if(json.state == 0){
+							layer.msg("添加动设备信息成功", {icon: 1, time: 2000, offset: '150px'});
+							cleanForm();
+							layer.close(index);
+						}else{
+							layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
+						}	
+					},
+					error: function(){
+						layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+					}
+				})
+			},
+			success: function(index, layero){
+				cleanForm();	
+			}
+		})
+		
+		/**
+		 * 清空表单
+		 */
+		function cleanForm(){
+			$("#equipType_").val('');
+			$("#equipType-div").find("input").val('');
+			$("#name_").val('');
+			$("#positionNum_").val('');
+			$("#dcsPositionNum_").val('');
+		}
+	})
 })
