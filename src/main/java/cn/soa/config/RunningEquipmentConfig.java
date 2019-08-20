@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.RunningEquipments;
@@ -68,6 +69,7 @@ public class RunningEquipmentConfig {
 	 * @Description: 开启动设备运行监听  
 	 * @return: void        
 	 */  
+	@Scheduled(cron = "0 0/10 * * * * ?")
 	public void startEquipmentRunningMonitor() {
 		logger.info( "--init---------开启动设备运行监听---------" );
 		//判断是否开启监听
