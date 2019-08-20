@@ -11,7 +11,7 @@ import org.springframework.beans.BeanWrapperImpl;
 
 public class Test01 {
 	
-	@Test
+//	@Test
 	public void createDB() {
 		InfluxDB db = InfluxDBFactory.connect("http://localhost:8086", "admin", "admin");
 		//创建数据库javadb
@@ -22,7 +22,7 @@ public class Test01 {
 	
 	}
 	
-	@Test
+//	@Test
 	public void test() {
 		int a = 11 << 2;
 		System.out.println(a);

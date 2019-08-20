@@ -11,10 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Configuration
 public class RunningEquipments  implements Serializable {	
-	public List<String> runningPositions;
+	public static List<String> runningPositions;
 }
