@@ -19,11 +19,15 @@ body,.layui-table-body tr{
 
 .layui-inline .layui-form-label{
 	padding:9px 5px;
-	width: 70px;
+	width: 60px;
 }
 
 .layui-inline .layui-input-inline{
-	width: 140px;
+	width: 130px;
+}
+
+.layui-form-item .layui-inline {
+	margin-right: 0px;
 }
 
 .layui-inline .equipment-type-detail{
