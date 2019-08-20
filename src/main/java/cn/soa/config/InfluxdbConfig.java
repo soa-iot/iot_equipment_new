@@ -16,14 +16,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-/*@Configuration
-@PropertySource(value = { "classpath:application.properties" })*/
+@Configuration
+@PropertySource(value = { "classpath:application.properties" })
 @SuppressWarnings( "serial" )
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Accessors( chain=true )
 public class InfluxdbConfig {
+	
+	
 	private static Logger logger = LoggerFactory.getLogger( InfluxdbConfig.class );
 	
 	//用户名
@@ -51,7 +53,7 @@ public class InfluxdbConfig {
         return new PropertySourcesPlaceholderConfigurer();  
     }  
 	
-	@Bean(name="influxDB")
+	//@Bean(name="influxDB")
 	public InfluxDB influxDbBuild() {
 			InfluxDB influxDB = InfluxDBFactory.connect( 
 					openurl, username, password );

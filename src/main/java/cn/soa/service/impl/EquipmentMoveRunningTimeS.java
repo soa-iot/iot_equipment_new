@@ -1,9 +1,14 @@
 package cn.soa.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import cn.soa.dao.EquipmentMoveRunningTimeMapper;
 import cn.soa.entity.EquipmentBigEvent;
@@ -15,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class EquipmentMoveRunningTimeS implements EquipmentMoveRunningTimeSI {
+	private static Logger logger = LoggerFactory.getLogger( EquipmentMoveRunningTimeS.class );
 	
 	@Autowired
 	private EquipmentMoveRunningTimeMapper equipMoveMapper;
@@ -40,6 +46,54 @@ public class EquipmentMoveRunningTimeS implements EquipmentMoveRunningTimeSI {
 		return new ResultJsonForTable(0, "success", (result==null)?0:count, result);
 	}
 	
+
+	/**   
+	 * @Title: getRunningEquipment   
+	 * @Description: 获取需要监控运行时间的动设备  
+	 * @return: Map<String,String>        
+	 */ 
+	@Override
+	public List<EquipmentMoveRunningTime> getRunningEquipment(){
+		logger.info( "---S-------获取需要监控运行时间的动设备  -----");
+		try {
+			List<EquipmentMoveRunningTime> equipments = equipMoveMapper.findAll();
+			if( equipments == null) return null;
+			logger.info( equipments.toString() );
+			return equipments;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}		
+	}
+	
+	/**   
+	 * @Title: getRunningEquipmentNum   
+	 * @Description:  获取所有动设备的代号 
+	 * @return: List<EquipmentMoveRunningTime>        
+	 */  
+	@Override
+	public Map<String, Object> getRunningEquipmentNum(){
+		logger.info( "---S-------获取所有动设备的代号-----");
+		Map<String, Object> positionNums = new HashMap<String,Object>();
+		try {
+			List<EquipmentMoveRunningTime> equipments = getRunningEquipment();
+			for( EquipmentMoveRunningTime e : equipments ) {
+				String currNum = e.getRnumber();
+				if( currNum != null ) {
+					positionNums.put( e.getPositionNum(), e.getRnumber() );
+				}else {
+					positionNums.put( e.getPositionNum(), "1" );
+				}				
+			}
+			if( positionNums.isEmpty() ) return null;
+			logger.info( positionNums.toString() );
+			return positionNums;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	/**
 	 * 添加动设备数据
 	 * @param equip 动设备信息

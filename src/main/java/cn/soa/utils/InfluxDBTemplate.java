@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import cn.soa.config.InfluxdbConfig;
 
-/*@Component*/
+@Component
 public class InfluxDBTemplate {
 	private static Logger logger = LoggerFactory.getLogger( InfluxDBTemplate.class );
 	
@@ -119,7 +119,7 @@ public class InfluxDBTemplate {
 		if (0 != time) {
 			builder.time(time, timeUnit);
 		}
-		influxDB.write( influxdbConfig.getDatabase() , influxdbConfig.getRetentionPolicy() , builder.build());
+		influxDB.write( measurement, influxdbConfig.getRetentionPolicy() , builder.build());
 	}
 
 	/**   
@@ -170,7 +170,17 @@ public class InfluxDBTemplate {
 	 * @Description:  构建Point 
 	 * @return: Point        
 	 */  
-	public Point pointBuilder(String measurement, long time, Map<String, String> tags, Map<String, Object> fields) {
+	public Point pointBuilder(String measurement, Map<String, String> tags, Map<String, Object> fields) {
+		Point point = Point.measurement(measurement).tag(tags).fields(fields).build();
+		return point;
+	}
+	
+	/**   
+	 * @Title: pointBuilder   
+	 * @Description:  构建Point 
+	 * @return: Point        
+	 */  
+	public Point pointBuilderInTime(String measurement, long time, Map<String, String> tags, Map<String, Object> fields) {
 		Point point = Point.measurement(measurement).time(time, TimeUnit.MILLISECONDS).tag(tags).fields(fields).build();
 		return point;
 	}

@@ -21,6 +21,10 @@ public class EquipmentMoveRunningTime implements Serializable {
 	private String positionNum;
 	private String name;
 	private String equipType;
+	private String rnumber;
+	private Long originrepairetime;
+	private Long originchangetime;
+	private Long originalltime;
 	private String dcsPositionNum;
 	private String remark1;
 	private String remark2;

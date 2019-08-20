@@ -36,7 +36,17 @@
 			REMARK2 VARCHAR2(38 CHAR) DEFAULT '' NOT NULL 
 		)
 	
-2、流程变量配置表：
+2、influxdb：
+	2.1 定时生成日统计数据:
+		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc2"
+		BEGIN
+			SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1h)
+		END
+	
+		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc2" BEGIN SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1d) END
+		
+		insert iot_equipment_running_dayMonitor,position="1",number="1" value="10"
+	2.2 定时生成日统计数据:
 	
 
 

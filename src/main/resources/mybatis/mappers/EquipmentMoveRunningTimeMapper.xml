@@ -57,7 +57,7 @@
 				<if test="limit != null and page != null">
 						rownum1 &gt; ${(page-1) * limit}
 				</if>
-	</select>
+	</select>	
 	
 	<!-- 1.2、根据条件统计动设备信息条数	-->
 	<!-- Integer countByCondition(@Param("equip") EquipmentMoveRunningTime equip) -->
@@ -102,6 +102,13 @@
 			IOT_EQUIPMENT_MOVE_RUNNINGTIME
 		WHERE 
 			POSITIONNUM = #{POSITIONNUM}
+	</select>
+	
+	<!-- 1.4、查找所有的需要监控设备运行时间的设备	-->	
+	<select id="findAll" resultType="cn.soa.entity.EquipmentMoveRunningTime">
+		SELECT
+			<include refid="EquipmentMoveRunningTimeSQL"></include>
+		FROM IOT_EQUIPMENT_MOVE_RUNNINGTIME		
 	</select>
 
 	<!-- ===========================2、新增===============================  -->
