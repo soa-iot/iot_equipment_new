@@ -21,7 +21,7 @@ import cn.soa.task.EquipmentRunningMonitor;
 
 @Configuration
 @EnableScheduling
-@PropertySource(value = "config/equipmentRunning.properties")
+@PropertySource("classpath:/config/equipmentRunning.properties")
 public class RunningEquipmentConfig {
 	private static Logger logger = LoggerFactory.getLogger( RunningEquipmentConfig.class );
 		

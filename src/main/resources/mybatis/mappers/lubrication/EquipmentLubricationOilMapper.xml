@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.lubrication.EquipmentLubricationOilMapper">
+
+	
+	<!-- 设备润滑油品 -->
+	<sql id="EquipmentLubricationOilSQL">
+		OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
+	</sql>
+	
+	<!-- 设备润滑油品记录 -->
+	<sql id="EquipmentOilRecordSQL">
+		ORID,OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2
+	</sql>
+	
+	<!-- 设备润滑油品记录 -->
+	<sql id="EquipmentOilRecordVOSQL">
+		ORID,oil.OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
+	</sql>
+	
+	
+	<!-- List<EquipmentOilRecordVO> findOilAll(); -->
+	<select id="findOilAll" resultType="cn.soa.entity.lubrication.EquipmentOilRecordVO">
+		SELECT
+			<include refid="EquipmentOilRecordVOSQL"></include>
+		FROM
+			IOT_EQUIPMENT_OIL_RECORD record,IOT_EQUIPMENT_LUBRICATION_OIL oil
+		WHERE 
+			record.oid = oil.oid 
+		AND ROWNUM  <![CDATA[ >= ]]> 1 * #{page}
+		AND ROWNUM <![CDATA[ < ]]> 10 * #{page}
+	</select>
+	
+	<!-- 1.2、统计查找设备大事件条数	
+	Integer countEvent(@Param("positionNum") String positionNum)
+	<select id="countEvent" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_BIGEVENT
+		WHERE
+			POSITIONNUM = #{positionNum}
+	</select>
+	 -->
+	
+	<!-- ===========================2、新增===============================  -->
+	<!-- 设备润滑新增油品 -->	
+	<!-- Integer insertOil(EquipmentLubricationOil equipmentLubricationOil); -->
+	<insert id="insertOil"	parameterType="cn.soa.entity.lubrication.EquipmentLubricationOil">
+		<selectKey order="BEFORE" resultType="string" keyProperty="equip.oid">
+			select sys_guid() from dual 
+		</selectKey>
+	
+		INSERT INTO
+			IOT_EQUIPMENT_LUBRICATION_OIL
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="equip.oid != null and equip.oid != ''">
+					OID,
+				</if>
+				<if test="equip.oname != null and equip.oname != ''">
+					ONAME,
+				</if>
+				<if test="equip.ostock != null and equip.ostock != ''">
+					OSTOCK,
+				</if>
+				<if test="equip.ostate != null and equip.ostate != ''">
+					OSTATE,
+				</if>
+				<if test="equip.ounit != null and equip.ounit != ''">
+					OUNIT,
+				</if>
+				<if test="equip.odescribe != null and equip.odescribe != ''">
+					ODESCRIBE,
+				</if>
+				<if test="equip.otype != null and equip.otype != ''">
+					OTYPE,
+				</if>
+				<if test="equip.manufacture != null and equip.manufacture != ''">
+					MANUFACTURE,
+				</if>
+				<if test="equip.osign != null and equip.osign != ''">
+					OSIGN,
+				</if>
+				<if test="equip.oremark1 != null and equip.oremark1 != ''">
+					OREMARK1,
+				</if>
+				<if test="equip.oremark2 != null and equip.oremark2 != ''">
+					OREMARK2,
+				</if>
+			</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="equip.oid != null and equip.oid != ''">
+					#{equip.oid},
+				</if>
+				<if test="equip.oname != null and equip.oname != ''">
+					#{equip.oname}, 
+				</if>
+				<if test="equip.ostock != null and equip.ostock != ''">
+					#{equip.ostock}, 
+				</if>
+				<if test="equip.ostate != null and equip.ostate != ''">
+					#{equip.ostate},
+				</if>
+				<if test="equip.ounit != null and equip.ounit != ''">
+					#{equip.ounit}, 
+				</if>
+				<if test="equip.odescribe != null and equip.odescribe != ''">
+					#{equip.odescribe}, 
+				</if>
+				<if test="equip.otype != null and equip.otype != ''">
+					#{equip.otype}, 
+				</if>
+				<if test="equip.manufacture != null and equip.manufacture != ''">
+					#{equip.manufacture}, 
+				</if>
+				<if test="equip.osign != null and equip.osign != ''">
+					#{equip.osign}, 
+				</if>
+				<if test="equip.oremark1 != null and equip.oremark1 != ''">
+					#{equip.oremark1}, 
+				</if>
+				<if test="equip.oremark2 != null and equip.oremark2 != ''">
+					#{equip.oremark2}, 
+				</if>
+			</trim>	
+	</insert>
+	
+	
+	<!-- 设备润滑新增油品出入库记录 -->
+	<!-- Integer insertRecord(@Param("eqor") EquipmentOilRecord equipmentOilRecord) -->
+	<insert id="insertRecord"	parameterType="cn.soa.entity.lubrication.EquipmentOilRecord">
+		<selectKey order="BEFORE" resultType="string" keyProperty="eqor.orid">
+			select sys_guid() from dual 
+		</selectKey>
+	
+		INSERT INTO
+			IOT_EQUIPMENT_OIL_RECORD
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="eqor.orid != null and eqor.orid != ''">
+					ORID,
+				</if>
+				<if test="eqor.oid != null and eqor.oid != ''">
+					OID,
+				</if>
+				<if test="eqor.rtime != null">
+					RTIME,
+				</if>
+				<if test="eqor.rid != null and eqor.rid != ''">
+					RID,
+				</if>
+				<if test="eqor.rinout != null and eqor.rinout != ''">
+					RINOUT,
+				</if>
+				<if test="eqor.ramount != null and eqor.ramount != ''">
+					RAMOUNT,
+				</if>
+				<if test="eqor.userid != null and eqor.userid != ''">
+					USERID,
+				</if>
+				<if test="eqor.rtype != null and eqor.rtype != ''">
+					RTYPE,
+				</if>
+				<if test="eqor.rnote != null and eqor.rnote != ''">
+					RNOTE,
+				</if>
+				<if test="eqor.rremark1 != null and eqor.rremark1 != ''">
+					RREMARK1,
+				</if>
+				<if test="eqor.rremark2 != null and eqor.rremark2 != ''">
+					RREMARK2,
+				</if>
+			</trim>
+		VALUES
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="eqor.orid != null and eqor.orid != ''">
+					#{eqor.orid},
+				</if>
+				<if test="eqor.oid != null and eqor.oid != ''">
+					#{eqor.oid},
+				</if>
+				<if test="eqor.rtime != null">
+					#{eqor.rtime},
+				</if>
+				<if test="eqor.rid != null and eqor.rid != ''">
+					#{eqor.rid},
+				</if>
+				<if test="eqor.rinout != null and eqor.rinout != ''">
+					#{eqor.rinout},
+				</if>
+				<if test="eqor.ramount != null and eqor.ramount != ''">
+					#{eqor.ramount},
+				</if>
+				<if test="eqor.userid != null and eqor.userid != ''">
+					#{eqor.userid},
+				</if>
+				<if test="eqor.rtype != null and eqor.rtype != ''">
+					#{eqor.rtype},
+				</if>
+				<if test="eqor.rnote != null and eqor.rnote != ''">
+					#{eqor.rnote},
+				</if>
+				<if test="eqor.rremark1 != null and eqor.rremark1 != ''">
+					#{eqor.rremark1},
+				</if>
+				<if test="eqor.rremark2 != null and eqor.rremark2 != ''">
+					#{eqor.rremark2},
+				</if>
+			</trim>
+	</insert>
+	
+	<!-- ===========================3、修改===============================  -->
+
+	
+	<!-- ===========================4、删除===============================  -->
+			
+	
+</mapper>
+ 
+
