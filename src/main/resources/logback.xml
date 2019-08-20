@@ -170,9 +170,9 @@
     -->
 
     <!--开发环境:打印控制台-->
-    <springProfile name="dev">
+    <!-- <springProfile name="dev">
         <logger name="com.nmys.view" level="info"/>
-    </springProfile>
+    </springProfile> -->
 
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
