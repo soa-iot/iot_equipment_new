@@ -126,8 +126,13 @@ public class EquipmentInfoC {
 	public ResultJson<Boolean> rollbackData(@PathVariable("bid") String bid){
 		log.info("---------进入rollbackData开始数据还原--------");
 		log.info("---------bid = {}", bid);
-		boolean result = equipTypeBackupS.RollbackData(bid);
-		return new ResultJson<>(result);
+		try {
+			boolean result = equipTypeBackupS.RollbackData(bid);
+			return new ResultJson<>(result);
+		}catch (Exception e) {
+			return new ResultJson<>(false);
+		}
+		
 	}
 	
 	/**
