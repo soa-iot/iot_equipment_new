@@ -51,8 +51,7 @@ public class EquipmentTypeBackupS implements EquipmentTypeBackupSI {
 	private RestTemplate restTemplate;
 	@Autowired
 	private EquipmentTypeBackupMapper equipTypeBackupMapper;
-	@Autowired
-	private DataSourceTransactionManager transactionManager; //事务管理器
+
 	
 	@Value("${export.excel.url}")
 	private String url;  //从配置文件中读取excel导出路径
@@ -201,12 +200,6 @@ public class EquipmentTypeBackupS implements EquipmentTypeBackupSI {
 		//读取备份文件，进行数据库还原操作
 		BufferedInputStream bis = null;
 		
-		//事务管理
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setName("txName");
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		TransactionStatus status = transactionManager.getTransaction(def);
-		
 		try{
 			bis = new BufferedInputStream(new FileInputStream(path));
 			List<EquipmentTypeForExcel> list = RollbackEquipmentBackupExcel.readExcel(bis, equipType);
@@ -230,11 +223,10 @@ public class EquipmentTypeBackupS implements EquipmentTypeBackupSI {
 							
 						}
 					}catch (Exception e) {
-						transactionManager.rollback(status);
 						log.info("------数据还原失败，失败数据为：{}", equ);
 						log.info(e.getMessage());
-						throw e;
-					}			
+						throw new RuntimeException("数据还原失败");
+					}	
 				}
 			}
 			log.info("------备份还原成功-------");

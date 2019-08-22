@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>测厚设备管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="stylesheet" href="../jsPackage/layui-v2.4.2/css/layui.css">
+    <link rel="stylesheet" href="../css/equipment-measure.css" media="all">
+    <script type="text/javascript" src="../js/report-publishImg.js"></script>
+  </head>
+  <body>
+    <div class="layui-container">
+		<div >
+			<form class="layui-form">
+		    	 <div class="layui-form-item">
+					    <div class="layui-inline">
+					      <label class="text-font layui-form-label" style="width: 70px;">装置列名</label>
+					      <div class="layui-input-inline" style="width: 115px;">
+					        <input type="text" class="layui-input">
+					      </div>
+					    </div>
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 70px;">设备位号</label>
+					      <div class="layui-input-inline" style="width: 115px;">
+					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
+					      <div class="layui-input-inline" style="width: 115px;">
+					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 70px;">规格型号</label>
+					      <div class="layui-input-inline" style="width: 115px;">
+					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="text-font layui-form-label" style="width: 70px;">工作介质</label>
+					    <div class="layui-input-inline" style="width: 115px;">
+					      <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					    </div>
+					</div>
+					<div class="layui-inline">
+						<label class="text-font layui-form-label" style="width: 70px;">仪器型号</label>
+					    <div class="layui-input-inline" style="width: 115px;">
+					      <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					    </div>
+					</div>
+					<div class="layui-inline layui-inline-btn1"> 
+						<button type="button" class="layui-btn layui-btn-sm layui-btn" id="query-equipment">
+							<i class="layui-icon">&#xe615;</i>&nbsp;查&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;询&nbsp;
+						</button> 
+						<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="query-equipment">
+							<i class="layui-icon">&#xe654;</i>新增测厚设备
+						</button>
+					</div>
+				</div>
+		    </form>
+		    <table id="equipMeasureManagement" class="layui-hide" lay-filter="equipMeasureManagement"> </table>
+   		</div>
+	</div>
+	
+	<div id="new-equipment-window">
+		<form class="layui-form">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="text-font layui-form-label" style="width: 70px;">装置列名</label>
+					<div class="layui-input-inline" style="width: 115px;">
+					    <input type="text" class="layui-input">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+ 	
+	<script src="../jsPackage/js/jquery-1.9.1.min.js"></script>
+	<script src="../jsPackage/own/universal.js"></script>
+    <script type="text/javascript" src="../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/equipment-measure-management.js"></script>
+  </body>
+</html>

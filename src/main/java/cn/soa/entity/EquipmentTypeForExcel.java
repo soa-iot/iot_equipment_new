@@ -93,5 +93,39 @@ public class EquipmentTypeForExcel implements Serializable {
 	private String ELECTRIC_TENSION;
 	private String FREQUENCY;
 	private String BRAND;
+	/* 新增字段 */
+	private String PIPE_OUTER;
+	private String PIPE_THICK;
+	private String UNIT;
+	private String AFTER_BEARING1;
+	private String GREASE_INTERV;
+	private String GREASE_QUAN;
+	private String INSULATION_RATE;
+	private String PROTECTION_RATE;
+	private String EXPLOSION_RATE;
+	private String DEVICE_TYPE;
+	private String PHASE_NUMBER;
+	private String CONNECTION_GROUP;
+	private String HEIGHT_ELECTRIC_PRES;
+	private String SNATCH_ELECTRIC_PRES;
+	private String THUNDERSTRIKE_ELECTRIC_PRES;
+	private String SNATCH_ELECTRIC_TENSION;
+	private String PEAK_TENSION;
+	private String CATEGORY;
+	private String CORROSION_FATIGUE;
+	private String EQU_DESIGN_TEMP;
+	private String DESIGN_PRESSURE_RANGE;
+	private String SURFACE_HEAT_TRANSFER;
+	private String HIGH_LEFT;
+	private String DISPLACEMENT;
+	private String IMPELLER_MEDUIM;
+	private String SPINDLE_MEDUIM;
+	private String PUMP_MEDUIM;
+	private String WIND_PRESSURE;
+	private String EQU_MEMO_THREE;
+	private String EQU_MEMO_TWO;
+	private String EQU_WHETHER_PERIODIC;
+	private String SECONDCLASS_EQUIPMENT;
+	private String EQUIPMENT_ATTACH_URL;
 
 }

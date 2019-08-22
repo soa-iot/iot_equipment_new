@@ -49,6 +49,7 @@ public class EquipmentRunningMonitor {
 			 */
 			List<String> positionNums = runningEquipments.runningPositions;	
 			if( positionNums == null || positionNums.size() < 1 ) return null;
+			logger.info( "--T------需要监控的点位信息--------" );
 			logger.info( positionNums.toString() );
 			
 			
@@ -65,7 +66,10 @@ public class EquipmentRunningMonitor {
 			//获取所有动设备的代号
 			Map<String, Object> positionNumbers = eRunningTimeS.getRunningEquipmentNum();
 			boolean b = saveMonitorData( opcValues, positionNumbers );
-			if( b ) return opcValues;
+			if( b ) {
+				logger.info( "--T------保存实时设备运行监控数据成功--------" );
+				return opcValues;
+			}
 			return null;
 			
 		} catch (Exception e) {

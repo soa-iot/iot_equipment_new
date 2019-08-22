@@ -153,6 +153,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>iot_equipment</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

@@ -21,8 +21,8 @@
 					      <div class="layui-input-inline" style="width: 140px;">
 							 <select id="equipType">
 							 	<option value="">请选择</option>
-							 	<option value="K类">K类</option>
-							 	<option value="P类">P类</option>
+							 	<option value="K类设备">K类设备</option>
+							 	<option value="P类设备">P类设备</option>
 							 </select>
 					      </div>
 					    </div>
@@ -97,23 +97,28 @@
 				 <div class="layui-input-block" style="width: 200px;">
 					<select id="equipType_">
 						<option value="">请选择</option>
-						<option value="K类">K类</option>
-						<option value="P类">P类</option>
+						<option value="K类设备">K类设备</option>
+						<option value="P类设备">P类设备</option>
 					</select>
 				</div>
  			</div>
- 			<div class="layui-form-item"> 
+ 			<div>&nbsp;</div>
+ 			<!-- <div class="layui-form-item"> 
 				<label class="text-font layui-form-label">设备名称</label>
 				<div class="layui-input-block" style="width: 200px;">
 					<input type="text" id="name_" class="layui-input">
 				</div>
- 			</div>
+ 			</div> -->
  			<div class="layui-form-item"> 
 				<label class="text-font layui-form-label">设备位号</label>
 				<div class="layui-input-block" style="width: 200px;">
-					<input type="text" id="positionNum_" class="layui-input">
+					<input type="text" id="positionNum_" readonly="readonly" placeholder="请定位设备" class="layui-input">
+					<button type="button" id="location-btn" class="layui-btn layui-btn-sm" style="margin-top: 3px;">
+						<i class="layui-icon">&#xe715;</i>定位设备
+					</button>
 				</div>
  			</div>
+ 			<div>&nbsp;</div>
  			<div class="layui-form-item"> 
 				<label class="text-font layui-form-label">DCS点位号</label>
 				<div class="layui-input-block" style="width: 200px;">

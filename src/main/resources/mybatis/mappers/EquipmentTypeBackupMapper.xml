@@ -285,10 +285,10 @@
 				EQU_PERIODIC_WARNDAYS,
 			</if>
 			<if test="EXPERY_TIME != null and EXPERY_TIME != ''">
-				WEL_NAME,
+				EXPERY_TIME,
 			</if>
 			<if test="ELEC != null and ELEC != ''">
-				WEL_NAME,
+				ELEC,
 			</if>
 			<if test="COUNT != null and COUNT != ''">
 				COUNT,
@@ -384,7 +384,106 @@
 				FREQUENCY,
 			</if>
 			<if test="BRAND != null and BRAND != ''">
-				BRAND
+				BRAND,
+			</if>
+			<if test="PIPE_OUTER != null and PIPE_OUTER != ''">
+				PIPE_OUTER,
+			</if>
+			<if test="PIPE_THICK != null and PIPE_THICK != ''">
+				PIPE_THICK,
+			</if>
+			<if test="UNIT != null and UNIT != ''">
+				UNIT,
+			</if>
+			<if test="AFTER_BEARING1 != null and AFTER_BEARING1 != ''">
+				AFTER_BEARING1,
+			</if>
+			<if test="GREASE_INTERV != null and GREASE_INTERV != ''">
+				GREASE_INTERV,
+			</if>
+			<if test="GREASE_QUAN != null and GREASE_QUAN != ''">
+				GREASE_QUAN,
+			</if>
+			<if test="INSULATION_RATE != null and INSULATION_RATE != ''">
+				INSULATION_RATE,
+			</if>
+			<if test="PROTECTION_RATE != null and PROTECTION_RATE != ''">
+				PROTECTION_RATE,
+			</if>
+			<if test="EXPLOSION_RATE != null and EXPLOSION_RATE != ''">
+				EXPLOSION_RATE,
+			</if>
+			<if test="DEVICE_TYPE != null and DEVICE_TYPE != ''">
+				DEVICE_TYPE,
+			</if>
+			<if test="PHASE_NUMBER != null and PHASE_NUMBER != ''">
+				PHASE_NUMBER,
+			</if>
+			<if test="CONNECTION_GROUP != null and CONNECTION_GROUP != ''">
+				CONNECTION_GROUP,
+			</if>
+			<if test="HEIGHT_ELECTRIC_PRES != null and HEIGHT_ELECTRIC_PRES != ''">
+				HEIGHT_ELECTRIC_PRES,
+			</if>
+			<if test="SNATCH_ELECTRIC_PRES != null and SNATCH_ELECTRIC_PRES != ''">
+				SNATCH_ELECTRIC_PRES,
+			</if>
+			<if test="THUNDERSTRIKE_ELECTRIC_PRES != null and THUNDERSTRIKE_ELECTRIC_PRES != ''">
+				THUNDERSTRIKE_ELECTRIC_PRES,
+			</if>
+			<if test="SNATCH_ELECTRIC_TENSION != null and SNATCH_ELECTRIC_TENSION != ''">
+				SNATCH_ELECTRIC_TENSION,
+			</if>
+			<if test="PEAK_TENSION != null and PEAK_TENSION != ''">
+				PEAK_TENSION,
+			</if>
+			<if test="CATEGORY != null and CATEGORY != ''">
+				CATEGORY,
+			</if>
+			<if test="CORROSION_FATIGUE != null and CORROSION_FATIGUE != ''">
+				CORROSION_FATIGUE,
+			</if>
+			<if test="EQU_DESIGN_TEMP != null and EQU_DESIGN_TEMP != ''">
+				EQU_DESIGN_TEMP,
+			</if>
+			<if test="DESIGN_PRESSURE_RANGE != null and DESIGN_PRESSURE_RANGE != ''">
+				DESIGN_PRESSURE_RANGE,
+			</if>
+			<if test="SURFACE_HEAT_TRANSFER != null and SURFACE_HEAT_TRANSFER != ''">
+				SURFACE_HEAT_TRANSFER,
+			</if>
+			<if test="HIGH_LEFT != null and HIGH_LEFT != ''">
+				HIGH_LEFT,
+			</if>
+			<if test="DISPLACEMENT != null and DISPLACEMENT != ''">
+				DISPLACEMENT,
+			</if>
+			<if test="IMPELLER_MEDUIM != null and IMPELLER_MEDUIM != ''">
+				IMPELLER_MEDUIM,
+			</if>
+			<if test="SPINDLE_MEDUIM != null and SPINDLE_MEDUIM != ''">
+				SPINDLE_MEDUIM,
+			</if>
+			<if test="PUMP_MEDUIM != null and PUMP_MEDUIM != ''">
+				PUMP_MEDUIM,
+			</if>
+			<if test="WIND_PRESSURE != null and WIND_PRESSURE != ''">
+				WIND_PRESSURE,
+			</if>
+			<if test="EQU_MEMO_THREE != null and EQU_MEMO_THREE != ''">
+				EQU_MEMO_THREE,
+			</if>
+			<if test="EQU_MEMO_TWO != null and EQU_MEMO_TWO != ''">
+				EQU_MEMO_TWO,
+			</if>
+			<if test="EQU_WHETHER_PERIODIC != null and EQU_WHETHER_PERIODIC != ''">
+				EQU_WHETHER_PERIODIC,
+			</if>
+			<if test="SECONDCLASS_EQUIPMENT != null and SECONDCLASS_EQUIPMENT != ''">
+				SECONDCLASS_EQUIPMENT,
+			</if>
+			<if test="EQUIPMENT_ATTACH_URL != null and EQUIPMENT_ATTACH_URL != ''">
+				EQUIPMENT_ATTACH_URL
 			</if>
 		</trim>
 		VALUES
@@ -612,7 +711,106 @@
 				#{FREQUENCY},
 			</if>
 			<if test="BRAND != null and BRAND != ''">
-				#{BRAND}
+				#{BRAND},
+			</if>
+			<if test="PIPE_OUTER != null and PIPE_OUTER != ''">
+				#{PIPE_OUTER},
+			</if>
+			<if test="PIPE_THICK != null and PIPE_THICK != ''">
+				#{PIPE_THICK},
+			</if>
+			<if test="UNIT != null and UNIT != ''">
+				#{UNIT},
+			</if>
+			<if test="AFTER_BEARING1 != null and AFTER_BEARING1 != ''">
+				#{AFTER_BEARING1},
+			</if>
+			<if test="GREASE_INTERV != null and GREASE_INTERV != ''">
+				#{GREASE_INTERV},
+			</if>
+			<if test="GREASE_QUAN != null and GREASE_QUAN != ''">
+				#{GREASE_QUAN},
+			</if>
+			<if test="INSULATION_RATE != null and INSULATION_RATE != ''">
+				#{INSULATION_RATE},
+			</if>
+			<if test="PROTECTION_RATE != null and PROTECTION_RATE != ''">
+				#{PROTECTION_RATE},
+			</if>
+			<if test="EXPLOSION_RATE != null and EXPLOSION_RATE != ''">
+				#{EXPLOSION_RATE},
+			</if>
+			<if test="DEVICE_TYPE != null and DEVICE_TYPE != ''">
+				#{DEVICE_TYPE},
+			</if>
+			<if test="PHASE_NUMBER != null and PHASE_NUMBER != ''">
+				#{PHASE_NUMBER},
+			</if>
+			<if test="CONNECTION_GROUP != null and CONNECTION_GROUP != ''">
+				#{CONNECTION_GROUP},
+			</if>
+			<if test="HEIGHT_ELECTRIC_PRES != null and HEIGHT_ELECTRIC_PRES != ''">
+				#{HEIGHT_ELECTRIC_PRES},
+			</if>
+			<if test="SNATCH_ELECTRIC_PRES != null and SNATCH_ELECTRIC_PRES != ''">
+				#{SNATCH_ELECTRIC_PRES},
+			</if>
+			<if test="THUNDERSTRIKE_ELECTRIC_PRES != null and THUNDERSTRIKE_ELECTRIC_PRES != ''">
+				#{THUNDERSTRIKE_ELECTRIC_PRES},
+			</if>
+			<if test="SNATCH_ELECTRIC_TENSION != null and SNATCH_ELECTRIC_TENSION != ''">
+				#{SNATCH_ELECTRIC_TENSION},
+			</if>
+			<if test="PEAK_TENSION != null and PEAK_TENSION != ''">
+				#{PEAK_TENSION},
+			</if>
+			<if test="CATEGORY != null and CATEGORY != ''">
+				#{CATEGORY},
+			</if>
+			<if test="CORROSION_FATIGUE != null and CORROSION_FATIGUE != ''">
+				#{CORROSION_FATIGUE},
+			</if>
+			<if test="EQU_DESIGN_TEMP != null and EQU_DESIGN_TEMP != ''">
+				#{EQU_DESIGN_TEMP},
+			</if>
+			<if test="DESIGN_PRESSURE_RANGE != null and DESIGN_PRESSURE_RANGE != ''">
+				#{DESIGN_PRESSURE_RANGE},
+			</if>
+			<if test="SURFACE_HEAT_TRANSFER != null and SURFACE_HEAT_TRANSFER != ''">
+				#{SURFACE_HEAT_TRANSFER},
+			</if>
+			<if test="HIGH_LEFT != null and HIGH_LEFT != ''">
+				#{HIGH_LEFT},
+			</if>
+			<if test="DISPLACEMENT != null and DISPLACEMENT != ''">
+				#{DISPLACEMENT},
+			</if>
+			<if test="IMPELLER_MEDUIM != null and IMPELLER_MEDUIM != ''">
+				#{IMPELLER_MEDUIM},
+			</if>
+			<if test="SPINDLE_MEDUIM != null and SPINDLE_MEDUIM != ''">
+				#{SPINDLE_MEDUIM},
+			</if>
+			<if test="PUMP_MEDUIM != null and PUMP_MEDUIM != ''">
+				#{PUMP_MEDUIM},
+			</if>
+			<if test="WIND_PRESSURE != null and WIND_PRESSURE != ''">
+				#{WIND_PRESSURE},
+			</if>
+			<if test="EQU_MEMO_THREE != null and EQU_MEMO_THREE != ''">
+				#{EQU_MEMO_THREE},
+			</if>
+			<if test="EQU_MEMO_TWO != null and EQU_MEMO_TWO != ''">
+				#{EQU_MEMO_TWO},
+			</if>
+			<if test="EQU_WHETHER_PERIODIC != null and EQU_WHETHER_PERIODIC != ''">
+				#{EQU_WHETHER_PERIODIC},
+			</if>
+			<if test="SECONDCLASS_EQUIPMENT != null and SECONDCLASS_EQUIPMENT != ''">
+				#{SECONDCLASS_EQUIPMENT},
+			</if>
+			<if test="EQUIPMENT_ATTACH_URL != null and EQUIPMENT_ATTACH_URL != ''">
+				#{EQUIPMENT_ATTACH_URL}
 			</if>
 		</trim>
 	</insert>
@@ -746,10 +944,10 @@
 				EQU_PERIODIC_WARNDAYS = #{EQU_PERIODIC_WARNDAYS},
 			</if>
 			<if test="EXPERY_TIME != null and EXPERY_TIME != ''">
-				WEL_NAME = #{EXPERY_TIME},
+				EXPERY_TIME = #{EXPERY_TIME},
 			</if>
 			<if test="ELEC != null and ELEC != ''">
-				WEL_NAME = #{ELEC},
+				ELEC = #{ELEC},
 			</if>
 			<if test="COUNT != null and COUNT != ''">
 				COUNT = #{COUNT},
@@ -845,7 +1043,106 @@
 				FREQUENCY = #{FREQUENCY},
 			</if>
 			<if test="BRAND != null and BRAND != ''">
-				BRAND = #{BRAND}
+				BRAND = #{BRAND},
+			</if>
+			<if test="PIPE_OUTER != null and PIPE_OUTER != ''">
+				PIPE_OUTER = #{PIPE_OUTER},
+			</if>
+			<if test="PIPE_THICK != null and PIPE_THICK != ''">
+				PIPE_THICK = #{PIPE_THICK},
+			</if>
+			<if test="UNIT != null and UNIT != ''">
+				UNIT = #{UNIT},
+			</if>
+			<if test="AFTER_BEARING1 != null and AFTER_BEARING1 != ''">
+				AFTER_BEARING1 = #{AFTER_BEARING1},
+			</if>
+			<if test="GREASE_INTERV != null and GREASE_INTERV != ''">
+				GREASE_INTERV = #{GREASE_INTERV},
+			</if>
+			<if test="GREASE_QUAN != null and GREASE_QUAN != ''">
+				GREASE_QUAN = #{GREASE_QUAN},
+			</if>
+			<if test="INSULATION_RATE != null and INSULATION_RATE != ''">
+				INSULATION_RATE = #{INSULATION_RATE},
+			</if>
+			<if test="PROTECTION_RATE != null and PROTECTION_RATE != ''">
+				PROTECTION_RATE = #{PROTECTION_RATE},
+			</if>
+			<if test="EXPLOSION_RATE != null and EXPLOSION_RATE != ''">
+				EXPLOSION_RATE = #{EXPLOSION_RATE},
+			</if>
+			<if test="DEVICE_TYPE != null and DEVICE_TYPE != ''">
+				DEVICE_TYPE = #{DEVICE_TYPE},
+			</if>
+			<if test="PHASE_NUMBER != null and PHASE_NUMBER != ''">
+				PHASE_NUMBER = #{PHASE_NUMBER},
+			</if>
+			<if test="CONNECTION_GROUP != null and CONNECTION_GROUP != ''">
+				CONNECTION_GROUP = #{CONNECTION_GROUP},
+			</if>
+			<if test="HEIGHT_ELECTRIC_PRES != null and HEIGHT_ELECTRIC_PRES != ''">
+				HEIGHT_ELECTRIC_PRES = #{HEIGHT_ELECTRIC_PRES},
+			</if>
+			<if test="SNATCH_ELECTRIC_PRES != null and SNATCH_ELECTRIC_PRES != ''">
+				SNATCH_ELECTRIC_PRES = #{SNATCH_ELECTRIC_PRES},
+			</if>
+			<if test="THUNDERSTRIKE_ELECTRIC_PRES != null and THUNDERSTRIKE_ELECTRIC_PRES != ''">
+				THUNDERSTRIKE_ELECTRIC_PRES = #{THUNDERSTRIKE_ELECTRIC_PRES},
+			</if>
+			<if test="SNATCH_ELECTRIC_TENSION != null and SNATCH_ELECTRIC_TENSION != ''">
+				SNATCH_ELECTRIC_TENSION = #{SNATCH_ELECTRIC_TENSION},
+			</if>
+			<if test="PEAK_TENSION != null and PEAK_TENSION != ''">
+				PEAK_TENSION = #{PEAK_TENSION},
+			</if>
+			<if test="CATEGORY != null and CATEGORY != ''">
+				CATEGORY = #{CATEGORY},
+			</if>
+			<if test="CORROSION_FATIGUE != null and CORROSION_FATIGUE != ''">
+				CORROSION_FATIGUE = #{CORROSION_FATIGUE},
+			</if>
+			<if test="EQU_DESIGN_TEMP != null and EQU_DESIGN_TEMP != ''">
+				EQU_DESIGN_TEMP = #{EQU_DESIGN_TEMP},
+			</if>
+			<if test="DESIGN_PRESSURE_RANGE != null and DESIGN_PRESSURE_RANGE != ''">
+				DESIGN_PRESSURE_RANGE = #{DESIGN_PRESSURE_RANGE},
+			</if>
+			<if test="SURFACE_HEAT_TRANSFER != null and SURFACE_HEAT_TRANSFER != ''">
+				SURFACE_HEAT_TRANSFER = #{SURFACE_HEAT_TRANSFER},
+			</if>
+			<if test="HIGH_LEFT != null and HIGH_LEFT != ''">
+				HIGH_LEFT = #{HIGH_LEFT},
+			</if>
+			<if test="DISPLACEMENT != null and DISPLACEMENT != ''">
+				DISPLACEMENT = #{DISPLACEMENT},
+			</if>
+			<if test="IMPELLER_MEDUIM != null and IMPELLER_MEDUIM != ''">
+				IMPELLER_MEDUIM = #{IMPELLER_MEDUIM},
+			</if>
+			<if test="SPINDLE_MEDUIM != null and SPINDLE_MEDUIM != ''">
+				SPINDLE_MEDUIM = #{SPINDLE_MEDUIM},
+			</if>
+			<if test="PUMP_MEDUIM != null and PUMP_MEDUIM != ''">
+				PUMP_MEDUIM = #{PUMP_MEDUIM},
+			</if>
+			<if test="WIND_PRESSURE != null and WIND_PRESSURE != ''">
+				WIND_PRESSURE = #{WIND_PRESSURE},
+			</if>
+			<if test="EQU_MEMO_THREE != null and EQU_MEMO_THREE != ''">
+				EQU_MEMO_THREE = #{EQU_MEMO_THREE},
+			</if>
+			<if test="EQU_MEMO_TWO != null and EQU_MEMO_TWO != ''">
+				EQU_MEMO_TWO = #{EQU_MEMO_TWO},
+			</if>
+			<if test="EQU_WHETHER_PERIODIC != null and EQU_WHETHER_PERIODIC != ''">
+				EQU_WHETHER_PERIODIC = #{EQU_WHETHER_PERIODIC},
+			</if>
+			<if test="SECONDCLASS_EQUIPMENT != null and SECONDCLASS_EQUIPMENT != ''">
+				SECONDCLASS_EQUIPMENT = #{SECONDCLASS_EQUIPMENT},
+			</if>
+			<if test="EQUIPMENT_ATTACH_URL != null and EQUIPMENT_ATTACH_URL != ''">
+				EQUIPMENT_ATTACH_URL = #{EQUIPMENT_ATTACH_URL}
 			</if>
 		</set>
 		WHERE
