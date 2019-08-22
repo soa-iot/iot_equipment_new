@@ -29,5 +29,6 @@ public class EquipmentOilRecord implements Serializable {
 	private String rnote;
 	private String rremark1;
 	private String rremark2;
+	private Integer rstock;
 
 }

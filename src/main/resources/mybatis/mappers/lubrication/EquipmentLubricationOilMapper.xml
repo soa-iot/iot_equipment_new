@@ -7,43 +7,141 @@
 	
 	<!-- 设备润滑油品 -->
 	<sql id="EquipmentLubricationOilSQL">
-		OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
+		ROWNUM rn,OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
 	</sql>
 	
 	<!-- 设备润滑油品记录 -->
 	<sql id="EquipmentOilRecordSQL">
-		ORID,OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2
+		ORID,OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2,RSTOCK
 	</sql>
 	
 	<!-- 设备润滑油品记录 -->
 	<sql id="EquipmentOilRecordVOSQL">
-		ORID,oil.OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
+		ROWNUM rn,ORID,oil.OID,RTIME,RID,RINOUT,RAMOUNT,USERID,RTYPE,RNOTE,RREMARK1,RREMARK2,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2,RSTOCK
 	</sql>
 	
+	<!-- ===================================查询=================================== -->
+	
+	<!-- 查询所有油品 -->
+	<!-- List<EquipmentLubricationOil> queryOilAllStock(Integer page, Integer limit); -->
+	<select id="queryOilAllStock" resultType="cn.soa.entity.lubrication.EquipmentLubricationOil">
+		SELECT 
+			<include refid="EquipmentLubricationOilSQL"></include>
+          FROM (SELECT 
+	          		<include refid="EquipmentLubricationOilSQL"></include>
+	            FROM (
+	            	SELECT 
+	          		<include refid="EquipmentLubricationOilSQL"></include>
+	            FROM 
+	            	IOT_EQUIPMENT_LUBRICATION_OIL ORDER BY cast(ostock as int))
+				WHERE 
+					ROWNUM <![CDATA[ <= ]]> #{maxSize} )
+ 		WHERE rn <![CDATA[ > ]]>  #{minSize} 
+		<!-- AND ROWNUM  
+		AND ROWNUM  -->
+	</select>
+	
+	<!-- 查询所有油品数量 -->
+	<!-- Integer countStock(); -->
+	<select id="countStock" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			IOT_EQUIPMENT_LUBRICATION_OIL
+	</select>
 	
 	<!-- List<EquipmentOilRecordVO> findOilAll(); -->
 	<select id="findOilAll" resultType="cn.soa.entity.lubrication.EquipmentOilRecordVO">
-		SELECT
+		SELECT 
 			<include refid="EquipmentOilRecordVOSQL"></include>
+          FROM (SELECT 
+	          		<include refid="EquipmentOilRecordVOSQL"></include>
+	            FROM 
+	            	IOT_EQUIPMENT_OIL_RECORD record,IOT_EQUIPMENT_LUBRICATION_OIL oil
+				WHERE 
+					record.oid = oil.oid 
+				<if test="oid != null and oid != ''">
+					AND oil.OID = #{oid}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
+				</if>
+				<if test="endTime != null and endTime != ''">
+					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
+				</if>
+					and ROWNUM <![CDATA[ <= ]]> #{maxSize}
+ 					 ORDER BY rtime
+ 					 ) oil
+
+ 		WHERE 
+ 			rn <![CDATA[ > ]]>  #{minSize} 
+ 		
+	</select>
+	
+	<!-- 查询油品出入库总数量 -->
+	<!-- Integer countRecord(); -->
+	<select id="countRecord" resultType="java.lang.Integer">
+		SELECT
+			count(*)
 		FROM
 			IOT_EQUIPMENT_OIL_RECORD record,IOT_EQUIPMENT_LUBRICATION_OIL oil
 		WHERE 
 			record.oid = oil.oid 
-		AND ROWNUM  <![CDATA[ >= ]]> 1 * #{page}
-		AND ROWNUM <![CDATA[ < ]]> 10 * #{page}
+			<if test="oid != null and oid != ''">
+					AND oil.OID = #{oid}
+				</if> 
+				<if test="startTime != null and startTime != ''">
+					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
+				</if>
+				<if test="endTime != null and endTime != ''">
+					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
+				</if>
 	</select>
 	
-	<!-- 1.2、统计查找设备大事件条数	
-	Integer countEvent(@Param("positionNum") String positionNum)
-	<select id="countEvent" resultType="int">
-		SELECT 
-			COUNT(1)
+	 <!-- 根据油品库存条件查询油品 -->
+	<!-- public List<EquipmentLubricationOil> findOilbyConditions(EquipmentLubricationOil equipmentLubricationOil); -->
+	<select id="findOilbyConditions" resultType="cn.soa.entity.lubrication.EquipmentLubricationOil">
+		SELECT
+			<include refid="EquipmentLubricationOilSQL"></include>
 		FROM
-			IOT_EQUIPMENT_BIGEVENT
-		WHERE
-			POSITIONNUM = #{positionNum}
+			IOT_EQUIPMENT_LUBRICATION_OIL
+		WHERE 
+			1 = 1
+			<if test="oid != null and oid != ''">
+					and oid = #{oid}
+				</if>
+				<if test="oname != null and oname != ''">
+					and oname = #{oname} 
+				</if>
+				<if test="ostock != null and ostock != ''">
+					and ostock = #{ostock} 
+				</if>
+				<if test="ostate != null and ostate != ''">
+					and ostate = #{ostate}
+				</if>
+				<if test="ounit != null and ounit != ''">
+					and ounit = #{ounit} 
+				</if>
+				<if test="odescribe != null and odescribe != ''">
+					and odescribe = #{odescribe} 
+				</if>
+				<if test="otype != null and otype != ''">
+					and otype = #{otype} 
+				</if>
+				<if test="manufacture != null and manufacture != ''">
+					and manufacture = #{manufacture} 
+				</if>
+				<if test="osign != null and osign != ''">
+					and osign = #{osign} 
+				</if>
+				<if test="oremark1 != null and oremark1 != ''">
+					and oremark1 = #{oremark1} 
+				</if>
+				<if test="oremark2 != null and oremark2 != ''">
+					and oremark2 = #{oremark2} 
+				</if>
 	</select>
-	 -->
+	
 	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 设备润滑新增油品 -->	
@@ -172,6 +270,9 @@
 				<if test="eqor.rremark2 != null and eqor.rremark2 != ''">
 					RREMARK2,
 				</if>
+				<if test="eqor.rstock != null and eqor.rstock != ''">
+					RSTOCK,
+				</if>
 			</trim>
 		VALUES
 			<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -208,11 +309,27 @@
 				<if test="eqor.rremark2 != null and eqor.rremark2 != ''">
 					#{eqor.rremark2},
 				</if>
+				<if test="eqor.rstock != null and eqor.rstock != ''">
+					#{eqor.rstock},
+				</if>
 			</trim>
 	</insert>
 	
 	<!-- ===========================3、修改===============================  -->
 
+	<!-- 油品入库 -->
+	<!-- Integer updateStock(String ramount,String oid); -->
+	
+	<update id="updateStock" parameterType="java.lang.Integer">
+		UPDATE 
+			IOT_EQUIPMENT_LUBRICATION_OIL
+				<set>
+				   ostock = ostock+#{ramount}
+				</set>
+				<where>
+					oid = #{oid}
+				</where>
+	</update>
 	
 	<!-- ===========================4、删除===============================  -->
 			

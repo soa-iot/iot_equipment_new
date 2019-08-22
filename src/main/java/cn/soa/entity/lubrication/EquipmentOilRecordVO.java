@@ -40,5 +40,6 @@ public class EquipmentOilRecordVO implements Serializable {
 	private String osign;
 	private String oremark1;
 	private String oremark2;
+	private Integer rstock;
 
 }

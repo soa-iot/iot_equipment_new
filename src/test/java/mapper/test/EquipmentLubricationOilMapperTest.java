@@ -28,7 +28,7 @@ public class EquipmentLubricationOilMapperTest {
 	public void insertOilTest() {
 		
 		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
-		equipmentLubricationOil.setOname("320#液压齿轮油");
+		equipmentLubricationOil.setOname("320#液压齿轮油2");
 		equipmentLubricationOil.setOstock("15");
 		equipmentLubricationOil.setOstate(1);
 		equipmentLubricationOil.setOunit("油品集团");
@@ -60,8 +60,14 @@ public class EquipmentLubricationOilMapperTest {
 
 	@Test
 	public void findOilAllTest() {
-			 List<EquipmentOilRecordVO> row = equipmentLubricationOilMapper.findOilAll(1);
+			 List<EquipmentOilRecordVO> row = equipmentLubricationOilMapper.findOilAll(1,10,null,"2019-06-06 08:06:22","2020-06-06 08:06:22");
 			System.err.println("插入油品数量："+row);
+	}
+	
+	@Test
+	public void countTest() {
+			 Integer row = equipmentLubricationOilMapper.countRecord(null,null,null);
+			System.err.println("查询油品数量："+row);
 	}
 	
 
