@@ -31,7 +31,7 @@
 				) equip_result
 				WHERE 
 				<if test="limit != null and page != null">
-						ROWNUM &gt; ${(page-1) * limit}
+						ROWNUM &lt;= ${page * limit}
 				</if>
 			)
 			WHERE

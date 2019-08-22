@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.soa.entity.EquipmentBigEvent;
+import cn.soa.entity.EquipmentInfo;
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.EquipmentTypeBackup;
 import cn.soa.entity.ResultJson;
 import cn.soa.entity.ResultJsonForTable;
 import cn.soa.service.intel.EquipmentBigEventSI;
+import cn.soa.service.intel.EquipmentInfoSI;
 import cn.soa.service.intel.EquipmentMoveRunningTimeSI;
 import cn.soa.service.intel.EquipmentTypeBackupSI;
 import lombok.experimental.var;
@@ -37,6 +39,9 @@ public class EquipmentInfoC {
 	
 	@Autowired
 	private EquipmentTypeBackupSI equipTypeBackupS;
+	
+	@Autowired
+	private EquipmentInfoSI equipmentInfoS;
 	
 	/**
 	 * 设备台账导入时备份数据库
@@ -149,5 +154,28 @@ public class EquipmentInfoC {
 			return new ResultJson<Void>(ResultJson.ERROR, "删除备份记录失败"+bid);
 		}
 		return new ResultJson<Void>(ResultJson.SUCCESS, "删除备份记录成功"+bid);
+	}
+	
+	
+	/**
+	 * @Title: EquipmentInfo   
+	 * @Description: 根据条件查询设备信息
+	 * @return: ResultJson<List<UnsafeType>> 返回不安全行为数据列表   
+	 */
+	@PostMapping("/show")
+	public ResultJsonForTable<List<EquipmentInfo>> queryProblemInfo(EquipmentInfo info, Integer page, Integer limit){
+		log.info("----------开始查询设备信息");
+		log.info("查询条件为:{}", info);
+		log.info("第几页:{}", page);
+		log.info("每页条数:{}", limit);
+		
+		Integer count = equipmentInfoS.countEquipmentInfo(info);
+		List<EquipmentInfo> result = null;
+		if(count != null && count > 0) {
+			result = equipmentInfoS.getEquipmentInfo(info, page, limit);
+		}
+		log.info("----------查询设备信息结束");
+		
+		return new ResultJsonForTable<List<EquipmentInfo>>(0, "查询数据有"+count, count, result);
 	}
 }

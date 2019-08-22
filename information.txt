@@ -1,0 +1,11 @@
+###  CZ_EQUIPMENT_INFO 设备台账表字段含义    ###
+#########################################
+EQU_POSITION_NUM      设备位号
+EQU_MEMO_ONE          设备类别
+EQU_NAME              设备名称
+EQU_MODEL             规格型号
+EQU_PRODUC_DATE       生产日期
+EQU_COMMISSION_DATE   投运日期
+MATERIAL              设备材质
+MEDUIM_TYPE           工作介质
+#########################################

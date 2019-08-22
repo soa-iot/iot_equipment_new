@@ -376,7 +376,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadCConfig.put("EQU_COMMISSION_DATE", "投用年月 ");
 	    excelHeadCConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadCConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadCConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadCConfig.put("MEDUIM_TYPE", "介质");
 	    excelHeadCConfig.put("MEARING_RANGE", "容积(m3)");
 	    excelHeadCConfig.put("MANAGE_TYPE", "类别");
@@ -402,7 +401,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadDConfig.put("EQU_COMMISSION_DATE", "投用年月 ");
 	    excelHeadDConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadDConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadDConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadDConfig.put("MEDUIM_TYPE", "介质");
 	    excelHeadDConfig.put("MEARING_RANGE", "容积(m3)");
 	    excelHeadDConfig.put("MANAGE_TYPE", "类别");
@@ -427,7 +425,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadEConfig.put("EQU_COMMISSION_DATE", "投用年月");
 	    excelHeadEConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadEConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadEConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadEConfig.put("MEARING_RANGE", "换热面积(m2)");
 	    excelHeadEConfig.put("MANAGE_TYPE", "类别");
 	    excelHeadEConfig.put("SERIAL_NUM", "出厂编号");
@@ -457,7 +454,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadFConfig.put("EQU_COMMISSION_DATE", "投用年月");
 	    excelHeadFConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadFConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadFConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadFConfig.put("MEDUIM_TYPE", "介质");
 	    excelHeadFConfig.put("MEARING_RANGE", "容积(m3)");
 	    excelHeadFConfig.put("SERIAL_NUM", "出厂编号");
@@ -479,7 +475,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadHConfig.put("EQU_NAME", "设备名称");
 	    excelHeadHConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadHConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadHConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadHConfig.put("MEDUIM_TYPE", "介质");
 	    excelHeadHConfig.put("MEARING_RANGE", "容积(m3)");
 	    excelHeadHConfig.put("MANAGE_TYPE", "类别");
@@ -504,7 +499,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadRConfig.put("EQU_COMMISSION_DATE", "投用年月 ");
 	    excelHeadRConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadRConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadRConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadRConfig.put("MEARING_RANGE", "容积(m3)");
 	    excelHeadRConfig.put("MANAGE_TYPE", "类别");
 	    excelHeadRConfig.put("SERIAL_NUM", "出厂编号");
@@ -558,7 +552,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadQConfig.put("EQU_NAME", "设备名称");
 	    excelHeadQConfig.put("EQU_COMMISSION_DATE", "投用年月");
 	    excelHeadQConfig.put("EQU_MANUFACTURER", "制造单位");
-	    excelHeadQConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadQConfig.put("MANAGE_TYPE", "类别");
 	    excelHeadQConfig.put("SERIAL_NUM", "出厂编号");
 	    excelHeadQConfig.put("COUNT", "数量");
@@ -574,7 +567,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadAConfig.put("EQU_MODEL", "规格型号");
 	    excelHeadAConfig.put("EQU_INSTALL_POSITION", "安装地点");
 	    excelHeadAConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadAConfig.put("EQU_POSITION_NUM", "位号");
 	    excelHeadAConfig.put("MEDUIM_TYPE", "介质");
 	    excelHeadAConfig.put("MEARING_RANGE", "测量范围");
 	    excelHeadAConfig.put("MANAGE_TYPE", "计量器具管理类别");
@@ -597,7 +589,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadEPSConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadEPSConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadEPSConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadEPSConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadEPSConfig.put("MEDUIM_TYPE", "工作性质");
 	    excelHeadEPSConfig.put("EQU_WORK_TEMP", "蓄电池型号");
 	    excelHeadEPSConfig.put("EQU_LASTPERIODIC_DATE", "蓄电池品牌");
@@ -622,7 +613,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadUPSConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadUPSConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadUPSConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadUPSConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadUPSConfig.put("MEDUIM_TYPE", "工作性质");
 	    excelHeadUPSConfig.put("EQU_WORK_TEMP", "蓄电池型号");
 	    excelHeadUPSConfig.put("EQU_LASTPERIODIC_DATE", "蓄电池品牌");
@@ -646,7 +636,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadDPDConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadDPDConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadDPDConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadDPDConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadDPDConfig.put("SERIAL_NUM", "出厂编号");
 	    excelHeadDPDConfig.put("ELECTRIC_PRES", "额定电压");
 	    excelHeadDPDConfig.put("ELECTRIC_TENSION", "额定电流");
@@ -663,7 +652,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadDDJConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadDDJConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadDDJConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadDDJConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadDDJConfig.put("MEDUIM_TYPE", "设备类型");
 	    excelHeadDDJConfig.put("EQU_WORK_TEMP", "额定转速");
 	    excelHeadDDJConfig.put("EQU_LASTPERIODIC_DATE", "轴伸端轴承1");
@@ -698,7 +686,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadGBYQConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadGBYQConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadGBYQConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadGBYQConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadGBYQConfig.put("EQU_PERIODIC_CYCLE", "容量");
 	    excelHeadGBYQConfig.put("MEARING_RANGE", "绝缘等级");
 	    excelHeadGBYQConfig.put("MANAGE_TYPE", "接线组别");
@@ -725,7 +712,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadGPDGConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadGPDGConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadGPDGConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadGPDGConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadGPDGConfig.put("MEARING_RANGE", "防护等级");
 	    excelHeadGPDGConfig.put("SERIAL_NUM", "出厂编号");
 	    excelHeadGPDGConfig.put("ACTION_MODLE", "对应设备");
@@ -752,7 +738,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadXPDXConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadXPDXConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadXPDXConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadXPDXConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadXPDXConfig.put("MEDUIM_TYPE", "设备用途");
 	    excelHeadXPDXConfig.put("MEARING_RANGE", "防爆区域等级");
 	    excelHeadXPDXConfig.put("SERIAL_NUM", "出厂编号");
@@ -772,7 +757,6 @@ public class RollbackEquipmentBackupExcel {
 	    excelHeadZLDYConfig.put("EQU_COMMISSION_DATE", "投运日期");
 	    excelHeadZLDYConfig.put("EQU_INSTALL_POSITION", "安装位置");
 	    excelHeadZLDYConfig.put("EQU_MANUFACTURER", "生产厂家");
-	    excelHeadZLDYConfig.put("EQU_POSITION_NUM", "设备位号");
 	    excelHeadZLDYConfig.put("EQU_WORK_TEMP", "蓄电池型号");
 	    excelHeadZLDYConfig.put("EQU_LASTPERIODIC_DATE", "品牌");
 	    excelHeadZLDYConfig.put("EQU_PERIODIC_CYCLE", "蓄电池容量");
@@ -884,7 +868,8 @@ public class RollbackEquipmentBackupExcel {
 		LinkedHashMap<String, String> headerInfo = getHeaderConfigInfo(equipType);
 		Set<String> keySet = headerInfo.keySet();
 		System.err.println("headerInfo: "+headerInfo);
-		int colNum = keySet.size();
+		int colNum = keySet.size() - 1;
+		log.info("列数：{}",colNum);
 		String[] colArray = keySet.toArray(new String[colNum]);
 		//逐行读取数据
 		List<EquipmentTypeForExcel> list = new LinkedList<>();
@@ -893,8 +878,9 @@ public class RollbackEquipmentBackupExcel {
 			EquipmentTypeForExcel equipObj = new EquipmentTypeForExcel();
 			for(int j=1;j<colNum;j++) {
 				HSSFCell cell = row.getCell(j);
+				//log.info("cell={}",cell);
 				String cellValue = getCellStringValue(cell);
-				//System.err.println("cellValue="+cellValue);
+				//log.info("cellValue={}",cellValue);
 				//通过内省JavaBean工具BeanUtils设置属性值
 				try {
 					BeanUtils.setProperty(equipObj, colArray[j], cellValue);

@@ -1,0 +1,226 @@
+.layui-this {
+    color: #fff !important;
+    background-color: #1e9fff;
+}
+
+.layui-tab-title li {
+    font-family: 'Arial Negreta', 'Arial Normal', 'Arial';
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+
+.layui-tab-title {
+    border-bottom-width: 3px !important;
+    border-bottom-color: #1e9fff !important;
+}
+
+.layui-this:after {
+    border-bottom-color: #1e9fff !important;
+}
+
+.layui-form-select dl dd.layui-this {
+    background-color: #1e9fff;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #1e9fff;
+    background-color: #1e9fff;
+    color: #fff;
+}
+
+.layui-form-checkbox[lay-skin=primary] i:hover, .layui-form-checkbox span:hover {
+    border-color: #1e9fff !important;
+}
+
+.layui-form-radio > i:hover, .layui-form-radioed > i {
+    color: #1e9fff;
+}
+
+#addImg, #addZmImg, #addImgdz, #addImgpz, #addImgyy {
+    margin-left: 0 !important;
+    font-size: 144px;
+    line-height: 150px;
+    color: darkgrey
+}
+
+#imgList, #imgZmList, #imgListdz, #imgListpz, #imgListyy {
+    width: 860px;
+    position: relative;
+    margin: 0px auto;
+    min-height: 150px;
+}
+
+    #imgList li, #imgZmList li, #imgListdz li #imgListpz li #imgListyy li {
+        width: 180px;
+        height: 150px;
+        float: left;
+        margin-right:3px;
+        margin-bottom:3px;
+        list-style: none;
+        list-style-type: none;
+        display: inline-block;
+        position:absolute;
+    }
+
+        #imgList li:hover, #imgZmList li:hover, #imgListdz li:hover, #imgListpz li:hover, #imgListyy li:hover {
+            border-color: #9a9fa4;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.85);
+        }
+
+    #imgList .active, #imgZmList .active, #imgListdz .active, #imgListpz .active, #imgListyy .active {
+        border: 1px dashed red;
+    }
+
+.title_cover {
+    height: 30px;
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    bottom: 0;
+    width: 140px;
+    color: #fff;
+    line-height: 30px;
+    font-size: 14px;
+    padding-left: 10px;
+    overflow: hidden; /*超出部分隐藏*/
+    white-space: nowrap; /*不换行*/
+    text-overflow: ellipsis; /*超出部分文字以...显示*/
+}
+
+    .title_cover:hover {
+        cursor: pointer;
+    }
+
+.img_close {
+    height: 20px;
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 20px;
+    color: #fff;
+    line-height: 18px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.img_close:hover {
+  cursor: pointer;
+}
+
+.img_edit {
+    height: 20px;
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 20px;
+    color: #fff;
+    line-height: 18px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.img_edit:hover {
+    cursor: pointer;
+}
+
+<!-- 分割线，上面是layui图片上传css -->
+
+body,.layui-table-body tr{
+	background-color: #FAFDFD;
+}
+
+.layui-container .layui-form,.layui-form-item,.layui-table-tool,.layui-table thead tr,.layui-table-header,.layui-table-total,.layui-table-total tr{
+	background-color: #EDF6FA;
+}
+
+.layui-container{
+	padding: 0px;
+	/* border:1px solid red; */
+	min-width: 860px;
+	width: 93%;
+}
+
+.layui-form-label{
+	padding-right: 5px;
+}
+
+.layui-layer-page{
+	padding: 0px 10px;
+}
+
+.layui-table-tool-temp{
+	padding-right: 40px;  
+}
+
+.layui-container form{
+	margin-top: 0px;
+	padding: 10px 0px 0px 0px;
+	/* border: 1px solid red; */
+	background-color: #f2f2f2;
+	font-size: small;
+}
+
+.layui-inline .layui-form-label{
+	width: 50px;
+	padding-left: 0px;
+}
+
+.layui-inline .layui-input-inline{
+	margin-right: 0px;
+
+}
+
+.layui-input-inline .layui-input{
+	height: 30px;
+}
+
+.layui-inline-btn{
+	margin-left: 5px;
+}
+
+.layui-inline-btn1{
+	margin-left: 10px;
+}
+
+.layui-input-inline{
+	margin-top: 3px;
+}
+
+.layui-form-item {
+	margin-bottom: 5px;
+}
+
+.layui-form-hidden{
+	display: none;
+}
+
+#layui-div-finish{
+	width: 145px;
+}
+
+#div-btn-toolbar button{
+	float: right;
+}
+
+.layui-container .layui-row{
+ min-width: 980px;
+}
+
+.layui-col-md5 .layui-table-view{
+	margin: 0px;
+}
+
+.layui-form-addequipment{
+	width: 400px;
+}
+
+#addEquipment{
+	background-color: #EDF6FA;
+}
+
+#div-record-table{
+	width: 550px;
+	min-width: 400px;
+}

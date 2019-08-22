@@ -192,6 +192,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	/**
 	 * 添加设备弹窗
 	 */
+	var equipName;
 	$('#add-equipment').click(function(){
 		//显示设备添加弹窗
 		layer.open({
@@ -209,10 +210,6 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 					layer.msg("设备类别不能为空", {icon: 7, offset: '150px'});
 					return false;
 				}
-				if($("#name_").val() == ''){
-					layer.msg("设备名称不能为空", {icon: 7, offset: '150px'});
-					return false;
-				}
 				if($("#positionNum_").val() == ''){
 					layer.msg("设备位号不能为空", {icon: 7, offset: '150px'});
 					return false;
@@ -228,7 +225,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 					url: '/iot_equipment/equipment/move/add',
 					data:{ 
 						"equipType": $("#equipType_").val(),
-						"name": $("#name_").val(),
+						"name": equipName,
 						"positionNum": $("#positionNum_").val(),
 						"dcsPositionNum": $("#dcsPositionNum_").val()
 					},
@@ -257,10 +254,36 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		 */
 		function cleanForm(){
 			$("#equipType_").val('');
+			equipName = '';
 			$("#equipType-div").find("input").val('');
-			$("#name_").val('');
 			$("#positionNum_").val('');
 			$("#dcsPositionNum_").val('');
 		}
+	})
+	
+	/**
+	 * 从设备台账中定位K类、P类设备
+	 */
+	$("#location-btn").click(function(){
+		//显示设备定位弹窗
+		layer.open({
+			type: 2,
+			id:"locationEquipment",
+			title: '设备定位',
+			content: './equipment-record-location.html?equMemoOne='+$("#equipType_").val(),
+			offset: ['50px','15%'],
+	    	area: ['68%','82%'],
+			btn: ['添&nbsp;&nbsp;加', '取消'],
+			btnAlign: 'c', //按钮居中对齐
+			yes: function(index, layero){
+				//获取iframe窗口的body对象
+	        	var body = layer.getChildFrame('body', index);
+	        	//找到body对象下被选中的设备位号值
+	        	var value = body.find(".layui-table-click td[data-field='equPositionNum']").find("div").text();
+	        	equipName = body.find(".layui-table-click td[data-field='equName']").find("div").text()
+	        	$("#positionNum_").val(value);
+	        	layer.close(index); //如果设定了yes回调，需进行手工关闭
+			}
+		})	
 	})
 })
