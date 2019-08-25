@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>动设备润滑周期管理</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<link rel="stylesheet" href="../../css/equipment-oil.css">
+</head>
+<body>
+
+	<h1 style="text-align: center;" class="input-inline-padding">动设备润滑周期管理</h1>
+    
+		 <div style="text-align: center;padding: 10px">
+			<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="add-oil" id="add-oil">新增润滑设备</button>
+			<!-- <button type="button" class="layui-btn layui-btn-normal" style="margin-left: 85px" lay-submit lay-filter="oil-stock">油品入库</button> -->
+		</div>
+		<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
+		<div type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="record">入库记录</a>
+		</div>
+		
+		<!-- 新增润滑设备 -->
+		<div class="layui-form-item" id="add-oil-div">
+			<h1 style="text-align: center;margin: 10px">新增油品</h1>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">设备位号</label>
+				<div class="layui-input-inline" style="width: 180px">
+					<input type="text" name="oname" id="oname" class="layui-input" placeholder="请选择设备位号" >
+					<span style="color: red" name="check" id="warning"></span>
+				</div>
+					<button type="button" class="layui-btn layui-btn-sm" lay-submit lay-filter="choose-equ" id="choose-equ" style="margin-top: 5px;">选择设备</button>
+			</div>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">设备名称</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="text" name="ostock" id="ostock"  min="0" value="0" class="layui-input"  disabled="disabled">
+					<!-- <span style="color: red" name="check" id="warningnum">*请输入大于0的数量*</span> -->
+				</div>
+			</div>
+			<!-- <div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">油品状态</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="tel" name="phone" lay-verify="required|phone"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div> -->
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">润滑部位</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="text" name="otype" id="otype" class="layui-input" placeholder="润滑部位">
+				</div>
+			</div>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">油品</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="text" name="manufacture" id="manufacture" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">加油量</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="text" name="osign" id="osign" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">润滑周期</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="date" name="osign" id="osign" class="layui-input">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 新增入库 -->
+		<div class="layui-form-item" id="oil-stock-div">
+			<h1 style="text-align: center;margin: 10px">油品入库</h1>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label ">油品名称</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="text" name="oname1" id="oname1" class="layui-input">
+					<span style="color: red" name="check" id="warning1"></span>
+				</div>
+			</div>
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">油品数量</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<input type="number" name="ramount" id="ramount" min="0" value="0" class="layui-input">
+					<span style="color: red" name="check" id="warningnum1">*请输入大于0的数量*</span>
+				</div>
+			</div>
+			
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-inline" style="width: 260px">
+					<textarea placeholder="请输入内容" class="layui-textarea" name="rnote" id="rnote"></textarea>
+				</div>
+			</div>
+		</div>
+
+	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/lubrication/lubricate-equipment-cycle.js" charset="utf-8"></script>
+    <script type="text/html" id="numb">
+    	{{d.LAY_TABLE_INDEX+1}}
+	</script>
+</body>
+</html>

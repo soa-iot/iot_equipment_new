@@ -1,5 +1,6 @@
 package cn.soa.service.intel.lubrication;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.soa.entity.lubrication.EquipmentLubricationOil;
@@ -18,5 +19,47 @@ public interface EquipmentLubricationOilSI {
 	 */
 	Integer addOil(EquipmentLubricationOil equipmentLubricationOil,String userid,String rnote);
 	
-	List<EquipmentOilRecordVO> queryOilAll(Integer page);
+	/**
+	 * 根据油品库存条件查询油品
+	 * @param equipmentLubricationOil
+	 * @return
+	 */
+	List<EquipmentLubricationOil> findOilbyConditions(EquipmentLubricationOil equipmentLubricationOil);
+	/**
+	 * 分页查询出入库油品记录
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	List<EquipmentOilRecordVO> queryOilAll(Integer minSize,Integer maxSize,String oid, String startTime,String endTime);
+	
+	/**
+	 * 查询油品出入库记录总数量
+	 * @return
+	 */
+	Integer countRecord(String oid, String startTime,String endTime);
+	
+	/**
+	 * 查询所有油品
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	List<EquipmentLubricationOil> queryOilAllStock(Integer minSize, Integer maxSize);
+	
+	/**
+	 * 查询所有油品数量
+	 * @return
+	 */
+	Integer countStock();
+	
+	/**
+	 * 油品入库
+	 * @param oname
+	 * @param ramount
+	 * @param rnote
+	 * @param userid
+	 * @return
+	 */
+	Integer oilStock(String oname,String ramount,String rnote,String userid);
 }

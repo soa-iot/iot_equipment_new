@@ -1,5 +1,6 @@
 package cn.soa.dao.lubrication;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -26,9 +27,15 @@ public interface EquipmentLubricationOilMapper {
 	Integer insertOil(@Param("equip") EquipmentLubricationOil equipmentLubricationOil);
 	
 	/**
+	 * 根据油品库存条件查询油品
+	 * @param equipmentLubricationOil
+	 * @return
+	 */
+	public List<EquipmentLubricationOil> findOilbyConditions(EquipmentLubricationOil equipmentLubricationOil);
+	
+	/**
 	 * 设备润滑新增油品出入库记录
 	 * @author Luo Guimao
-	 * @param equipmentLubricationOil
 	 * @return
 	 */
 	Integer insertRecord(@Param("eqor") EquipmentOilRecord equipmentOilRecord);
@@ -36,8 +43,40 @@ public interface EquipmentLubricationOilMapper {
 	/**
 	 * 查询所有油品
 	 * @author Luo Guimao
-	 * @param equipmentLubricationOil
 	 * @return
 	 */
-	List<EquipmentOilRecordVO> findOilAll(Integer page);
+	List<EquipmentOilRecordVO> findOilAll(
+			@Param("minSize")Integer minSize,
+			@Param("maxSize")Integer maxSize,
+			@Param("oid")String oid,
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	/**
+	 * 查询油品出入库总数量
+	 * @return
+	 */
+	Integer countRecord(String oid, String startTime,String endTime);
+
+	/**
+	 * 查询所有油品数量
+	 * @return
+	 */
+	Integer countStock();
+
+	/**
+	 * 查询所有油品
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	List<EquipmentLubricationOil> queryOilAllStock(Integer minSize, Integer maxSize);
+	
+	/**
+	 * 油品入库
+	 * @param ramount
+	 * @param oid
+	 * @return
+	 */
+	Integer updateStock(Integer ramount,String oid);
 }
