@@ -37,5 +37,7 @@ public class EquipmentInfo implements Serializable {
 	private String equMemoOne;
 	private String equipmentAttachURL;
 	private String equName;
-	
+	private String equCommissionDate;
+	private String equProducDate;
+	private String material;
 }

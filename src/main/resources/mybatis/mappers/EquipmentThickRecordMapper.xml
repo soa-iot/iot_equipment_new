@@ -58,7 +58,18 @@
 				</if>
 	</select>
 	
-	<!-- 1.2、统计条件查询设备测厚记录总条数	-->
+	<!-- 1.2、根据设备ID查找出设备测厚数据	-->
+	<!-- Integer findByEid(String eid); -->
+	<select id="findByEid" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_THICK
+		WHERE
+			EID = #{eid}
+	</select>
+	
+	<!-- 1.3、统计条件查询设备测厚记录总条数	-->
 	<!-- Integer countEquipRecord(
 			@Param("equipRecord") EquipmentThickRecord equipRecord, 
 			@Param("startDate") String startDate, 
@@ -86,27 +97,184 @@
 		</where>
 	</select>
 	
+	<!-- 1.4、根据条件查找出设备测厚数据	-->
+	<!-- List<EquipmentThickRecord> findEquipThick(
+			@Param("equipThick") EquipmentThickManagement equipThick,  
+			@Param("page") Integer page, 
+			@Param("limit") Integer limit) -->
+	<sql id="EquipmentThickManagementSQL">
+		tid, eid, positionnum, measuretype, pointnum, cycle, cycleunit, tname,
+		nextmeasuretime, filepath, creator, createtime, tremark1, tremark2,
+		equMemoOne, equCommissionDate, equProducDate, material, equModel, meduimType, welName
+	</sql>
+			
+	<select id="findEquipThick" resultType="cn.soa.entity.EquipmentThickManagement">
+		SELECT
+			<include refid="EquipmentThickManagementSQL"></include>
+		FROM
+			(
+				SELECT ROWNUM rownum1,equip_result.*
+				FROM(
+					SELECT thick.*, info.WEL_NAME welName, info.EQU_MEMO_ONE equMemoOne, info.EQU_COMMISSION_DATE equCommissionDate, 
+					info.EQU_PRODUC_DATE equProducDate, info.MATERIAL material, info.EQU_MODEL equModel, info.MEDUIM_TYPE meduimType
+					FROM
+						IOT_EQUIPMENT_THICK thick JOIN CZ_EQUIPMENT_INFO info
+						ON thick.eid = info.equ_id
+					<where>
+						<if test="equipThick != null">
+							<if test="equipThick.eid != null and equipThick.eid != ''">
+								thick.EID = #{equipThick.eid}
+							</if>
+							<if test="equipThick.positionnum != null and equipThick.positionnum != ''">
+								AND lower(thick.POSITIONNUM) LIKE lower('%${equipThick.positionnum}%')
+							</if>
+							<if test="equipThick.measuretype != null and equipThick.measuretype != ''">
+								AND lower(thick.MEASURETYPE) LIKE lower('%${equipThick.measuretype}%')
+							</if>
+							<if test="equipThick.pointnum != null">
+								AND thick.POINTNUM = #{equipThick.pointnum}
+							</if>
+							<if test="equipThick.cycle != null and equipThick.cycle != ''">
+								AND thick.CYCLE = #{equipThick.cycle}
+							</if>
+							<if test="equipThick.cycleunit != null and equipThick.cycleunit != ''">
+								AND thick.CYCLEUNIT = #{equipThick.cycleunit}
+							</if>
+							<if test="equipThick.nextmeasuretime != null and equipThick.nextmeasuretime != ''">
+								AND to_char(thick.NEXTMEASURETIME,"YYYY-MM-DD") = #{equipThick.nextmeasuretime}
+							</if>
+							<if test="equipThick.creator != null and equipThick.creator != ''">
+								AND thick.CREATOR = #{equipThick.creator}
+							</if>
+							<if test="equipThick.equMemoOne != null and equipThick.equMemoOne != ''">
+								AND lower(info.EQU_MEMO_ONE) LIKE lower('%${equipThick.equMemoOne}%')
+							</if>
+							<if test="equipThick.equCommissionDate != null and equipThick.equCommissionDate != ''">
+								AND info.EQU_COMMISSION_DATE = #{equipThick.equCommissionDate}
+							</if>
+							<if test="equipThick.equProducDate != null and equipThick.equProducDate != ''">
+								AND info.EQU_PRODUC_DATE = #{equipThick.equProducDate}
+							</if>
+							<if test="equipThick.material != null and equipThick.material != ''">
+								AND lower(info.MATERIAL) LIKE lower('%${equipThick.material}%')
+							</if>
+							<if test="equipThick.equModel != null and equipThick.equModel != ''">
+								AND lower(info.EQU_MODEL) LIKE lower('%${equipThick.equModel}%')
+							</if>
+							<if test="equipThick.meduimType != null and equipThick.meduimType != ''">
+								AND lower(info.MEDUIM_TYPE) LIKE lower('%${equipThick.meduimType}%')
+							</if>
+							<if test="equipThick.welName != null and equipThick.welName != ''">
+								AND lower(info.WEL_NAME) LIKE lower('%${equipThick.welName}%')
+							</if>
+						</if>
+					</where>
+					ORDER BY thick.NEXTMEASURETIME ASC
+				) equip_result
+				WHERE 
+				<if test="limit != null and page != null">
+						ROWNUM &lt;= ${page * limit}
+				</if>
+			)
+			WHERE
+				<if test="limit != null and page != null">
+						rownum1 &gt; ${(page-1) * limit}
+				</if>
+	</select>
+	
+	
+	<!-- 1.5、统计条件查询设备测厚记录总条数	-->
+	<!-- Integer countEquipThick(@Param("equipThick") EquipmentThickManagement equipThick) -->
+	<select id="countEquipThick" resultType="int">
+		SELECT COUNT(1)
+		FROM
+			IOT_EQUIPMENT_THICK thick JOIN CZ_EQUIPMENT_INFO info
+			ON thick.eid = info.equ_id
+		<where>
+			<if test="equipThick != null">
+				<if test="equipThick.eid != null and equipThick.eid != ''">
+					thick.EID = #{equipThick.eid}
+				</if>
+				<if test="equipThick.positionnum != null and equipThick.positionnum != ''">
+					AND lower(thick.POSITIONNUM) LIKE lower('%${equipThick.positionnum}%')
+				</if>
+				<if test="equipThick.measuretype != null and equipThick.measuretype != ''">
+					AND lower(thick.MEASURETYPE) LIKE lower('%${equipThick.measuretype}%')
+				</if>
+				<if test="equipThick.pointnum != null">
+					AND thick.POINTNUM = #{equipThick.pointnum}
+				</if>
+				<if test="equipThick.cycle != null and equipThick.cycle != ''">
+					AND thick.CYCLE = #{equipThick.cycle}
+				</if>
+				<if test="equipThick.cycleunit != null and equipThick.cycleunit != ''">
+					AND thick.CYCLEUNIT = #{equipThick.cycleunit}
+				</if>
+				<if test="equipThick.nextmeasuretime != null and equipThick.nextmeasuretime != ''">
+					AND to_char(thick.NEXTMEASURETIME,"YYYY-MM-DD") = #{equipThick.nextmeasuretime}
+				</if>
+				<if test="equipThick.creator != null and equipThick.creator != ''">
+					AND thick.CREATOR = #{equipThick.creator}
+				</if>
+				<if test="equipThick.equMemoOne != null and equipThick.equMemoOne != ''">
+					AND lower(info.EQU_MEMO_ONE) LIKE lower('%${equipThick.equMemoOne}%')
+				</if>
+				<if test="equipThick.equCommissionDate != null and equipThick.equCommissionDate != ''">
+					AND info.EQU_COMMISSION_DATE = #{equipThick.equCommissionDate}
+				</if>
+				<if test="equipThick.equProducDate != null and equipThick.equProducDate != ''">
+					AND info.EQU_PRODUC_DATE = #{equipThick.equProducDate}
+				</if>
+				<if test="equipThick.material != null and equipThick.material != ''">
+					AND lower(info.MATERIAL) LIKE lower('%${equipThick.material}%')
+				</if>
+				<if test="equipThick.equModel != null and equipThick.equModel != ''">
+					AND lower(info.EQU_MODEL) LIKE lower('%${equipThick.equModel}%')
+				</if>
+				<if test="equipThick.meduimType != null and equipThick.meduimType != ''">
+					AND lower(info.MEDUIM_TYPE) LIKE lower('%${equipThick.meduimType}%')
+				</if>
+				<if test="equipThick.welName != null and equipThick.welName != ''">
+					AND lower(info.WEL_NAME) LIKE lower('%${equipThick.welName}%')
+				</if>
+			</if>
+		</where>	
+	</select>
+	
 	
 	<!-- ===========================2、新增===============================  -->
-	<!-- 2.1、插入设备大事件数据	-->
-	<!-- Integer addEvent(EquipmentBigEvent event) -->
-	<!-- <insert id="addEvent" parameterType="cn.soa.entity.EquipmentBigEvent">
-		<selectKey order="BEFORE" resultType="string" keyProperty="beid">
+	<!-- 2.1、新增设备测厚数据	-->
+	<!-- Integer insertEquipThick(EquipmentThickManagement equipThick); -->
+	
+	<insert id="insertEquipThick" parameterType="cn.soa.entity.EquipmentThickManagement">
+		<selectKey order="BEFORE" resultType="string" keyProperty="tid">
 			select sys_guid() from dual 
 		</selectKey>
 		INSERT INTO
-			IOT_EQUIPMENT_BIGEVENT
+			IOT_EQUIPMENT_THICK
+			(
+				TID, EID, POSITIONNUM, MEASURETYPE, TNAME, POINTNUM,
+				CYCLE, CYCLEUNIT, NEXTMEASURETIME, FILEPATH, CREATOR,
+				CREATETIME, TREMARK1, TREMARK2
+			)
 		VALUES
 			(
-				#{beid, jdbcType=VARCHAR}, 
-				#{mrid, jdbcType=VARCHAR}, 
-				#{positionNum, jdbcType=VARCHAR}, 
-				#{event, jdbcType=VARCHAR}, 
-				#{eventTime}, 
-				#{remark1, jdbcType=VARCHAR}, 
-				#{remark2, jdbcType=VARCHAR}
+				#{tid, jdbcType=VARCHAR}, 
+				#{eid, jdbcType=VARCHAR}, 
+				#{positionnum, jdbcType=VARCHAR},
+				#{measuretype, jdbcType=VARCHAR}, 
+				#{tname, jdbcType=VARCHAR}, 
+				#{pointnum, jdbcType=INTEGER}, 
+				#{cycle, jdbcType=VARCHAR},
+				#{cycleunit, jdbcType=VARCHAR},
+				#{nextmeasuretime, jdbcType=DATE},
+				#{filepath, jdbcType=VARCHAR},
+				#{creator, jdbcType=VARCHAR},
+				#{creatime, jdbcType=DATE},
+				#{tremark1, jdbcType=VARCHAR}, 
+				#{tremark2, jdbcType=VARCHAR}
 			)	
-	</insert> -->
+	</insert>
 	
 	<!-- ===========================3、修改===============================  -->
 

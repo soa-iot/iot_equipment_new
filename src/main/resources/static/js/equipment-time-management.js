@@ -270,7 +270,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 			type: 2,
 			id:"locationEquipment",
 			title: '设备定位',
-			content: './equipment-record-location.html?equMemoOne='+$("#equipType_").val(),
+			content: './equipment-time-location.html?equMemoOne='+$("#equipType_").val(),
 			offset: ['50px','15%'],
 	    	area: ['68%','82%'],
 			btn: ['添&nbsp;&nbsp;加', '取消'],

@@ -45,14 +45,14 @@
 }
 
 #imgList, #imgZmList, #imgListdz, #imgListpz, #imgListyy {
-    width: 860px;
+    width: 660px;
     position: relative;
     margin: 0px auto;
     min-height: 150px;
 }
 
     #imgList li, #imgZmList li, #imgListdz li #imgListpz li #imgListyy li {
-        width: 180px;
+        width: 300px;
         height: 150px;
         float: left;
         margin-right:3px;
@@ -216,7 +216,7 @@ body,.layui-table-body tr{
 	width: 400px;
 }
 
-#addEquipment{
+#addEquipment, #equipAdd{
 	background-color: #EDF6FA;
 }
 
@@ -224,3 +224,4 @@ body,.layui-table-body tr{
 	width: 550px;
 	min-width: 400px;
 }
+

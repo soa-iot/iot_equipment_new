@@ -47,7 +47,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	var recordTable = table.render({
 		elem: '#equipMeasureRecord',
 		method: 'get',
-		url: '/iot_equipment/equipment/thick/query',
+		url: '/iot_equipment/equipment/thick/record/query',
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		page: true,   //开启分页

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.EquipmentBigEvent;
 import cn.soa.entity.EquipmentMoveRunningTime;
+import cn.soa.entity.EquipmentThickManagement;
 import cn.soa.entity.EquipmentThickRecord;
 import cn.soa.entity.ResultJsonForTable;
 
@@ -21,7 +22,22 @@ public interface EquipmentThickRecordSI {
 	 * @param  equipRecord 设备测厚查询条件
 	 * @return 设备测厚记录列表
 	 */
-	ResultJsonForTable<List<EquipmentThickRecord>> findByPositionNum(
+	ResultJsonForTable<List<EquipmentThickRecord>> findEquipRecord(
 			EquipmentThickRecord record, String startDate, String endDate, Integer page, Integer limit);
 	
+	/**
+	 * 新增设备测厚数据
+	 * @param  equipThick 设备数据
+	 * @return 结果
+	 */
+	String addEquipThick(EquipmentThickManagement equipThick);
+	
+	/**
+	 * 根据条件查找出设备测厚数据
+	 * @param  equipRecord 设备测厚查询条件
+	 * @return 设备测厚列表
+	 */
+	ResultJsonForTable<List<EquipmentThickManagement>> findEquipThick(
+			EquipmentThickManagement equipThick, Integer page, Integer limit);
+
 }

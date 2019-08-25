@@ -20,7 +20,10 @@
 		SERIAL_NUM serialNum,
 		EQU_MEMO_ONE equMemoOne,
 		EQUIPMENT_ATTACH_URL equipmentAttachURL,
-		EQU_NAME equName
+		EQU_NAME equName,
+		EQU_PRODUC_DATE equCommissionDate,
+		EQU_COMMISSION_DATE equProducDate,
+		MATERIAL material
 	</sql>
 	
 	<select id="findEquInfo" resultType="cn.soa.entity.EquipmentInfo">
@@ -63,10 +66,14 @@
 							and SERIAL_NUM = #{equinfo.serialNum}
 						</if>
 						<if test="equinfo.equMemoOne != null and equinfo.equMemoOne != ''">
-							and lower(EQU_MEMO_ONE) LIKE lower('%${equinfo.equMemoOne}%')
-						</if>
-						<if test="equinfo.equMemoOne == null or equinfo.equMemoOne == ''">
-							and EQU_MEMO_ONE in ('K类设备','P类设备')
+							<choose>
+								<when test="equinfo.equMemoOne == 'KP' ">
+									and EQU_MEMO_ONE in ('K类设备','P类设备')
+								</when>
+								<otherwise>
+									and lower(EQU_MEMO_ONE) LIKE lower('%${equinfo.equMemoOne}%')
+								</otherwise>
+							</choose>
 						</if>
 						<if test="equinfo.equipmentAttachURL != null and equinfo.equipmentAttachURL != ''">
 							and EQUIPMENT_ATTACH_URL = #{equinfo.equipmentAttachURL}
@@ -126,10 +133,14 @@
 				and SERIAL_NUM = #{serialNum}
 			</if>
 			<if test="equMemoOne != null and equMemoOne != ''">
-				and lower(EQU_MEMO_ONE) LIKE lower('%${equMemoOne}%')
-			</if>
-			<if test="equMemoOne == null or equMemoOne == ''">
-				and EQU_MEMO_ONE in ('K类设备','P类设备')
+				<choose>
+					<when test="equMemoOne == 'KP' ">
+						and EQU_MEMO_ONE in ('K类设备','P类设备')
+					</when>
+					<otherwise>
+						and lower(EQU_MEMO_ONE) LIKE lower('%${equMemoOne}%')
+					</otherwise>
+				</choose>
 			</if>
 			<if test="equipmentAttachURL != null and equipmentAttachURL != ''">
 				and EQUIPMENT_ATTACH_URL = #{equipmentAttachURL}
