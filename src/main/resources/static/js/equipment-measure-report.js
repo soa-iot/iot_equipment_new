@@ -112,7 +112,7 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 					if(data == null || data == '' ){
 						$("#no-data").css({"display": "block"});
 						$("#no-data").find("h1").text($("#positionnum").val()+" 设备位号不存在");
-					}else if(data.measureRecord == null){
+					}else if(data.measureRecord == null || data.measureRecord.length == 0){
 						$("#no-data").css({"display": "block"});
 						$("#no-data").find("h1").text($("#positionnum").val()+" 设备没有测厚记录");
 					}else{
@@ -147,6 +147,10 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 	 */
 	
 	function initData(data){
+		legendList.length = 0; 
+		xAxisList.length = 0; 
+		seriesList.length = 0; 
+		tempList.length = 0;
 		var count = 0;
 		var obj = {};
 		obj.type = 'line';
