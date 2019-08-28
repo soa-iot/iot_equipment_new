@@ -2,10 +2,6 @@ package cn.soa.service.intel;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import cn.soa.entity.EquipmentBigEvent;
-import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.EquipmentThickManagement;
 import cn.soa.entity.EquipmentThickRecord;
 import cn.soa.entity.ResultJsonForTable;
@@ -39,5 +35,25 @@ public interface EquipmentThickRecordSI {
 	 */
 	ResultJsonForTable<List<EquipmentThickManagement>> findEquipThick(
 			EquipmentThickManagement equipThick, Integer page, Integer limit);
+	
+	/**
+	 * 根据设备位号和年份查找出设备测厚记录数据
+	 * @param  positionnum 设备位号
+	 * @param  startYear 开始年份
+	 * @param  endYear 结束年份
+	 * @return 设备测厚记录
+	 */
+	EquipmentThickManagement findEquipRecordByPositionnumAndYear(
+			String positionnum, String startYear, String endYear);
+	
+	/**
+	 * 根据设备eid和测量时间查找出设备测厚记录数据
+	 * @param  eid 设备id
+	 * @param  measuretime 测量时间
+	 * @return 设备测厚记录
+	 */
+	List<EquipmentThickRecord> findEquipRecordByEidAndTime(
+			String eid, String measuretime);
+	
 
 }

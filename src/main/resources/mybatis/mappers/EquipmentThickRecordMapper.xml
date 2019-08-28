@@ -15,7 +15,7 @@
 	
 	<sql id="EquipmentThickRecordSQL">
 		trid, eid, positionnum, measurevalue, measuror, measuretime, ttype,
-		tstate, tnote, tremark1, tremark2, equipPositionNum, equipName
+		tstate, tnote, tremark1, tremark2, equipPositionNum, equipName, filepath
 	</sql>
 			
 	<select id="findEquipRecord" resultType="cn.soa.entity.EquipmentThickRecord">
@@ -25,7 +25,11 @@
 			(
 				SELECT ROWNUM rownum1,equip_result.*
 				FROM(
-					SELECT record.*, equip.POSITIONNUM AS equipPositionNum, equip.TNAME AS equipName
+					SELECT 
+						MIN(record.trid) trid, MIN(record.eid) eid, MIN(record.positionnum) positionnum, MIN(record.measurevalue) measurevalue,
+						MIN(record.measuror) measuror, MIN(record.measuretime) measuretime, MIN(record.ttype) ttype, MIN(record.tstate) tstate,
+						MIN(record.tnote) tnote, MIN(record.tremark1) tremark1, MIN(record.tremark2) tremark2, MIN(equip.POSITIONNUM) equipPositionNum,
+						MIN(equip.TNAME) equipName, MIN(equip.filepath) filepath
 					FROM
 						IOT_EQUIPMENT_THICK_RECORD record JOIN IOT_EQUIPMENT_THICK equip
 						ON record.eid = equip.eid
@@ -45,7 +49,8 @@
 							</if>
 						</if>
 					</where>
-					ORDER BY record.MEASURETIME DESC
+					GROUP BY record.MEASURETIME, equip.POSITIONNUM
+					ORDER BY record.MEASURETIME ASC
 				) equip_result
 				WHERE 
 				<if test="limit != null and page != null">
@@ -75,7 +80,7 @@
 			@Param("startDate") String startDate, 
 			@Param("endDate") String endDate); -->
 	<select id="countEquipRecord" resultType="int">
-		SELECT count(1)
+		SELECT count(MIN(record.POSITIONNUM))
 		FROM
 			IOT_EQUIPMENT_THICK_RECORD record JOIN IOT_EQUIPMENT_THICK equip
 			ON record.eid = equip.eid
@@ -95,9 +100,52 @@
 				</if>
 			</if>
 		</where>
+		GROUP BY record.MEASURETIME, equip.POSITIONNUM
 	</select>
 	
-	<!-- 1.4、根据条件查找出设备测厚数据	-->
+	<!-- 1.4、根据设备id和年份查找出设备测厚记录数据	-->
+	<!-- List<EquipmentThickRecord> findEquipRecordByEidAndYear(
+			@Param("eid") String eid, 
+			@Param("measuretime") String measuretime,
+			@Param("startYear") String startYear, 
+			@Param("endYear") String endYear) -->
+	<select id="findEquipRecordByEidAndYear" resultType="cn.soa.entity.EquipmentThickRecord">
+		SELECT
+			trid, eid, positionnum, measurevalue, measuror, measuretime, ttype,
+			tstate, tnote, tremark1, tremark2
+		FROM
+			IOT_EQUIPMENT_THICK_RECORD
+		<where>
+			EID = #{eid, jdbcType=VARCHAR}
+			<if test="measuretime != null and measuretime != ''">
+				AND to_char(MEASURETIME, 'YYYY-MM-DD') = #{measuretime, jdbcType=VARCHAR}
+			</if>
+			<if test="startYear != null and startYear != ''">
+				AND to_char(MEASURETIME, 'YYYY') &gt;= #{startYear, jdbcType=VARCHAR}
+			</if>
+			<if test="endYear != null and endYear != ''">
+				AND to_char(MEASURETIME, 'YYYY') &lt;= #{endYear, jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY positionnum ASC, MEASURETIME ASC
+	</select>
+	
+	<!-- 1.5、根据设备位号精确查找出设备测厚数据	-->
+	<!-- EquipmentThickManagement findEquipThickByPositionnum(@Param("positionnum") String positionnum) -->
+	<select id="findEquipThickByPositionnum" resultType="cn.soa.entity.EquipmentThickManagement">
+		SELECT
+		thick.tid, thick.eid, thick.positionnum, thick.measuretype, thick.pointnum, thick.cycle, thick.cycleunit, thick.tname,
+		thick.nextmeasuretime, thick.filepath, thick.creator, thick.createtime, thick.tremark1, thick.tremark2,
+		info.EQU_MEMO_ONE equMemoOne, info.EQU_COMMISSION_DATE equCommissionDate, info.EQU_PRODUC_DATE equProducDate, info.MATERIAL material,
+		info.EQU_MODEL equModel, info.MEDUIM_TYPE meduimType, info.WEL_NAME welName
+		FROM
+			IOT_EQUIPMENT_THICK thick JOIN CZ_EQUIPMENT_INFO info
+			ON thick.eid = info.equ_id
+		WHERE
+			thick.POSITIONNUM = #{positionnum, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 1.6、根据条件查找出设备测厚数据	-->
 	<!-- List<EquipmentThickRecord> findEquipThick(
 			@Param("equipThick") EquipmentThickManagement equipThick,  
 			@Param("page") Integer page, 
@@ -130,6 +178,9 @@
 							</if>
 							<if test="equipThick.measuretype != null and equipThick.measuretype != ''">
 								AND lower(thick.MEASURETYPE) LIKE lower('%${equipThick.measuretype}%')
+							</if>
+							<if test="equipThick.tname != null and equipThick.tname != '' ">
+								AND lower(thick.TNAME) LIKE lower('%${equipThick.tname}%')
 							</if>
 							<if test="equipThick.pointnum != null">
 								AND thick.POINTNUM = #{equipThick.pointnum}
@@ -183,7 +234,7 @@
 	</select>
 	
 	
-	<!-- 1.5、统计条件查询设备测厚记录总条数	-->
+	<!-- 1.6、统计条件查询设备测厚总条数	-->
 	<!-- Integer countEquipThick(@Param("equipThick") EquipmentThickManagement equipThick) -->
 	<select id="countEquipThick" resultType="int">
 		SELECT COUNT(1)
@@ -203,6 +254,9 @@
 				</if>
 				<if test="equipThick.pointnum != null">
 					AND thick.POINTNUM = #{equipThick.pointnum}
+				</if>
+				<if test="equipThick.tname != null and equipThick.tname != '' ">
+					AND lower(thick.TNAME) LIKE lower('%${equipThick.tname}%')
 				</if>
 				<if test="equipThick.cycle != null and equipThick.cycle != ''">
 					AND thick.CYCLE = #{equipThick.cycle}

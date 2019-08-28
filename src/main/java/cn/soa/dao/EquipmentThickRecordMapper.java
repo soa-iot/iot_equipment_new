@@ -39,6 +39,27 @@ public interface EquipmentThickRecordMapper {
 			@Param("endDate") String endDate);
 	
 	/**
+	 * 根据设备id和年份查找出设备测厚记录数据
+	 * @param  eid 设备id
+	 * @param  measuretime 测量时间
+	 * @param  startYear 开始年份
+	 * @param  endYear 结束年份
+	 * @return 设备测厚记录列表
+	 */
+	List<EquipmentThickRecord> findEquipRecordByEidAndYear(
+			@Param("eid") String eid, 
+			@Param("measuretime") String measuretime,
+			@Param("startYear") String startYear, 
+			@Param("endYear") String endYear);
+	
+	/**
+	 * 根据设备位号精确查找出设备测厚数据
+	 * @param  positionnum 设备位号
+	 * @return 设备测厚数据
+	 */
+	EquipmentThickManagement findEquipThickByPositionnum(@Param("positionnum") String positionnum);
+	
+	/**
 	 * 新增设备测厚数据
 	 * @param  equipThick 设备数据
 	 * @return 生效行数

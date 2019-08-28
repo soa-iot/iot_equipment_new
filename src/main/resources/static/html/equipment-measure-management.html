@@ -19,25 +19,35 @@
 					    <div class="layui-inline">
 					      <label class="text-font layui-form-label" style="width: 70px;">装置列名</label>
 					      <div class="layui-input-inline" style="width: 115px;">
-					        <input type="text" class="layui-input">
+					        <select id="welName">
+					       	  <option value="">请选择</option>
+					          <option value="公共单元">公共单元</option>
+						      <option value="主体装置Ⅰ列">主体装置Ⅰ列</option>
+						      <option value="主体装置Ⅱ列">主体装置Ⅱ列</option>
+						      <option value="主体装置Ⅲ列">主体装置Ⅲ列</option>
+						      <option value="主体装置Ⅳ列">主体装置Ⅳ列</option>
+						      <option value="主体装置Ⅴ列">主体装置Ⅴ列</option>
+						      <option value="主体装置Ⅵ列">主体装置Ⅵ列</option>
+						      <option value="主体装置Ⅶ列">主体装置Ⅶ列</option>
+					        </select>
 					      </div>
 					    </div>
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 70px;">设备位号</label>
 					      <div class="layui-input-inline" style="width: 115px;">
-					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					        <input type="text" id="positionnum" class="layui-input layui-input-one" autocomplete="off">
 					      </div>
 					    </div>
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
 					      <div class="layui-input-inline" style="width: 115px;">
-					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					        <input type="text" id="tname" class="layui-input layui-input-one" autocomplete="off">
 					      </div>
 					    </div>
 					    <div class="layui-inline"> 
 					      <label class="text-font layui-form-label" style="width: 70px;">规格型号</label>
 					      <div class="layui-input-inline" style="width: 115px;">
-					        <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					        <input type="text" id="equModel" class="layui-input layui-input-one" autocomplete="off">
 					      </div>
 					    </div>
 				</div>
@@ -45,13 +55,13 @@
 					<div class="layui-inline">
 						<label class="text-font layui-form-label" style="width: 70px;">工作介质</label>
 					    <div class="layui-input-inline" style="width: 115px;">
-					      <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      <input type="text" id="meduimType" class="layui-input layui-input-one" autocomplete="off">
 					    </div>
 					</div>
 					<div class="layui-inline">
 						<label class="text-font layui-form-label" style="width: 70px;">仪器型号</label>
 					    <div class="layui-input-inline" style="width: 115px;">
-					      <input type="text" class="layui-input layui-input-one" autocomplete="off">
+					      <input type="text" id="measuretype" class="layui-input layui-input-one" autocomplete="off">
 					    </div>
 					</div>
 					<div class="layui-inline layui-inline-btn1"> 
@@ -152,6 +162,10 @@
 			</div>
 		</form>
 	</div>
+	
+	<script type="text/html" id="barBtn">
+  		<a class="layui-btn layui-btn-xs" lay-event="query">&nbsp;查看示图&nbsp;</a>
+	</script>
  	
 	<script src="../jsPackage/js/jquery-1.9.1.min.js"></script>
 	<script src="../jsPackage/own/universal.js"></script>

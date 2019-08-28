@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,6 +65,46 @@ public class EquipmentThickC {
 	}
 	
 	/**
+	 * 根据设备位号和年份精确查询设备测厚记录
+	 * @param positionnum  设备位号
+	 * @param startYear  开始年份
+	 * @param endYear   结束年份
+	 * @return
+	 */
+	@GetMapping("/record/report")
+	public ResultJson<EquipmentThickManagement> queryRecordByPositionAndYear(
+			String positionnum, String startYear, String endYear){
+		
+		log.info("---------进入queryRecordByPositionAndYear查询条件如下--------");
+		log.info("------查询的设备位号：{}", positionnum);
+		log.info("------开始年份：{} ，结束年份：{}", startYear, endYear);
+		
+		//调用业务层执行查询操作
+		EquipmentThickManagement result = equipThickRecordS.findEquipRecordByPositionnumAndYear(positionnum, startYear, endYear);
+		return new ResultJson<EquipmentThickManagement>(ResultJson.SUCCESS, "查询成功", result);
+	}
+	
+	/**
+	 * 根据设备eid和测量时间查找出设备测厚记录数据
+	 * @param  eid 设备id
+	 * @param  measuretime 测量时间
+	 * @return 设备测厚记录
+	 */
+	@GetMapping("/record/eid")
+	public ResultJson<List<EquipmentThickRecord>> queryRecordByEidAndTime(
+			String eid, String measuretime){
+		
+		log.info("---------进入queryRecordByEidAndTime查询条件如下--------");
+		log.info("------查询的设备id：{}", eid);
+		log.info("------查询的测量时间：{}-------", measuretime);
+		
+		//调用业务层执行查询操作
+		List<EquipmentThickRecord> result = equipThickRecordS.findEquipRecordByEidAndTime(eid, measuretime);
+		return new ResultJson<List<EquipmentThickRecord>>(ResultJson.SUCCESS, "查询成功", result);
+	}
+	
+	
+	/**
 	 * 根据条件查询设备测厚数据
 	 * @param record  查询条件
 	 * @param page    页数
@@ -84,6 +123,8 @@ public class EquipmentThickC {
 		ResultJsonForTable<List<EquipmentThickManagement>> result = equipThickRecordS.findEquipThick(equipThick, page, limit);
 		return result;
 	}
+	
+	
 	
 	
 	@Value("${thick.image.upload.path}")

@@ -139,7 +139,7 @@ body,.layui-table-body tr{
 	padding: 0px;
 	/* border:1px solid red; */
 	min-width: 860px;
-	width: 93%;
+	width: 90%;
 }
 
 .layui-form-label{
@@ -225,3 +225,15 @@ body,.layui-table-body tr{
 	min-width: 400px;
 }
 
+.data-display td{
+	border: 2px solid gray;
+}
+
+#thick-record-img{
+	width: auto;
+	min-width:250px; 
+	max-width:600px; 
+	height: auto; 
+	min-height:250px;
+	max-height: 600px;
+}

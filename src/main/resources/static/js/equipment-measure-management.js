@@ -51,7 +51,12 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 		},
 		parseData: function(res){ //res 即为原始返回的数据
 			var data = res.data     
-
+			
+			for(var i in data){
+				data[i].filepath = (data[i].filepath == null || data[i].filepath == '')
+									?null:(data[i].filepath.replace(/^[CDEFG]:\\equipment-thick\\/g,'/iot_equipment/picture/'));
+			}
+			
 		    return {
 		      "code": res.code, //解析接口状态
 		      "msg": res.msg, //解析提示文本
@@ -71,7 +76,9 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 			{field:'material', title:'设备材质', width:'10%', sort:false, align:'center'},
 			{field:'equProducDate', title:'制造年月', width:'10%', sort:false, align:'center'},
 			{field:'equCommissionDate', title:'投用年月', width:'10%', sort:false, align:'center'},
-			{field:'meduimType', title:'工作介质', width:'10%', sort:false, align:'center'}]]
+			{field:'meduimType', title:'工作介质', width:'10%', sort:false, align:'center'},
+			{field:'filepath', title:'图片路径', hide:true},
+			{fixed:'right', title:'测点示图', width:'10%', minWidth: 95, sort:false, align:'center', toolbar:'#barBtn'}]]
 	});
 	
 	/**
@@ -83,12 +90,48 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
     		   curr: 1 //重新从第 1 页开始
     	   }
     	   ,where: {
-    			'positionNum': $("#positionNum").val(),
-    			'equipType': $("#equipType").val(),
-    			'name': $("#name").val(),
+    		  'welName': $("#welName").val(),
+    		  'positionnum': $("#positionnum").val(),
+    		  'tname': $("#tname").val(),
+    		  'equModel': $("#equModel").val(),
+    		  'meduimType': $("#meduimType").val(),
+    		  'measuretype': $("#measuretype").val()
     	   }
     	})
 	}
+	
+	/**
+	 * 条件查询设备测厚数据
+	 */
+	$("#query-equipment").click(function(){
+		reloadEquipTable();
+	})
+	
+	/**
+	 * 监听每一行工具事件
+	 */
+	table.on('tool(equipMeasureManagement)', function(obj){
+		console.log(obj);
+	    var data = obj.data;
+	    if(obj.event === 'query'){
+	      var poisitionNum = data.positionnum;
+	      var path = data.filepath;
+	      console.log("测点示图路径为："+path);
+	      layer.open({
+				type: 1,
+				id:"showPicture",
+				title: poisitionNum+'测点示图',
+				content: '<div style="width:100%; text-align:center;"><img alt="测点示图" id="thick-record-img" src="'+path+'" /></div>',
+				area: ['800px','450px'],
+				offset: '50px',
+				btn: '关&nbsp;&nbsp;闭',
+				btnAlign: 'c', //按钮居中对齐
+				yes: function(index, layero){
+					layer.close(index);
+				}
+	      })
+	    }
+	});
 	
 	/**
 	 * 添加设备测厚弹窗展示new-equipment-window

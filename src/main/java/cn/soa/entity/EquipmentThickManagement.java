@@ -2,6 +2,8 @@ package cn.soa.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -47,4 +49,6 @@ public class EquipmentThickManagement implements Serializable {
 	private String equMemoOne;   //设备类别
 	private String meduimType;   //工作介质
 	private String welName;     //装置列名
+	/* 添加测点记录字段 */
+	private List<EquipmentThickRecord> measureRecord;  //测点记录集合
 }
