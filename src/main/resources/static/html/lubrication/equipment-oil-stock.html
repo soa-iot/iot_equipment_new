@@ -25,7 +25,7 @@
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品名称</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="oname" id="oname" class="layui-input" placeholder="油品名称">
+					<input type="text" name="oname" id="oname" class="layui-input" placeholder="请输入油品名称">
 					<span style="color: red" name="check" id="warning"></span>
 				</div>
 			</div>
@@ -46,19 +46,19 @@
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品类型</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="otype" id="otype" class="layui-input" placeholder="油品类型">
+					<input type="text" name="otype" id="otype" class="layui-input" placeholder="请输入油品类型">
 				</div>
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">生产厂家</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="manufacture" id="manufacture" class="layui-input">
+					<input type="text" name="manufacture" id="manufacture" class="layui-input" placeholder="请输入生产厂家">
 				</div>
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">牌号</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="osign" id="osign" class="layui-input">
+					<input type="text" name="osign" id="osign" class="layui-input" placeholder="请输入牌号">
 				</div>
 			</div>
 			<div class="layui-inline input-inline-padding">
@@ -74,8 +74,11 @@
 			<h1 style="text-align: center;margin: 10px">油品入库</h1>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label ">油品名称</label>
-				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="oname1" id="oname1" class="layui-input">
+				<div class="layui-input-inline layui-form" style="width: 260px" id="oname-div">
+					<!-- <input type="text" name="oname1" id="oname1" class="layui-input"> -->
+					<select  lay-submit lay-filter="sub-record" name="oname1" id="oname1"  lay-search="">
+			          <option value="">直接选择或搜索选择</option>
+			        </select>
 					<span style="color: red" name="check" id="warning1"></span>
 				</div>
 			</div>

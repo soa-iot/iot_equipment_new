@@ -1,6 +1,7 @@
 package cn.soa.entity.lubrication;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -21,10 +22,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Validated
 public class LubricateEquipmentPlace extends LubricateEquipment implements Serializable {
-	private static final long serialVersionUID = 1L;
 	
 	private String pid;
-	private String lid;
+	//private String lid;
 	private String pplace;
 	private String pnote;
 	private String ptype;
@@ -34,8 +34,8 @@ public class LubricateEquipmentPlace extends LubricateEquipment implements Seria
 	private String punit;
 	private String plastamount;
 	private String pamount;
-	private String nextchangetime;
-	private String lastchangetime;
+	private Date nextchangetime;
+	private Date lastchangetime;
 	private String premark1;
 	private String premark2;
 }

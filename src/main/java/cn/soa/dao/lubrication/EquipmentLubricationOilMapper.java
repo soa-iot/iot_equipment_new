@@ -1,6 +1,5 @@
 package cn.soa.dao.lubrication;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;

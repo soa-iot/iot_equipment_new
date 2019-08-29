@@ -12,8 +12,25 @@ var userid = "张三";
  $("#warningnum").hide();
  $("#warningnum1").hide();
  
+ 
+ $.ajax({
+	  type: 'post',
+	  async: false,
+	  url: '/iot_equipment/equipmentoil/queryoilallstock',
+	  dataType : "json",
+	  success: function(json){
+		  console.log(json)
+		  var data = json.data;
+		  console.log($(".layui-anim").html())
+		  
+		  $.each(data, function (i, item) {
+				var option = '<option  value="'+item.oname+'">'+item.oname+'</option>';
+				$("#oname1").append(option);
+			});
+	  }
+ 
+ })
 layui.use(['table','laydate','layer', 'form'], function(){
-	
 	
   var table = layui.table
   	  ,laydate = layui.laydate
@@ -59,14 +76,14 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  
 	  $("#oname1").blur(function(){
 		  console.log($("#oname1").val())
-		  if ($("#oname1").val() != "") {
+		  if ($("#oname1").val() != "" && $("#oname1").val() != 0) {
 			  nameCheck("oname1",$("#oname1").val());
 		}else{
 			$("#warning1").html("*油品名称不能为空*")
 			$("#warning1").attr("name","uncheck")
 			$("#warning1").show();
 		}
-		  console.log($("#warning1").attr("name"));
+		  console.log( "warning1:"+$("#warning1").attr("name"));
 		 
 	  });
 	  
@@ -163,9 +180,13 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  });
 	  
 	  form.on('submit(oil-stock)', function(obj){
+		  
 
 		  console.log(obj)
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+		 
+		  console.log($(".layui-select-none").html());
+		  
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 

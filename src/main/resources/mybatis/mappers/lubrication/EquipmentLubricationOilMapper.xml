@@ -34,9 +34,16 @@
 	          		<include refid="EquipmentLubricationOilSQL"></include>
 	            FROM 
 	            	IOT_EQUIPMENT_LUBRICATION_OIL ORDER BY cast(ostock as int))
-				WHERE 
-					ROWNUM <![CDATA[ <= ]]> #{maxSize} )
- 		WHERE rn <![CDATA[ > ]]>  #{minSize} 
+				WHERE
+					1=1 
+					<if test="maxSize != null and maxSize != ''">
+						AND	ROWNUM <![CDATA[ <= ]]> #{maxSize} 
+					</if>)
+ 			WHERE 
+ 				1=1
+				<if test="minSize != null and minSize != ''">
+		 			AND	rn <![CDATA[ > ]]>  #{minSize} 
+		 		</if>
 		<!-- AND ROWNUM  
 		AND ROWNUM  -->
 	</select>

@@ -1,6 +1,5 @@
 package service.test;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -11,10 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.soa.IotEquipmentApplication;
-import cn.soa.dao.lubrication.EquipmentLubricationOilMapper;
 import cn.soa.entity.lubrication.EquipmentLubricationOil;
-import cn.soa.entity.lubrication.EquipmentOilRecord;
 import cn.soa.entity.lubrication.EquipmentOilRecordVO;
+import cn.soa.entity.lubrication.LubricateEquipmentRecord;
 import cn.soa.service.intel.lubrication.EquipmentLubricationOilSI;
 
 @RunWith(SpringRunner.class)
@@ -50,7 +48,18 @@ public class EquipmentLubricationOilServiceTest {
 	@Test 
 	public void findOilAllTest() { 
 		List<EquipmentOilRecordVO> row = equipmentLubricationOilSI.queryOilAll(1,10,null,"2019-06-06 08:06:22","2020-06-06 08:06:22");
-	System.err.println("插入油品数量："+row); }
+		System.err.println("插入油品数量："+row); 
+	}
+	
+	@Test 
+	public void entityTest() { 
+		LubricateEquipmentRecord lubricateEquipmentRecord = new LubricateEquipmentRecord();
+		lubricateEquipmentRecord.setLid("lid");
+		lubricateEquipmentRecord.setPid("pid");
+		lubricateEquipmentRecord.setRid("rid");
+		lubricateEquipmentRecord.setOid("oid");
+		System.err.println("插入油品数量："+lubricateEquipmentRecord); 
+	}
 	
 
 }

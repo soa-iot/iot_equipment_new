@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
@@ -21,11 +22,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Validated
 public class LubricateEquipmentRecord extends LubricateEquipmentPlace implements Serializable {
-	private static final long serialVersionUID = 1L;
 	
 	private String rid; 
-	private String lid; 
-	private String pid; 
+	//private String lid; 
+	//private String pid; 
 	private String oid; 
 	private String excutor; 
 	private String ptime; 
@@ -34,5 +34,13 @@ public class LubricateEquipmentRecord extends LubricateEquipmentPlace implements
 	private String rnote; 
 	private String ramount; 
 	private String rremark1; 
-	private String rremark2; 
+	private String rremark2;
+//	@Override
+//	public String toString() {
+//		
+//		return "LubricateEquipmentRecord [rid=" + rid + ", oid=" + oid + ", excutor=" + excutor + ", ptime=" + ptime
+//				+ ", operatestate=" + operatestate + ", operatetype=" + operatetype + ", rnote=" + rnote + ", ramount="
+//				+ ramount + ", rremark1=" + rremark1 + ", rremark2=" + rremark2 + "]"+super.toString();
+//	} 
 }
+

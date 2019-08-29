@@ -2,3 +2,11 @@
 	padding-top: 6px;
 	padding-bottom: 6px;
 }
+.layui-input{
+	line-height: 3;
+}
+
+.layui-form-select dl{
+	max-height: 220px;
+	/* top:0px; */
+}
