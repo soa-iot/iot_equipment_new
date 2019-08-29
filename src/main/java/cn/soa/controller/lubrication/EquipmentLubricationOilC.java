@@ -1,7 +1,6 @@
 package cn.soa.controller.lubrication;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,12 +68,13 @@ public class EquipmentLubricationOilC {
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/queryoilall")
-	public ResultJsonForTable<List<EquipmentOilRecordVO>> queryOilAll(Integer page,Integer limit,String oid, String startTime,String endTime) throws ParseException {
+	public ResultJsonForTable<List<EquipmentOilRecordVO>> queryOilAll(Integer page,Integer limit,String oid, String startTime,String endTime) {
 		
 		log.info("==============================出入库记录查询================================");
 		
 		log.info("==================oid："+oid);
 		log.info("==================startTime："+startTime);
+		
 		log.info("==================endTime："+endTime);
 		
 		log.info("===================每页条数："+limit+"第几页："+page);

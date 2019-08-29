@@ -21,13 +21,12 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Validated
 public class LubricateEquipment implements Serializable {
-	private static final long serialVersionUID = 1L;
 	
 	private String lid;
 	private String lnamekey;
 	private String lname;
 	private String lnumber;
-	private String lstate;
+	private Integer lstate;
 	private String ltype;
 	private String lposition1;
 	private String lposition2;

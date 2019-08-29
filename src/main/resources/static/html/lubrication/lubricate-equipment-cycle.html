@@ -20,23 +20,25 @@
 		</div>
 		
 		<!-- 新增润滑设备 -->
-		<div class="layui-form-item" id="add-oil-div">
-			<h1 style="text-align: center;margin: 10px">新增油品</h1>
+		<div class="layui-form-item" id="add-lub-div">
+			<h1 style="text-align: center;margin: 10px">新增换油设备</h1>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">设备位号</label>
 				<div class="layui-input-inline" style="width: 180px">
-					<input type="text" name="oname" id="oname" class="layui-input" placeholder="请选择设备位号" >
+					<input type="text" name="equPositionNum" id="equPositionNum" class="layui-input" placeholder="请选择设备位号" >
 					<span style="color: red" name="check" id="warning"></span>
 				</div>
 					<button type="button" class="layui-btn layui-btn-sm" lay-submit lay-filter="choose-equ" id="choose-equ" style="margin-top: 5px;">选择设备</button>
 			</div>
+			
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">设备名称</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="ostock" id="ostock"  min="0" value="0" class="layui-input"  disabled="disabled">
+					<input type="text" name="equName" id="equName" class="layui-input" placeholder="请输入设备名称"  disabled="disabled">
 					<!-- <span style="color: red" name="check" id="warningnum">*请输入大于0的数量*</span> -->
 				</div>
 			</div>
+			
 			<!-- <div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品状态</label>
 				<div class="layui-input-inline" style="width: 260px">
@@ -44,30 +46,54 @@
 						autocomplete="off" class="layui-input">
 				</div>
 			</div> -->
+			
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">润滑部位</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="otype" id="otype" class="layui-input" placeholder="润滑部位">
+					<input type="text" name="pplace" id="pplace" class="layui-input" placeholder="请输入润滑部位">
+				</div>
+			</div>
+			
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">要求油品1</label>
+				<div class="layui-input-inline layui-form" style="width: 260px">
+					<select  lay-submit lay-filter="sub-record" name="oname" id="oname"  lay-search="">
+			          <option value="">直接选择或搜索选择</option>
+			        </select>
+				</div>
+			</div>
+			
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label">要求油品2</label>
+				<div class="layui-input-inline layui-form" style="width: 260px">
+					<select  lay-submit lay-filter="sub-record" name="oname1" id="oname1"  lay-search="">
+			          <option value="">直接选择或搜索选择</option>
+			        </select>
+				</div>
+			</div>
+			
+			<div class="layui-inline input-inline-padding">
+				<label class="layui-form-label" style="margin-left: -10px;width: 90px;">润滑周期</label>
+				<div class="layui-input-inline" style="width: 60px">
+					<input type="number" name="pfrequency" id="pfrequency" value="0" class="layui-input">
+				</div>
+				<div class="layui-input-inline layui-form" style="width: 90px">
+					<select  lay-submit lay-filter="sub-record" name="oname" id="oname"  lay-search="">
+			          <option value="">单位</option>
+			          <option value="日">日</option>
+			          <option value="月">月</option>
+			          <option value="年">年</option>
+			        </select>
 				</div>
 			</div>
 			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">油品</label>
+				<label class="layui-form-label">标准加油量</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="manufacture" id="manufacture" class="layui-input">
+					<input type="number" name="pamount" id="pamount" value="0" class="layui-input">
 				</div>
 			</div>
-			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">加油量</label>
-				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="osign" id="osign" class="layui-input">
-				</div>
-			</div>
-			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">润滑周期</label>
-				<div class="layui-input-inline" style="width: 260px">
-					<input type="date" name="osign" id="osign" class="layui-input">
-				</div>
-			</div>
+			
+			
 		</div>
 		
 		<!-- 新增入库 -->

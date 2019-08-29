@@ -1,5 +1,8 @@
 package cn.soa.service.impl.lubrication;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -124,6 +127,20 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 		Integer minSize = (page - 1 ) * limit;
 		Integer maxSize = page * limit;
 		
+		if (endTime != null && !"".equals(endTime)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			Calendar calendar = Calendar.getInstance();
+			try {
+				calendar.setTime(sdf.parse(endTime));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			Date newTime = calendar.getTime();
+			endTime = sdf.format(newTime);
+			
+		}
+		
 		log.info("=======================minSize:"+minSize);
 		log.info("=======================maxSize:"+maxSize);
 		log.info("=======================oid:"+oid);
@@ -148,8 +165,13 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 	@Override
 	public List<EquipmentLubricationOil> queryOilAllStock(Integer page, Integer limit) {
 		
-		Integer minSize = (page - 1 ) * limit;
-		Integer maxSize = page * limit;
+		Integer minSize = null;
+		Integer maxSize = null;
+		
+		if (page != null && limit != null) {
+			minSize = (page - 1 ) * limit;
+			maxSize = page * limit;
+		}
 		
 		return equipmentLubricationOilMapper.queryOilAllStock(minSize, maxSize);
 	}
