@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.EquipmentMoveRunningCountTimeMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1、根据设备位号查找设备大事件信息	-->
+	<!-- List<EquipmentBigEvent> findByPositionNum(
+			@Param("positionNum") String positionNum, 
+			@Param("page") Integer page, 
+			@Param("limit") Integer limit) -->
+
+			
+	<select id="findChangeOrFixDate" resultType="java.util.HashMap">
+		SELECT
+			positionnum,event,eventtime
+		FROM
+			IOT_EQUIPMENT_BIGEVENT
+			where positionnum=#{position}
+			and event=#{event}
+			and to_char(EVENTTIME,'YYYY') =#{time}
+			order by EVENTTIME desc;
+	</select>
+		<!-- 1.2、获取初始化的运行记录时间	-->
+	
+	<select id="countEquipmentRunningOrgTime" resultType="java.util.HashMap">
+		SELECT
+			positionnum position ,originalltime value
+		FROM 
+			IOT_EQUIPMENT_MOVE_RUNNINGTIME
+	</select>
+			<!-- 1.2、获取所有需要统计的动设备	-->
+		<select id="findAll" resultType="cn.soa.entity.EquipmentMoveRunningTime">
+		SELECT
+			*
+		FROM IOT_EQUIPMENT_MOVE_RUNNINGTIME		
+	</select>
+</mapper>
+ 
+
