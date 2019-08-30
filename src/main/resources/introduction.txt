@@ -40,12 +40,18 @@
 	2.1 定时生成日统计数据:
 		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc2"
 		BEGIN
-			SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1h)
+			SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1m),*
 		END
 	
-		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc2" BEGIN SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1d) END
-		
+	CREATE CONTINUOUS QUERY equipment_running_day1 ON jhc BEGIN SELECT SUM(value) INTO iot_equipment_running_dayMonitor FROM iot_equipment_running_monitor GROUP BY time(5m,-8h),*  END
+		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc1" BEGIN SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1m),* END
+		CREATE CONTINUOUS QUERY "equipment_running_day1" on "jhc2" BEGIN SELECT SUM(value) INTO "iot_equipment_running_dayMonitor1" FROM "iot_equipment_running_monitor" GROUP BY time(5m),* END
+			
+			
+			
+			CREATE CONTINUOUS QUERY equipment_running_day ON jhc BEGIN SELECT sum(value) INTO jhc.autogen.iot_equipment_running_dayMonitor FROM jhc.autogen.iot_equipment_running_monitor GROUP BY time(5m), * END	
 		insert iot_equipment_running_dayMonitor,position="1",number="1" value="10"
+		
 	2.2 定时生成日统计数据:
 	
 

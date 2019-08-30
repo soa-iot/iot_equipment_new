@@ -14,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import cn.soa.domain.EquipmentRunningInitInfo;
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.RunningEquipments;
 import cn.soa.service.intel.EquipmentMoveRunningTimeSI;
@@ -79,7 +80,7 @@ public class RunningEquipmentConfig {
 		//判断是否开启监听
 		if( isMonitor ) {
 			try {
-				Map<String, Object> data = equipmentRunningMonitor.startMonitorDataT();
+				Map<String, Integer> data = equipmentRunningMonitor.startMonitorDataT();
 				if( data == null || data.isEmpty() ) {
 					logger.info( "----------失败：数据为null或空---------" );
 					logger.info( "----------设备运行时间开启失败……" );
@@ -93,5 +94,21 @@ public class RunningEquipmentConfig {
 		}else {
 			logger.info( "-----------配置关闭设备运行监听---------" );
 		}		
+	}
+	
+	@Bean
+	public EquipmentRunningInitInfo init(){
+		logger.info("----------初始化加载动设备运行时间的设备信息---------");
+		try {
+			EquipmentRunningInitInfo e = new EquipmentRunningInitInfo();
+			e.setEquipmentInfoKeyPosition( equipRunningS.getEquipPositionAndNumberAndDCS() );
+			logger.info("----------初始化加载动设备运行时间成功---------");
+			return e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("----------初始化加载动设备运行时间失败---------");
+			return null;
+		}
+		
 	}
 }
