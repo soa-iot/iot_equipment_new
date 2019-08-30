@@ -34,7 +34,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	var yearlyTable = table.render({
 		elem: '#yearlyReport',
 		method: 'post',
-		url: '#',
+		url: 'iot_equipment/equipmen_influx/query',
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		totalRow: true,
@@ -53,60 +53,26 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		    };
 		},
 		cols: [[{field:'id', title:'序号', width:60, sort:false, type:'numbers', fixed:'left', align:'center'},
-			{field:'rfid', title:'设备位号', width:120, sort:true, align:'center'},
-			{field:'applypeople', title:'1月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'2月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'3月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'4月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'5月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'6月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'7月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'8月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'9月', width:60, sort:true, align:'center'},
-			{field:'applypeople', title:'10月', width:70, sort:true, align:'center'},
-			{field:'applypeople', title:'11月', width:70, sort:true, align:'center'},
-			{field:'applypeople', title:'12月', width:70, sort:true, align:'center'},
-			{field:'applypeople', title:'当年累计运行时间', width:150, sort:true, align:'center'},
-			{field:'applypeople', title:'大修后运行时间', width:140, sort:true, align:'center'},
-			{field:'applypeople', title:'设备更换后运行时间', width:150, sort:true, align:'center'},
-			{field:'applypeople', title:'总运行时间', width:120, sort:true, align:'center'}
+			{field:'position', title:'设备位号', width:120,  align:'center'},
+			{field:'January', title:'1月', width:60,  align:'center'},
+			{field:'February', title:'2月', width:60,  align:'center'},
+			{field:'March', title:'3月', width:60,  align:'center'},
+			{field:'April', title:'4月', width:60,  align:'center'},
+			{field:'May', title:'5月', width:60,  align:'center'},
+			{field:'June', title:'6月', width:60,  align:'center'},
+			{field:'July', title:'7月', width:60,  align:'center'},
+			{field:'August', title:'8月', width:60,  align:'center'},
+			{field:'September', title:'9月', width:60,  align:'center'},
+			{field:'October', title:'10月', width:70,  align:'center'},
+			{field:'November', title:'11月', width:70,  align:'center'},
+			{field:'December', title:'12月', width:70,  align:'center'},
+			{field:'Total_time', title:'当年累计运行时间', width:150,  align:'center'},
+			{field:'Modify_time', title:'大修后运行时间', width:140,  align:'center'},
+			{field:'Chang_time', title:'设备更换后运行时间', width:150,  align:'center'},
+			{field:'Total', title:'总运行时间', width:120,  align:'center'}
 			]]
 	});
-	
 	/**
-	 * 重新加载表
+	 * 监听查询功能
 	 */
-	function reloadTable(sortField, sortType, piids){
-		problemTable.reload({
-    		url: '/iot_process/report/showproblembycondition'
-    	   ,page: {
-    		   curr: 1 //重新从第 1 页开始
-    	   }
-    	   ,where: {
-    			'welName': $("#welName").val(),
-    			'problemclass': $("#problemclass").val(),
-    			'profession': $("#profession").val(),
-    			'problemtype': $("#problemtype").val(),
-    			'problemdescribe': $("#problemdescribe").val(),
-    			'problemstate': $("#problemstate").val(),
-    			'startTime': $("#startdate").val(),
-    			'endTime': $("#enddate").val(),
-    			'schedule': $("#schedule").val(),
-    			'maintenanceman': $("#maintenanceman").val(),
-    			'applypeople': $("#applypeople").val(),
-    			'sortField': sortField,
-    			'sortType': sortType,
-    			'piidArray': piids
-    	   }
-    	})
-	}
-	
-	 /**
-	  * 监听排序事件
-	  */
-	 table.on('sort(reportTrace)', function(obj){
-		 console.log(obj.field); //当前排序的字段名
-		 console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
-		 reloadTable(obj.field, obj.type, null);
-	 });
 })
