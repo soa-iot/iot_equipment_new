@@ -13,7 +13,7 @@
 	
 	<sql id="EquipmentMoveRunningTimeSQL">
 		MRID mrid, POSITIONNUM positionNum, NAME name, DCSPOSITIONNUM dcsPositionNum,
-		REMARK1 remark1, REMARK2 remark2, EQUIPTYPE equipType
+		REMARK1 remark1, REMARK2 remark2, EQUIPTYPE equipType, RNUMBER rnumber
 	</sql>
 			
 	<select id="findByPage" resultType="cn.soa.entity.EquipmentMoveRunningTime">

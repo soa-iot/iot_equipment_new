@@ -21,8 +21,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import cn.soa.config.InfluxdbConfig;
+import cn.soa.service.impl.EquipmentMoveRunningTimeS;
 
-@Component
+//@Component
+@Configuration
 public class InfluxDBTemplate {
 	private static Logger logger = LoggerFactory.getLogger( InfluxDBTemplate.class );
 	
@@ -31,6 +33,9 @@ public class InfluxDBTemplate {
 	
 	@Autowired
 	private InfluxdbConfig influxdbConfig;
+	
+	@Autowired
+	private EquipmentMoveRunningTimeS equipmentRunningTimeS;
 	
 
 	/**   
@@ -119,7 +124,7 @@ public class InfluxDBTemplate {
 		if (0 != time) {
 			builder.time(time, timeUnit);
 		}
-		influxDB.write( measurement, influxdbConfig.getRetentionPolicy() , builder.build());
+		influxDB.write( influxdbConfig.getDatabase(), influxdbConfig.getRetentionPolicy() , builder.build());
 	}
 
 	/**   

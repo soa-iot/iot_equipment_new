@@ -31,7 +31,7 @@
 				) equip_result
 				WHERE 
 				<if test="limit != null and page != null">
-						ROWNUM &lt;= ${page * limit}
+						ROWNUM &gt; ${(page-1) * limit}
 				</if>
 			)
 			WHERE
@@ -49,6 +49,13 @@
 			IOT_EQUIPMENT_BIGEVENT
 		WHERE
 			POSITIONNUM = #{positionNum}
+	</select>
+	
+	<!-- 1.3、统计查找设备指定类型的大事件	-->
+	<select id="findByEvent" resultType="cn.soa.entity.EquipmentBigEvent">
+		SELECT * FROM IOT_EQUIPMENT_BIGEVENT
+		WHERE positionNum = #{positionNum} AND event = #{event}		
+		ORDER BY eventTime
 	</select>
 	
 	

@@ -48,4 +48,33 @@ public interface EquipmentMoveRunningTimeSI {
 	 * @return 是否添加成功
 	 */
 	String addOne(EquipmentMoveRunningTime equip);
+
+	/**   
+	 * @Title: getEquipPositionAndNumberAndDCS   
+	 * @Description:  查询动设备位号对应的dcs位号和分代号  
+	 * @return: Map<String,Map<String,Object>>        
+	 */  
+	Map<String, Map<String, Object>> getEquipPositionAndNumberAndDCS();
+
+	/**   
+	 * @Title: getEquipmentRunningS   
+	 * @Description:分页查询设备运行时间     
+	 * @return: List<Map<String,Object>>        
+	 */  
+	List<Map<String, Object>> getEquipmentRunningS(Map<String, Object> m, String page, String size, String startTime,
+			String endTime);
+
+	/**   
+	 * @Title: getEquipmentRunningAllS   
+	 * @Description: 查找所有设备运行的设备    
+	 * @return: List<EquipmentMoveRunningTime>        
+	 */  
+	List<EquipmentMoveRunningTime> getEquipmentRunningAllS();
+
+	/**   
+	 * @Title: getEquipmentRunningCount   
+	 * @Description: 获取设备运行统计的全部设备数量    
+	 * @return: Integer        
+	 */  
+	Integer getEquipmentRunningCount();
 }
