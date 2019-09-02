@@ -66,107 +66,163 @@
 		  
 	</select>
 	
-	<!-- 查询所有油品数量 -->
-	<!-- Integer countStock(); -->
-	<!-- <select id="countStock" resultType="java.lang.Integer">
+	<!-- 按条件分页查询换油设备 -->
+	<!-- List<LubricateEquipment> findEquipLubricationByPage(
+			@Param("equip") LubricateEquipment equip,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit) -->
+	<select id="findEquipLubricationByPage" resultType="cn.soa.entity.lubrication.LubricateEquipment">
 		SELECT
-			count(*)
+			equip_result.*
 		FROM
-			IOT_lubEquiMENT_LUBRICATION_OIL
+			(
+			SELECT 
+				equip.*, ROWNUM rownum1
+			FROM
+				IOT_EQUIPMENT_LUBRICATE equip
+			<where>
+				<if test="equip != null">
+					<if test="equip.lnamekey != null and equip.lnamekey != ''">
+						LOWER(LNAMEKEY) LIKE LOWER('%${equip.lnamekey}%') 
+					</if>
+					<if test="equip.lname != null and equip.lname != ''">
+						AND LOWER(equip.lname) LIKE LOWER('%${equip.lname}%')
+					</if>
+				</if>
+				<if test="page != null and page != '' and limit != null and limit != ''">
+					AND ROWNUM &lt;= ${page * limit}
+				</if>
+			</where>
+			) equip_result
+		WHERE
+			<if test="page != null and page != '' and limit != null and limit != ''">
+				 rownum1 &gt; ${(page-1) * limit}
+			</if>
 	</select>
 	
-	List<lubEquimentOilRecordVO> findOilAll();
-	<select id="findOilAll" resultType="cn.soa.entity.lubrication.lubEquimentOilRecordVO">
+	<!-- 统计按条件分页查询换油设备的总条数 -->
+	<!-- Integer countEquipLubricationByPage(LubricateEquipment equip) -->
+	<select id="countEquipLubricationByPage" resultType="int">
 		SELECT 
-			<include refid="lubEquimentOilRecordVOSQL"></include>
-          FROM (SELECT 
-	          		<include refid="lubEquimentOilRecordVOSQL"></include>
-	            FROM 
-	            	IOT_lubEquiMENT_OIL_RECORD record,IOT_lubEquiMENT_LUBRICATION_OIL oil
-				WHERE 
-					record.oid = oil.oid 
-				<if test="oid != null and oid != ''">
-					AND oil.OID = #{oid}
-				</if>
-				<if test="startTime != null and startTime != ''">
-					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
-				</if>
-				<if test="endTime != null and endTime != ''">
-					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
-				</if>
-					and ROWNUM <![CDATA[ <= ]]> #{maxSize}
- 					 ORDER BY rtime
- 					 ) oil
-
- 		WHERE 
- 			rn <![CDATA[ > ]]>  #{minSize} 
- 		
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_LUBRICATE equip
+		<where>
+			<if test="lnamekey != null and lnamekey != ''">
+				LOWER(LNAMEKEY) LIKE LOWER('%${lnamekey}%') 
+			</if>
+			<if test="lname != null and lname != ''">
+				AND LOWER(LNAME) LIKE LOWER('%${lname}%')
+			</if>
+		</where>
 	</select>
 	
-	查询油品出入库总数量
-	Integer countRecord();
-	<select id="countRecord" resultType="java.lang.Integer">
+	
+	<!-- 根据润滑设备lid查询设备换油记录 -->
+	<!-- List<LubricateEquipment> findEquipLubricationRecordByLid(
+			@Param("lid") String lid,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit) -->
+	<select id="findEquipLubricationRecordByLid" resultType="cn.soa.entity.lubrication.LubricateEquipmentRecord">
 		SELECT
-			count(*)
+			equip_result.*
 		FROM
-			IOT_lubEquiMENT_OIL_RECORD record,IOT_lubEquiMENT_LUBRICATION_OIL oil
-		WHERE 
-			record.oid = oil.oid 
-			<if test="oid != null and oid != ''">
-					AND oil.OID = #{oid}
-				</if> 
-				<if test="startTime != null and startTime != ''">
-					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
+			(
+			SELECT 
+				record.excutor, record.ptime, record.ramount, place.pplace, place.requireoil1 requireoil, ROWNUM rownum1
+			FROM
+				IOT_EQUIPMENT_LUBRICATE_RECORD record JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+				ON record.pid = place.pid and record.lid = place.lid
+			<where>
+				<if test="lid != null and lid != ''">
+					record.lid = #{lid}
 				</if>
-				<if test="endTime != null and endTime != ''">
-					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
+				<if test="page != null and page != '' and limit != null and limit != ''">
+					AND ROWNUM &lt;= ${page * limit}
 				</if>
+			</where>
+			) equip_result
+		WHERE
+			<if test="page != null and page != '' and limit != null and limit != ''">
+				 rownum1 &gt; ${(page-1) * limit}
+			</if>
 	</select>
 	
-	 根据油品库存条件查询油品
-	public List<lubEquimentLubricationOil> findOilbyConditions(lubEquimentLubricationOil lubEquimentLubricationOil);
-	<select id="findOilbyConditions" resultType="cn.soa.entity.lubrication.lubEquimentLubricationOil">
-		SELECT
-			<include refid="lubEquimentLubricationOilSQL"></include>
+	<!-- 根据润滑设备lid查询设备换油记录 -->
+	<!-- Integer countEquipLubricationRecordByLid(String lid) -->
+	<select id="countEquipLubricationRecordByLid" resultType="int">
+		SELECT 
+			COUNT(1)
 		FROM
-			IOT_lubEquiMENT_LUBRICATION_OIL
-		WHERE 
-			1 = 1
-			<if test="oid != null and oid != ''">
-					and oid = #{oid}
-				</if>
-				<if test="oname != null and oname != ''">
-					and oname = #{oname} 
-				</if>
-				<if test="ostock != null and ostock != ''">
-					and ostock = #{ostock} 
-				</if>
-				<if test="ostate != null and ostate != ''">
-					and ostate = #{ostate}
-				</if>
-				<if test="ounit != null and ounit != ''">
-					and ounit = #{ounit} 
-				</if>
-				<if test="odescribe != null and odescribe != ''">
-					and odescribe = #{odescribe} 
-				</if>
-				<if test="otype != null and otype != ''">
-					and otype = #{otype} 
-				</if>
-				<if test="manufacture != null and manufacture != ''">
-					and manufacture = #{manufacture} 
-				</if>
-				<if test="osign != null and osign != ''">
-					and osign = #{osign} 
-				</if>
-				<if test="oremark1 != null and oremark1 != ''">
-					and oremark1 = #{oremark1} 
-				</if>
-				<if test="oremark2 != null and oremark2 != ''">
-					and oremark2 = #{oremark2} 
-				</if>
-	</select> -->
+			IOT_EQUIPMENT_LUBRICATE_RECORD record JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+			ON record.pid = place.pid and record.lid = place.lid
+		<where>
+			<if test="lid != null and lid != ''">
+				record.lid = #{lid}
+			</if>
+		</where>
+	</select>
 	
+	<!-- 临时换油日期跟踪 -->
+	<!-- List<LubricateEquipmentPlace> findEquipLubricationTrace(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit) -->
+	<select id="findEquipLubricationTrace" resultType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					ROWNUM rownum1, equip_result.*
+				FROM
+				(
+					SELECT 
+						place.*, lubri.lnamekey positionnum, lubri.lname tname
+					FROM
+						IOT_EQUIPMENT_LUBRICATE lubri JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+						ON lubri.lid = place.lid
+					<where>
+						<if test="positionnum != null and positionnum != ''">
+							LOWER(lubri.lnamekey) LIKE LOWER('%${positionnum}%')
+						</if>
+						<if test="tname != null and tname != ''">
+							AND LOWER(lubri.lname) LIKE LOWER('%${tname}%')
+						</if>
+					</where>
+					ORDER BY NEXTCHANGETIME ASC
+				) equip_result	
+				<where>
+					<if test="page != null and page != '' and limit != null and limit != ''">
+					  ROWNUM &lt;= ${page * limit}
+					</if>
+				</where>
+			)
+		WHERE
+			<if test="page != null and page != '' and limit != null and limit != ''">
+				 rownum1 &gt; ${(page-1) * limit}
+			</if>
+	</select>
+	
+	<!-- Integer countEquipLubricationTrace(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname)-->
+	<select id="countEquipLubricationTrace" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_LUBRICATE lubri JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+			ON lubri.lid = place.lid
+		<where>
+			<if test="positionnum != null and positionnum != ''">
+				LOWER(lubri.lnamekey) LIKE LOWER('%${positionnum}%')
+			</if>
+			<if test="tname != null and tname != ''">
+				AND LOWER(lubri.lname) LIKE LOWER('%${tname}%')
+			</if>
+		</where>			
+	</select>
 	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 设备润滑换油新增 -->

@@ -57,4 +57,59 @@ public interface EquipmentLubricationMapper {
 	 */
 	List<LubricateEquipmentRecord> findLubRecord(LubricateEquipmentRecord lubricateEquipmentRecord);
 	
+	/**
+	 * 按条件分页查询换油设备
+	 * @param equip 查询条件
+	 * @param page 第几页
+	 * @param limit 每页条数
+	 * @return  换油设备数据列表
+	 */
+	List<LubricateEquipment> findEquipLubricationByPage(
+			@Param("equip") LubricateEquipment equip,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
+	
+	/**
+	 * 统计按条件分页查询换油设备的总条数
+	 * @param equip 查询条件
+	 * @return
+	 */
+	Integer countEquipLubricationByPage(LubricateEquipment equip);
+	
+	/**
+	 * 根据润滑设备lid查询设备换油记录
+	 * @param lid 润滑设备lid
+	 * @param page 第几页
+	 * @param limit 每页条数
+	 * @return  设备换油记录数据列表
+	 */
+	List<LubricateEquipmentRecord> findEquipLubricationRecordByLid(
+			@Param("lid") String lid,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
+	
+	/**
+	 * 根据润滑设备lid查询设备换油记录
+	 * @param lid 润滑设备lid
+	 * @return
+	 */
+	Integer countEquipLubricationRecordByLid(@Param("lid") String lid);
+	
+	/**
+	 * 临时换油日期跟踪
+	 * @param positionnum 设备位号
+	 * @param tname 设备名称
+	 * @param page 第几页
+	 * @param limit 每页条数
+	 * return 
+	 */
+	List<LubricateEquipmentPlace> findEquipLubricationTrace(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
+	
+	Integer countEquipLubricationTrace(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname);
 }

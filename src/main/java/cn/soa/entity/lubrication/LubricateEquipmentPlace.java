@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 public class LubricateEquipmentPlace extends LubricateEquipment implements Serializable {
 	
 	private String pid;
-	//private String lid;
+	private String lid;
 	private String pplace;
 	private String pnote;
 	private String ptype;
@@ -38,4 +38,7 @@ public class LubricateEquipmentPlace extends LubricateEquipment implements Seria
 	private Date lastchangetime;
 	private String premark1;
 	private String premark2;
+	/*添加设备位号和设备名称字段*/
+	private String positionnum;
+	private String tname;
 }
