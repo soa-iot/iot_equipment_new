@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.soa.dao.EquipmentMoveRunningTimeMapper;
+import cn.soa.domain.EquipmentRunningInitInfo;
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.RunningEquipments;
 import cn.soa.service.impl.EquipmentMoveRunningTimeS;
@@ -35,12 +36,15 @@ public class EquipmentRunningMonitor {
 	@Autowired
 	private InfluxDBTemplate influxDBTemplate;
 	
+	@Autowired
+	private EquipmentRunningInitInfo equipmentRunningInitInfo;
+	
 	/**   
 	 * @Title: getRunningEquipment   
 	 * @Description: 保存监控数据   
 	 * @return: Map<String,String>        
 	 */  
-	public Map<String,Object> startMonitorDataT(){
+	public Map<String,Integer> startMonitorDataT(){
 		logger.info( "--T------保存监控数据 --------" );
 		try {
 			
@@ -56,7 +60,7 @@ public class EquipmentRunningMonitor {
 			/*
 			 * 通过opc获取DCS运行数据 
 			 */
-			Map<String, Object> opcValues = getOpcValue(positionNums);
+			Map<String, Integer> opcValues = getOpcValue(positionNums);
 			
 			
 			/*
@@ -83,8 +87,8 @@ public class EquipmentRunningMonitor {
 	 * @Description:   从opc获取DCS数据
 	 * @return: Map<String,Object>        
 	 */  
-	public Map<String,Object> getOpcValue( List<String> positionNums){
-		Map<String, Object> positionValues = new HashMap<String,Object>();
+	public Map<String,Integer> getOpcValue( List<String> positionNums){
+		Map<String, Integer> positionValues = new HashMap<String,Integer>();
 		try {
 			//暂时模拟数据
 			for( String s : positionNums ) {
@@ -104,7 +108,7 @@ public class EquipmentRunningMonitor {
 	 * @Description: 保存数据到infliuxdb  
 	 * @return: boolean        
 	 */  
-	public boolean saveMonitorData( Map<String,Object> positionValuesMap
+	public boolean saveMonitorData( Map<String,Integer> positionValuesMap
 			, Map<String,Object> positionNumMap ) {
 		try {
 			//批量插入数据
@@ -112,23 +116,42 @@ public class EquipmentRunningMonitor {
 			Map<String, String> tags = new HashMap<String,String>();
 			Map<String, Object> fields = new HashMap<String,Object>();			
 			BatchPoints batchPoints = BatchPoints
-				    .database("jhc2")
+				    .database("jhc1")
 				    .consistency(InfluxDB.ConsistencyLevel.ALL)
-				    .build();			
-			for( Entry<String,Object> s : positionValuesMap.entrySet() ){
-				String position = s.getKey();
-				Object value = s.getValue();
-				tags.put( "positionNum", position );
-				String number = (String) positionNumMap.get( position );
-				if( number != null && !number.isEmpty()) {
-					tags.put( "number", number );
-				}else {
-					tags.put( "number", "1" );
+				    .build();		
+			Map<String,Map<String,Object>> equipments = 
+					equipmentRunningInitInfo.getEquipmentInfoKeyPosition();
+			System.out.println(equipments);
+			if( equipments != null ) {
+				for( Entry<String,Map<String,Object>> s : equipments.entrySet()){					
+					String position = s.getKey();
+					Map<String,Object> m = s.getValue();
+					tags.put( "position", position );
+					String number = (String) positionNumMap.get( position );
+					if( number != null && !number.isEmpty()) {
+						tags.put( "number", number );
+					}else {
+						tags.put( "number", "1" );
+					}
+					fields.put( "value", 10 );//此处需要修改，改为定时器设定的多少分钟采集一次数据，动态
+					Point point = influxDBTemplate.pointBuilder( measurement, tags, fields);
+					batchPoints.point( point );
 				}
-				fields.put( "timeValue", "10" );//此处需要修改，改为定时器设定的多少分钟采集一次数据，动态
-				Point point = influxDBTemplate.pointBuilder( measurement, tags, fields);
-				batchPoints.point( point );
 			}
+//			for( Entry<String,Integer> s : positionValuesMap.entrySet() ){
+//				String position = s.getKey();
+//				Object value = s.getValue();
+//				tags.put( "position", position );
+//				String number = (String) positionNumMap.get( position );
+//				if( number != null && !number.isEmpty()) {
+//					tags.put( "number", number );
+//				}else {
+//					tags.put( "number", "1" );
+//				}
+//				fields.put( "value", 10 );//此处需要修改，改为定时器设定的多少分钟采集一次数据，动态
+//				Point point = influxDBTemplate.pointBuilder( measurement, tags, fields);
+//				batchPoints.point( point );
+//			}
 		
 			influxDBTemplate.batchInsert( batchPoints );			
 			return true;

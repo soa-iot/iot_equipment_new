@@ -41,4 +41,12 @@ public interface EquipmentBigEventMapper {
 	 * @return 生效行数
 	 */
 	Integer addEvent(EquipmentBigEvent event);
+	
+	/**   
+	 * @Title: findByEvent   
+	 * @Description:统计查找设备指定类型的大事件   
+	 * @return: List<EquipmentBigEvent>        
+	 */  
+	List<EquipmentBigEvent> findByEvent(@Param("positionNum") String positionNum,
+			@Param("event") String event);
 }
