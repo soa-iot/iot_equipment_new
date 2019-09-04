@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设备台账页面</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<style type="text/css">
+/* .layui-row div {
+	border: 1px red solid;
+} */
+.tree-title {
+	background-color: #E5EFFF;
+	border: 1px #E5EFFF solid;
+}
+
+.layui-container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.equipment_type {
+	height: 960px;
+	box-shadow: #1d2935 0px 0px 3px;
+}
+
+.demo-tree-more {
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+	<div class="layui-container">
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2 equipment_type">
+				<div class="layui-row">
+					<div
+						class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+						<span>设备管理</span>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div id="equipment_type" class="demo-tree-more"></div>
+				</div>
+
+			</div>
+			<div
+				class="layui-col-xs10 layui-col-sm10 layui-col-md10 equipment_list">
+				<div class="layui-row">
+					<div
+						class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+						<span>设备全生命周期管理台账</span>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-fluid " style="overflow: visible">
+						<!-- 搜索条件 -->
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-md12 ">
+								<fieldset
+									style="border-radius: 13px; margin-top: 10px; vertical-align: middle;">
+									<legend>查询条件</legend>
+									<form class="layui-form" action="" style="margin-top: 15px;">
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">设备名称</label>
+												<div class="layui-input-inline">
+													<input type="tel" name="phone" autocomplete="off"
+														class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">设备状态</label>
+												<div class="layui-input-inline">
+													<input type="tel" name="phone" autocomplete="off"
+														class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline" style="margin-left: 50px;">
+												<button class="layui-btn" lay-submit
+													lay-filter="search_button_search">
+													<i class="layui-icon">&#xe615;</i> 查询
+												</button>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+						</div>
+
+						<!-- 表格-->
+						<div class="layui-row">
+							<div class="layui-col-md12 " id="equipment_list">
+								<div class="component_container" id="equipment_list_table"
+									lay-filter="equipment_list_table"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/html" id="toolbar">
+<div class="layui-btn-container">
+	<button class="layui-btn layui-btn-sm" lay-event="add">
+		<i class="layui-icon">&#xe654;</i>新增
+	</button>
+	<button class="layui-btn layui-btn-sm" lay-event="edit">
+		<i class="layui-icon">&#xe642;</i>修改
+	</button>
+	<button class="layui-btn layui-btn-sm" lay-event="del">
+		<i class="layui-icon">&#xe640;</i>删除
+	</button>
+	<button class="layui-btn layui-btn-sm" lay-event="import">
+		<i class="layui-icon">&#xe681;</i>导入
+	</button>
+	<button class="layui-btn layui-btn-sm" lay-event="export">
+		<i class="layui-icon">&#xe601;</i>导出
+	</button>
+</div>
+</script>
+<script type="text/javascript"
+	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/equipment_ledger.js"></script>
+</html>

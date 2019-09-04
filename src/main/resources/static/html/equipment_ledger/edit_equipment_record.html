@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>修改设备数据</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<style type="text/css">
+form {
+	display: none;
+}
+
+.layui-form-label {
+	width: 200px;
+}
+</style>
+</head>
+<body>
+	<div class="layui-container">
+		<blockquote class="layui-elem-quote layui-text">修改设备数据</blockquote>
+
+
+		<form class="layui-form" action="" lay-filter="equipment_edit_form"
+			style="margin-top: 15px;" id=equipment_edit_form>
+			<fieldset class="layui-elem-field layui-field-title"
+				style="margin-top: 20px;">
+				<legend>基础属性</legend>
+			</fieldset>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">设备名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="equName" required lay-verify="required"
+							placeholder="设备名称" class="layui-input">
+					</div>
+				</div>
+
+
+				<div class="layui-inline">
+					<label class="layui-form-label">设备类型</label>
+					<div class="layui-input-inline">
+						<select name="equTypeId" lay-verify="" disabled id="equTypeId">
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">设备状态</label>
+					<div class="layui-input-inline">
+						<select name="equStatus" lay-verify="">
+							<option value="">请选择</option>
+							<option value="1">在用</option>
+							<option value="2">备用</option>
+							<option value="3">停用</option>
+							<option value="4">闲置</option>
+							<option value="5">报废</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-inline">
+					<label class="layui-form-label">设备位号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="equPositionNum" placeholder="设备位号"
+							class="layui-input">
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">生产装置</label>
+					<div class="layui-input-inline">
+						<input type="text" name="processUnits" placeholder="生产装置"
+							class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-inline">
+					<label class="layui-form-label">规格型号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="equModel" placeholder="规格型号"
+							class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">资产原值</label>
+					<div class="layui-input-inline">
+						<input type="text" name="assetValue" placeholder="资产原值"
+							class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-inline">
+					<label class="layui-form-label">生产厂家</label>
+					<div class="layui-input-inline">
+						<input type="text" name="equManufacturer" placeholder="生产厂家"
+							class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">出厂日期</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="equProducDate"
+							name='equProducDate' placeholder="yyyy-MM-dd">
+					</div>
+				</div>
+
+
+				<div class="layui-inline">
+					<label class="layui-form-label">投用日期</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="equCommissionDate"
+							name='equCommissionDate' placeholder="yyyy-MM-dd">
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">安装位置</label>
+					<div class="layui-input-inline">
+						<input type="text" name="equInstallPosition" placeholder="安装位置"
+							class="layui-input">
+					</div>
+				</div>
+			</div>
+
+			<fieldset class="layui-elem-field layui-field-title"
+				id="equipment_properties" style="margin-top: 20px;">
+				<legend>扩展属性</legend>
+			</fieldset>
+
+			<div class="layui-form-item">
+				<button class="layui-btn" lay-submit lay-filter="search_button_save">
+					<i class="layui-icon">&#xe605;</i> 保存
+				</button>
+				<button class="layui-btn" lay-filter="search_button_reserve"
+					type="reset">
+					<i class="layui-icon">&#xe9aa;</i> 重置
+				</button>
+				<button class="layui-btn" id="search_button_cancel">
+					<i class="layui-icon">&#x1006;</i> 取消
+				</button>
+			</div>
+		</form>
+	</div>
+
+
+</body>
+<script type="text/javascript"
+	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/equipment_ledger/common.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/edit_equipment_record.js"></script>
+</html>

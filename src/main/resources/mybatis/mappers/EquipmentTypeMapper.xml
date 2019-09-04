@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquipmentTypeMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquipmentType">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="EQU_TYPE_NAME" jdbcType="VARCHAR"
+			property="title" />
+		<result column="TYPE_PARENT_ID" jdbcType="VARCHAR"
+			property="typeParentId" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+
+
+	<resultMap id="withChildren"
+		type="cn.soa.entity.EquipmentType">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="EQU_TYPE_NAME" jdbcType="VARCHAR"
+			property="title" />
+		<result column="TYPE_PARENT_ID" jdbcType="VARCHAR"
+			property="typeParentId" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+		<collection property="children" select="getChildren"
+			column="id">
+		</collection>
+	</resultMap>
+
+
+
+
+	<sql id="Base_Column_List">
+		ID, EQU_TYPE_NAME, TYPE_PARENT_ID,
+		STANDBY1, STANDBY2,
+		STANDBY3
+	</sql>
+
+	<!-- 查询所有数据并获取子类 -->
+	<select id="selectAllWithChidren" resultMap="withChildren">
+		select
+		<include refid="Base_Column_List" />
+
+		from IOT_EQUIPMENT_TYPE
+		where TYPE_PARENT_ID is null
+	</select>
+
+	<!-- 获取子类 -->
+	<select id="getChildren"
+		resultMap="withChildren">
+		select
+		ID, EQU_TYPE_NAME, TYPE_PARENT_ID, STANDBY1,
+		STANDBY2,
+		STANDBY3
+		from IOT_EQUIPMENT_TYPE
+		where TYPE_PARENT_ID =
+		#{id,jdbcType=VARCHAR}
+	</select>
+
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_TYPE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_EQUIPMENT_TYPE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.soa.entity.EquipmentType">
+		insert into IOT_EQUIPMENT_TYPE
+		(ID, EQU_TYPE_NAME, TYPE_PARENT_ID,
+		STANDBY1, STANDBY2, STANDBY3
+		)
+		values (#{id,jdbcType=VARCHAR}, #{equTypeName,jdbcType=VARCHAR},
+		#{typeParentId,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR},
+		#{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquipmentType">
+		insert into IOT_EQUIPMENT_TYPE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="equTypeName != null">
+				EQU_TYPE_NAME,
+			</if>
+			<if test="typeParentId != null">
+				TYPE_PARENT_ID,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeName != null">
+				#{equTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="typeParentId != null">
+				#{typeParentId,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquipmentType">
+		update IOT_EQUIPMENT_TYPE
+		<set>
+			<if test="equTypeName != null">
+				EQU_TYPE_NAME = #{equTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="typeParentId != null">
+				TYPE_PARENT_ID = #{typeParentId,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquipmentType">
+		update IOT_EQUIPMENT_TYPE
+		set EQU_TYPE_NAME =
+		#{equTypeName,jdbcType=VARCHAR},
+		TYPE_PARENT_ID =
+		#{typeParentId,jdbcType=VARCHAR},
+		STANDBY1 =
+		#{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

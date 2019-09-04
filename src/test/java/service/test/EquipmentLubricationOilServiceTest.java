@@ -1,7 +1,12 @@
 package service.test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.soa.IotEquipmentApplication;
-import cn.soa.dao.lubrication.EquipmentLubricationOilMapper;
 import cn.soa.entity.lubrication.EquipmentLubricationOil;
-import cn.soa.entity.lubrication.EquipmentOilRecord;
 import cn.soa.entity.lubrication.EquipmentOilRecordVO;
 import cn.soa.service.intel.lubrication.EquipmentLubricationOilSI;
 
@@ -21,16 +24,16 @@ import cn.soa.service.intel.lubrication.EquipmentLubricationOilSI;
 @SpringBootTest(classes = { IotEquipmentApplication.class })
 @WebAppConfiguration
 public class EquipmentLubricationOilServiceTest {
-	
+
 	@Autowired
 	private EquipmentLubricationOilSI equipmentLubricationOilSI;
-	
+
 	@Test
 	public void addOilTest() {
 		for (int i = 1; i < 25; i++) {
-			
+
 			EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
-			equipmentLubricationOil.setOname("新增测试油"+i);
+			equipmentLubricationOil.setOname("新增测试油" + i);
 			equipmentLubricationOil.setOstock("15");
 			equipmentLubricationOil.setOstate(1);
 			equipmentLubricationOil.setOunit("油品集团");
@@ -41,16 +44,18 @@ public class EquipmentLubricationOilServiceTest {
 			equipmentLubricationOil.setOremark1("备用1");
 			equipmentLubricationOil.setOremark2("备用2");
 			Integer row = equipmentLubricationOilSI.addOil(equipmentLubricationOil, "czr", "bz");
-			System.err.println("插入油品数量"+i+"："+row);
+			System.err.println("插入油品数量" + i + "：" + row);
 		}
-		
+
 	}
 
-	
-	@Test 
-	public void findOilAllTest() { 
-		List<EquipmentOilRecordVO> row = equipmentLubricationOilSI.queryOilAll(1,10,null,"2019-06-06 08:06:22","2020-06-06 08:06:22");
-	System.err.println("插入油品数量："+row); }
+	@Test
+	public void findOilAllTest() {
+		List<EquipmentOilRecordVO> row = equipmentLubricationOilSI.queryOilAll(1, 10, null, "2019-06-06 08:06:22",
+				"2020-06-06 08:06:22");
+		System.err.println("插入油品数量：" + row);
+	}
+
 	
 
 }
