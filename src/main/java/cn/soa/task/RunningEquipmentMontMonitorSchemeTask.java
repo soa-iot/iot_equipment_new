@@ -18,7 +18,7 @@ public class RunningEquipmentMontMonitorSchemeTask {
 	@Autowired
 	private EquipmentRunningMonthMonitorDao dao; 
 	   //cron表达式：每月1号凌晨启动
-    @Scheduled(cron = "0 0 0 1 ? ?")
+    @Scheduled(cron = "0 0 0 1 * ?")
     private void insertToEquipmentMonthMonitor() {
     	String startTime=getLastDayOfMonth("min");
     	String endTime=getLastDayOfMonth("max");

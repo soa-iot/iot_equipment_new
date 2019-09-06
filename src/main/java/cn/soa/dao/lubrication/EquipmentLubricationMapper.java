@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import cn.soa.entity.LubricationMothlyReport;
+import cn.soa.entity.LubricationRecordReport;
 import cn.soa.entity.lubrication.LubricateEquipment;
 import cn.soa.entity.lubrication.LubricateEquipmentPlace;
 import cn.soa.entity.lubrication.LubricateEquipmentRecord;
@@ -112,4 +114,52 @@ public interface EquipmentLubricationMapper {
 	Integer countEquipLubricationTrace(
 			@Param("positionnum") String positionnum,
 			@Param("tname") String tname);
+	
+	/**
+	 * 按月统计每种润滑油使用量
+	 */
+	List<LubricationMothlyReport> findRecordByYear(@Param("year") String year);
+
+	/**
+	 * 分页查询设备润滑油加油和换油记录
+	 * @param positionnum 设备位号
+	 * @param tname 设备名称
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 * @param page 第几页
+	 * @param limit 每页条数
+	 */
+	List<LubricationRecordReport> findLubricationRecordByPage(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate,
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
+	
+	/**
+	 * 统计设备润滑油加油和换油记录总数
+	 * @param positionnum 设备位号
+	 * @param tname 设备名称
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 */
+	Integer countLubricationRecord(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate);
+	
+	/**
+	 * 设备润滑油加油和换油记录
+	 * @param positionnum 设备位号
+	 * @param tname 设备名称
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 */
+	List<LubricationRecordReport> findLubricationRecord(
+			@Param("positionnum") String positionnum,
+			@Param("tname") String tname,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate);
 }
