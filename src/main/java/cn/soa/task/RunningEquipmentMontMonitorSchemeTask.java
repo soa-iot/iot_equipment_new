@@ -18,8 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RunningEquipmentMontMonitorSchemeTask {
 	@Autowired
 	private EquipmentRunningMonthMonitorDao dao; 
-	   //cron表达式：每月1号凌晨启动cron = "0/5 * * * * ?"
-    @Scheduled(cron = "0 0 0 1 * *")
+    @Scheduled(cron = "0 0 0 1 * ?")
     private void insertToEquipmentMonthMonitor() {
     	String startTime=getLastDayOfMonth("min");
     	String endTime=getLastDayOfMonth("max");

@@ -47,7 +47,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	var recordTable = table.render({
 		elem: '#equipMeasureRecord',
 		method: 'get',
-		url: '/iot_equipment/equipment/thick/query',
+		url: '/iot_equipment/equipment/thick/record/query',
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		page: true,   //开启分页
@@ -69,8 +69,8 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 			{fixed:'left', title:'序号', width:'10%', sort:false, type:'numbers', align:'center'},
 			{field:'equipPositionNum', title:'设备位号', width:'18%', sort:false, align:'center'},
 			{field:'equipName', title:'设备名称', width:'18%', sort:false, align:'center'},
-			/*{field:'positionnum', title:'测厚点位名称', width:'15%', sort:false, align:'center'},
-			{field:'measurevalue', title:'测点厚度(mm)', width:'15%', sort:false, align:'center'},*/
+			{field:'eid', title:'设备id', hide: true},
+			{field:'filepath', title:'测点示图路径', hide: true},
 			{field:'measuretime', title:'测厚日期', width:'18%', sort:false, align:'center'},
 			{field:'measuror', title:'测厚人', width:'18%', sort:false, align:'center'},
 			{fixed:'right', title:'测厚详情', width:'18%', sort:false, align:'center', toolbar:'#barBtn'}]]
@@ -106,16 +106,23 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 				id:"recordDetail",
 				title: data.equipPositionNum+' 测点详情',
 				content: $('#recordDetail-window'),
-				area: ['600px','85%'],
-				offset: '50px',
+				area: ['800px','90%'],
+				offset: '30px',
 				btn: ['关&nbsp;&nbsp;闭'],
 				btnAlign: 'c', //按钮居中对齐
 				yes: function(index, layero){
 					layer.close(index);
 				},
 				success: function(index, layero){
+					var src = (data.filepath == null || data.filepath == '')
+								?null:(data.filepath.replace(/^[CDEFG]:\\equipment-thick\\/g,'/iot_equipment/picture/'));
+					$("#thick-record-img").attr({"src": src})
+
 					recordDetailTable.reload({
-						
+						where: {
+							eid: data.eid,
+							measuretime: data.measuretime
+						}
 					});
 				}
 			})
@@ -128,20 +135,16 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	var recordDetailTable = table.render({
 		elem: '#recordDetail-table',
 		method: 'get',
-		url: '/iot_equipment/equipment/thick/query',
+		url: '/iot_equipment/equipment/thick/record/eid',
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		page: false,   //关闭分页
-		where: {
-			isDetial: true
-		},
 		parseData: function(res){ //res 即为原始返回的数据
 			var data = res.data     
 
 		    return {
-		      "code": res.code, //解析接口状态
+		      "code": res.state, //解析接口状态
 		      "msg": res.msg, //解析提示文本
-		      "count": res.count, //解析数据长度
 		      "data": data      //解析数据列表
 		    };
 		},

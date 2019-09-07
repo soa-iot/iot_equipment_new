@@ -36,5 +36,5 @@ public class EquipmentThickRecord implements Serializable {
 	/* 添加设备位号和设备名称 */
 	private String equipPositionNum;   //设备位号
 	private String equipName;          //设备名称
-	private boolean isDetail;
+	private String filepath;          //设备测点示图
 }

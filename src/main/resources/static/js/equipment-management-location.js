@@ -6,12 +6,6 @@ layui.config({
 });
 
 
-var equMemoOne = GetQueryString("equMemoOne");
-
-if(equMemoOne == null || equMemoOne == ''){
-	equMemoOne = 'KP';
-}
-
 /**
 * 获取url地址的参数
 */
@@ -41,10 +35,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		defaultToolbar: [''],*/
 		totalRow: true,
 		page: true,   //开启分页
-		cellMinWidth: 130,
-		where: {
-			'equMemoOne': equMemoOne,
-		},
+		cellMinWidth: 70,
 		request: {
 		    pageName: 'page' //页码的参数名称，默认：page
 		    ,limitName: 'limit' //每页数据量的参数名，默认：limit
@@ -59,10 +50,16 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		},
 		cols: [[
 			{type:'radio'}, 
+			{field:'equID', title:'工作介质', hide:true, align:'center'},
 			{field:'welName', title:'装置列名', align:'center'},    //, templet:"<div>{{layui.util.toDateString(d.applydate,'yyyy-MM-dd HH:mm:ss')}}</div>"
 			{field:'equMemoOne', title:'设备类别', align:'center'},
 			{field:'equPositionNum', title:'设备位号', align:'center'},
-			{field:'equName', title:'设备名称', align:'center'}]]
+			{field:'equName', title:'设备名称', align:'center'},
+			{field:'equModel', title:'规格型号', align:'center'},
+			{field:'equProducDate', title:'生产日期', align:'center'},
+			{field:'equCommissionDate', title:'投运日期', align:'center'},
+			{field:'material', title:'设备材质', align:'center'},
+			{field:'meduimType', title:'工作介质', align:'center'}]]
 	});
 	
 	/**
@@ -92,6 +89,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
     	   }
     	   ,where: {
     			'welName': $("#welName").val(),
+    			'equMemoOne': $("#equMemoOne").val(),
     			'equPositionNum': $("#equPositionNum").val(),
     			'equName': $("#equName").val(),
     	   }

@@ -1,12 +1,30 @@
 package cn.soa.controller.lubrication;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.soa.entity.LubricationMothlyReport;
+import cn.soa.entity.LubricationRecordReport;
 import cn.soa.entity.ResultJson;
+import cn.soa.entity.ResultJsonForTable;
+import cn.soa.entity.lubrication.LubricateEquipment;
 import cn.soa.entity.lubrication.LubricateEquipmentPlace;
+import cn.soa.entity.lubrication.LubricateEquipmentRecord;
 import cn.soa.service.intel.lubrication.EquipmentLubricationSI;
+import cn.soa.utils.ExportExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,4 +59,137 @@ public class EquipmentLubricationC {
 		}
 	}
 	
+	/**
+	 * 按条件分页查询换油设备
+	 * @param equip 查询条件
+	 * @return
+	 */
+	@GetMapping("/management/query")
+	public ResultJsonForTable<List<LubricateEquipment>> findEquipLubricateByPage(LubricateEquipment equip, Integer page, Integer limit){
+		log.info("------进入findEquipLubricateByPage执行分页查询换油设备");
+		log.info("------查询条件为：{}", equip);
+		log.info("------page：{} , limit: {}", page, limit);
+		
+		return equipmentLubricationSI.findEquipLubricationByPage(equip, page, limit);
+	}
+	
+	/**
+	 * 根据润滑设备lid查询设备换油记录
+	 * @param lid 设备lid
+	 * @return
+	 */
+	@GetMapping("/record/query/lid")
+	public ResultJsonForTable<List<LubricateEquipmentRecord>> findEquipLubricateRecordBylid(String lid, Integer page, Integer limit){
+		log.info("------进入findEquipLubricateRecordBylid执行分页查询设备换油记录");
+		log.info("------润滑设备lid={}", lid);
+		log.info("------page：{} , limit: {}", page, limit);
+		
+		return equipmentLubricationSI.findEquipLubricationRecordByLid(lid, page, limit);
+	}
+	
+	/**
+	 * 临时换油记录跟踪
+	 * @param lid 设备lid
+	 * @return
+	 */
+	@GetMapping("/place/change/trace")
+	public ResultJsonForTable<List<LubricateEquipmentPlace>> findEquipLubricationTrace(String positionnum, String tname, Integer page,
+			Integer limit){
+		log.info("------进入findEquipLubricationTrace执行临时换油记录跟踪");
+		log.info("------换油设备位号={}", positionnum);
+		log.info("------换油设备名称={}", tname);
+		log.info("------page：{} , limit: {}", page, limit);
+		
+		return equipmentLubricationSI.findEquipLubricationTrace(positionnum, tname, page, limit);
+	}
+	
+	/**
+	 * 按月统计每种润滑油使用量
+	 */
+	@GetMapping("/year/report")
+	public ResultJson<List<LubricationMothlyReport>> findRecordByYear(String year){
+		log.info("------进入findRecordByYear统计每种润滑油使用量");
+		log.info("------查询年份year：{}", year);
+		
+		return new ResultJson<>(ResultJson.SUCCESS, "查询成功", equipmentLubricationSI.findRecordByYear(year));
+	}
+	
+	/**
+	 * 设备润滑油加油和换油记录
+	 * @param lid 设备lid
+	 * @return
+	 */
+	@GetMapping("/add/change/record/report")
+	public ResultJsonForTable<List<LubricationRecordReport>> findLubricationRecord(String positionnum, String tname,
+			String startDate, String endDate, Integer page, Integer limit){
+		log.info("------进入findLubricationRecord执行查询设备润滑油加油和换油记录");
+		log.info("------换油设备位号={}", positionnum);
+		log.info("------换油设备名称={}", tname);
+		log.info("------开始时间startDate={} , 结束时间endDate={}", tname, endDate);
+		log.info("------page：{} , limit: {}", page, limit);
+		
+		return equipmentLubricationSI.findLubricationRecordByPage(positionnum, tname, startDate, endDate, page, limit);
+	}
+	
+	/**
+	 * 导出润滑油月度记录表
+	 * @throws UnsupportedEncodingException 
+	 */
+	@GetMapping("/export/report/{year}")
+	public ResponseEntity<byte[]> exportReportByYear(@PathVariable("year") String year) throws UnsupportedEncodingException{
+		log.info("------进入exportReportByYear导出润滑油月度记录表");
+		log.info("------查询年份year：{}", year);
+		
+		List<LubricationMothlyReport> result = equipmentLubricationSI.findRecordByYear(year);
+		byte[] data = null;
+		try {
+			data = ExportExcelUtil.exportLubricationMonthlyReport(year, result);
+			//设置content-type
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			//处理文件名中文乱码
+			String fileName = URLEncoder.encode("润滑油月度记录表.xlsx", "UTF-8");
+			header.add("Content-Disposition", "attachment; filename="+fileName);
+			//header.setContentDispositionFormData("attachment", fileName);
+			return new ResponseEntity<byte[]>(data, header, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			log.info("------导出excel表失败------");
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	/**
+	 * 导出设备润滑油记录表
+	 * @throws UnsupportedEncodingException 
+	 */
+	@GetMapping("/export/report/record")
+	public ResponseEntity<byte[]> exportReportRecord(String positionnum, String tname, String startDate, String endDate) throws UnsupportedEncodingException{
+		log.info("------进入exportReportRecord执行导出设备润滑油记录表");
+		log.info("------换油设备位号={}", positionnum);
+		log.info("------换油设备名称={}", tname);
+		log.info("------开始时间startDate={} , 结束时间endDate={}", tname, endDate);
+		
+		List<LubricationRecordReport> result = equipmentLubricationSI.findLubricationRecord(positionnum, tname, startDate, endDate);
+		byte[] data = null;
+		try {
+			data = ExportExcelUtil.exportLubricationRecordReport(result);
+			//设置content-type
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			//处理文件名中文乱码
+			String fileName = URLEncoder.encode("设备润滑油记录表.xlsx", "UTF-8");
+			header.add("Content-Disposition", "attachment; filename="+fileName);
+			//header.setContentDispositionFormData("attachment", fileName);
+			return new ResponseEntity<byte[]>(data, header, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			log.info("------导出excel表失败------");
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
