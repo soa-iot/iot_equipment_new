@@ -19,22 +19,24 @@
 			      <div class="layui-input-inline" style="width: 120px;">
 					 <input type="text" class="layui-input layui-input-one" id="startdate" autocomplete="off" placeholder="请选择">
 			      </div>
-			    </div>
-			    <div class="layui-inline">
-			      <label class="text-font layui-form-label" style="width: 70px;">设备位号</label>
-			      <div class="layui-input-inline" style="width: 120px;">
-			        <input type="text" id="problemdescribe" class="layui-input">
-			      </div>
-			    </div>
-			    <div class="layui-inline"> 
+			    </div>			   
+			    <div class="layui-inline" >
+					<label class="layui-form-label" style="width: 70px;">设备位号</label>
+		      		<div class="layui-input-inline">
+				        <select name="position" id="position">
+				        </select>
+					</div>
+				</div>	
+			    <!-- <div class="layui-inline"> 
 			      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
 			      <div class="layui-input-inline" style="width: 170px;">
 			        <input type="text" class="layui-input layui-input-one" autocomplete="off">
 			      </div>
-			    </div>
+			    </div> -->
 			    <div class="layui-inline layui-inline-btn"> 
-			    	<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" data-type="reload" lay-filter="querydata">
-						<i class="layui-icon">&#xe615;</i>查询
+			    	<button type="button " class="layui-btn layui-btn-sm layui-btn-normal" 
+			    		data-type="reload" id="querydata" style="margin-left:40px">
+						<i class="layui-icon">&#xe615;</i>&nbsp&nbsp&nbsp查&nbsp&nbsp询&nbsp&nbsp&nbsp
 					</button> 
 			    </div>
 			 </div>

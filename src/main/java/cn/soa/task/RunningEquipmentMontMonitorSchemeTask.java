@@ -1,5 +1,6 @@
 package cn.soa.task;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.ibm.icu.text.SimpleDateFormat;
 
 import cn.soa.dao.influx.EquipmentRunningMonthMonitorDao;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RunningEquipmentMontMonitorSchemeTask {
 	@Autowired
 	private EquipmentRunningMonthMonitorDao dao; 
-	   //cron表达式：每月1号凌晨启动
-    @Scheduled(cron = "0 0 0 1 ? ?")
+	   //cron表达式：每月1号凌晨启动cron = "0/5 * * * * ?"
+    @Scheduled(cron = "0 0 0 1 * *")
     private void insertToEquipmentMonthMonitor() {
     	String startTime=getLastDayOfMonth("min");
     	String endTime=getLastDayOfMonth("max");
