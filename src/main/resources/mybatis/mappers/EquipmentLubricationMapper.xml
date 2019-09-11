@@ -208,7 +208,7 @@
 	<!-- Integer countEquipLubricationTrace(
 			@Param("positionnum") String positionnum,
 			@Param("tname") String tname)-->
-	<select id="countEquipLubricationTracess" resultType="int">
+	<select id="countEquipLubricationTrace" resultType="int">
 		SELECT 
 			COUNT(1)
 		FROM
@@ -222,138 +222,6 @@
 				AND LOWER(lubri.lname) LIKE LOWER('%${tname}%')
 			</if>
 		</where>			
-	</select>
-	
-	<!-- 按月统计每种润滑油使用量 -->
-	<!-- List<LubricationMothlyReport> findRecordByYear(@Param("year") String years); -->
-	<select id="findRecordByYear" resultType="cn.soa.entity.LubricationMothlyReport">
-		SELECT
-			OID oid, SUBSTR(TO_CHAR(PTIME, 'YYYY-MM'), 6, 2) month, SUM(RAMOUNT) ramount
-		FROM
-			IOT_EQUIPMENT_LUBRICATE_RECORD
-		WHERE
-			TO_CHAR(PTIME, 'YYYY') = #{year, jdbcType=VARCHAR}
-		GROUP BY
-			OID, TO_CHAR(PTIME, 'YYYY-MM')
-		ORDER BY 
-			OID, TO_CHAR(PTIME, 'YYYY-MM') ASC
-	</select>
-	
-	<!-- 分页查询设备润滑油加油和换油记录 -->
-	<!-- List<LubricationRecordReport> findLubricationRecordByPage(
-			@Param("positionnum") String positionnum,
-			@Param("tname") String tname,
-			@Param("startDate") String startDate,
-			@Param("endDate") String endDate,
-			@Param("page") Integer page,
-			@Param("limit") Integer limit) -->
-	<select id="findLubricationRecordByPage" resultType="cn.soa.entity.LubricationRecordReport">
-		SELECT
-			result.*
-		FROM
-			(
-				SELECT
-					lubricate_result.*, ROWNUM rownum1
-				FROM
-					(
-						SELECT
-							oil.OID oid, lubri.LID lid, place.PID pid, oil.ONAME oname, oil.OSIGN osign,
-							oil.MANUFACTURE manufacture, place.PPLACE pplace, lubri.LNAMEKEY positionnum,
-							lubri.LNAME tname, record.PTIME ptime, record.EXCUTOR excutor, record.OPERATETYPE operatetype,
-							record.RNOTE rnote, record.RAMOUNT ramount
-						FROM
-							IOT_EQUIPMENT_LUBRICATION_OIL oil JOIN IOT_EQUIPMENT_LUBRICATE_RECORD record
-							ON oil.oid = record.oid JOIN IOT_EQUIPMENT_LUBRICATE lubri ON record.lid = lubri.lid
-							JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place ON record.pid = place.pid
-						<where>
-							<if test="positionnum != null and positionnum != ''">
-								LOWER(lubri.LNAMEKEY) LIKE LOWER('%${positionnum}%')
-							</if>
-							<if test="tname != null and tname != ''">
-								AND LOWER(lubri.LNAME) LIKE LOWER('%${tname}%')
-							</if>
-							<if test="startDate != null and startDate != ''">
-								AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &gt;= #{startDate}
-							</if>
-							<if test="endDate != null and endDate != ''">
-								AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &lt;= #{endDate}
-							</if>
-						</where>
-						ORDER BY record.PTIME DESC
-					) lubricate_result
-				<where>
-					<if test="page != null and page != '' and limit != null and limit != ''">
-						ROWNUM &lt;= ${page * limit}
-					</if>
-				</where>
-			) result
-		<where>
-			<if test="page != null and page != '' and limit != null and limit != ''">
-					rownum1 &gt; ${(page-1) * limit}
-			</if>
-		</where>
-	</select>
-	
-	<!-- 统计设备润滑油加油和换油记录总数 -->
-	<!-- Integer countLubricationRecord(
-			@Param("positionnum") String positionnum,
-			@Param("tname") String tname,
-			@Param("startDate") String startDate,
-			@Param("endDate") String endDate) -->
-	<select id="countLubricationRecord" resultType="int">
-		SELECT
-			COUNT(1)
-		FROM
-			IOT_EQUIPMENT_LUBRICATION_OIL oil JOIN IOT_EQUIPMENT_LUBRICATE_RECORD record
-			ON oil.oid = record.oid JOIN IOT_EQUIPMENT_LUBRICATE lubri ON record.lid = lubri.lid
-			JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place ON record.pid = place.pid
-		<where>
-			<if test="positionnum != null and positionnum != ''">
-				LOWER(lubri.LNAMEKEY) LIKE LOWER('%${positionnum}%')
-			</if>
-			<if test="tname != null and tname != ''">
-				AND LOWER(lubri.LNAME) LIKE LOWER('%${tname}%')
-			</if>
-			<if test="startDate != null and startDate != ''">
-				AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &gt;= #{startDate}
-			</if>
-			<if test="endDate != null and endDate != ''">
-				AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &lt;= #{endDate}
-			</if>
-		</where>
-	</select>
-	
-	<!-- 查询设备润滑油加油和换油记录 -->
-	<!-- List<LubricationRecordReport> findLubricationRecord(
-			@Param("positionnum") String positionnum,
-			@Param("tname") String tname,
-			@Param("startDate") String startDate,
-			@Param("endDate") String endDate -->
-	<select id="findLubricationRecord" resultType="cn.soa.entity.LubricationRecordReport">
-		SELECT
-			oil.OID oid, lubri.LID lid, place.PID pid, oil.ONAME oname, oil.OSIGN osign,
-			oil.MANUFACTURE manufacture, place.PPLACE pplace, lubri.LNAMEKEY positionnum,
-			lubri.LNAME tname, record.PTIME ptime, record.EXCUTOR excutor, record.OPERATETYPE operatetype,
-			record.RNOTE rnote, record.RAMOUNT ramount
-		FROM
-			IOT_EQUIPMENT_LUBRICATION_OIL oil JOIN IOT_EQUIPMENT_LUBRICATE_RECORD record
-			ON oil.oid = record.oid JOIN IOT_EQUIPMENT_LUBRICATE lubri ON record.lid = lubri.lid
-			JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place ON record.pid = place.pid
-		<where>
-			<if test="positionnum != null and positionnum != ''">
-				LOWER(lubri.LNAMEKEY) LIKE LOWER('%${positionnum}%')
-			</if>
-			<if test="tname != null and tname != ''">
-				AND LOWER(lubri.LNAME) LIKE LOWER('%${tname}%')
-			</if>
-			<if test="startDate != null and startDate != ''">
-				AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &gt;= #{startDate}
-			</if>
-			<if test="endDate != null and endDate != ''">
-				AND TO_CHAR(record.PTIME, 'yyyy-mm-dd') &lt;= #{endDate}
-			</if>
-		</where>
-		ORDER BY record.PTIME DESC
 	</select>
 	
 	<!-- ===========================2、新增===============================  -->

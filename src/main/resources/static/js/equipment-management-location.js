@@ -35,7 +35,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		defaultToolbar: [''],*/
 		totalRow: true,
 		page: true,   //开启分页
-		cellMinWidth: 70, √
+		cellMinWidth: 70,
 		request: {
 		    pageName: 'page' //页码的参数名称，默认：page
 		    ,limitName: 'limit' //每页数据量的参数名，默认：limit
