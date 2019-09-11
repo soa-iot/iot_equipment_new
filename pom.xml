@@ -21,10 +21,12 @@
 	</properties>
 
 	<dependencies>
+	<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
+	 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -44,13 +46,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		 	<!-- 移除嵌入式tomcat插件 
+		 	<!-- 移除嵌入式tomcat插件 -->
 		    <exclusions>
 		        <exclusion>
 		            <groupId>org.springframework.boot</groupId>
 		            <artifactId>spring-boot-starter-tomcat</artifactId>
 		        </exclusion>
-		    </exclusions>-->
+		    </exclusions>
 		    <!-- 移除嵌入式tomcat插件 --> 
 		</dependency>
 		<!-- <dependency>
@@ -77,10 +79,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!--  
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
+		-->
+		
 		 <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -120,18 +125,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 	        <scope>provided</scope>
 	    </dependency>
-	    
-	    <!-- shiro -->
-   		<dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
-            <version>1.4.0</version>
-        </dependency>
+	   
 	    
 	    <!-- 打包用tomcat依赖 -->
 	    <dependency>
@@ -152,14 +146,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-		<dependency>
-     		<groupId>org.projectlombok</groupId> 
-     		<artifactId>lombok</artifactId> 
-   		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-		  	<artifactId>logback-core</artifactId>
-		</dependency> 
 		<dependency>
 			<groupId>org.influxdb</groupId>
   			<artifactId>influxdb-java</artifactId>
@@ -220,6 +206,7 @@
 			<artifactId>DataObjectAccess</artifactId>
 			<version>1.5</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
@@ -257,6 +244,10 @@
 			<groupId>org.codehaus.jettison</groupId>
 			<artifactId>jettison</artifactId>
 			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
 		
