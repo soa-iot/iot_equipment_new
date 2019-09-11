@@ -34,25 +34,28 @@ public class EquipmentMoveRunningBYyearS implements EquipmentMoveRunningBYyearSI
 	public List<Map<String, Object>> countEquipmentRunningEveryMonth(String Time) {
 		List<EquipmentMoveRunningTime> list=mapper.findAll();
 		List<Map<String, String>> ls=dao.getEquipmentRuningMonitor(Time);
+		log.info("获取到本年度所有设备每个月份的运行时间"+ls.toString());
 		List<Map<String,Object>> equipments=new ArrayList<>();
 		String[] months= {"January","February","March","April","May","June","July","August","September","October","November","December"};
 		String position;
 		for(int i=0;i<list.size();i++) {
-			Map<String,	Object> map=new HashMap<>();
-			for(int a=0;i<months.length;a++) {
-				map.put(months[a],0);
-			}
 			position=list.get(i).getPositionNum();
 			for(Map<String, String> equipmentMonth:ls) {
 				if(equipmentMonth.get("position").equals(position)) {
+					Map<String,	Object> map=new HashMap<>();
+					for(int a=0;a<months.length;++a) {
+						map.put(months[a],0);
+					}
 					int mon=Integer.parseInt(equipmentMonth.get("runningDate").substring(5, 7))-1;
 					map.put("position", position);
 					map.put(months[mon],equipmentMonth.get("value"));
+					equipments.add(map);
 				}
 				
 			}
-			equipments.add(map);
+			
 		}
+		log.info("用于统计每个设备，每月运行的时间"+equipments.size());
 		return equipments;
 		
 	}
@@ -75,7 +78,7 @@ public class EquipmentMoveRunningBYyearS implements EquipmentMoveRunningBYyearSI
 		return time;
 	}
 	//统计每个设备大修或者更换后运行的时间
-	public Float equipmentMonitorChangeOrFix(String startTime,String endTime,String  position) {
+	public Double  equipmentMonitorChangeOrFix(String startTime,String endTime,String  position) {
 		
 		return dao.equipmentMonitorChangeOrFix(startTime,endTime,position);
 		
@@ -124,10 +127,12 @@ public class EquipmentMoveRunningBYyearS implements EquipmentMoveRunningBYyearSI
 		List<Map<String, Object>> montRunningTime=countEquipmentRunningEveryMonth(time);
 		List<Map<String, Object>>  yearRunningTime=countEquipmentRunningEveryYear(time);
 		List<Map<String, Object>> totalTime=getTotal(time);
+		log.info("统计本年度累计运行时间"+yearRunningTime.toString());
 		if(montRunningTime!=null||montRunningTime.size()>0) {
 			for(Map<String, Object> map:montRunningTime) {
 				String position=map.get("position").toString();
-				map.put("Modify_time",equipmentMonitorChangeOrFix( findChangeOrFixDate( position, "大修", time), time, position));
+				log.info("position:"+position);
+				map.put("Modify_time",equipmentMonitorChangeOrFix(findChangeOrFixDate( position, "大修", time), time, position));
 				map.put("Chang_time",equipmentMonitorChangeOrFix( findChangeOrFixDate( position, "更换", time), time, position));
 				for(Map<String, Object> t:totalTime) {
 					if(position.equals(t.get("position"))) {

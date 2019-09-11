@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+
 import cn.soa.dao.influx.EquipmentRunningMonthMonitorDao;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RunningEquipmentMontMonitorSchemeTask {
 	@Autowired
 	private EquipmentRunningMonthMonitorDao dao; 
-	   //cron表达式：每月1号凌晨启动
     @Scheduled(cron = "0 0 0 1 * ?")
     private void insertToEquipmentMonthMonitor() {
     	String startTime=getLastDayOfMonth("min");

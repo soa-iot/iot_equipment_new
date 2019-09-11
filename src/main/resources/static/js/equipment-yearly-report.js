@@ -7,26 +7,23 @@ layui.config({
 //从cookie中获取当前登录用户
 var resavepeople = getCookie1("name").replace(/"/g,'');
 
-/**
- * 日期插件
- */
-layui.use('laydate', function(){
-	var laydate = layui.laydate;
-	//常规用法
-	laydate.render({
-		elem: '#startdate',
-		type: 'year'
-	});
-});
-
 //加载layui内置模块
-layui.use(['jquery','form','layer','table','excel'], function(){
+layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 	var form = layui.form
 	,layer = layui.layer
 	,table = layui.table
 	,$ = layui.$ //使用jQuery
-	var excel = layui.excel;
-	
+	getEquipmentAllUrl = '/iot_equipment/equipmentRunning',
+	 excel = layui.excel,
+	laydate = layui.laydate;
+	//常规用法
+	laydate.render({
+		elem: '#startdate',
+		type: 'year',
+		trigger: 'click',
+		value: new Date(),
+		min: '2019-01-01'
+	});
 	
 	/**
 	 * 设备运行统计年报信息展示表
@@ -34,24 +31,15 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	var yearlyTable = table.render({
 		elem: '#yearlyReport',
 		method: 'post',
-		url: 'iot_equipment/equipmen_influx/query',
+		url: '/iot_equipment/equipmen_influx/query?',
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		totalRow: true,
+		where: {
+			"Time": $('#startdate').val()
+		   //,"equipment_number": searchedEquipment
+		},
 		page: true,   //开启分页
-		request: {
-		    pageName: 'page' //页码的参数名称，默认：page
-		    ,limitName: 'limit' //每页数据量的参数名，默认：limit
-		},
-		parseData: function(res){ //res 即为原始返回的数据
-			var data = res.data     
-		    return {
-		      "code": res.code, //解析接口状态
-		      "msg": res.msg, //解析提示文本
-		      "count": res.count, //解析数据长度
-		      "data": data      //解析数据列表
-		    };
-		},
 		cols: [[{field:'id', title:'序号', width:60, sort:false, type:'numbers', fixed:'left', align:'center'},
 			{field:'position', title:'设备位号', width:120,  align:'center'},
 			{field:'January', title:'1月', width:60,  align:'center'},
@@ -72,7 +60,32 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 			{field:'Total', title:'总运行时间', width:120,  align:'center'}
 			]]
 	});
+	//设备
+	ajax('GET', getEquipmentAllUrl, {}, function( data ){
+		p("设备初始化数据回调函数……")
+		p(data);
+		$('#position').append( '<option value="null" > 请选择设备 </option>');
+		$.each(data, function(index, item){
+//			var flag = index==0?" selected=true":" ";
+			var flag = '';
+			$('#position').append(
+					'<option value="' + item.rnumber+ '" '+ flag + '>'
+					+ item.positionNum + '</option>'		
+			);
+		})
+	}, false)
+	form.render();
 	/**
 	 * 监听查询功能
 	 */
+	$('#querydata').click(function(){
+		yearlyTable.reload({
+    	    page: {
+    	    	curr: 1
+    	    }
+			,where: {
+				"Time": $('#startdate').val()
+			}
+    	})
+	});
 })

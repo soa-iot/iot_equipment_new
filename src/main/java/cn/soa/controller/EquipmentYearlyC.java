@@ -30,11 +30,14 @@ public class EquipmentYearlyC {
 	private EquipmentMoveRunningBYyearS equipmentMoveRunningBYyear;
 	@RequestMapping("/query")
 	public ResultJsonForTable CountByYear(String Time ) {
+		//测试
+				
 		List<Map<String, Object>> result=equipmentMoveRunningBYyear.toStanderData(Time);
+		log.info("采集回来的数据："+result);
 		if(result!=null||result.size()>0) {
-			return new ResultJsonForTable(1, "数据成功采集", equipmentMoveRunningBYyear.count(), result);
+			return new ResultJsonForTable(0, "数据成功采集", equipmentMoveRunningBYyear.count(), result);
 		}else {
-			return new ResultJsonForTable(0, "暂时未采集到数据", 0, null);
+			return new ResultJsonForTable(1, "暂时未采集到数据", 0, null);
 		}
 	}
 }

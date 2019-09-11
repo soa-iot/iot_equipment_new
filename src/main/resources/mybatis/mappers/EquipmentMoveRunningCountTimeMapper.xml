@@ -18,9 +18,9 @@
 		FROM
 			IOT_EQUIPMENT_BIGEVENT
 			where positionnum=#{position}
-			and event=#{event}
+			and event=#{even}
 			and to_char(EVENTTIME,'YYYY') =#{time}
-			order by EVENTTIME desc;
+			order by EVENTTIME desc
 	</select>
 		<!-- 1.2、获取初始化的运行记录时间	-->
 	

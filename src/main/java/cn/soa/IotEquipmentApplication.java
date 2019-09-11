@@ -10,8 +10,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = "cn.soa",exclude = SecurityAutoConfiguration.class)
 public class IotEquipmentApplication  extends SpringBootServletInitializer{
-
 	public static void main(String[] args) {
+		try {
+			Class.forName("org.apache.logging.slf4j.Log4jLoggerFactory");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		SpringApplication.run(IotEquipmentApplication.class, args);
 	}
 	
