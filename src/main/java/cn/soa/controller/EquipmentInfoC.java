@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.soa.entity.EquipmentBigEvent;
+import cn.soa.entity.EquipmentInfo;
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.EquipmentTypeBackup;
 import cn.soa.entity.ResultJson;
 import cn.soa.entity.ResultJsonForTable;
 import cn.soa.service.intel.EquipmentBigEventSI;
+import cn.soa.service.intel.EquipmentInfoSI;
 import cn.soa.service.intel.EquipmentMoveRunningTimeSI;
 import cn.soa.service.intel.EquipmentTypeBackupSI;
 import lombok.experimental.var;
@@ -37,6 +39,9 @@ public class EquipmentInfoC {
 	
 	@Autowired
 	private EquipmentTypeBackupSI equipTypeBackupS;
+	
+	@Autowired
+	private EquipmentInfoSI equipmentInfoS;
 	
 	/**
 	 * 设备台账导入时备份数据库
@@ -149,5 +154,19 @@ public class EquipmentInfoC {
 			return new ResultJson<Void>(ResultJson.ERROR, "删除备份记录失败"+bid);
 		}
 		return new ResultJson<Void>(ResultJson.SUCCESS, "删除备份记录成功"+bid);
+	}
+	
+	/**
+	 * 根据条件查询设备信息
+	 * @param bid
+	 * @return
+	 */
+	@GetMapping("/show")
+	public ResultJsonForTable<List<EquipmentInfo>> showEquipmentInfo(EquipmentInfo info, Integer page, Integer limit){
+		log.info("---------进入showEquipmentInfo开始条件查询设备信息--------");
+		log.info("---------查询条件：{}", info);
+		log.info("------分页信息：page={}, limit={}", page, limit);
+		
+		return equipmentInfoS.getEquipmentInfo(info, page, limit);
 	}
 }

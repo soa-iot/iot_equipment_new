@@ -35,7 +35,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 	 */
 	var equipmentTable = table.render({
 		elem: '#equipmentInfo',
-		method: 'post',
+		method: 'get',
 		url: '/iot_equipment/equipmentinfo/show',
 		/*toolbar: '#toolbarBtn',
 		defaultToolbar: [''],*/
@@ -60,6 +60,7 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		cols: [[
 			{type:'radio'}, 
 			{field:'welName', title:'装置列名', align:'center'},    //, templet:"<div>{{layui.util.toDateString(d.applydate,'yyyy-MM-dd HH:mm:ss')}}</div>"
+			{field:'welUnit', title:'装置单元', align:'center'}, 
 			{field:'equMemoOne', title:'设备类别', align:'center'},
 			{field:'equPositionNum', title:'设备位号', align:'center'},
 			{field:'equName', title:'设备名称', align:'center'}]]
