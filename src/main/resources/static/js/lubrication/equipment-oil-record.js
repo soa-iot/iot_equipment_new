@@ -25,7 +25,7 @@ layui.use(['table','laydate','form'], function(){
 	    ,where: {
 	    	"oid":oid
 	    }
-	    ,limit:10
+	   // ,limit:10
 	    ,page: true
 	    ,type:"numbers"
 	    ,cols: [[
@@ -46,6 +46,9 @@ layui.use(['table','laydate','form'], function(){
 		  console.log(starttime);
 		  console.log(endtime);
 
+		  if (starttime > endtime) {
+			  layer.msg("开始时间不能大于结束时间！", {icon: 7, time: 2000, offset: '150px'});
+		}
 		  rectable.reload({
 			  where: {
 				  "startTime":starttime
