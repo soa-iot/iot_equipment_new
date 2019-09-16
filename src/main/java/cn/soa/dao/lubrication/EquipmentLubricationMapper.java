@@ -50,7 +50,9 @@ public interface EquipmentLubricationMapper {
 	 * @param lubricateEquipmentPlace
 	 * @return
 	 */
-	List<LubricateEquipmentPlace> findLubPlace(LubricateEquipmentPlace lubricateEquipmentPlace);
+	List<LubricateEquipmentPlace> findLubPlace(
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
 	
 	/**
 	 *查询换油记录 
@@ -162,4 +164,20 @@ public interface EquipmentLubricationMapper {
 			@Param("tname") String tname,
 			@Param("startDate") String startDate,
 			@Param("endDate") String endDate);
+	
+	/**
+	 * 查询设备润滑部位
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	Integer findLubPlaceCount();
+	
+	/**
+	 * 根据位号和换油部位查询换油部位
+	 * @param lnamekey
+	 * @param pplace
+	 * @return
+	 */
+	LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace);
 }

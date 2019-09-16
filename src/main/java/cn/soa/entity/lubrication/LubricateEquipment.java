@@ -33,4 +33,5 @@ public class LubricateEquipment implements Serializable {
 	private String isuser;
 	private String lremark1;
 	private String lremark2;
+	private Integer rn;
 }

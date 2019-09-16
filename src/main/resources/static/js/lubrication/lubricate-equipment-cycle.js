@@ -6,10 +6,28 @@ var userid = "张三";
 
  $("#add-lub-div").hide();
  $("#oil-stock-div").hide();
+ $("#warningpplace").hide();
  $("#warning").hide();
- $("#warning1").hide();
- $("#warningnum").hide();
- $("#warningnum1").hide();
+ $("#warningoname").hide();
+ $("#warningpfrequency").hide();
+ $("#warningpuint").hide();
+ $("#warningpamount").hide();
+ $("#warninglasttime").hide();
+ 
+ /**
+  * 日期插件
+  */
+ layui.use('laydate', function(){
+ 	var laydate = layui.laydate;
+
+ 	//常规用法
+ 	laydate.render({
+ 		elem: '#lastchangetime'
+ 		,max:0
+ 		,format:'yyyy/MM/dd'
+ 	});
+
+ });
  
  $.ajax({
 	  type: 'post',
@@ -36,87 +54,38 @@ layui.use(['table','laydate','layer', 'form'], function(){
   var table = layui.table
   	  ,laydate = layui.laydate
   	  ,layer = layui.layer
-  	  ,form = layui.form;
+  	  ,form = layui.form
+  	  ,rn = 1;
   
-  table.render({
-    elem: '#record-table'
-    ,url:'/iot_equipment/equipmentoil/queryoilallstock'
-    ,limit:10
-    ,page: true
-    ,type:"numbers"
-    ,cols: [[
-    	{field:'zizeng', width:"10%", title: '序号',templet:'#numb'}
-      ,{field:'oname', width:"30%", title: '油品名称'}
-      ,{field:'ostock', width:"20%", title: '库存量'}
-      ,{field:'ounit', width:"20%", title: '单位'}
-      ,{fixed: '', title:'操作', toolbar: '#barDemo', width:"20%"}
-    ]]
-   
-  });
-  
-  //监听行工具事件
-	  table.on('tool(record-table)', function(obj){
-	    var data = obj.data
-	    ,oid = data.oid;
-	    console.log(data.oid)
-	    top.location.href = "../../html/lubrication/equipment-oil-record.html?oid="+oid;
-	  });
-	  
-	  $("#oname").blur(function(){
-		  console.log($("#oname").val())
-		  if ($("#oname").val() != "") {
-			  nameCheck("oname",$("#oname").val());
-		}else{
-			$("#warning").html("*油品名称不能为空*")
-			$("#warning").attr("name","uncheck")
-			$("#warning").show();
-		}
-		  console.log($("#warning").attr("name"));
-		 
-	  });
-	  
-	  $("#oname1").blur(function(){
-		  console.log($("#oname1").val())
-		  if ($("#oname1").val() != "") {
-			  nameCheck("oname1",$("#oname1").val());
-		}else{
-			$("#warning1").html("*油品名称不能为空*")
-			$("#warning1").attr("name","uncheck")
-			$("#warning1").show();
-		}
-		  console.log($("#warning1").attr("name"));
-		 
-	  });
-	  
-	  $("#ostock").blur(function(){
-		  console.log($("#ostock").val())
-		  console.log(/(^[0-9]*(.[0-9]+)?)$/.test($("#ostock").val()))
-		  
-		  if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ostock").val()) && $("#ostock").val() >= 0) {
-			  $("#warningnum").attr("name","check");
-			  $("#warningnum").hide();
-		}else{
-			  $("#warningnum").attr("name","uncheck")
-			  $("#warningnum").show();
-		}
-		  console.log($("#warningnum").attr("name"));
-		 
-	  });
-		  
-	 $("#ramount").blur(function(){
-			console.log($("#ramount").val())
-			console.log(/(^[0-9]*(.[0-9]+)?)$/.test($("#ramount").val()))
-				  
-			if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ramount").val()) && $("#ramount").val() >= 0) {
-				 $("#warningnum1").attr("name","check");
-				 $("#warningnum1").hide();
-			}else{             
-				 $("#warningnum1").attr("name","uncheck")
-				 $("#warningnum1").show();
+  var tab = table.render({
+	    elem: '#record-table'
+	    ,url:'/iot_equipment/lubrication/lubplace'
+	    ,limit:10
+	    ,page: true
+	    ,cols: [[
+	    	{field:'rn', title: '序号', width:'6%'}
+	      ,{field:'lnamekey', title: '设备位号', width:'11%'}
+	      ,{field:'lname', title: '设备名称', width:'11%'}
+	      ,{field:'pplace', title: '润滑部位', width:'11%'}
+	      ,{field:'requireoil1', title:'油品', width:'11%'}
+	      ,{field: 'pamount', title:'加油量', width:'10%'}
+	      ,{field: 'pfrequency', title:'润滑周期', width:'10%'}
+	      ,{field: 'nextchangetime', title:'下一次换油时间', width:'15%', templet:function(d){
+	    	  var date = '';
+	    	  if (d.nextchangetime != null && d.nextchangetime != '') {
+	    		  date = d.nextchangetime.substring(0,10);
 			}
-			 console.log($("#warningnum1").attr("name"));
-				 
-	 });
+				return date;
+			}}
+	      ,{field: 'lastchangetime', title:'最后一次换油时间', templet:function(d){
+	    	  var date = '';
+	    	  if (d.lastchangetime != null && d.lastchangetime != '') {
+	    		  date = d.lastchangetime.substring(0,10);
+			}
+				return date;
+			}}
+	    ]]
+	  });
 	  
 	 form.on('submit(choose-equ)', function(obj){
 		  console.log(obj)
@@ -124,11 +93,11 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		  var ope= layer.open({
 				type: 2
 				,offset: 't' 
-				,area: ['650px','620px;']
+				,area: ['90%','80%']
 				//,id: 'choose-equ' //防止重复弹出
 				,key:'id'
 				,title:"选择设备"
-				,content: "../../html/equipment-record-location.html"
+				,content: "../../html/equipment-management-location.html"
 				,btn: ['确认',"取消"]
 				,btnAlign: 'c' //按钮居中
 				,yes: function(index){
@@ -160,11 +129,13 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	 
 	  form.on('submit(add-oil)', function(obj){
 		  console.log(obj)
+		 
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+		  
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 
-				,area: ['450px','650px;']
+				,area: ['450px','600px;']
 				,id: 'coordinate' //防止重复弹出
 				,key:'id'
 				,title:"新增换油设备"
@@ -173,11 +144,13 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				,btnAlign: 'c' //按钮居中
 				,yes: function(){
 					
-					$(".layui-layer-btn0").off('click');
 					var ch = $("#warning").attr("name");
 					var chnum = $("#warningnum").attr("name");
-					
-					//if (ch == "check" && chnum == "check" && $("#oname").val() != '') {
+					 var d= inputCheck();
+					 
+					if ($("#warningpplace").attr("name")=="check" && d ==0) {
+						$(".layui-layer-btn0").off('click');
+						
 						$.ajax({
 							type: 'POST',
 							async: false,
@@ -187,16 +160,21 @@ layui.use(['table','laydate','layer', 'form'], function(){
 								"lname":$("#equName").val(),
 								"pplace": $("#pplace").val(),
 								"requireoil1": $("#oname").val(),
-								"requireoil2": $("#oname1").val(),
+								//"requireoil2": $("#oname1").val(),
 								"pamount": $("#pamount").val(),
 								"pfrequency": $("#pfrequency").val(),
-								"punit": $("#punit").val()
+								"punit": $("#punit").val(),
+								"lastchangetime":$("#lastchangetime").val(),
+								"punit":$("#punit").val()
 							},
 							dataType: 'JSON',
 							success: function(json){
 								if(json.state == 0){
-									$("#oname").val("")
+									$("#pplace").val("");
+									//$("#oname").val("");
+									$("#lastchangetime").val("");
 									layer.msg("新增成功", {icon: 1, time: 2000, offset: '150px'});
+									tab.reload();
 									layer.close(ope);
 								}else{
 									layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
@@ -207,153 +185,124 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							}
 						})
 						
-					/*}else{
-						if ($("#oname").val() == '') {
-						  $("#warning").html("*油品名称不能为空*")
-						}
-						$("#warning").show();
-						if (chnum != "check") {
-							$("#warningnum").show();
-						}
-					}*/
-					
-				}
-		  });
-	  });
-	  
-	  /**
-		 * 设备信息展示表
-		 */
-		/*var equipmentTable = table.render({
-			elem: '#equipmentInfo',
-			method: 'post',
-			url: '/iot_equipment/equipmentinfo/show',
-			toolbar: '#toolbarBtn',
-			defaultToolbar: [''],
-			totalRow: true,
-			page: true,   //开启分页
-			cellMinWidth: 130,
-			where: {
-				'equMemoOne': equMemoOne,
-			},
-			request: {
-			    pageName: 'page' //页码的参数名称，默认：page
-			    ,limitName: 'limit' //每页数据量的参数名，默认：limit
-			},
-			parseData: function(res){ //res 即为原始返回的数据
-			    return {
-			      "code": res.code, //解析接口状态
-			      "msg": res.msg, //解析提示文本
-			      "count": res.count, //解析数据长度
-			      "data": res.data      //解析数据列表
-			    };
-			},
-			cols: [[
-				{type:'radio'},
-				{field:'welName', title:'装置列名', align:'center'},    //, templet:"<div>{{layui.util.toDateString(d.applydate,'yyyy-MM-dd HH:mm:ss')}}</div>"
-				{field:'equMemoOne', title:'设备类别', align:'center'},
-				{field:'equPositionNum', title:'设备位号', align:'center'},
-				{field:'equName', title:'设备名称', align:'center'}]]
-		});*/
-	  
-	  form.on('submit(oil-stock)', function(obj){
-
-		  console.log(obj)
-		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-		  var ope= layer.open({
-				type: 1
-				,offset: 't' 
-				,area: ['450px','450px;']
-				,id: 'coordinate' //防止重复弹出
-				,key:'id'
-				,title:"油品入库"
-				,content: $("#oil-stock-div")
-				,btn: ['提交',"取消"]
-				,btnAlign: 'c' //按钮居中
-				,yes: function(){
-					
-					$(".layui-layer-btn0").off('click');
-					var ch = $("#warning1").attr("name");
-					var chnum = $("#warningnum1").attr("name");
-					
-					if (ch == "uncheck" && chnum == "check"  && $("#oname").val() != '') {
-						$.ajax({
-							type: 'POST',
-							async: false,
-							url: '/iot_equipment/equipmentoil/oilstock',
-							data:{ 
-								"oname": $("#oname1").val(),
-								"ramount": $("#ramount").val(),
-								"rnote": $("#rnote").val(),
-								"userid":userid
-							},
-							dataType: 'JSON',
-							success: function(json){
-								if(json.state == 0){
-									$("#oname1").val("")
-									layer.msg("入库成功", {icon: 1, time: 2000, offset: '150px'});
-									layer.close(ope);
-								}else{
-									layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
-								}	
-							},
-							error: function(){
-								layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
-							}
-						})
-						
-					}else{
-						if ($("#oname1").val() == '') {
-						  $("#warning1").html("*油品名称不能为空*")
-						}
-						$("#warning1").show();
-						if (chnum != "check") {
-							$("#warningnum1").show();
-						}
 					}
+					
 				}
 		  });
 	  });
 	  
   });
 
-function nameCheck(str,oname) {
+ $("#pplace").blur(function(){
+	  console.log($("#pfrequency").val())
+	if ($("#pplace").val() != "" && $("#equPositionNum").val() != "") {
+		nameCheck();
+	}else{
+		var d= inputCheck();
+		console.log(d);
+		$("#warningpplace").html("*润滑部位不能为空*")
+		$("#warningpplace").attr("name","uncheck")
+		$("#warningpplace").show();
+	}
+	  console.log($("#warningpplace").attr("name"));
+	 
+ });
+  function inputCheck() {
+	  var c = 0;
+	  
+	  if ($("#pplace").val() == "") {
+		  c++;
+		  $("#warningpplace").html("*润滑部位不能为空*")
+			$("#warningpplace").attr("name","uncheck")
+			$("#warningpplace").show();
+		}else{
+			$("#warningpplace").attr("name","check")
+			$("#warningpplace").hide();
+		}
+	  
+	if($("#equPositionNum").val() == ""){
+		c++;
+		$("#warning").html("*设备位号不能为空*");
+		$("#warning").attr("name","uncheck")
+		$("#warning").show();
+	}else{
+		$("#warning").attr("name","check")
+		$("#warning").hide();
+	}
+	
+	if($("#oname").val() == ""){
+		c++;
+		$("#warningoname").html("*请选择油品*");
+		$("#warningoname").attr("name","uncheck")
+		$("#warningoname").show();
+	}else{
+		$("#warningoname").attr("name","check")
+		$("#warningoname").hide();
+	}
+	
+	if($("#punit").val() == ""){
+		c++;
+		$("#warningpuint").html("*请选择单位*");
+		$("#warningpuint").attr("name","uncheck")
+		$("#warningpuint").show();
+	}else{
+		$("#warningpuint").attr("name","check")
+		$("#warningpuint").hide();
+	}
+	
+	if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#pfrequency").val()) && $("#pfrequency").val() > 0) {
+		 $("#warningpfrequency").attr("name","check");
+		 $("#warningpfrequency").hide();
+	}else{  
+		c++;
+		 $("#warningpfrequency").html("*润滑周期要 > 0*");
+		 $("#warningpfrequency").attr("name","uncheck")
+		 $("#warningpfrequency").show();
+	}
+	
+	if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#pamount").val()) && $("#pamount").val() > 0) {
+		 $("#warningpamount").attr("name","check");
+		 $("#warningpamount").hide();
+	}else{     
+		c++;
+		 $("#warningpamount").html("*加油量要 > 0*");
+		 $("#warningpamount").attr("name","uncheck")
+		 $("#warningpamount").show();
+	}
+	
+	if($("#lastchangetime").val() == ""){
+		c++;
+		$("#warninglasttime").html("*时间不能为空*");
+		$("#warninglasttime").attr("name","uncheck")
+		$("#warninglasttime").show();
+	}else{
+		$("#warninglasttime").attr("name","check")
+		$("#warninglasttime").hide();
+	}
+	return c;
+}
+ 
+function nameCheck() {
 	$.ajax({
 		type: 'POST',
 		async: false,
-		url: '/iot_equipment/equipmentoil/findoilbyconditions',
+		url: '/iot_equipment/lubrication/findplaceandnamekey',
 		data:{ 
-			"oname": oname
+			"lnamekey": $("#equPositionNum").val()
+			,"pplace": $("#equName").val()
 		},
 		dataType: 'JSON',
 		success: function(json){
 			console.log(json);
 			
 			if(json.state == 0){
-				var leng = json.data.length;
-				if (str == 'oname') {
-					if (leng > 0) {
-						$("#warning").html("*此油品名称已存在*");
-						$("#warning").show();
-						$("#warning").attr("name","uncheck")
-					}else{
-						 $("#warning").hide();
-						 $("#warning").attr("name","check")
-					}
-				} else if(str == 'oname1'){
-					if (leng > 0) {
-						
-						$("#warning1").hide();
-						$("#warning1").attr("name","uncheck")
-					}else{
-						$("#warning1").html("*此油品名称不存在*");
-						$("#warning1").show();
-						$("#warning1").attr("name","check")
-					}
-				}
-				
+				$("#warningpplace").html("*此润滑部位已存在*");
+				$("#warningpplace").attr("name","uncheck")
+				$("#warningpplace").show();
 			}else{
-				layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
+				$("#warningpplace").attr("name","check")
+				 $("#warningpplace").hide();
+				//layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
 			}	
 		},
 		error: function(){

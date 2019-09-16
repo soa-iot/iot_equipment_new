@@ -84,4 +84,30 @@ public interface EquipmentLubricationSI {
 	 */
 	List<LubricationRecordReport> findLubricationRecord(
 			String positionnum, String tname, String startDate, String endDate);
+	
+	/**
+	 * 查询换油部位
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	List<LubricateEquipmentPlace> findLubPlace(
+			@Param("page") Integer page,
+			@Param("limit") Integer limit);
+	
+	/**
+	 * 查询设备润滑部位
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	Integer findLubPlaceCount();
+	
+	/**
+	 * 根据位号和换油部位查询换油部位
+	 * @param lnamekey
+	 * @param pplace
+	 * @return
+	 */
+	LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace);
 }

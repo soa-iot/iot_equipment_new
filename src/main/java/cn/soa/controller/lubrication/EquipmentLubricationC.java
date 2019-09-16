@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -132,6 +133,26 @@ public class EquipmentLubricationC {
 	}
 	
 	/**
+	 * 查询换油部位
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@GetMapping("/lubplace")
+	public ResultJsonForTable<List<LubricateEquipmentPlace>> findLubPlace(Integer page, Integer limit){
+		log.info("------page：{} , limit: {}", page, limit);
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationSI.findLubPlace(page, limit);
+		Integer count = equipmentLubricationSI.findLubPlaceCount();
+		
+		if(lubricateEquipmentPlaces != null) {
+			return new ResultJsonForTable<List<LubricateEquipmentPlace>>(0, "查询成功",count, lubricateEquipmentPlaces);
+		}else {
+			return new ResultJsonForTable<List<LubricateEquipmentPlace>>(1, "查询失败", 0, null);
+		}
+		
+	}
+	
+	/**
 	 * 导出润滑油月度记录表
 	 * @throws UnsupportedEncodingException 
 	 */
@@ -190,6 +211,26 @@ public class EquipmentLubricationC {
 			log.info(e.getMessage());
 			e.printStackTrace();
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	/**
+	 * 根据位号和换油部位查询换油部位
+	 * @param lnamekey
+	 * @param pplace
+	 * @return
+	 */
+	@PostMapping("/findplaceandnamekey")
+	public ResultJson<LubricateEquipmentPlace> findLubPlaceByNamekey(String lnamekey, String pplace) {
+		
+		log.info("===========根据位号和换油部位查询换油部位=====设备位号====="+lnamekey);
+		log.info("===========根据位号和换油部位查询换油部位=====设备部位====="+pplace);
+		LubricateEquipmentPlace lubricateEquipmentPlace = equipmentLubricationSI.findLubPlaceByNamekey(lnamekey, pplace);
+		
+		if (lubricateEquipmentPlace != null) {
+			return new ResultJson<LubricateEquipmentPlace>(0, "此设备的该部位已存在！！", lubricateEquipmentPlace);
+		}else {
+			return new ResultJson<LubricateEquipmentPlace>(1, "该部位可以增加！！", null);
 		}
 	}
 }

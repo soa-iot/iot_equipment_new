@@ -44,7 +44,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
     ,page: true
     ,type:"numbers"
     ,cols: [[
-    	{field:'zizeng', width:"10%", title: '序号',templet:'#numb'}
+    	{field:'rn', width:"10%", title: '序号',templet:'#numb'}
       ,{field:'oname', width:"30%", title: '油品名称'}
       ,{field:'ostock', width:"20%", title: '库存量'}
       ,{field:'ounit', width:"20%", title: '单位'}
@@ -87,11 +87,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		 
 	  });
 	  
+	  
 	  $("#ostock").blur(function(){
 		  console.log($("#ostock").val())
 		  console.log(/(^[0-9]*(.[0-9]+)?)$/.test($("#ostock").val()))
 		  
-		  if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ostock").val()) && $("#ostock").val() >= 0) {
+		  if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ostock").val()) && $("#ostock").val() > 0) {
 			  $("#warningnum").attr("name","check");
 			  $("#warningnum").hide();
 		}else{
@@ -106,7 +107,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 			console.log($("#ramount").val())
 			console.log(/(^[0-9]*(.[0-9]+)?)$/.test($("#ramount").val()))
 				  
-			if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ramount").val()) && $("#ramount").val() >= 0) {
+			if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ramount").val()) && $("#ramount").val() > 0) {
 				 $("#warningnum1").attr("name","check");
 				 $("#warningnum1").hide();
 			}else{             
@@ -117,6 +118,44 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				 
 	 });
 	  
+	//油品入库验证
+	 function oilStockCheck(){
+		 if ($("#oname1").val() != "") {
+			  nameCheck("oname1",$("#oname1").val());
+		}else{
+			$("#warning1").html("*油品名称不能为空*")
+			$("#warning1").attr("name","uncheck")
+			$("#warning1").show();
+		}
+		 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ramount").val()) && $("#ramount").val() > 0) {
+			 $("#warningnum1").attr("name","check");
+			 $("#warningnum1").hide();
+		}else{             
+			 $("#warningnum1").attr("name","uncheck")
+			 $("#warningnum1").show();
+		}
+		 
+	 }
+	 
+	//新增油品验证
+	 function addOilCheck(){
+		 if ($("#oname").val() != "") {
+			  nameCheck("oname",$("#oname").val());
+		}else{
+			$("#warning").html("*油品名称不能为空*")
+			$("#warning").attr("name","uncheck")
+			$("#warning").show();
+		}
+		 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ostock").val()) && $("#ostock").val() > 0) {
+			  $("#warningnum").attr("name","check");
+			  $("#warningnum").hide();
+		}else{
+			  $("#warningnum").attr("name","uncheck")
+			  $("#warningnum").show();
+		}
+		 
+	 }
+	 
 	  form.on('submit(add-oil)', function(obj){
 		  console.log(obj)
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
@@ -132,11 +171,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				,btnAlign: 'c' //按钮居中
 				,yes: function(){
 					
-					$(".layui-layer-btn0").off('click');
+					addOilCheck();
 					var ch = $("#warning").attr("name");
 					var chnum = $("#warningnum").attr("name");
 					
 					if (ch == "check" && chnum == "check" && $("#oname").val() != '') {
+						$(".layui-layer-btn0").off('click');
 						$.ajax({
 							type: 'POST',
 							async: false,
@@ -165,7 +205,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							}
 						})
 						
-					}else{
+					}/*else{
 						if ($("#oname").val() == '') {
 						  $("#warning").html("*油品名称不能为空*")
 						}
@@ -173,7 +213,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 						if (chnum != "check") {
 							$("#warningnum").show();
 						}
-					}
+					}*/
 					
 				}
 		  });
@@ -199,11 +239,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				,btnAlign: 'c' //按钮居中
 				,yes: function(){
 					
-					$(".layui-layer-btn0").off('click');
+					oilStockCheck();
 					var ch = $("#warning1").attr("name");
 					var chnum = $("#warningnum1").attr("name");
 					
 					if (ch == "uncheck" && chnum == "check"  && $("#oname").val() != '') {
+						$(".layui-layer-btn0").off('click');
 						$.ajax({
 							type: 'POST',
 							async: false,
@@ -229,7 +270,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							}
 						})
 						
-					}else{
+					}/*else{
 						if ($("#oname1").val() == '') {
 						  $("#warning1").html("*油品名称不能为空*")
 						}
@@ -237,7 +278,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 						if (chnum != "check") {
 							$("#warningnum1").show();
 						}
-					}
+					}*/
 				}
 		  });
 	  });

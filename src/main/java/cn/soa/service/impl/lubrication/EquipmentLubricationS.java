@@ -47,6 +47,27 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	@Override
 	public Integer addLub(LubricateEquipmentPlace lubricateEquipmentPlace) {
 		Integer row = 0;
+		
+		//取最后一次换油时间
+		Date lastchangetime = lubricateEquipmentPlace.getLastchangetime();
+		//取换油周期
+		Integer pfrequency = Integer.valueOf(lubricateEquipmentPlace.getPfrequency());
+		//取周期单位
+		String punit = lubricateEquipmentPlace.getPunit();
+		
+		//计算下一次换油时间
+		Calendar nextchangetime = Calendar.getInstance();
+		nextchangetime.setTime(lastchangetime);
+		
+		if ("日".equals(punit)) {
+			nextchangetime.add(Calendar.DATE, pfrequency);
+		}else if("月".equals(punit)) {
+			nextchangetime.add(Calendar.MONTH, pfrequency);
+		}else if("年".equals(punit)) {
+			nextchangetime.add(Calendar.YEAR, pfrequency);
+		}		
+		lubricateEquipmentPlace.setNextchangetime(nextchangetime.getTime());
+		
 		List<LubricateEquipment> lubricateEquipments = equipmentLubricationMapper.findLubEqui(new LubricateEquipment().setLnamekey(lubricateEquipmentPlace.getLnamekey()));
 
 		log.info("========================lubricateEquipments:"+lubricateEquipments);
@@ -187,6 +208,49 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		log.info("------开始查询设备润滑油加油和换油记录------");
 		
 		return equipmentLubricationMapper.findLubricationRecord(positionnum, tname, startDate, endDate);
+	}
+
+	/**
+	 * 查询换油部位
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@Override
+	public List<LubricateEquipmentPlace> findLubPlace(Integer page, Integer limit) {
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit);
+		
+		//将周期放入一个字段中
+		Integer rn = (page - 1) * limit;
+		if (lubricateEquipmentPlaces != null && lubricateEquipmentPlaces.size() > 0) {
+			for (LubricateEquipmentPlace lubricateEquipmentPlace : lubricateEquipmentPlaces) {
+				String pfrequency = lubricateEquipmentPlace.getPfrequency();
+				String punit = lubricateEquipmentPlace.getPunit();
+				if (pfrequency != null && punit != null) {
+					pfrequency += punit;
+					lubricateEquipmentPlace.setPfrequency(pfrequency);
+					lubricateEquipmentPlace.setRn(++rn);
+				}
+			}
+		}
+		
+		return lubricateEquipmentPlaces;
+	}
+
+	@Override
+	public Integer findLubPlaceCount() {
+		return equipmentLubricationMapper.findLubPlaceCount();
+	}
+
+	/**
+	 * 根据位号和换油部位查询换油部位
+	 * @param lnamekey
+	 * @param pplace
+	 * @return
+	 */
+	@Override
+	public LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace) {
+		return equipmentLubricationMapper.findLubPlaceByNamekey(lnamekey, pplace);
 	}
 
 }

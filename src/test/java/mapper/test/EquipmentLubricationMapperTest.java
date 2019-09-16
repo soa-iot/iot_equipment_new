@@ -82,4 +82,10 @@ public class EquipmentLubricationMapperTest {
 		System.err.println("========row:"+row);
 	}
 
+	@Test
+	public void findPlaceEquiTest() {
+		
+		LubricateEquipmentPlace  lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlaceByNamekey("K-1402(Ⅰ)", "风扇叶子");
+		 System.err.println(lubricateEquipmentPlaces);
+	}
 }

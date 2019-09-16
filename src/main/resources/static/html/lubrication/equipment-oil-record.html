@@ -7,29 +7,30 @@
 </head>
 <body>
 
-	<h1 style="text-align: center;">油品出入库记录</h1>
+	<!-- <h1 style="text-align: center;">油品出入库记录</h1> -->
 	
-    
-	<div style="text-align: center;margin: auto;width: 100%;">
-		<div class="layui-inline">
-			<label class="layui-form-label">开始时间</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" id="starttime"
-					placeholder="请选择日期">
+    <fieldset class="layui-elem-field" style="margin-top: 20px; border: 2px solid gray; border-radius: 25px;">
+		<legend>油品出入库记录</legend>
+		<div style="text-align: center;margin: auto;width: 100%;">
+			<div class="layui-inline">
+				<label class="layui-form-label">开始时间</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="starttime"
+						placeholder="请选择日期">
+				</div>
 			</div>
-		</div>
-		<div class="layui-inline">
-			<label class="layui-form-label">结束时间</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" id="endtime"
-					placeholder="请选择日期">
+			<div class="layui-inline">
+				<label class="layui-form-label">结束时间</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="endtime"
+						placeholder="请选择日期">
+				</div>
 			</div>
+			<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="sub-record" style="margin: 35px;">搜索</button>
+			
+			<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
 		</div>
-		<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="sub-record" style="margin: 35px">搜索</button>
-		
-		
-		<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
-	</div>
+	</fieldset>
 	
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>

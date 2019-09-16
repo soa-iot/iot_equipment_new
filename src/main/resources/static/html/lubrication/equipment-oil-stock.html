@@ -8,8 +8,9 @@
 </head>
 <body>
 
-	<h1 style="text-align: center;" class="input-inline-padding">油品库存管理</h1>
-    
+	<!-- <h1 style="text-align: center;" class="input-inline-padding">油品库存管理</h1> -->
+    <fieldset class="layui-elem-field" style="margin-top: 20px; border: 2px solid gray; border-radius: 25px;">
+		<legend>油品库存管理</legend>
 		 <div style="text-align: center;padding: 10px">
 			<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="add-oil" id="add-oil">新增油品</button>
 			<button type="button" class="layui-btn layui-btn-normal" style="margin-left: 85px" lay-submit lay-filter="oil-stock">油品入库</button>
@@ -18,7 +19,7 @@
 		<div type="text/html" id="barDemo">
 		  <a class="layui-btn layui-btn-xs" lay-event="record">入库记录</a>
 		</div>
-		
+	</fieldset>
 		<!-- 新增油品 -->
 		<div class="layui-form-item" id="add-oil-div">
 			<h1 style="text-align: center;margin: 10px">新增油品</h1>

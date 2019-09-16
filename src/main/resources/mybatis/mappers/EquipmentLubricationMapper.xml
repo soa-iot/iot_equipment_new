@@ -28,7 +28,7 @@
 		SELECT 
 			<include refid="lubEquimentLubricateSQL"></include>
           FROM 
-          	IOT_EQUIPMENT_LUBRICATE
+          	IOT_EQUIPMENT_LUBRICATE sub
           WHERE 1=1
           <if test="lid != null and lid != ''">
 					AND lid = #{lid}
@@ -64,6 +64,54 @@
 					AND lremark2 = #{lremark2}
 		  </if>
 		  
+	</select>
+	
+	<!-- 查询换油部位 -->
+	<!-- List<LubricateEquipmentPlace> findLubPlace(LubricateEquipmentPlace lubricateEquipmentPlace); -->
+	<select id="findLubPlace" resultType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
+		SELECT 
+			ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+		FROM(
+			SELECT 
+				ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+	          FROM 
+	          	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+	          ON sub.lid = place.lid
+	         <where>
+					<if test="page != null and page != '' and limit != null and limit != ''">
+						AND ROWNUM &lt;= ${page * limit}
+					</if>
+			</where>
+		)	
+         <where>
+				<if test="page != null and page != '' and limit != null and limit != ''">
+					AND rn &gt; ${(page-1) * limit}
+				</if>
+		</where> 
+	</select>
+	
+	<!-- 查询换油部位1 -->
+	<!-- LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace); -->
+	<select id="findLubPlaceByNamekey" resultType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
+			SELECT 
+				<include refid="lubEquimentLubricatePlaceSQL"></include>
+	          FROM 
+	          	IOT_EQUIPMENT_LUBRICATE_PLACE
+	          WHERE LID IN (
+				SELECT LID FROM IOT_EQUIPMENT_LUBRICATE WHERE LNAMEKEY = #{lnamekey})
+			 AND PPLACE = #{pplace}
+	</select>
+	
+	<!-- 查询换油部位 -->
+	<!-- Integer findLubPlaceCount(); -->
+	<select id="findLubPlaceCount" resultType="java.lang.Integer">
+		
+			SELECT 
+				count(1)
+	          FROM 
+	          	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+	          ON sub.lid = place.lid
+	          
 	</select>
 	
 	<!-- 按条件分页查询换油设备 -->
