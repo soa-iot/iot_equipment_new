@@ -39,34 +39,20 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 
 	@Autowired
 	private EquipmentLubricationMapper equipmentLubricationMapper;
+	
+	@Autowired
+	private EquipmentLubricationOilMapper equipmentLubricationOilMapper;
 
 	/**
-	 * 新增油品
+	 * 新增油品部位
 	 * @return
 	 */
 	@Override
 	public Integer addLub(LubricateEquipmentPlace lubricateEquipmentPlace) {
 		Integer row = 0;
 		
-		//取最后一次换油时间
-		Date lastchangetime = lubricateEquipmentPlace.getLastchangetime();
-		//取换油周期
-		Integer pfrequency = Integer.valueOf(lubricateEquipmentPlace.getPfrequency());
-		//取周期单位
-		String punit = lubricateEquipmentPlace.getPunit();
-		
-		//计算下一次换油时间
-		Calendar nextchangetime = Calendar.getInstance();
-		nextchangetime.setTime(lastchangetime);
-		
-		if ("日".equals(punit)) {
-			nextchangetime.add(Calendar.DATE, pfrequency);
-		}else if("月".equals(punit)) {
-			nextchangetime.add(Calendar.MONTH, pfrequency);
-		}else if("年".equals(punit)) {
-			nextchangetime.add(Calendar.YEAR, pfrequency);
-		}		
-		lubricateEquipmentPlace.setNextchangetime(nextchangetime.getTime());
+		Date nextchangetime = nextDateUtil(lubricateEquipmentPlace);		
+		lubricateEquipmentPlace.setNextchangetime(nextchangetime);
 		
 		List<LubricateEquipment> lubricateEquipments = equipmentLubricationMapper.findLubEqui(new LubricateEquipment().setLnamekey(lubricateEquipmentPlace.getLnamekey()));
 
@@ -226,6 +212,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 			for (LubricateEquipmentPlace lubricateEquipmentPlace : lubricateEquipmentPlaces) {
 				String pfrequency = lubricateEquipmentPlace.getPfrequency();
 				String punit = lubricateEquipmentPlace.getPunit();
+				//将周期和单位合并在一起
 				if (pfrequency != null && punit != null) {
 					pfrequency += punit;
 					lubricateEquipmentPlace.setPfrequency(pfrequency);
@@ -253,4 +240,72 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		return equipmentLubricationMapper.findLubPlaceByNamekey(lnamekey, pplace);
 	}
 
+	/**
+	 * 更新润滑部位最后一次时间和下一次换油时间
+	 * @param lubricateEquipmentPlace
+	 * @return
+	 */
+	//必须传ptime、excutor操作人、pid、ramount加油量
+	@Override
+	public Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord) {
+		
+		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+",加换油时间："+lubricateEquipmentRecord.getPtime()+",加油量："+lubricateEquipmentRecord.getRamount());
+		//查询油品部位数据
+		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentPlace();
+		lubricateEquipmentPlace.setPid(lubricateEquipmentRecord.getPid());
+		
+		lubricateEquipmentPlace = equipmentLubricationMapper.findLuEqPlByAll(lubricateEquipmentPlace);
+		log.info("--------S----------lubricateEquipmentPlace:"+lubricateEquipmentPlace);
+		
+		//更新最后一次换油时间和下一次换油时间
+		lubricateEquipmentPlace.setLastchangetime(lubricateEquipmentRecord.getPtime());
+		lubricateEquipmentPlace.setNextchangetime(nextDateUtil(lubricateEquipmentPlace));
+		
+		Integer updateRow = equipmentLubricationMapper.updateLuEqPlByPid(lubricateEquipmentPlace);
+		log.info("-------S------------更新润滑部位行数："+updateRow);
+		
+		//获取油品信息
+		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
+		equipmentLubricationOil.setOname(lubricateEquipmentPlace.getRequireoil1());
+		List<EquipmentLubricationOil> equipmentLubricationOils = equipmentLubricationOilMapper.findOilbyConditions(equipmentLubricationOil);
+		
+		lubricateEquipmentRecord.setLid(lubricateEquipmentPlace.getLid());
+		lubricateEquipmentRecord.setOid(equipmentLubricationOils.get(0).getOid());
+		
+		Integer insetRow = equipmentLubricationMapper.insertLubRecord(lubricateEquipmentRecord);
+		log.info("--------S-----------S插入换油记录行数："+updateRow);
+		//出入库记录
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 计算下一次换油时间
+	 * @param lubricateEquipmentPlace
+	 * @return
+	 */
+	public Date nextDateUtil(LubricateEquipmentPlace lubricateEquipmentPlace) {
+		
+		//取最后一次换油时间
+				Date lastchangetime = lubricateEquipmentPlace.getLastchangetime();
+				//取换油周期
+				Integer pfrequency = Integer.valueOf(lubricateEquipmentPlace.getPfrequency());
+				//取周期单位
+				String punit = lubricateEquipmentPlace.getPunit();
+				
+				//计算下一次换油时间
+				Calendar nextchangetime = Calendar.getInstance();
+				nextchangetime.setTime(lastchangetime);
+				
+				if ("日".equals(punit)) {
+					nextchangetime.add(Calendar.DATE, pfrequency);
+				}else if("月".equals(punit)) {
+					nextchangetime.add(Calendar.MONTH, pfrequency);
+				}else if("年".equals(punit)) {
+					nextchangetime.add(Calendar.YEAR, pfrequency);
+				}
+		return nextchangetime.getTime();
+		
+	}
+	
 }

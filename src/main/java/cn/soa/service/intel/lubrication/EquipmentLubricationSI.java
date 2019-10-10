@@ -110,4 +110,11 @@ public interface EquipmentLubricationSI {
 	 * @return
 	 */
 	LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace);
+	
+	/**
+	 * 更新润滑部位最后一次时间和下一次换油时间
+	 * @param lubricateEquipmentPlace
+	 * @return
+	 */
+	Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord);
 }

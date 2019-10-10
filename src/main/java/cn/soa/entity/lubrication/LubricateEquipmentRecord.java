@@ -1,6 +1,7 @@
 package cn.soa.entity.lubrication;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -24,11 +25,11 @@ import lombok.experimental.Accessors;
 public class LubricateEquipmentRecord extends LubricateEquipmentPlace implements Serializable {
 	
 	private String rid; 
-	private String lid; 
-	private String pid; 
+//	private String lid; 
+//	private String pid; 
 	private String oid; 
 	private String excutor; 
-	private String ptime; 
+	private Date ptime; 
 	private String operatestate; 
 	private String operatetype; 
 	private String rnote; 

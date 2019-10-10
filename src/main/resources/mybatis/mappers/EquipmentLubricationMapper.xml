@@ -74,9 +74,12 @@
 		FROM(
 			SELECT 
 				ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
-	          FROM 
-	          	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
-	          ON sub.lid = place.lid
+	         FROM (
+				SELECT 
+					PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+				FROM 	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
+					ON sub.lid = place.lid  ORDER BY NEXTCHANGETIME
+				)
 	         <where>
 					<if test="page != null and page != '' and limit != null and limit != ''">
 						AND ROWNUM &lt;= ${page * limit}
@@ -272,8 +275,67 @@
 		</where>			
 	</select>
 	
+	<!-- 根据润滑部位条件查询数据
+	LubricateEquipmentPlace findLuEqPlByAll(LubricateEquipmentPlace lubricateEquipmentPlace); -->
+	<select id="findLuEqPlByAll" resultType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
+		SELECT 
+			<include refid="lubEquimentLubricatePlaceSQL"></include>
+		FROM
+			IOT_EQUIPMENT_LUBRICATE_PLACE
+		<where>
+			1=1,
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="pid != null and pid != ''">
+					AND PID = #{pid},
+				</if>
+				<if test="lid != null and lid != ''">
+					AND LID = #{lid},
+				</if>
+				<if test="pplace != null and pplace != ''">
+					AND PPLACE = #{pplace},
+				</if>
+				<if test="pnote != null and pnote != ''">
+					AND PNOTE = #{pnote},
+				</if>
+				<if test="ptype != null and ptype != ''">
+					AND PTYPE = #{ptype},
+				</if>
+				<if test="requireoil1 != null and requireoil1 != ''">
+					AND REQUIREOIL1 = #{requireoil1},
+				</if>
+				<if test="requireoil2 != null and requireoil2 != ''">
+					AND REQUIREOIL2 = #{requireoil2},
+				</if>
+				<if test="pfrequency != null and pfrequency != ''">
+					AND PFREQUENCY = #{pfrequency},
+				</if>
+				<if test="punit != null and punit != ''">
+					AND PUNIT = #{punit},
+				</if>
+				<if test="plastamount != null and plastamount != ''">
+					AND PLASTAMOUNT = #{plastamount},
+				</if>
+				<if test="pamount != null and pamount != ''">
+					AND PAMOUNT = #{pamount},
+				</if>
+				<if test="nextchangetime != null">
+					AND NEXTCHANGETIME = #{nextchangetime},
+				</if>
+				<if test="lastchangetime != null">
+					AND LASTCHANGETIME = #{lastchangetime},
+				</if>
+				<if test="premark1 != null and premark1 != ''">
+					AND PREMARK1 = #{premark1},
+				</if>
+				<if test="premark2 != null and premark2 != ''">
+					AND PREMARK2 = #{premark2},
+				</if>
+			</trim>		
+		</where>
+	</select>
+	
 	<!-- ===========================2、新增===============================  -->
-	<!-- 设备润滑换油新增 -->
+	<!-- 新增润滑换油设备 -->
 	<!-- Integer insertLubEqui(LubricateEquipment lubricateEquipment); -->
 	<insert id="insertLubEqui"	parameterType="cn.soa.entity.lubrication.LubricateEquipment">
 		<selectKey order="BEFORE" resultType="string" keyProperty="lubequi.lid">
@@ -462,21 +524,114 @@
 			</trim>
 	</insert>
 	
-	<!-- ===========================3、修改=============================== 
-
-	油品入库
-	Integer updateStock(String ramount,String oid);
+	 <!-- 新增换油记录 -->
+	<!-- Integer insertLubRecord(LubricateEquipmentRecord lubricateEquipmentRecord); -->
+	<insert id="insertLubRecord"	parameterType="cn.soa.entity.lubrication.LubricateEquipmentRecord">
+		<selectKey order="BEFORE" resultType="string" keyProperty="lubequire.rid">
+			select sys_guid() from dual 
+		</selectKey>
 	
-	<update id="updateStock" parameterType="java.lang.Integer">
-		UPDATE 
-			IOT_lubEquiMENT_LUBRICATION_OIL
+		INSERT INTO
+			IOT_EQUIPMENT_LUBRICATE
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="lubequire.rid != null and lubequire.rid != ''">
+					RID,
+				</if>
+				<if test="lubequire.lid != null and lubequire.lid != ''">
+					LID,
+				</if>
+				<if test="lubequire.pid != null and lubequire.pid != ''">
+					PID,		
+				</if>
+				<if test="lubequire.oid != null and lubequire.oid != ''">
+					OID,
+				</if>
+				<if test="lubequire.excutor != null and lubequire.excutor != ''">
+					EXCUTOR,
+				</if>
+				<if test="lubequire.ptime != null">
+					PTIME,
+				</if>
+				<if test="lubequire.operatestate != null and lubequire.operatestate != ''">
+					OPERATESTATE,
+				</if>
+				<if test="lubequire.operatetype != null and lubequire.operatetype != ''">
+					OPERATETYPE,
+				</if>
+				<if test="lubequire.rnote != null and lubequire.rnote != ''">
+					RNOTE,
+				</if>
+				<if test="lubequire.ramount != null and lubequire.ramount != ''">
+					RAMOUNT,
+				</if>
+				<if test="lubequire.rremark1 != null and lubequire.rremark1 != ''">
+					RREMARK1,
+				</if>
+				<if test="lubequire.rremark2!= null and lubequire.rremark2 != ''">
+					RREMARK2,
+				</if>
+			</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="lubequire.rid != null and lubequire.rid != ''">
+					#{lubequire.rid},
+				</if>
+				<if test="lubequire.lid != null and lubequire.lid != ''">
+					#{lubequire.lid},
+				</if>
+				<if test="lubequire.pid != null and lubequire.pid != ''">
+					#{lubequire.pid},		
+				</if>
+				<if test="lubequire.oid != null and lubequire.oid != ''">
+					#{lubequire.oid},
+				</if>
+				<if test="lubequire.excutor != null and lubequire.excutor != ''">
+					#{lubequire.excutor},
+				</if>
+				<if test="lubequire.ptime != null">
+					#{lubequire.ptime},
+				</if>
+				<if test="lubequire.operatestate != null and lubequire.operatestate != ''">
+					#{lubequire.operatestate},
+				</if>
+				<if test="lubequire.operatetype != null and lubequire.operatetype != ''">
+					#{lubequire.operatetype},
+				</if>
+				<if test="lubequire.rnote != null and lubequire.rnote != ''">
+					#{lubequire.rnote},
+				</if>
+				<if test="lubequire.ramount != null and lubequire.ramount != ''">
+					#{lubequire.ramount},
+				</if>
+				<if test="lubequire.rremark1 != null and lubequire.rremark1 != ''">
+					#{lubequire.rremark1},
+				</if>
+				<if test="lubequire.rremark2 != null and lubequire.rremark2 != ''">
+					#{lubequire.rremark2},
+				</if>
+			</trim>	
+	</insert>
+	
+	<!-- ===========================3、修改===============================  -->
+
+	<!--更新润滑部位最后一次时间和下一次换油时间
+	Integer updateLuEqPlByPid(LubricateEquipmentPlace lubricateEquipmentPlace); -->
+	
+	<update id="updateLuEqPlByPid" parameterType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
+		UPDATE IOT_EQUIPMENT_LUBRICATE_PLACE 
+
 				<set>
-				   ostock = ostock+#{ramount}
+				   <if test="lubequipl.nextchangetime != null">
+						NEXTCHANGETIME = #{nextchangetime},
+					</if>
+					<if test="lubequipl.lastchangetime != null">
+						LASTCHANGETIME = #{lastchangetime},
+					</if>
 				</set>
 				<where>
-					oid = #{oid}
+					PID =#{pid},
 				</where>
-	</update> -->
+	</update>
 	
 	<!-- ===========================4、删除===============================  -->
 			

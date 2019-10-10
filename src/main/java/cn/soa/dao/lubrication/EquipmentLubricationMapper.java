@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import cn.soa.entity.LubricationMothlyReport;
 import cn.soa.entity.LubricationRecordReport;
@@ -20,7 +21,7 @@ import cn.soa.entity.lubrication.LubricateEquipmentRecord;
 public interface EquipmentLubricationMapper {
 	
 	/**
-	 * 设备润滑换油新增
+	 * 新增润滑换油设备
 	 * @author Luo Guimao
 	 * @param LubricateEquipment
 	 */
@@ -36,7 +37,7 @@ public interface EquipmentLubricationMapper {
 	 * 新增换油记录
 	 * @param LubricateEquipmentRecord
 	 */
-	Integer insertLubRecord(LubricateEquipmentRecord lubricateEquipmentRecord);
+	Integer insertLubRecord(@Param("lubequire")LubricateEquipmentRecord lubricateEquipmentRecord);
 	
 	/**
 	 * 查询换油设备
@@ -180,4 +181,19 @@ public interface EquipmentLubricationMapper {
 	 * @return
 	 */
 	LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace);
+	
+	/**
+	 * 根据润滑部位条件查询数据
+	 * @param lubricateEquipmentPlace
+	 * @return
+	 */
+	LubricateEquipmentPlace findLuEqPlByAll(LubricateEquipmentPlace lubricateEquipmentPlace);
+	
+	/**
+	 * 更新润滑部位最后一次时间和下一次换油时间
+	 * @param lubricateEquipmentPlace
+	 * @return
+	 */
+	Integer updateLuEqPlByPid(LubricateEquipmentPlace lubricateEquipmentPlace);
+
 }

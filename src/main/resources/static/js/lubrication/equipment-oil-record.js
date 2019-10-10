@@ -12,11 +12,12 @@ layui.use(['table','laydate','form'], function(){
 //日期时间选择器
   laydate.render({
 	  elem: '#starttime'
-	,format:'yyyy-MM-dd'
+	  ,max:0
+	  ,format:'yyyy-MM-dd'
   });
   laydate.render({
 	  elem: '#endtime'
-		,format:'yyyy-MM-dd'
+	  ,format:'yyyy-MM-dd'
   });
   
   var rectable = table.render({
@@ -46,7 +47,7 @@ layui.use(['table','laydate','form'], function(){
 		  console.log(starttime);
 		  console.log(endtime);
 
-		  if (starttime > endtime) {
+		  if (endtime != '' && starttime > endtime) {
 			  layer.msg("开始时间不能大于结束时间！", {icon: 7, time: 2000, offset: '150px'});
 		}
 		  rectable.reload({

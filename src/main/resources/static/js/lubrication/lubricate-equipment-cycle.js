@@ -25,6 +25,17 @@ var userid = "张三";
  		elem: '#lastchangetime'
  		,max:0
  		,format:'yyyy/MM/dd'
+ 		//日期验证
+ 		,done: function(value, date, endDate){
+ 			if(value == ""){
+ 				$("#warninglasttime").html("*时间不能为空*");
+ 				$("#warninglasttime").attr("name","uncheck")
+ 				$("#warninglasttime").show();
+ 			}else{
+ 				$("#warninglasttime").attr("name","check")
+ 				$("#warninglasttime").hide();
+ 			}
+ 		}
  	});
 
  });
@@ -113,6 +124,11 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		        	$("#equPositionNum").val(value);
 		        	$("#equName").attr('disabled','disabled');
 		        	
+		        	if($("#equPositionNum").val() != ''){
+		        		$("#warning").attr("name","check")
+		        		$("#warning").hide();
+		        	}
+		        	
 		        	console.log(key);
 		        	console.log(value);
 		        	layer.close(index);
@@ -135,7 +151,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 
-				,area: ['450px','600px;']
+				,area: ['550px','600px;']
 				,id: 'coordinate' //防止重复弹出
 				,key:'id'
 				,title:"新增换油设备"
@@ -148,7 +164,9 @@ layui.use(['table','laydate','layer', 'form'], function(){
 					var chnum = $("#warningnum").attr("name");
 					 var d= inputCheck();
 					 
-					if ($("#warningpplace").attr("name")=="check" && d ==0) {
+					if (d ==0) {
+						nameCheck();
+						if($("#warningpplace").attr("name")=="check"){
 						$(".layui-layer-btn0").off('click');
 						
 						$.ajax({
@@ -163,7 +181,6 @@ layui.use(['table','laydate','layer', 'form'], function(){
 								//"requireoil2": $("#oname1").val(),
 								"pamount": $("#pamount").val(),
 								"pfrequency": $("#pfrequency").val(),
-								"punit": $("#punit").val(),
 								"lastchangetime":$("#lastchangetime").val(),
 								"punit":$("#punit").val()
 							},
@@ -184,22 +201,48 @@ layui.use(['table','laydate','layer', 'form'], function(){
 								layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
 							}
 						})
-						
+				     	}
 					}
 					
 				}
 		  });
 	  });
 	  
+	  //油品名称验证
+	  form.on('select(oname)', function(data){
+		  if(data.value == ""){
+				$("#warningoname").html("*请选择油品*");
+				$("#warningoname").attr("name","uncheck")
+				$("#warningoname").show();
+			}else{
+				$("#warningoname").attr("name","check")
+				$("#warningoname").hide();
+			}
+		  
+		}); 
+	  
+	  //润滑周期单位验证
+	  form.on('select(punit)', function(data){
+		  if(data.value == ""){
+				$("#warningpuint").html("*请选择单位*");
+				$("#warningpuint").attr("name","uncheck")
+				$("#warningpuint").show();
+			}else{
+				$("#warningpuint").attr("name","check")
+				$("#warningpuint").hide();
+			}
+		}); 
   });
 
+ //验证
  $("#pplace").blur(function(){
-	  console.log($("#pfrequency").val())
-	if ($("#pplace").val() != "" && $("#equPositionNum").val() != "") {
-		nameCheck();
+	 console.log($("#pfrequency").val())
+	if ($("#pplace").val() != "" ) {
+		$("#warningpplace").hide();
+		if ($("#equPositionNum").val() != "") {
+			nameCheck();
+		}
 	}else{
-		var d= inputCheck();
-		console.log(d);
 		$("#warningpplace").html("*润滑部位不能为空*")
 		$("#warningpplace").attr("name","uncheck")
 		$("#warningpplace").show();
@@ -207,6 +250,32 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  console.log($("#warningpplace").attr("name"));
 	 
  });
+ 
+ //润滑周期验证
+ $("#pfrequency").change(function(){
+	 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#pfrequency").val()) && $("#pfrequency").val() > 0) {
+		 $("#warningpfrequency").attr("name","check");
+		 $("#warningpfrequency").hide();
+	}else{  
+		 $("#warningpfrequency").html("*润滑周期要 > 0*");
+		 $("#warningpfrequency").attr("name","uncheck")
+		 $("#warningpfrequency").show();
+	}
+ })
+  
+ //标准加油量验证
+ $("#pamount").change(function(){
+	 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#pamount").val()) && $("#pamount").val() > 0) {
+		 $("#warningpamount").attr("name","check");
+		 $("#warningpamount").hide();
+	}else{     
+		 $("#warningpamount").html("*加油量要 > 0*");
+		 $("#warningpamount").attr("name","uncheck")
+		 $("#warningpamount").show();
+	}
+ })
+
+ 
   function inputCheck() {
 	  var c = 0;
 	  
@@ -283,13 +352,15 @@ layui.use(['table','laydate','layer', 'form'], function(){
 }
  
 function nameCheck() {
+	console.log($("#equPositionNum").val());
+	console.log($("#pplace").val());
 	$.ajax({
 		type: 'POST',
 		async: false,
 		url: '/iot_equipment/lubrication/findplaceandnamekey',
 		data:{ 
 			"lnamekey": $("#equPositionNum").val()
-			,"pplace": $("#equName").val()
+			,"pplace": $("#pplace").val()
 		},
 		dataType: 'JSON',
 		success: function(json){

@@ -16,9 +16,131 @@
 	     },
 	     ,error:function(){}		       
 	});
+	
+2、查询换油部位是否存在	
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: '/iot_equipment/lubrication/findplaceandnamekey',
+		data:{ 
+			"lnamekey": //设备位号
+			,"pplace": //换油部位
+		},
+		dataType: 'JSON',
+		success: function(json){
+			//后端返回值：ResultJson<LubricateEquipmentPlace>
+		},
+		error: function(){
+			layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+		}
+	})
+	
+3、添加换油部位
+	$.ajax({
+		type: 'POST',
+		url: '/iot_equipment/lubrication/addlub',
+		data:{ 
+			"lnamekey"://设备为空
+			"lname"://设备名称
+			"pplace": //换油部位
+			"requireoil1": //油品名称
+			"pamount": //标准换油量
+			"pfrequency": //换油周期
+			"punit"://换油周期单位
+			"lastchangetime":最后一次换油时间
+		},
+		dataType: 'JSON',
+		success: function(json){
+			//后端返回值：ResultJson<Integer>
+		},
+		error: function(){
+			layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+		}
+	})
+	
+4、查询油品周期管理
+ 	$.ajax({
+	  type: 'post',
+	  url: '/iot_equipment/lubrication/lubplace',
+	  dataType : "json",
+	  success: function(json){
+		  //后端返回值：ResultJsonForTable<List<LubricateEquipmentPlace>>
+	  }
+	  
+5、查询所有的油品
+	 $.ajax({
+	  type: 'post',
+	  url: '/iot_equipment/equipmentoil/queryoilallstock',
+	  dataType : "json",
+	  success: function(json){
+		  //后端返回值：ResultJsonForTable<List<EquipmentLubricationOil>>
+	  }
 
+	})
+	
+6、新增油品
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: '/iot_equipment/equipmentoil/addoil',
+		data:{ 
+			"oname": //油品名称
+			"ostock": //油品数量
+			"otype": //油品类型
+			"manufacture": //生产厂家
+			"osign": //牌号
+			"odescribe": //油品描述
+			"userid"://操作人
+		},
+		dataType: 'JSON',
+		success: function(json){
+			//后端返回值：ResultJson<Integer>
+		},
+		error: function(){
+			layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+		}
+	})
 
-
+7、油品入库
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: '/iot_equipment/equipmentoil/oilstock',
+		data:{ 
+			"oname": //油品名称
+			"ramount": //数量
+			"rnote"://描述
+			"userid"://操作人
+		},
+		dataType: 'JSON',
+		success: function(json){
+			//后端返回值：ResultJson<Integer>
+		},
+		error: function(){
+			layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+		}
+	})
+	
+8、油品出入库记录
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url:'/iot_equipment/equipmentoil/queryoilall',
+		data:{ 
+			"oid": //油品id
+			"page"://当前页
+			"limit"://每页数据量
+			"startTime"://开始时间
+			"endTime"://结束时间
+		},
+		dataType: 'JSON',
+		success: function(json){
+			//后端返回值：ResultJsonForTable<List<EquipmentOilRecordVO>>
+		},
+		error: function(){
+			layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+		}
+	})
 #####################################################################################################
 数据库(oracle)
 #####################################################################################################
@@ -54,12 +176,113 @@
 		
 	2.2 定时生成日统计数据:
 	
-
-
-
-
-
-
+3、润滑	
+	3.1、油品库存表
+	CREATE TABLE "IOT_EQUIPMENT_LUBRICATION_OIL" 
+	(
+	   "OID"         CHAR(36 BYTE)        NOT NULL,
+	   "ONAME"       VARCHAR2(36 CHAR),
+	   "OSTOCK"      VARCHAR2(16 BYTE),
+	   "OSTATE"      INT,
+	   "OUNIT"       VARCHAR2(26 BYTE),
+	   "ODESCRIBE"   VARCHAR2(68 CHAR),
+	   "OTYPE"       VARCHAR2(16 BYTE),
+	   "MANUFACTURE" VARCHAR2(88 CHAR),
+	   "OSIGN"       VARCHAR2(18 CHAR),
+	   "OREMARK1"    VARCHAR2(18 BYTE),
+	   "OREMARK2"    VARCHAR2(36 CHAR),
+	   CONSTRAINT PK_IOT_EQUIPMENT_LUBRICATION_O PRIMARY KEY ("OID")
+	);
+	
+	COMMENT ON TABLE "IOT_EQUIPMENT_LUBRICATION_OIL" IS
+	'油品库存表';
+	
+	3.2、油品出入库记录表
+	CREATE TABLE "IOT_EQUIPMENT_OIL_RECORD" 
+	(
+	   "ORID"               CHAR(32 BYTE)        NOT NULL,
+	   "OID"                CHAR(32 BYTE),
+	   "RTIME"              DATE,
+	   "RID"                CHAR(36 BYTE),
+	   "RINOUT"             VARCHAR2(8 CHAR),
+	   "RAMOUNT"            VARCHAR2(18 BYTE),
+	   "USERID"             VARCHAR2(36 CHAR),
+	   "RTYPE"              VARCHAR2(8 BYTE),
+	   "RNOTE"              VARCHAR2(88 CHAR),
+	   "RREMARK1"           VARCHAR2(18 BYTE),
+	   "RREMARK2"           VARCHAR2(38 CHAR),
+	   CONSTRAINT PK_IOT_EQUIPMENT_OIL_RECORD PRIMARY KEY ("ORID")
+	);
+	
+	COMMENT ON TABLE "IOT_EQUIPMENT_OIL_RECORD" IS
+	'油品出入库记录表';
+	
+	3.3、润滑设备管理表
+	CREATE TABLE "IOT_EQUIPMENT_LUBRICATE" 
+	(
+	   "LID"                CHAR(32 BYTE)        NOT NULL,
+	   "LNAMEKEY"           VARCHAR2(36 CHAR),
+	   "LNAME"              VARCHAR2(36 CHAR),
+	   "LNUMBER"            VARCHAR2(36 CHAR),
+	   "LSTATE"             INT,
+	   "LTYPE"              VARCHAR2(16 CHAR),
+	   "LPOSITION1"         VARCHAR2(36 CHAR),
+	   "LPOSITION2"         VARCHAR2(36 CHAR),
+	   "ISUSER"             CHAR(1 CHAR),
+	   "LREMARK1"           VARCHAR2(16 CHAR),
+	   "LREMARK2"           VARCHAR2(36 CHAR),
+	   CONSTRAINT PK_IOT_EQUIPMENT_LUBRICATE PRIMARY KEY ("LID")
+	);
+	
+	COMMENT ON TABLE "IOT_EQUIPMENT_LUBRICATE" IS
+	'润滑设备管理表';
+	
+	3.4、设备润滑部位管理
+	CREATE TABLE "IOT_EQUIPMENT_LUBRICATE_PLACE" 
+	(
+	   "PID"                CHAR(32 BYTE)        NOT NULL,
+	   "LID"                CHAR(32 BYTE),
+	   "PPLACE"             VARCHAR2(36 CHAR),
+	   "PNOTE"              VARCHAR2(88 CHAR),
+	   "PTYPE"              VARCHAR2(8 CHAR),
+	   "REQUIREOIL1"        VARCHAR2(36 CHAR),
+	   "REQUIREOIL2"        VARCHAR2(36 CHAR),
+	   "PFREQUENCY"         VARCHAR2(6 CHAR),
+	   "PUNIT"              VARCHAR2(28 CHAR),
+	   "PLASTAMOUNT"        VARCHAR2(18 CHAR),
+	   "PAMOUNT"            VARCHAR2(18 CHAR),
+	   "NEXTCHANGETIME"     DATE,
+	   "LASTCHANGETIME"     DATE,
+	   "PREMARK1"           VARCHAR2(18 CHAR),
+	   "PREMARK2"           VARCHAR2(58 CHAR),
+	   CONSTRAINT PK_IOT_EQUIPMENT_LUBRICATE_PLA PRIMARY KEY ("PID")
+	);
+	
+	COMMENT ON TABLE "IOT_EQUIPMENT_LUBRICATE_PLACE" IS
+	'设备润滑部位管理';
+	
+	3.5、设备润滑换油记录表
+	CREATE TABLE "IOT_EQUIPMENT_LUBRICATE_RECORD" 
+	(
+	   "RID"                CHAR(32 BYTE)        NOT NULL,
+	   "LID"                CHAR(32 BYTE),
+	   "PID"                CHAR(32 BYTE),
+	   "OID"                CHAR(32 BYTE),
+	   "EXCUTOR"            VARCHAR2(20 CHAR),
+	   "PTIME"              DATE,
+	   "OPERATESTATE"       INT,
+	   "OPERATETYPE"        VARCHAR2(12 CHAR),
+	   "RNOTE"              VARCHAR2(58 CHAR),
+	   "RAMOUNT"            VARCHAR2(12 CHAR),
+	   "RREMARK1"           VARCHAR2(16 CHAR),
+	   "RREMARK2"           VARCHAR2(38 CHAR),
+	   CONSTRAINT PK_IOT_EQUIPMENT_LUBRICATE_REC PRIMARY KEY ("RID")
+	);
+	
+	COMMENT ON TABLE "IOT_EQUIPMENT_LUBRICATE_RECORD" IS
+	'设备润滑换油记录表';
+	
+	
 #####################################################################################################
 	数据库脚本(oracle)
 #####################################################################################################

@@ -26,9 +26,9 @@
 				<label class="layui-form-label">设备位号</label>
 				<div class="layui-input-inline" style="width: 180px">
 					<input type="text" name="equPositionNum" id="equPositionNum" class="layui-input" placeholder="请选择设备位号"  disabled="disabled">
-					<span style="color: red" name="check" id="warning"></span>
 				</div>
 					<button type="button" class="layui-btn layui-btn-sm" lay-submit lay-filter="choose-equ" id="choose-equ" style="margin-top: 5px;">选择设备</button>
+					<span style="color: red" name="check" id="warning"></span>
 			</div>
 			
 			<div class="layui-inline input-inline-padding">
@@ -38,40 +38,23 @@
 				</div>
 			</div>
 			
-			<!-- <div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">油品状态</label>
-				<div class="layui-input-inline" style="width: 260px">
-					<input type="tel" name="phone" lay-verify="required|phone"
-						autocomplete="off" class="layui-input">
-				</div>
-			</div> -->
-			
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">润滑部位</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="text" name="pplace" id="pplace" class="layui-input" placeholder="请输入润滑部位">
-					<span style="color: red" name="check" id="warningpplace"></span>
 				</div>
+					<span style="color: red" name="check" id="warningpplace"></span>
 			</div>
 			
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">要求油品</label>
 				<div class="layui-input-inline layui-form" style="width: 260px">
-					<select  lay-submit lay-filter="sub-record" name="oname" id="oname"  lay-search="">
+					<select  lay-submit lay-filter="oname" name="oname" id="oname"  lay-search="">
 			          <option value="">直接选择或搜索选择</option>
 			        </select>
+				</div>
 			        <span style="color: red" name="check" id="warningoname"></span>
-				</div>
 			</div>
-			
-			<!-- <div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">要求油品2</label>
-				<div class="layui-input-inline layui-form" style="width: 260px">
-					<select  lay-submit lay-filter="sub-record" name="oname1" id="oname1"  lay-search="">
-			          <option value="">直接选择或搜索选择</option>
-			        </select>
-				</div>
-			</div> -->
 			
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label" style="margin-left: -10px;width: 90px;">润滑周期</label>
@@ -79,30 +62,30 @@
 					<input type="number" name="pfrequency" id="pfrequency" min="0" value="0" class="layui-input">
 				</div>
 				<div class="layui-input-inline layui-form" style="width: 90px">
-					<select  lay-submit lay-filter="sub-record" name="punit" id="punit"  lay-search="">
+					<select  lay-submit lay-filter="punit" name="punit" id="punit"  lay-search="">
 			          <option value="">单位</option>
 			          <option value="日">日</option>
 			          <option value="月">月</option>
 			          <option value="年">年</option>
 			        </select>
-				</div><br/><br/>
-				<div style=" margin-left: 110px;margin-top: 4px">
-					<span style="color: red;" name="check" id="warningpfrequency"></span><span style="color: red;" name="check" id="warningpuint"></span>
 				</div>
+				<!-- <div style=" margin-left: 110px;margin-top: 4px"> -->
+					<span style="color: red;" name="check" id="warningpfrequency"></span><span style="color: red;" name="check" id="warningpuint"></span>
+				<!-- </div> -->
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">标准加油量</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="number" name="pamount" id="pamount" min="0" value="0" class="layui-input">
-					<span style="color: red" name="check" id="warningpamount"></span>
 				</div>
+					<span style="color: red" name="check" id="warningpamount"></span>
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label" style="padding-top: 0px;">最后一次换油时间</label>
 				<div class="layui-input-inline  layui-input-top">
 					<input type="text" class="layui-input layui-input-one" id="lastchangetime" name="lastchangetime" placeholder="最后一次换油时间/安装时间">
-					<span style="color: red" name="check" id="warninglasttime"></span>
 				</div>
+					<span style="color: red" name="check" id="warninglasttime"></span>
 			</div>
 			
 			

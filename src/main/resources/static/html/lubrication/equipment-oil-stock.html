@@ -17,7 +17,7 @@
 		</div>
 		<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
 		<div type="text/html" id="barDemo">
-		  <a class="layui-btn layui-btn-xs" lay-event="record">入库记录</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="record">出入库记录</a>
 		</div>
 	</fieldset>
 		<!-- 新增油品 -->
@@ -27,15 +27,15 @@
 				<label class="layui-form-label">油品名称</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="text" name="oname" id="oname" class="layui-input" placeholder="请输入油品名称">
-					<span style="color: red" name="check" id="warning"></span>
 				</div>
+					<span style="color: red" name="check" id="warning"></span>
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品数量</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="number" name="ostock" id="ostock"  min="0" value="0" class="layui-input" >
-					<span style="color: red" name="check" id="warningnum">*请输入大于0的数量*</span>
 				</div>
+					<span style="color: red" name="check" id="warningnum">*请输入大于0的数量*</span>
 			</div>
 			<!-- <div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品状态</label>
@@ -77,18 +77,18 @@
 				<label class="layui-form-label ">油品名称</label>
 				<div class="layui-input-inline layui-form" style="width: 260px" id="oname-div">
 					<!-- <input type="text" name="oname1" id="oname1" class="layui-input"> -->
-					<select  lay-submit lay-filter="sub-record" name="oname1" id="oname1"  lay-search="">
+					<select  lay-submit lay-filter="oname1" name="oname1" id="oname1"  lay-search="">
 			          <option value="">直接选择或搜索选择</option>
 			        </select>
-					<span style="color: red" name="check" id="warning1"></span>
 				</div>
+					<span style="color: red" name="check" id="warning1"></span>
 			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品数量</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="number" name="ramount" id="ramount" min="0" value="0" class="layui-input">
-					<span style="color: red" name="check" id="warningnum1">*请输入大于0的数量*</span>
 				</div>
+					<span style="color: red" name="check" id="warningnum1">*请输入大于0的数量*</span>
 			</div>
 			
 			<div class="layui-inline input-inline-padding">

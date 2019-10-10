@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.equipment.EquipmentDetailsMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- 设备详情dao
+	EquipmentDetails findEquipmentDetails(String rfid); -->
+	<select id="findEquipmentDetails" resultType="cn.soa.entity.equipment.EquipmentDetails">
+		SELECT
+			ROWNUM rn,EQU_NAME,EQU_POSITION_NUM,EQU_MODEL,SUPERVISORYPERSON,IMPACTS,ACTION,SUPERVISORYDATE,PROCESS_DESC,OTHERS
+		FROM
+			(
+			SELECT 
+				ROWNUM rn,EQU_NAME,EQU_POSITION_NUM,EQU_MODEL,SUPERVISORYPERSON,IMPACTS,ACTION,SUPERVISORYDATE,PROCESS_DESC,OTHERS  
+			from (
+				SELECT 
+					EQU_NAME,EQU_POSITION_NUM,EQU_MODEL,SUPERVISORYPERSON,IMPACTS,ACTION,SUPERVISORYDATE,PROCESS_DESC,OTHERS  
+				from 
+					CZ_EQUIPMENT_INFO e,CZ_TASK_PROBLEM_REPORT_NEW p 
+					<where>
+						p.RFID=e.EQU_POSITION_NUM <!-- AND SUPERVISORYDATE > "TO_DATE"('2019-10-10', 'yyyy-MM-DD') -->
+						<if test="rfid != null and rfid != ''">
+							AND p.RFID = #{rfid}
+						</if>
+						 ORDER BY SUPERVISORYDATE
+					</where>
+					)
+				<where>
+					<if test="limit != null and limit != '' and page != null and page != ''">
+						and ROWNUM &lt;= ${limit*page}
+					</if>
+				</where>
+			) 
+		<where>
+			<if test="limit != null and limit != '' and page != null and page != ''">
+				rn &gt; ${limit*(page-1)}
+			</if>
+		</where>
+	</select>
+	
+</mapper>
+ 
+

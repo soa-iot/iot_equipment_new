@@ -74,19 +74,17 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		 
 	  });
 	  
-	  $("#oname1").blur(function(){
-		  console.log($("#oname1").val())
-		  if ($("#oname1").val() != "" && $("#oname1").val() != 0) {
-			  nameCheck("oname1",$("#oname1").val());
-		}else{
-			$("#warning1").html("*油品名称不能为空*")
-			$("#warning1").attr("name","uncheck")
-			$("#warning1").show();
-		}
-		  console.log( "warning1:"+$("#warning1").attr("name"));
-		 
-	  });
-	  
+	//油品名称验证
+	  form.on('select(oname1)', function(data){
+		  if(data.value != ""){
+				 nameCheck("oname1",$("#oname1").val());
+			}else{
+				$("#warning1").html("*油品名称不能为空*")
+				$("#warning1").attr("name","uncheck")
+				$("#warning1").show();
+			}
+		  
+		}); 	  
 	  
 	  $("#ostock").blur(function(){
 		  console.log($("#ostock").val())
@@ -162,7 +160,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 
-				,area: ['450px','620px;']
+				,area: ['550px','620px;']
 				,id: 'coordinate' //防止重复弹出
 				,key:'id'
 				,title:"新增油品"
@@ -230,7 +228,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 
-				,area: ['450px','450px;']
+				,area: ['550px','450px;']
 				,id: 'coordinate' //防止重复弹出
 				,key:'id'
 				,title:"油品入库"
