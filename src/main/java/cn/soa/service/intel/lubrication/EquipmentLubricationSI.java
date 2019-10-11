@@ -116,5 +116,5 @@ public interface EquipmentLubricationSI {
 	 * @param lubricateEquipmentPlace
 	 * @return
 	 */
-	Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord);
+	Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord,String rtype);
 }

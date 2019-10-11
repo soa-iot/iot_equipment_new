@@ -229,10 +229,10 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 		
 		equipmentOilRecord.setOid(oid);
 		equipmentOilRecord.setRtime(new Date());
-		equipmentOilRecord.setRinout("加");
+		equipmentOilRecord.setRinout(rinout);
 		equipmentOilRecord.setRamount(ostock);
 		equipmentOilRecord.setUserid(userid);
-		equipmentOilRecord.setRtype("油品入库");
+		equipmentOilRecord.setRtype(rtype);
 		equipmentOilRecord.setRnote(rnote);
 		equipmentOilRecord.setRstock(rstock);
 		

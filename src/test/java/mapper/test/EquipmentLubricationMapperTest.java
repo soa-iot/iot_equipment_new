@@ -10,10 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.ibm.icu.util.Calendar;
+
 import cn.soa.IotEquipmentApplication;
 import cn.soa.dao.lubrication.EquipmentLubricationMapper;
 import cn.soa.entity.lubrication.LubricateEquipment;
 import cn.soa.entity.lubrication.LubricateEquipmentPlace;
+import cn.soa.entity.lubrication.LubricateEquipmentRecord;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { IotEquipmentApplication.class })
@@ -87,5 +90,27 @@ public class EquipmentLubricationMapperTest {
 		
 		LubricateEquipmentPlace  lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlaceByNamekey("K-1402(Ⅰ)", "风扇叶子");
 		 System.err.println(lubricateEquipmentPlaces);
+	}
+	
+	@Test
+	public void updateLuEqPlByPidTest() {
+		
+		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentRecord();
+		lubricateEquipmentPlace.setPid("54E8C20BFD9A419CA855A174697001AB");
+		lubricateEquipmentPlace.setLastchangetime(new Date());
+		lubricateEquipmentPlace.setNextchangetime(new Date());
+		Integer  row = equipmentLubricationMapper.updateLuEqPlByPid(lubricateEquipmentPlace );
+		 System.err.println(row);
+	}
+	
+	@Test
+	public void updateLEqPlByPidTest() {
+		
+		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentPlace();
+		lubricateEquipmentPlace.setPid("54E8C20BFD9A419CA855A174697001AB");
+		
+		lubricateEquipmentPlace.setPplace("风扇叶子");
+		  LubricateEquipmentPlace row = equipmentLubricationMapper.findLuEqPlByAll(lubricateEquipmentPlace );
+		 System.err.println(row);
 	}
 }

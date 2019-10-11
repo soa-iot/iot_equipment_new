@@ -3,6 +3,7 @@ package cn.soa.controller.lubrication;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,5 +233,31 @@ public class EquipmentLubricationC {
 		}else {
 			return new ResultJson<LubricateEquipmentPlace>(1, "该部位可以增加！！", null);
 		}
+	}
+	
+	/**
+	 * 设备加换油
+	 * @param lubricateEquipmentRecord
+	 * @return
+	 */
+	@RequestMapping("lueqpladdchangeoil")
+	public ResultJson<Integer> LuEqPlAddChangeOil(LubricateEquipmentRecord lubricateEquipmentRecord, String rtype) {
+		
+		//lubricateEquipmentRecord.setPtime(new Date());
+		log.info("-----------C------------加/换油部位id："+lubricateEquipmentRecord.getPid());
+		log.info("-----------C------------操作人："+lubricateEquipmentRecord.getExcutor());
+		log.info("-----------C------------加/换油时间："+lubricateEquipmentRecord.getPtime());
+		log.info("-----------C------------加/换油量："+lubricateEquipmentRecord.getRamount());
+		log.info("-----------C------------加/换油类型："+rtype);
+		
+		Integer row = equipmentLubricationSI.updateLuEqPlByPid(lubricateEquipmentRecord,rtype);
+		
+		if (row > 0) {
+			return new ResultJson<Integer>(0, "加换油成功");
+		}else {
+			return new ResultJson<Integer>(1, "加换油设备");
+		}
+		
+		
 	}
 }

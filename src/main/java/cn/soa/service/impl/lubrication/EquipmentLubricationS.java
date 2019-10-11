@@ -1,16 +1,13 @@
 package cn.soa.service.impl.lubrication;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.soa.dao.lubrication.EquipmentLubricationMapper;
 import cn.soa.dao.lubrication.EquipmentLubricationOilMapper;
@@ -19,13 +16,11 @@ import cn.soa.entity.LubricationRecordReport;
 import cn.soa.entity.ResultJsonForTable;
 import cn.soa.entity.lubrication.EquipmentLubricationOil;
 import cn.soa.entity.lubrication.EquipmentOilRecord;
-import cn.soa.entity.lubrication.EquipmentOilRecordVO;
 import cn.soa.entity.lubrication.LubricateEquipment;
 import cn.soa.entity.lubrication.LubricateEquipmentPlace;
 import cn.soa.entity.lubrication.LubricateEquipmentRecord;
 import cn.soa.service.intel.lubrication.EquipmentLubricationOilSI;
 import cn.soa.service.intel.lubrication.EquipmentLubricationSI;
-import cn.soa.utils.ExportExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,6 +38,8 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	@Autowired
 	private EquipmentLubricationOilMapper equipmentLubricationOilMapper;
 
+	@Autowired
+	private EquipmentLubricationOilSI equipmentLubricationOilSI;
 	/**
 	 * 新增油品部位
 	 * @return
@@ -207,7 +204,11 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit);
 		
 		//将周期放入一个字段中
-		Integer rn = (page - 1) * limit;
+		Integer rn=0;
+		if (page != null && limit != null) {
+			rn = (page - 1) * limit;
+		}
+		
 		if (lubricateEquipmentPlaces != null && lubricateEquipmentPlaces.size() > 0) {
 			for (LubricateEquipmentPlace lubricateEquipmentPlace : lubricateEquipmentPlaces) {
 				String pfrequency = lubricateEquipmentPlace.getPfrequency();
@@ -241,15 +242,18 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	}
 
 	/**
-	 * 更新润滑部位最后一次时间和下一次换油时间
+	 * 设备加换油S
 	 * @param lubricateEquipmentPlace
 	 * @return
 	 */
-	//必须传ptime、excutor操作人、pid、ramount加油量
+	//必须传ptime、excutor操作人、pid、ramount加油量、rtype加换油类型
 	@Override
-	public Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord) {
+	@Transactional
+	public Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord, String rtype) {
 		
-		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+",加换油时间："+lubricateEquipmentRecord.getPtime()+",加油量："+lubricateEquipmentRecord.getRamount());
+		//加换油时间
+		Date ptime = lubricateEquipmentRecord.getPtime();
+		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+"，操作人："+lubricateEquipmentRecord.getExcutor()+",加/换油时间："+ptime+",加/油量："+lubricateEquipmentRecord.getRamount()+",加/换油类型："+rtype);
 		//查询油品部位数据
 		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentPlace();
 		lubricateEquipmentPlace.setPid(lubricateEquipmentRecord.getPid());
@@ -257,26 +261,60 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		lubricateEquipmentPlace = equipmentLubricationMapper.findLuEqPlByAll(lubricateEquipmentPlace);
 		log.info("--------S----------lubricateEquipmentPlace:"+lubricateEquipmentPlace);
 		
-		//更新最后一次换油时间和下一次换油时间
-		lubricateEquipmentPlace.setLastchangetime(lubricateEquipmentRecord.getPtime());
-		lubricateEquipmentPlace.setNextchangetime(nextDateUtil(lubricateEquipmentPlace));
-		
-		Integer updateRow = equipmentLubricationMapper.updateLuEqPlByPid(lubricateEquipmentPlace);
-		log.info("-------S------------更新润滑部位行数："+updateRow);
+		Integer updateRow=null;
+		if ("换油".equals(rtype)) {
+			
+			//更新最后一次换油时间和下一次换油时间
+			lubricateEquipmentPlace.setLastchangetime(ptime);
+			lubricateEquipmentPlace.setNextchangetime(nextDateUtil(lubricateEquipmentPlace));
+			
+			updateRow = equipmentLubricationMapper.updateLuEqPlByPid(lubricateEquipmentPlace);
+			log.info("-------S------------更新润滑部位行数："+updateRow);
+		}
 		
 		//获取油品信息
 		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
 		equipmentLubricationOil.setOname(lubricateEquipmentPlace.getRequireoil1());
 		List<EquipmentLubricationOil> equipmentLubricationOils = equipmentLubricationOilMapper.findOilbyConditions(equipmentLubricationOil);
 		
+		String oid = equipmentLubricationOils.get(0).getOid();
 		lubricateEquipmentRecord.setLid(lubricateEquipmentPlace.getLid());
-		lubricateEquipmentRecord.setOid(equipmentLubricationOils.get(0).getOid());
+		lubricateEquipmentRecord.setOid(oid);
 		
 		Integer insetRow = equipmentLubricationMapper.insertLubRecord(lubricateEquipmentRecord);
-		log.info("--------S-----------S插入换油记录行数："+updateRow);
+		log.info("--------S-----------S插入换油记录行数："+insetRow);
+		
+		Integer ostock = Integer.valueOf(equipmentLubricationOils.get(0).getOstock());
+		Integer ramount = Integer.valueOf(lubricateEquipmentRecord.getRamount());
 		//出入库记录
-		// TODO Auto-generated method stub
-		return null;
+		EquipmentOilRecord equipmentOilRecord = new EquipmentOilRecord();
+		equipmentOilRecord.setOid(oid);
+		equipmentOilRecord.setRtime(ptime);                           
+		equipmentOilRecord.setRinout("减");                                 
+		equipmentOilRecord.setRamount("-"+lubricateEquipmentRecord.getRamount());
+		equipmentOilRecord.setUserid(lubricateEquipmentRecord.getExcutor());                              
+		equipmentOilRecord.setRtype(rtype);  
+		equipmentOilRecord.setRstock(ostock-ramount);
+		
+		Integer insertRecordRow = equipmentLubricationOilMapper.insertRecord(equipmentOilRecord );
+		log.info("-----S-----插入油品出入库数据数量："+insertRecordRow);
+		Integer updateStockRow = equipmentLubricationOilMapper.updateStock(-ramount, oid);
+		log.info("-----S-----更新油品数据数量："+updateStockRow);
+		if (insetRow > 0 && insertRecordRow > 0 && updateStockRow > 0) { 
+			if ("换油".equals(rtype)) {
+				if (updateRow > 0) {
+					return 1;
+				}else {
+					return 0;
+				}
+			}else {
+				return 1;
+			}
+			
+		}else {
+			return 0;
+		}
+		
 	}
 
 	/**

@@ -73,7 +73,7 @@
 			ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 		FROM(
 			SELECT 
-				ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+				ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 	         FROM (
 				SELECT 
 					PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
@@ -283,52 +283,52 @@
 		FROM
 			IOT_EQUIPMENT_LUBRICATE_PLACE
 		<where>
-			1=1,
 			<trim prefix="(" suffix=")" suffixOverrides=",">
+				1=1
 				<if test="pid != null and pid != ''">
-					AND PID = #{pid},
+					AND PID = #{pid}
 				</if>
 				<if test="lid != null and lid != ''">
-					AND LID = #{lid},
+					AND LID = #{lid}
 				</if>
 				<if test="pplace != null and pplace != ''">
-					AND PPLACE = #{pplace},
+					AND PPLACE = #{pplace}
 				</if>
 				<if test="pnote != null and pnote != ''">
-					AND PNOTE = #{pnote},
+					AND PNOTE = #{pnote}
 				</if>
 				<if test="ptype != null and ptype != ''">
-					AND PTYPE = #{ptype},
+					AND PTYPE = #{ptype}
 				</if>
 				<if test="requireoil1 != null and requireoil1 != ''">
-					AND REQUIREOIL1 = #{requireoil1},
+					AND REQUIREOIL1 = #{requireoil1}
 				</if>
 				<if test="requireoil2 != null and requireoil2 != ''">
-					AND REQUIREOIL2 = #{requireoil2},
+					AND REQUIREOIL2 = #{requireoil2}
 				</if>
 				<if test="pfrequency != null and pfrequency != ''">
-					AND PFREQUENCY = #{pfrequency},
+					AND PFREQUENCY = #{pfrequency}
 				</if>
 				<if test="punit != null and punit != ''">
-					AND PUNIT = #{punit},
+					AND PUNIT = #{punit}
 				</if>
 				<if test="plastamount != null and plastamount != ''">
-					AND PLASTAMOUNT = #{plastamount},
+					AND PLASTAMOUNT = #{plastamount}
 				</if>
 				<if test="pamount != null and pamount != ''">
-					AND PAMOUNT = #{pamount},
+					AND PAMOUNT = #{pamount}
 				</if>
 				<if test="nextchangetime != null">
-					AND NEXTCHANGETIME = #{nextchangetime},
+					AND NEXTCHANGETIME = #{nextchangetime}
 				</if>
 				<if test="lastchangetime != null">
-					AND LASTCHANGETIME = #{lastchangetime},
+					AND LASTCHANGETIME = #{lastchangetime}
 				</if>
 				<if test="premark1 != null and premark1 != ''">
-					AND PREMARK1 = #{premark1},
+					AND PREMARK1 = #{premark1}
 				</if>
 				<if test="premark2 != null and premark2 != ''">
-					AND PREMARK2 = #{premark2},
+					AND PREMARK2 = #{premark2}
 				</if>
 			</trim>		
 		</where>
@@ -532,7 +532,7 @@
 		</selectKey>
 	
 		INSERT INTO
-			IOT_EQUIPMENT_LUBRICATE
+			IOT_EQUIPMENT_LUBRICATE_RECORD
 			<trim prefix="(" suffix=")" suffixOverrides=",">
 				<if test="lubequire.rid != null and lubequire.rid != ''">
 					RID,
@@ -621,15 +621,15 @@
 		UPDATE IOT_EQUIPMENT_LUBRICATE_PLACE 
 
 				<set>
-				   <if test="lubequipl.nextchangetime != null">
+				   <if test="nextchangetime != null">
 						NEXTCHANGETIME = #{nextchangetime},
 					</if>
-					<if test="lubequipl.lastchangetime != null">
+					<if test="lastchangetime != null">
 						LASTCHANGETIME = #{lastchangetime},
 					</if>
 				</set>
 				<where>
-					PID =#{pid},
+					PID =#{pid}
 				</where>
 	</update>
 	
