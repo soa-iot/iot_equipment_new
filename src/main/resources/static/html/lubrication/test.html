@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+</head>
+<body>
+
+<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+$.ajax({
+		  type: 'get',
+		  url: '/iot_equipment/lubrication/lueqpladdchangeoil',
+		  data:{
+				 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
+				  "excutor":"赵六",
+				  "rtype":"换油",
+				  "ramount":"40",
+				  "ptime":new Date()
+			  },
+		  dataType : "json",
+		  success: function(json){
+			  console.log(json)
+			  
+		  }
+
+	})
+
+</script>
+</body>
+</html>

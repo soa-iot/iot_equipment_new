@@ -240,7 +240,7 @@ public class EquipmentLubricationC {
 	 * @param lubricateEquipmentRecord
 	 * @return
 	 */
-	@RequestMapping("lueqpladdchangeoil")
+	@GetMapping("lueqpladdchangeoil")
 	public ResultJson<Integer> LuEqPlAddChangeOil(LubricateEquipmentRecord lubricateEquipmentRecord, String rtype) {
 		
 		//lubricateEquipmentRecord.setPtime(new Date());
