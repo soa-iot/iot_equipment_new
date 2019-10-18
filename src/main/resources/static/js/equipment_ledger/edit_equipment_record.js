@@ -64,7 +64,7 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 
 					}
 
-					//console.log(form_initial_data);
+					// console.log(form_initial_data);
 					/**
 					 * 设备类型加载
 					 */
@@ -134,19 +134,31 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 			}
 		}
 		save_data.equipmentProperties = equipmentProperties;
+
 		save_data.equType = $('#equTypeId').find("option:selected").text();
+
+		var query_data = {};
+		query_data.equipmentCommonInfo = save_data;
+		query_data.operatePeople = decodeURI(getCookie('name')).replace(/\"/g,
+				'');
+		// console.log(query_data.operatePeople);
+		query_data.operateType = "1";// 修改
+
 		console.log(save_data);
 		$.ajax({
 					url : '/iot_equipment/equipmentLedger/updateEquipmentRecord',
 					type : 'post',
-					data : JSON.stringify(save_data),
+					data : JSON.stringify(query_data),
 					dataType : 'json',
 					contentType : 'application/json',
 					success : function(res) {
 						if (res.code == 0) {
 							layer.close(save_msg);
 							layer.msg('数据保存成功！！！');
-							window.location.href = './equipment_ledger.html';
+							window.location.href = './equipment_ledger.html?equType='
+									+ escape(getParams('equType').trim())
+									+ '&equTypeId='
+									+ escape(getParams('equTypeId').trim());
 
 						} else {
 							layer.close(save_msg);
@@ -173,9 +185,11 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 
 	$('#search_button_cancel').on('click', function() {
 
-				window.location.href = './equipment_ledger.html';
-				return false;
-			});
+		window.location.href = './equipment_ledger.html?equType='
+				+ escape(getParams('equType').trim()) + '&equTypeId='
+				+ escape(getParams('equTypeId').trim());
+		return false;
+	});
 
 	/** *****************************************************function******************************************************************************** */
 	/**

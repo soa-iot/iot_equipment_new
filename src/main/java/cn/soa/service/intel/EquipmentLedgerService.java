@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.github.pagehelper.Page;
 import cn.soa.entity.EquipmentCommonInfo;
 import cn.soa.entity.EquipmentDisplayInfo;
@@ -63,10 +65,10 @@ public interface EquipmentLedgerService {
 	 * 
 	 * 更新设备数据
 	 * 
-	 * @param equipmentCommonInfo
+	 * @param condition
 	 * @return
 	 */
-	String updateEquipmentRecord(EquipmentCommonInfo equipmentCommonInfo);
+	String updateEquipmentRecord(QueryCondition condition);
 
 	/**
 	 * 删除设备数据
@@ -74,7 +76,7 @@ public interface EquipmentLedgerService {
 	 * @param equipmentCommonInfo
 	 * @return
 	 */
-	String delEquipmentRecord(List<EquipmentCommonInfo> equipmentCommonInfos);
+	String delEquipmentRecord(QueryCondition condition);
 
 	/**
 	 * 
@@ -82,8 +84,28 @@ public interface EquipmentLedgerService {
 	 * 
 	 * @param condition
 	 * @param response
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	void exportEquipment(QueryCondition condition, HttpServletResponse response) throws Exception;
+
+	/**
+	 * 导入excel
+	 * 
+	 * @param exportFile
+	 * @param equTypeId
+	 * @throws Exception
+	 */
+	String importEquipment(MultipartFile exportFile, String equTypeId) throws Exception;
+
+	/**
+	 * 
+	 * 根据条件获取搜索表单信息
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	List<EquipmentDisplayInfo> getSearchFormInfo(QueryCondition condition);
+
+
 
 }

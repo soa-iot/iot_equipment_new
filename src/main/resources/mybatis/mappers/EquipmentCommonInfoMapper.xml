@@ -117,14 +117,167 @@
 		resultMap="ResultMapWithProperties">
 		select
 		<include refid="Base_Column_List" />
-		from IOT_EQUIPMENT_COMMON_INFO
+		from IOT_EQUIPMENT_COMMON_INFO t1
 		<where>
-			<if test="equTypeId != null and equTypeId != ''">
-				and EQU_TYPE_ID =
-				#{equTypeId,jdbcType=VARCHAR}
+			<if
+				test="condition.equTypeId != null and condition.equTypeId != ''">
+				and EXISTS
+				(select EQU_ID from IOT_EQUIPMENT_TYPE_R t2 where
+				EQU_TYPE_ID =
+				#{condition.equTypeId,jdbcType=VARCHAR} and t1.EQU_ID =
+				t2.EQU_ID)
 			</if>
-			<if test="equId !=null and equId != ''">
-				and EQU_ID = #{equId,jdbcType=VARCHAR}
+			<if test="condition.equipmentCommonInfo != null">
+				<if
+					test="condition.equipmentCommonInfo.equipmentProperties !=null">
+					and exists (
+					select EQU_ID from
+					<foreach
+						collection="condition.equipmentCommonInfo.equipmentProperties"
+						open="(" separator=" intersect " close=")" index="index"
+						item="item">
+						<if test="item.proValue !=null and item.proValue != ''">
+							select EQU_ID from IOT_EQUIPMENT_PROPERTIES where
+							PRO_NAME_EN ||
+							PRO_VALUE like #{item.proNameEn} ||
+							'%'||
+							#{item.proValue} || '%'
+						</if>
+					</foreach>
+					t3 where t1.EQU_ID = t3.EQU_ID
+					)
+				</if>
+			</if>
+			<if test="condition.equId !=null and condition.equId != ''">
+				and EQU_ID = #{condition.equId,jdbcType=VARCHAR}
+			</if>
+			<!-- 所有字段模糊匹配 -->
+			<if test="condition.keyWord != null and condition.keyWord != ''">
+				and (EQU_NAME like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR} ||
+				'%' or
+				decode(EQU_STATUS,'1','在用','2','备用','3','停用','4','闲置','5','报废') like
+				'%' || #{condition.keyWord,jdbcType=VARCHAR} || '%' or
+				EQU_POSITION_NUM like
+				'%' || #{condition.keyWord,jdbcType=VARCHAR} ||
+				'%' or
+				PROCESS_UNITS like '%'
+				|| #{condition.keyWord,jdbcType=VARCHAR}
+				|| '%' or
+				EQU_MODEL like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR}
+				|| '%' or
+				EQU_TYPE like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR}
+				|| '%' or
+				ASSET_VALUE like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR} || '%' or
+				EQU_MANUFACTURER like
+				'%' ||
+				#{condition.keyWord,jdbcType=VARCHAR} || '%' or
+				to_char(EQU_PRODUC_DATE,'YYYY-MM-DD') like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR} || '%' or
+				to_char(EQU_COMMISSION_DATE,'YYYY-MM-DD') like '%' ||
+				#{condition.keyWord,jdbcType=VARCHAR} || '%' or
+				EQU_INSTALL_POSITION
+				like '%'
+				|| #{condition.keyWord,jdbcType=VARCHAR} || '%'
+
+				or exists (
+				select EQU_ID from
+				IOT_EQUIPMENT_PROPERTIES
+				t4
+				where PRO_VALUE
+				like '%'|| #{condition.keyWord}
+				|| '%'
+				and t1.EQU_ID
+				= t4.EQU_ID
+				)
+				)
+			</if>
+			<!-- 所有字段模糊匹配 -->
+			<if test="condition.equipmentCommonInfo != null">
+				<if
+					test="condition.equipmentCommonInfo.equName != null and condition.equipmentCommonInfo.equName != ''">
+					and EQU_NAME like '%' ||
+					#{condition.equipmentCommonInfo.equName,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equStatus != null and condition.equipmentCommonInfo.equStatus != ''">
+					and EQU_STATUS like '%' ||
+					#{condition.equipmentCommonInfo.equStatus,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equPositionNum != null and condition.equipmentCommonInfo.equPositionNum !=''">
+					and EQU_POSITION_NUM like '%' ||
+					#{condition.equipmentCommonInfo.equPositionNum,jdbcType=VARCHAR} ||
+					'%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.processUnits != null and condition.equipmentCommonInfo.processUnits != ''">
+					and PROCESS_UNITS like '%' ||
+					#{condition.equipmentCommonInfo.processUnits,jdbcType=VARCHAR} ||
+					'%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equModel != null and condition.equipmentCommonInfo.equModel != ''">
+					and EQU_MODEL like '%' ||
+					#{condition.equipmentCommonInfo.equModel,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equType != null and condition.equipmentCommonInfo.equType != ''">
+					and EQU_TYPE like '%' ||
+					#{condition.equipmentCommonInfo.equType,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equTypeId != null and condition.equipmentCommonInfo.equTypeId != ''">
+					and EQU_TYPE_ID like '%' ||
+					#{condition.equipmentCommonInfo.equTypeId,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.assetValue != null and condition.equipmentCommonInfo.assetValue != ''">
+					and ASSET_VALUE like '%' ||
+					#{condition.equipmentCommonInfo.assetValue,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equManufacturer != null and condition.equipmentCommonInfo.equManufacturer != ''">
+					and EQU_MANUFACTURER like '%' ||
+					#{condition.equipmentCommonInfo.equManufacturer,jdbcType=VARCHAR}
+					|| '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equProducDate != null and condition.equipmentCommonInfo.equProducDate != ''">
+					and to_char(EQU_PRODUC_DATE,'YYYY-MM-DD') like '%' ||
+					#{condition.equipmentCommonInfo.equProducDate,jdbcType=TIMESTAMP}
+					|| '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equCommissionDate != null and condition.equipmentCommonInfo.equCommissionDate != ''">
+					and to_char(EQU_COMMISSION_DATE,'YYYY-MM-DD') like '%' ||
+					#{condition.equipmentCommonInfo.equCommissionDate,jdbcType=TIMESTAMP}
+					|| '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.equInstallPosition != null and condition.equipmentCommonInfo.equInstallPosition != ''">
+					and EQU_INSTALL_POSITION like '%' ||
+					#{condition.equipmentCommonInfo.equInstallPosition,jdbcType=VARCHAR}
+					|| '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.standby1 != null and condition.equipmentCommonInfo.standby1 != ''">
+					and STANDBY1 like '%' ||
+					#{condition.equipmentCommonInfo.standby1,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.standby2 != null and condition.equipmentCommonInfo.standby2 != ''">
+					and STANDBY2 like '%' ||
+					#{condition.equipmentCommonInfo.standby2,jdbcType=VARCHAR} || '%'
+				</if>
+				<if
+					test="condition.equipmentCommonInfo.standby3 != null and condition.equipmentCommonInfo.standby3 != ''">
+					and STANDBY3 like '%' ||
+					#{condition.equipmentCommonInfo.standby3,jdbcType=VARCHAR} || '%'
+				</if>
 			</if>
 		</where>
 	</select>
@@ -182,6 +335,13 @@
 		#{standby2,jdbcType=VARCHAR},
 		#{standby3,jdbcType=VARCHAR})
 	</insert>
+
+	<!-- 插入数据到设备-设备类型关系表 -->
+	<insert id="insertEquTypeR"
+		parameterType="cn.soa.entity.EquipmentCommonInfo">
+
+	</insert>
+
 	<insert id="insertSelective"
 		parameterType="cn.soa.entity.EquipmentCommonInfo">
 		insert into IOT_EQUIPMENT_COMMON_INFO
@@ -379,12 +539,32 @@
 	<delete id="delRecordByIds"
 		parameterType="cn.soa.entity.EquipmentCommonInfo">
 		delete from IOT_EQUIPMENT_COMMON_INFO
-		where EQU_ID in 
-		<foreach collection="list" open="(" separator="," close=")" index="index" item="item">
+		where EQU_ID in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
 			#{item.equId,jdbcType=VARCHAR}
 		</foreach>
 	</delete>
 
+
+	<!-- 恢复设备信息（设备通用属性） -->
+	<insert id="recoveryEquInfo"
+		parameterType="cn.soa.entity.QueryCondition">
+		insert into IOT_EQUIPMENT_COMMON_INFO
+		select EQU_ID,
+		EQU_NAME,EQU_STATUS, EQU_POSITION_NUM,
+		PROCESS_UNITS,
+		EQU_MODEL,
+		EQU_TYPE,
+		EQU_TYPE_ID, ASSET_VALUE,
+		EQU_MANUFACTURER,
+		EQU_PRODUC_DATE,
+		EQU_COMMISSION_DATE,
+		EQU_INSTALL_POSITION, STANDBY1, STANDBY2, STANDBY3
+		FROM IOT_EQUIPMENT_COMMON_INFO_BACK
+		where BACK_ID =
+		#{backId,jdbcType=VARCHAR}
+	</insert>
 
 
 </mapper>

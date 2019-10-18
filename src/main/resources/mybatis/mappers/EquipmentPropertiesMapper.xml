@@ -181,8 +181,25 @@
 			index="index" item="item">
 			#{item.equId,jdbcType=VARCHAR}
 		</foreach>
-
 	</delete>
+	
+	<!-- 根据条件删除 -->
+	<delete id="deleteByCondition" parameterType="cn.soa.entity.QueryCondition">
+		delete from IOT_EQUIPMENT_PROPERTIES
+		where EQU_ID = #{equId,jdbcType=VARCHAR}
+	</delete>
+	
+	
+	<insert id="recoveryEquInfo" parameterType="cn.soa.entity.QueryCondition">
+		insert into IOT_EQUIPMENT_PROPERTIES
+		select sys_guid() as ID, EQU_ID, PRO_NAME_CN, PRO_NAME_EN, PRO_VALUE, STANDBY1,
+		STANDBY2,
+		STANDBY3
+		from IOT_EQUIPMENT_PROPERTIES_BACK 
+		WHERE BACK_ID = #{backId,jdbcType=VARCHAR}
+	</insert>
+	
+	
 
 
 </mapper>

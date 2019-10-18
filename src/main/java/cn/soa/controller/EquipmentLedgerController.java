@@ -1,7 +1,7 @@
 
 /**
  * <一句话功能描述>
- * <p>
+ * <p>设备台账页面数据处理接口控制层
  * @author 陈宇林
  * @version [版本号, 2019年8月28日]
  * @see [相关类/方法]
@@ -9,17 +9,22 @@
  */
 package cn.soa.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.Console;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -107,6 +112,7 @@ public class EquipmentLedgerController {
 
 		PageHelper.startPage(condition.getPage(), condition.getLimit());
 
+		// System.out.println(condition);
 		ResponseEntity<Page<EquipmentCommonInfo>> resObj = new ResponseEntity<Page<EquipmentCommonInfo>>();
 
 		try {
@@ -193,14 +199,14 @@ public class EquipmentLedgerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateEquipmentRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> updateEquipmentRecord(@RequestBody EquipmentCommonInfo equipmentCommonInfo) {
+	public ResponseEntity<String> updateEquipmentRecord(@RequestBody QueryCondition condition) {
 
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
 
-		System.out.println(equipmentCommonInfo);
+		System.out.println(condition);
 		try {
 
-			String result = equipmentLedgerService.updateEquipmentRecord(equipmentCommonInfo);
+			String result = equipmentLedgerService.updateEquipmentRecord(condition);
 			resObj.setCode(0);
 			resObj.setData(result);
 			resObj.setMsg("update record success");
@@ -221,14 +227,13 @@ public class EquipmentLedgerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delEquipmentRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> delEquipmentRecord(@RequestBody List<EquipmentCommonInfo> equipmentCommonInfos) {
+	public ResponseEntity<String> delEquipmentRecord(@RequestBody QueryCondition condition) {
 
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
 
-		System.out.println(equipmentCommonInfos);
 		try {
 
-			String result = equipmentLedgerService.delEquipmentRecord(equipmentCommonInfos);
+			String result = equipmentLedgerService.delEquipmentRecord(condition);
 			resObj.setCode(0);
 			resObj.setData(result);
 			resObj.setMsg("del record success");
@@ -242,21 +247,102 @@ public class EquipmentLedgerController {
 
 	}
 
-	@RequestMapping(value = "/exportEquipment", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> exportEquipment(@RequestBody QueryCondition condition, HttpServletResponse response) {
-		ResponseEntity<String> resObj = new ResponseEntity<String>();
-
+	/**
+	 * 导出设备台账（xls）
+	 * 
+	 * @param exportType
+	 * @param equTypeId
+	 * @param equIds
+	 * @param equType
+	 * @param response
+	 */
+	@RequestMapping(value = "/exportEquipment", method = RequestMethod.POST)
+	public void exportEquipment(String exportType, String equTypeId, String equIds, String equType,
+			HttpServletResponse response) {
+		QueryCondition condition = new QueryCondition();
+		condition.setEquTypeId(equTypeId);
+		condition.setExportType(exportType);
+		condition.setEquType(equType);
+		System.out.println(condition);
 		try {
 			equipmentLedgerService.exportEquipment(condition, response);
-			resObj.setCode(0);
-			resObj.setMsg("export data success");
+		} catch (Exception e) {
+			try {
+				OutputStream os = new BufferedOutputStream(response.getOutputStream());
+				os.write("导出Excel出错，请联系管理员！！！".getBytes());
+				os.flush();
+				os.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 导入excel数据
+	 * 
+	 * @param exportFile
+	 * @param equTypeId
+	 * @return
+	 */
+	@PostMapping("/importEquipment")
+	public ResponseEntity<String> importEquipment(@RequestParam("exportFile") MultipartFile exportFile,
+			String equTypeId) {
+
+		ResponseEntity<String> resObj = new ResponseEntity<>();
+
+		System.out.println(exportFile);
+		System.out.println(equTypeId);
+		QueryCondition condition = new QueryCondition();
+		condition.setEquTypeId(equTypeId);
+
+		try {
+			String msg = equipmentLedgerService.importEquipment(exportFile, equTypeId);
+			if (msg.contains("error")) {
+				resObj.setMsg(msg);
+				resObj.setCode(-1);
+				resObj.setData(msg);
+			} else {
+				resObj.setMsg(msg);
+				resObj.setCode(0);
+				resObj.setData(msg);
+			}
 		} catch (Exception e) {
 			resObj.setCode(-1);
-			resObj.setMsg("export data failed >>>" + e.getMessage());
+			resObj.setMsg("import equipment record failed >>>>" + e.getMessage());
+			resObj.setData("导入设备记录失败，请联系管理员！！！");
 			e.printStackTrace();
 		}
 
-		return null;
+		return resObj;
+	}
+
+	/**
+	 * 根据条件获取可搜索表单属性
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping(value = "/getSearchFormInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<EquipmentDisplayInfo>> getSearchFormInfo(QueryCondition condition) {
+
+		ResponseEntity<List<EquipmentDisplayInfo>> resObj = new ResponseEntity<List<EquipmentDisplayInfo>>();
+
+		try {
+			List<EquipmentDisplayInfo> result = equipmentLedgerService.getSearchFormInfo(condition);
+			resObj.setCode(0);
+			resObj.setData(result);
+			resObj.setCount(result.size());
+			resObj.setMsg("query data success");
+
+		} catch (Exception e) {
+			resObj.setCode(-1);
+			resObj.setMsg("query data failed >>>" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return resObj;
 	}
 
 }

@@ -21,10 +21,37 @@
 .equipment_type {
 	height: 960px;
 	box-shadow: #1d2935 0px 0px 3px;
+	overflow: auto;
 }
 
 .demo-tree-more {
 	margin-top: 10px;
+}
+/**右键菜单*/
+.rightmenu {
+	background-color: honeydew;
+	position: absolute;
+	width: 110px;
+	z-index: 9999;
+	display: none;
+	background-color: #fff;
+	padding: 2px;
+	color: #333;
+	border: 1px solid #eee;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.rightmenu li {
+	text-align: center;
+	display: block;
+	height: 30px;
+	line-height: 32px;
+}
+
+.rightmenu li:hover {
+	background-color: #666;
+	color: #fff;
 }
 </style>
 </head>
@@ -52,6 +79,14 @@
 					</div>
 				</div>
 				<div class="layui-row">
+					<div class="layui-col-md12 " id="equipment_list">
+						<!-- <fieldset class="layui-elem-field layui-field-title"
+							style="margin-top: 20px;">
+							<legend style="color: green;">静设备</legend>
+						</fieldset> -->
+					</div>
+				</div>
+				<div class="layui-row">
 					<div class="layui-fluid " style="overflow: visible">
 						<!-- 搜索条件 -->
 						<div class="layui-row layui-col-space15">
@@ -60,28 +95,28 @@
 									style="border-radius: 13px; margin-top: 10px; vertical-align: middle;">
 									<legend>查询条件</legend>
 									<form class="layui-form" action="" style="margin-top: 15px;">
-										<div class="layui-form-item">
-											<div class="layui-inline">
-												<label class="layui-form-label">设备名称</label>
-												<div class="layui-input-inline">
-													<input type="tel" name="phone" autocomplete="off"
-														class="layui-input">
+										<div class="layui-form-item" id="key_word_search">
+											<div class="layui-block">
+												<label class="layui-form-label">关键字</label>
+												<div class="layui-input-block">
+													<input name="key_word" id="key_word" class="layui-input"
+														placeholder="设备名称 / 设备状态 / 设备位号 / 生产装置 / 规格型号 / 设备类型 / 资产原值 / 生产厂家 / 出厂日期 / 投用日期 / 安装位置">
 												</div>
-											</div>
-											<div class="layui-inline">
-												<label class="layui-form-label">设备状态</label>
-												<div class="layui-input-inline">
-													<input type="tel" name="phone" autocomplete="off"
-														class="layui-input">
-												</div>
-											</div>
-											<div class="layui-inline" style="margin-left: 50px;">
-												<button class="layui-btn" lay-submit
-													lay-filter="search_button_search">
-													<i class="layui-icon">&#xe615;</i> 查询
-												</button>
 											</div>
 										</div>
+										<!-- 高级搜索表单 -->
+										<div id="advanced_search_form"></div>
+										<div class="layui-btn-group" style="float: right;">
+											<button class="layui-btn" lay-submit
+												lay-filter="search_button_search">
+												<i class="layui-icon">&#xe615;</i>查询数据
+											</button>
+											<button class="layui-btn" lay-submit id="advanced_search_btn"
+												lay-filter="open_advanced_search_btn">
+												<i class="layui-icon">&#xe61a;</i>高级搜索
+											</button>
+										</div>
+
 									</form>
 								</fieldset>
 							</div>
@@ -99,7 +134,13 @@
 			</div>
 		</div>
 	</div>
+
 </body>
+<ul class="rightmenu">
+	<li data-type="equ_detail">查看设备详情</li>
+	<li data-type="equ_accessory">查看设备附件</li>
+	<li data-type="equ_history">查看历史操作</li>
+</ul>
 <script type="text/html" id="toolbar">
 <div class="layui-btn-container">
 	<button class="layui-btn layui-btn-sm" lay-event="add">
@@ -111,18 +152,23 @@
 	<button class="layui-btn layui-btn-sm" lay-event="del">
 		<i class="layui-icon">&#xe640;</i>删除
 	</button>
-	<button class="layui-btn layui-btn-sm" lay-event="import">
+	<button class="layui-btn layui-btn-sm" lay-event="import" id = "upload">
 		<i class="layui-icon">&#xe681;</i>导入
 	</button>
 	<button class="layui-btn layui-btn-sm" lay-event="export">
 		<i class="layui-icon">&#xe601;</i>导出
 	</button>
+	<button class="layui-btn layui-btn-sm" lay-event="change">
+		<i class="layui-icon">&#xe669;</i>更换
+	</button>
 </div>
 </script>
 <script type="text/javascript"
 	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+
 <script type="text/javascript"
 	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/equipment_ledger/common.js"></script>
 <script type="text/javascript"
 	src="../../js/equipment_ledger/equipment_ledger.js"></script>
 </html>

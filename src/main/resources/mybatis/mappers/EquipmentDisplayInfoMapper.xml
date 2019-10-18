@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.EquipmentDisplayInfoMapper">
-  <resultMap id="BaseResultMap" type="cn.soa.entity.EquipmentDisplayInfo">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="P_ID" jdbcType="VARCHAR" property="pId" />
-    <result column="EQU_TYPE_ID" jdbcType="VARCHAR" property="equTypeId" />
-    <result column="FIELD" jdbcType="VARCHAR" property="field" />
-    <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="FORM_NAME" jdbcType="VARCHAR" property="formName" />
-    <result column="WIDTH" jdbcType="VARCHAR" property="width" />
-    <result column="DISPLAY_TYPE" jdbcType="VARCHAR" property="displayType" />
-    <result column="FIXED" jdbcType="VARCHAR" property="fixed" />
-    <result column="SORT" jdbcType="VARCHAR" property="sort" />
-    <result column="COLSPAN" jdbcType="DECIMAL" property="colspan" />
-    <result column="ROWSPAN" jdbcType="DECIMAL" property="rowspan" />
-    <result column="CLASS_NUM" jdbcType="DECIMAL" property="classNum" />
-    <result column="PROPERTY_TYPE" jdbcType="DECIMAL" property="propertyType" />
-    <result column="IS_DISPLAY" jdbcType="DECIMAL" property="isDisplay" />
-    <result column="COLUMN_TYPE" jdbcType="DECIMAL" property="columnType" />
-    <result column="SORT_NUM" jdbcType="DECIMAL" property="sortNum" />
-    <result column="STANDBY1" jdbcType="VARCHAR" property="standby1" />
-    <result column="STANDBY2" jdbcType="VARCHAR" property="standby2" />
-    <result column="STANDBY3" jdbcType="VARCHAR" property="standby3" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, P_ID, EQU_TYPE_ID, FIELD, TITLE, FORM_NAME, WIDTH, DISPLAY_TYPE, FIXED, SORT, 
-    COLSPAN, ROWSPAN, CLASS_NUM, PROPERTY_TYPE, IS_DISPLAY, COLUMN_TYPE, SORT_NUM, STANDBY1, 
-    STANDBY2, STANDBY3
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from IOT_EQUIPMENT_DISPLAY_INFO
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  
-  <!-- 根据条件获取数据记录 -->
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquipmentDisplayInfo">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="P_ID" jdbcType="VARCHAR" property="pId" />
+		<result column="EQU_TYPE_ID" jdbcType="VARCHAR"
+			property="equTypeId" />
+		<result column="FIELD" jdbcType="VARCHAR" property="field" />
+		<result column="TITLE" jdbcType="VARCHAR" property="title" />
+		<result column="FORM_NAME" jdbcType="VARCHAR"
+			property="formName" />
+		<result column="WIDTH" jdbcType="VARCHAR" property="width" />
+		<result column="DISPLAY_TYPE" jdbcType="VARCHAR"
+			property="displayType" />
+		<result column="FIXED" jdbcType="VARCHAR" property="fixed" />
+		<result column="SORT" jdbcType="VARCHAR" property="sort" />
+		<result column="COLSPAN" jdbcType="DECIMAL" property="colspan" />
+		<result column="ROWSPAN" jdbcType="DECIMAL" property="rowspan" />
+		<result column="CLASS_NUM" jdbcType="DECIMAL"
+			property="classNum" />
+		<result column="PROPERTY_TYPE" jdbcType="DECIMAL"
+			property="propertyType" />
+		<result column="IS_DISPLAY" jdbcType="DECIMAL"
+			property="isDisplay" />
+		<result column="COLUMN_TYPE" jdbcType="DECIMAL"
+			property="columnType" />
+		<result column="IS_SEARCH" jdbcType="DECIMAL"
+			property="isSearch" />
+		<result column="SORT_NUM" jdbcType="DECIMAL" property="sortNum" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, P_ID, EQU_TYPE_ID, FIELD, TITLE, FORM_NAME, WIDTH,
+		DISPLAY_TYPE,
+		FIXED, SORT,
+		COLSPAN, ROWSPAN, CLASS_NUM, PROPERTY_TYPE,
+		IS_DISPLAY, COLUMN_TYPE,
+		IS_SEARCH, SORT_NUM,
+		STANDBY1, STANDBY2,
+		STANDBY3
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_DISPLAY_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据条件获取数据记录 -->
 	<select id="selectByCondition"
 		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
 		select
@@ -60,238 +78,301 @@
 		and COLSPAN = 1
 		order by SORT_NUM
 	</select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from IOT_EQUIPMENT_DISPLAY_INFO
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="cn.soa.entity.EquipmentDisplayInfo">
-    insert into IOT_EQUIPMENT_DISPLAY_INFO (ID, P_ID, EQU_TYPE_ID, 
-      FIELD, TITLE, FORM_NAME, 
-      WIDTH, DISPLAY_TYPE, FIXED, 
-      SORT, COLSPAN, ROWSPAN, 
-      CLASS_NUM, PROPERTY_TYPE, IS_DISPLAY, 
-      COLUMN_TYPE, SORT_NUM, STANDBY1, 
-      STANDBY2, STANDBY3)
-    values (#{id,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{equTypeId,jdbcType=VARCHAR}, 
-      #{field,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{formName,jdbcType=VARCHAR}, 
-      #{width,jdbcType=VARCHAR}, #{displayType,jdbcType=VARCHAR}, #{fixed,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=VARCHAR}, #{colspan,jdbcType=DECIMAL}, #{rowspan,jdbcType=DECIMAL}, 
-      #{classNum,jdbcType=DECIMAL}, #{propertyType,jdbcType=DECIMAL}, #{isDisplay,jdbcType=DECIMAL}, 
-      #{columnType,jdbcType=DECIMAL}, #{sortNum,jdbcType=DECIMAL}, #{standby1,jdbcType=VARCHAR}, 
-      #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.soa.entity.EquipmentDisplayInfo">
-    insert into IOT_EQUIPMENT_DISPLAY_INFO
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="pId != null">
-        P_ID,
-      </if>
-      <if test="equTypeId != null">
-        EQU_TYPE_ID,
-      </if>
-      <if test="field != null">
-        FIELD,
-      </if>
-      <if test="title != null">
-        TITLE,
-      </if>
-      <if test="formName != null">
-        FORM_NAME,
-      </if>
-      <if test="width != null">
-        WIDTH,
-      </if>
-      <if test="displayType != null">
-        DISPLAY_TYPE,
-      </if>
-      <if test="fixed != null">
-        FIXED,
-      </if>
-      <if test="sort != null">
-        SORT,
-      </if>
-      <if test="colspan != null">
-        COLSPAN,
-      </if>
-      <if test="rowspan != null">
-        ROWSPAN,
-      </if>
-      <if test="classNum != null">
-        CLASS_NUM,
-      </if>
-      <if test="propertyType != null">
-        PROPERTY_TYPE,
-      </if>
-      <if test="isDisplay != null">
-        IS_DISPLAY,
-      </if>
-      <if test="columnType != null">
-        COLUMN_TYPE,
-      </if>
-      <if test="sortNum != null">
-        SORT_NUM,
-      </if>
-      <if test="standby1 != null">
-        STANDBY1,
-      </if>
-      <if test="standby2 != null">
-        STANDBY2,
-      </if>
-      <if test="standby3 != null">
-        STANDBY3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="pId != null">
-        #{pId,jdbcType=VARCHAR},
-      </if>
-      <if test="equTypeId != null">
-        #{equTypeId,jdbcType=VARCHAR},
-      </if>
-      <if test="field != null">
-        #{field,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="formName != null">
-        #{formName,jdbcType=VARCHAR},
-      </if>
-      <if test="width != null">
-        #{width,jdbcType=VARCHAR},
-      </if>
-      <if test="displayType != null">
-        #{displayType,jdbcType=VARCHAR},
-      </if>
-      <if test="fixed != null">
-        #{fixed,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null">
-        #{sort,jdbcType=VARCHAR},
-      </if>
-      <if test="colspan != null">
-        #{colspan,jdbcType=DECIMAL},
-      </if>
-      <if test="rowspan != null">
-        #{rowspan,jdbcType=DECIMAL},
-      </if>
-      <if test="classNum != null">
-        #{classNum,jdbcType=DECIMAL},
-      </if>
-      <if test="propertyType != null">
-        #{propertyType,jdbcType=DECIMAL},
-      </if>
-      <if test="isDisplay != null">
-        #{isDisplay,jdbcType=DECIMAL},
-      </if>
-      <if test="columnType != null">
-        #{columnType,jdbcType=DECIMAL},
-      </if>
-      <if test="sortNum != null">
-        #{sortNum,jdbcType=DECIMAL},
-      </if>
-      <if test="standby1 != null">
-        #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        #{standby3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.EquipmentDisplayInfo">
-    update IOT_EQUIPMENT_DISPLAY_INFO
-    <set>
-      <if test="pId != null">
-        P_ID = #{pId,jdbcType=VARCHAR},
-      </if>
-      <if test="equTypeId != null">
-        EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
-      </if>
-      <if test="field != null">
-        FIELD = #{field,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        TITLE = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="formName != null">
-        FORM_NAME = #{formName,jdbcType=VARCHAR},
-      </if>
-      <if test="width != null">
-        WIDTH = #{width,jdbcType=VARCHAR},
-      </if>
-      <if test="displayType != null">
-        DISPLAY_TYPE = #{displayType,jdbcType=VARCHAR},
-      </if>
-      <if test="fixed != null">
-        FIXED = #{fixed,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null">
-        SORT = #{sort,jdbcType=VARCHAR},
-      </if>
-      <if test="colspan != null">
-        COLSPAN = #{colspan,jdbcType=DECIMAL},
-      </if>
-      <if test="rowspan != null">
-        ROWSPAN = #{rowspan,jdbcType=DECIMAL},
-      </if>
-      <if test="classNum != null">
-        CLASS_NUM = #{classNum,jdbcType=DECIMAL},
-      </if>
-      <if test="propertyType != null">
-        PROPERTY_TYPE = #{propertyType,jdbcType=DECIMAL},
-      </if>
-      <if test="isDisplay != null">
-        IS_DISPLAY = #{isDisplay,jdbcType=DECIMAL},
-      </if>
-      <if test="columnType != null">
-        COLUMN_TYPE = #{columnType,jdbcType=DECIMAL},
-      </if>
-      <if test="sortNum != null">
-        SORT_NUM = #{sortNum,jdbcType=DECIMAL},
-      </if>
-      <if test="standby1 != null">
-        STANDBY1 = #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        STANDBY2 = #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        STANDBY3 = #{standby3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.EquipmentDisplayInfo">
-    update IOT_EQUIPMENT_DISPLAY_INFO
-    set P_ID = #{pId,jdbcType=VARCHAR},
-      EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
-      FIELD = #{field,jdbcType=VARCHAR},
-      TITLE = #{title,jdbcType=VARCHAR},
-      FORM_NAME = #{formName,jdbcType=VARCHAR},
-      WIDTH = #{width,jdbcType=VARCHAR},
-      DISPLAY_TYPE = #{displayType,jdbcType=VARCHAR},
-      FIXED = #{fixed,jdbcType=VARCHAR},
-      SORT = #{sort,jdbcType=VARCHAR},
-      COLSPAN = #{colspan,jdbcType=DECIMAL},
-      ROWSPAN = #{rowspan,jdbcType=DECIMAL},
-      CLASS_NUM = #{classNum,jdbcType=DECIMAL},
-      PROPERTY_TYPE = #{propertyType,jdbcType=DECIMAL},
-      IS_DISPLAY = #{isDisplay,jdbcType=DECIMAL},
-      COLUMN_TYPE = #{columnType,jdbcType=DECIMAL},
-      SORT_NUM = #{sortNum,jdbcType=DECIMAL},
-      STANDBY1 = #{standby1,jdbcType=VARCHAR},
-      STANDBY2 = #{standby2,jdbcType=VARCHAR},
-      STANDBY3 = #{standby3,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+
+	<!-- 根据条件获取可搜索表单信息 -->
+	<select id="selectSearchFormInfo"
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_DISPLAY_INFO
+		where EQU_TYPE_ID =
+		#{equTypeId,jdbcType=VARCHAR}
+		and COLSPAN = 1
+		and IS_SEARCH = 1
+		order by SORT_NUM
+	</select>
+
+
+
+
+
+	<!-- 根据条件获取classNum的最大值 -->
+	<select id="selectMaxClassNum"
+		parameterType="cn.soa.entity.QueryCondition" resultType="Map">
+		select
+		max(CLASS_NUM) || '' as MAXCLASSNUM
+		FROM IOT_EQUIPMENT_DISPLAY_INFO
+		where EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_EQUIPMENT_DISPLAY_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.soa.entity.EquipmentDisplayInfo">
+		insert into IOT_EQUIPMENT_DISPLAY_INFO (ID, P_ID,
+		EQU_TYPE_ID,
+		FIELD, TITLE, FORM_NAME,
+		WIDTH, DISPLAY_TYPE, FIXED,
+		SORT,
+		COLSPAN, ROWSPAN,
+		CLASS_NUM, PROPERTY_TYPE, IS_DISPLAY,
+		COLUMN_TYPE,
+		IS_SEARCH, SORT_NUM,
+		STANDBY1, STANDBY2, STANDBY3
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR},
+		#{equTypeId,jdbcType=VARCHAR},
+		#{field,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR}, #{formName,jdbcType=VARCHAR},
+		#{width,jdbcType=VARCHAR}, #{displayType,jdbcType=VARCHAR},
+		#{fixed,jdbcType=VARCHAR},
+		#{sort,jdbcType=VARCHAR},
+		#{colspan,jdbcType=DECIMAL}, #{rowspan,jdbcType=DECIMAL},
+		#{classNum,jdbcType=DECIMAL}, #{propertyType,jdbcType=DECIMAL},
+		#{isDisplay,jdbcType=DECIMAL},
+		#{columnType,jdbcType=DECIMAL},
+		#{isSearch,jdbcType=DECIMAL}, #{sortNum,jdbcType=DECIMAL},
+		#{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR},
+		#{standby3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquipmentDisplayInfo">
+		insert into IOT_EQUIPMENT_DISPLAY_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="pId != null">
+				P_ID,
+			</if>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID,
+			</if>
+			<if test="field != null">
+				FIELD,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="formName != null">
+				FORM_NAME,
+			</if>
+			<if test="width != null">
+				WIDTH,
+			</if>
+			<if test="displayType != null">
+				DISPLAY_TYPE,
+			</if>
+			<if test="fixed != null">
+				FIXED,
+			</if>
+			<if test="sort != null">
+				SORT,
+			</if>
+			<if test="colspan != null">
+				COLSPAN,
+			</if>
+			<if test="rowspan != null">
+				ROWSPAN,
+			</if>
+			<if test="classNum != null">
+				CLASS_NUM,
+			</if>
+			<if test="propertyType != null">
+				PROPERTY_TYPE,
+			</if>
+			<if test="isDisplay != null">
+				IS_DISPLAY,
+			</if>
+			<if test="columnType != null">
+				COLUMN_TYPE,
+			</if>
+			<if test="isSearch != null">
+				IS_SEARCH,
+			</if>
+			<if test="sortNum != null">
+				SORT_NUM,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="pId != null">
+				#{pId,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeId != null">
+				#{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="field != null">
+				#{field,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="formName != null">
+				#{formName,jdbcType=VARCHAR},
+			</if>
+			<if test="width != null">
+				#{width,jdbcType=VARCHAR},
+			</if>
+			<if test="displayType != null">
+				#{displayType,jdbcType=VARCHAR},
+			</if>
+			<if test="fixed != null">
+				#{fixed,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=VARCHAR},
+			</if>
+			<if test="colspan != null">
+				#{colspan,jdbcType=DECIMAL},
+			</if>
+			<if test="rowspan != null">
+				#{rowspan,jdbcType=DECIMAL},
+			</if>
+			<if test="classNum != null">
+				#{classNum,jdbcType=DECIMAL},
+			</if>
+			<if test="propertyType != null">
+				#{propertyType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDisplay != null">
+				#{isDisplay,jdbcType=DECIMAL},
+			</if>
+			<if test="columnType != null">
+				#{columnType,jdbcType=DECIMAL},
+			</if>
+			<if test="isSearch != null">
+				#{isSearch,jdbcType=DECIMAL},
+			</if>
+			<if test="sortNum != null">
+				#{sortNum,jdbcType=DECIMAL},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquipmentDisplayInfo">
+		update IOT_EQUIPMENT_DISPLAY_INFO
+		<set>
+			<if test="pId != null">
+				P_ID = #{pId,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="field != null">
+				FIELD = #{field,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				TITLE = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="formName != null">
+				FORM_NAME = #{formName,jdbcType=VARCHAR},
+			</if>
+			<if test="width != null">
+				WIDTH = #{width,jdbcType=VARCHAR},
+			</if>
+			<if test="displayType != null">
+				DISPLAY_TYPE = #{displayType,jdbcType=VARCHAR},
+			</if>
+			<if test="fixed != null">
+				FIXED = #{fixed,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				SORT = #{sort,jdbcType=VARCHAR},
+			</if>
+			<if test="colspan != null">
+				COLSPAN = #{colspan,jdbcType=DECIMAL},
+			</if>
+			<if test="rowspan != null">
+				ROWSPAN = #{rowspan,jdbcType=DECIMAL},
+			</if>
+			<if test="classNum != null">
+				CLASS_NUM = #{classNum,jdbcType=DECIMAL},
+			</if>
+			<if test="propertyType != null">
+				PROPERTY_TYPE = #{propertyType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDisplay != null">
+				IS_DISPLAY = #{isDisplay,jdbcType=DECIMAL},
+			</if>
+			<if test="columnType != null">
+				COLUMN_TYPE = #{columnType,jdbcType=DECIMAL},
+			</if>
+			<if test="isSearch != null">
+				IS_SEARCH = #{isSearch,jdbcType=DECIMAL},
+			</if>
+			<if test="sortNum != null">
+				SORT_NUM = #{sortNum,jdbcType=DECIMAL},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquipmentDisplayInfo">
+		update IOT_EQUIPMENT_DISPLAY_INFO
+		set P_ID =
+		#{pId,jdbcType=VARCHAR},
+		EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
+		FIELD = #{field,jdbcType=VARCHAR},
+		TITLE = #{title,jdbcType=VARCHAR},
+		FORM_NAME = #{formName,jdbcType=VARCHAR},
+		WIDTH =
+		#{width,jdbcType=VARCHAR},
+		DISPLAY_TYPE =
+		#{displayType,jdbcType=VARCHAR},
+		FIXED = #{fixed,jdbcType=VARCHAR},
+		SORT = #{sort,jdbcType=VARCHAR},
+		COLSPAN = #{colspan,jdbcType=DECIMAL},
+		ROWSPAN = #{rowspan,jdbcType=DECIMAL},
+		CLASS_NUM =
+		#{classNum,jdbcType=DECIMAL},
+		PROPERTY_TYPE =
+		#{propertyType,jdbcType=DECIMAL},
+		IS_DISPLAY =
+		#{isDisplay,jdbcType=DECIMAL},
+		COLUMN_TYPE =
+		#{columnType,jdbcType=DECIMAL},
+		IS_SEARCH =
+		#{isSearch,jdbcType=DECIMAL},
+		SORT_NUM = #{sortNum,jdbcType=DECIMAL},
+		STANDBY1 = #{standby1,jdbcType=VARCHAR},
+		STANDBY2 =
+		#{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

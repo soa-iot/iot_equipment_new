@@ -1,6 +1,8 @@
 package cn.soa.service.intel;
 
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -34,4 +36,5 @@ public interface EquipmentBigEventSI {
 	 * @return 生效行数
 	 */
 	Integer addEvent(EquipmentBigEvent event);
+	
 }

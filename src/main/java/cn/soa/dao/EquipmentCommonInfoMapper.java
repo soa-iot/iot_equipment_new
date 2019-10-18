@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.EquipmentCommonInfo;
 import cn.soa.entity.QueryCondition;
@@ -30,13 +31,27 @@ public interface EquipmentCommonInfoMapper {
 	 * @param condition
 	 * @return
 	 */
-	Page<EquipmentCommonInfo> selectByCondition(QueryCondition condition);
+	Page<EquipmentCommonInfo> selectByCondition(@Param("condition")QueryCondition condition);
 	
 	
 	/**
 	 * 根据id批量删除设备数据
 	 */
 	int delRecordByIds(List<EquipmentCommonInfo> equipmentCommonInfos);
+	
+	/**
+	 * 插入数据到设备-设备类型关系表
+	 * @param record
+	 * @return
+	 */
+	int insertEquTypeR(EquipmentCommonInfo record);
+	
+	/**
+	 * 恢复设备数据
+	 * @param condition
+	 * @return
+	 */
+	int recoveryEquInfo(QueryCondition condition);
 	
 
 }

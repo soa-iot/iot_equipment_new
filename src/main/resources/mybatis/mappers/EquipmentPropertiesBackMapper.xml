@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquipmentPropertiesBackMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquipmentPropertiesBack">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="BACK_ID" jdbcType="VARCHAR" property="backId" />
+		<result column="EQU_ID" jdbcType="VARCHAR" property="equId" />
+		<result column="PRO_NAME_CN" jdbcType="VARCHAR"
+			property="proNameCn" />
+		<result column="PRO_NAME_EN" jdbcType="VARCHAR"
+			property="proNameEn" />
+		<result column="PRO_VALUE" jdbcType="VARCHAR"
+			property="proValue" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, BACK_ID, EQU_ID, PRO_NAME_CN, PRO_NAME_EN, PRO_VALUE,
+		STANDBY1,
+		STANDBY2, STANDBY3
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_PROPERTIES_BACK
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_EQUIPMENT_PROPERTIES_BACK
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insertByCondition"
+		parameterType="cn.soa.entity.QueryCondition">
+		INSERT INTO IOT_EQUIPMENT_PROPERTIES_BACK SELECT
+		SYS_GUID(),#{uuid,jdbcType=VARCHAR},EQU_ID, PRO_NAME_CN, PRO_NAME_EN,
+		PRO_VALUE,
+		STANDBY1,
+		STANDBY2,
+		STANDBY3 FROM IOT_EQUIPMENT_PROPERTIES t
+		<where>
+			<if test="equId != null and equId != ''">
+				EQU_ID = #{equId,jdbcType=VARCHAR}
+			</if>
+		</where>
+
+	</insert>
+
+	<insert id="insert"
+		parameterType="cn.soa.entity.EquipmentPropertiesBack">
+		insert into IOT_EQUIPMENT_PROPERTIES_BACK (ID, BACK_ID,
+		EQU_ID,
+		PRO_NAME_CN, PRO_NAME_EN, PRO_VALUE,
+		STANDBY1, STANDBY2,
+		STANDBY3
+		)
+		values (#{id,jdbcType=VARCHAR}, #{backId,jdbcType=VARCHAR},
+		#{equId,jdbcType=VARCHAR},
+		#{proNameCn,jdbcType=VARCHAR},
+		#{proNameEn,jdbcType=VARCHAR}, #{proValue,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR},
+		#{standby3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquipmentPropertiesBack">
+		insert into IOT_EQUIPMENT_PROPERTIES_BACK
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="backId != null">
+				BACK_ID,
+			</if>
+			<if test="equId != null">
+				EQU_ID,
+			</if>
+			<if test="proNameCn != null">
+				PRO_NAME_CN,
+			</if>
+			<if test="proNameEn != null">
+				PRO_NAME_EN,
+			</if>
+			<if test="proValue != null">
+				PRO_VALUE,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="backId != null">
+				#{backId,jdbcType=VARCHAR},
+			</if>
+			<if test="equId != null">
+				#{equId,jdbcType=VARCHAR},
+			</if>
+			<if test="proNameCn != null">
+				#{proNameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="proNameEn != null">
+				#{proNameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="proValue != null">
+				#{proValue,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquipmentPropertiesBack">
+		update IOT_EQUIPMENT_PROPERTIES_BACK
+		<set>
+			<if test="backId != null">
+				BACK_ID = #{backId,jdbcType=VARCHAR},
+			</if>
+			<if test="equId != null">
+				EQU_ID = #{equId,jdbcType=VARCHAR},
+			</if>
+			<if test="proNameCn != null">
+				PRO_NAME_CN = #{proNameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="proNameEn != null">
+				PRO_NAME_EN = #{proNameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="proValue != null">
+				PRO_VALUE = #{proValue,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquipmentPropertiesBack">
+		update IOT_EQUIPMENT_PROPERTIES_BACK
+		set BACK_ID =
+		#{backId,jdbcType=VARCHAR},
+		EQU_ID = #{equId,jdbcType=VARCHAR},
+		PRO_NAME_CN = #{proNameCn,jdbcType=VARCHAR},
+		PRO_NAME_EN =
+		#{proNameEn,jdbcType=VARCHAR},
+		PRO_VALUE =
+		#{proValue,jdbcType=VARCHAR},
+		STANDBY1 = #{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 =
+		#{standby3,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

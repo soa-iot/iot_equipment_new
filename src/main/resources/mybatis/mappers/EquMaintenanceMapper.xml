@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquMaintenanceMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquMaintenanceInfo">
+		<id column="T_PROBLEM_REP_ID" jdbcType="VARCHAR"
+			property="tProblemRepId" />
+		<result column="EQU_ID" jdbcType="VARCHAR" property="equId" />
+		<result column="EQU_NAME" jdbcType="VARCHAR" property="equName" />
+		<result column="EQU_POSITION_NUM" jdbcType="VARCHAR"
+			property="equPositionNum" />
+		<result column="APPLYPEOPLE" jdbcType="VARCHAR"
+			property="applyPeople" />
+		<result column="APPLYDATE" jdbcType="VARCHAR"
+			property="applyDate" />
+		<result column="PROBLEMSTATE" jdbcType="VARCHAR"
+			property="problemState" />
+		<result column="PROBLEMDESCRIBE" jdbcType="VARCHAR"
+			property="problemDesc" />
+	</resultMap>
+
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
+		SELECT
+		EQU_ID,EQU_NAME,EQU_POSITION_NUM,T_PROBLEM_REP_ID,APPLYPEOPLE,APPLYDATE,PROBLEMSTATE,PROBLEMDESCRIBE
+		FROM (SELECT EQU_ID,EQU_NAME,EQU_POSITION_NUM FROM
+		IOT_EQUIPMENT_COMMON_INFO
+		<where>
+			<if test="equId != null and equId != ''">
+				and EQU_ID = #{equId,jdbcType = VARCHAR}
+			</if>
+		</where>
+		) t1,CZ_TASK_PROBLEM_REPORT_NEW t2
+		WHERE t1.EQU_ID = t2.RFID
+	</select>
+</mapper>

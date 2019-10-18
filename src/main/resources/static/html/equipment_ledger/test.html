@@ -6,14 +6,28 @@
 <link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
 </head>
 <body>
-	<div class="layui-row layui-col-space10">
-		<div class="layui-col-md4">1/3</div>
-		<div class="layui-col-md4">1/3</div>
-		<div class="layui-col-md4">1/3</div>
-	</div>
+	<form class="layui-form" enctype="multipart/form-data"
+		action="/iot_equipment/equipmentLedger/exportEquipment"
+		style="margin-top: 15px;" method="post">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">设备类型</label>
+				<div class="layui-input-inline">
+					<input type="tel" name="equTypeId" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline" style="margin-left: 50px;">
+				<button class="layui-btn" lay-submit
+					lay-filter="search_button_search">
+					<i class="layui-icon">&#xe615;</i> 导出
+				</button>
+			</div>
+		</div>
+	</form>
 </body>
 <script type="text/javascript"
 	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
-<!-- <script type="text/javascript"
-	src="../../js/equipment_ledger/equipment_ledger.js"></script> -->
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设备历史版本</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<style type="text/css">
+.layui-container {
+	width: 100%;
+	margin: 0 auto;
+}
+</style>
+</head>
+<body>
+	<div class="layui-container">
+		<blockquote class="layui-elem-quote layui-text">
+			<h2>设备历史版本</h2>
+		</blockquote>
+		<fieldset class="layui-elem-field layui-field-title"
+			style="margin-top: 20px;">
+			<legend>
+				<span id="equInfo"></span>
+			</legend>
+		</fieldset>
+		<div class="layui-row">
+			<table class="layui-table" id="equ_history" lay-filter="equ_history"></table>
+		</div>
+	</div>
+</body>
+<script type="text/html" id="recovery">
+<a class="layui-btn layui-btn-xs" lay-event="recovery">恢复</a>
+</script>
+<script type="text/javascript"
+	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/equipment_ledger/common.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/equipment_history.js"></script>
+</html>

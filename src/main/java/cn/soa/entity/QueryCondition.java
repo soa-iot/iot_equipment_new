@@ -35,5 +35,21 @@ public class QueryCondition {
 	private String exportType;// 导出类型 1-空白模板，2-部分数据 3-所有数据
 	
 	private List<EquipmentCommonInfo> equipmentList;//设备数据
+	
+	private EquipmentCommonInfo equipmentCommonInfo;//单条设备数据
+	
+	private String operatePeople;//操作人员
+	
+	private String operateType;//操作类型
+	
+	private String uuid;//uuid
+	
+	private String keyWord;//关键字
+	
+	private String backId;//设备历史操作表id
+	
+	private String equPositionNum;//设备位号
+	
+	
 
 }

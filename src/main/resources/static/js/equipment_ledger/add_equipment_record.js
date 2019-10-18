@@ -48,66 +48,69 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 	 */
 	form.on('submit(search_button_save)', function(data) {
 
-				var save_msg = layer.open({
-							type : 3
-						});
+		var save_msg = layer.open({
+					type : 3
+				});
 
-				var form_data = data.field;
-				var common_properties = ['equName', 'equStatus',
-						'equPositionNum', 'processUnits', 'equModel','equTypeId', 'assetValue',
-						'equManufacturer', 'equProducDate',
-						'equCommissionDate', 'equInstallPosition'];
+		var form_data = data.field;
+		var common_properties = ['equName', 'equStatus', 'equPositionNum',
+				'processUnits', 'equModel', 'equTypeId', 'assetValue',
+				'equManufacturer', 'equProducDate', 'equCommissionDate',
+				'equInstallPosition'];
 
-				var save_data = {};
-				var equId = guid();
-				save_data.equId = equId;
-				var equipmentProperties = [];
-				for (key in form_data) {
-					if (common_properties.indexOf(key) >= 0) {
-						// console.log(data[key]);
-						save_data[key] = form_data[key];
-					} else {
-						var obj = {};
-						obj.equId = equId;
-						obj.proNameCn = '';
-						obj.proNameEn = key;
-						obj.proValue = form_data[key];
-						equipmentProperties.push(obj);
+		var save_data = {};
+		var equId = guid();
+		save_data.equId = equId;
+		var equipmentProperties = [];
+		for (key in form_data) {
+			if (common_properties.indexOf(key) >= 0) {
+				// console.log(data[key]);
+				save_data[key] = form_data[key];
+			} else {
+				var obj = {};
+				obj.equId = equId;
+				obj.proNameCn = '';
+				obj.proNameEn = key;
+				obj.proValue = form_data[key];
+				equipmentProperties.push(obj);
+			}
+		}
+		save_data.equipmentProperties = equipmentProperties;
+		save_data.equType = getParams('equType');
+		console.log(save_data);
+		$.ajax({
+					url : '/iot_equipment/equipmentLedger/addEquipmentRecord',
+					type : 'post',
+					data : JSON.stringify(save_data),
+					dataType : 'json',
+					contentType : 'application/json',
+					success : function(res) {
+						if (res.code == 0) {
+							layer.close(save_msg);
+							layer.msg('数据保存成功！！！');
+							window.location.href = './equipment_ledger.html?equType='
+									+ escape(getParams('equType').trim())
+									+ '&equTypeId='
+									+ escape(getParams('equTypeId').trim());
+
+						} else {
+							layer.close(save_msg);
+							layer.msg('数据保存失败，请联系管理员！！！', {
+										icon : 2
+									});
+						}
+
+					},
+					error : function() {
+						layer.close(save_msg);
+						layer.msg('数据保存失败，请联系管理员！！！', {
+									icon : 2
+								});
 					}
-				}
-				save_data.equipmentProperties = equipmentProperties;
-				save_data.equType = getParams('equType');
-				console.log(save_data);
-				$.ajax({
-							url : '/iot_equipment/equipmentLedger/addEquipmentRecord',
-							type : 'post',
-							data : JSON.stringify(save_data),
-							dataType : 'json',
-							contentType : 'application/json',
-							success : function(res) {
-								if (res.code == 0) {
-									layer.close(save_msg);
-									layer.msg('数据保存成功！！！');
-									window.location.href = './equipment_ledger.html';
+				});
 
-								} else {
-									layer.close(save_msg);
-									layer.msg('数据保存失败，请联系管理员！！！', {
-												icon : 2
-											});
-								}
-
-							},
-							error : function() {
-								layer.close(save_msg);
-								layer.msg('数据保存失败，请联系管理员！！！', {
-											icon : 2
-										});
-							}
-						});
-
-				return false; // 阻止表单跳转。如果需要表单跳转，去掉这段即可。
-			});
+		return false; // 阻止表单跳转。如果需要表单跳转，去掉这段即可。
+	});
 
 	/**
 	 * 监听取消按钮
@@ -115,9 +118,11 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 
 	$('#search_button_cancel').on('click', function() {
 
-				window.location.href = './equipment_ledger.html';
-				return false;
-			});
+		window.location.href = './equipment_ledger.html?equType='
+				+ escape(getParams('equType').trim()) + '&equTypeId='
+				+ escape(getParams('equTypeId').trim());
+		return false;
+	});
 
 	/** *****************************************************function******************************************************************************** */
 	/**
@@ -174,17 +179,5 @@ layui.use(['tree', 'util', 'table', 'layer', 'form', 'laydate'], function() {
 				});
 		$('#equipment_add_form').css('display', 'block');
 	}
-
-	/**
-	 * 获取url中的参数
-	 */
-	function getParams(key) {
-		var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-		var r = window.location.search.substr(1).match(reg);
-		if (r != null) {
-			return unescape(r[2]);
-		}
-		return null;
-	};
 
 });

@@ -9,20 +9,26 @@
  */
 package cn.soa.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -1023,5 +1029,43 @@ public class ExcelTool<T> {
 		int sheetCount = workbook.getNumberOfSheets();
 		return sheetCount;
 	}
-	
+
+	/**
+	 * 文件输出
+	 * 
+	 * @author LiuYang
+	 * @param workbook
+	 *            填充好的workbook
+	 * @param path
+	 *            存放的位置
+	 */
+	public static void outFile(HSSFWorkbook workbook, String path, HttpServletResponse response) {
+		SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd-HH点mm分");
+		path = path.substring(0, path.lastIndexOf(".")) + fdate.format(new Date())
+				+ path.substring(path.lastIndexOf("."));
+		OutputStream os = null;
+		File file = null;
+		try {
+			file = new File(path);
+			String filename = file.getName();
+			os = new FileOutputStream(file);
+			response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+			os = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/vnd.ms-excel;charset=utf-8");
+			workbook.write(os);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			os.flush();
+			os.close();
+			System.gc();
+			System.out.println(file.delete());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

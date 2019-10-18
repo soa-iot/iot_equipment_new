@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquipmentCommonInfoBackMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquipmentCommonInfoBack">
+		<id column="BACK_ID" jdbcType="VARCHAR" property="backId" />
+		<result column="OPERATE_TYPE" jdbcType="VARCHAR"
+			property="operateType" />
+		<result column="OPERATE_TIME" jdbcType="TIMESTAMP"
+			property="operateTime" />
+		<result column="OPERATE_PEOPLE" jdbcType="VARCHAR"
+			property="operatePeople" />
+		<result column="EQU_ID" jdbcType="VARCHAR" property="equId" />
+		<result column="EQU_NAME" jdbcType="VARCHAR" property="equName" />
+		<result column="EQU_STATUS" jdbcType="VARCHAR"
+			property="equStatus" />
+		<result column="EQU_POSITION_NUM" jdbcType="VARCHAR"
+			property="equPositionNum" />
+		<result column="PROCESS_UNITS" jdbcType="VARCHAR"
+			property="processUnits" />
+		<result column="EQU_MODEL" jdbcType="VARCHAR"
+			property="equModel" />
+		<result column="EQU_TYPE" jdbcType="VARCHAR" property="equType" />
+		<result column="EQU_TYPE_ID" jdbcType="VARCHAR"
+			property="equTypeId" />
+		<result column="ASSET_VALUE" jdbcType="VARCHAR"
+			property="assetValue" />
+		<result column="EQU_MANUFACTURER" jdbcType="VARCHAR"
+			property="equManufacturer" />
+		<result column="EQU_PRODUC_DATE" jdbcType="TIMESTAMP"
+			property="equProducDate" />
+		<result column="EQU_COMMISSION_DATE" jdbcType="TIMESTAMP"
+			property="equCommissionDate" />
+		<result column="EQU_INSTALL_POSITION" jdbcType="VARCHAR"
+			property="equInstallPosition" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+
+
+	<resultMap id="ResultMapWithProperties"
+		type="cn.soa.entity.EquipmentCommonInfoBack">
+		<id column="BACK_ID" jdbcType="VARCHAR" property="backId" />
+		<result column="OPERATE_TYPE" jdbcType="VARCHAR"
+			property="operateType" />
+		<result column="OPERATE_TIME" jdbcType="TIMESTAMP"
+			property="operateTime" />
+		<result column="OPERATE_PEOPLE" jdbcType="VARCHAR"
+			property="operatePeople" />
+		<result column="EQU_ID" jdbcType="VARCHAR" property="equId" />
+		<result column="EQU_NAME" jdbcType="VARCHAR" property="equName" />
+		<result column="EQU_STATUS" jdbcType="VARCHAR"
+			property="equStatus" />
+		<result column="EQU_POSITION_NUM" jdbcType="VARCHAR"
+			property="equPositionNum" />
+		<result column="PROCESS_UNITS" jdbcType="VARCHAR"
+			property="processUnits" />
+		<result column="EQU_MODEL" jdbcType="VARCHAR"
+			property="equModel" />
+		<result column="EQU_TYPE" jdbcType="VARCHAR" property="equType" />
+		<result column="EQU_TYPE_ID" jdbcType="VARCHAR"
+			property="equTypeId" />
+		<result column="ASSET_VALUE" jdbcType="VARCHAR"
+			property="assetValue" />
+		<result column="EQU_MANUFACTURER" jdbcType="VARCHAR"
+			property="equManufacturer" />
+		<result column="EQU_PRODUC_DATE" jdbcType="TIMESTAMP"
+			property="equProducDate" />
+		<result column="EQU_COMMISSION_DATE" jdbcType="TIMESTAMP"
+			property="equCommissionDate" />
+		<result column="EQU_INSTALL_POSITION" jdbcType="VARCHAR"
+			property="equInstallPosition" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+		<collection property="equipmentPropertiesBack"
+			column="BACK_ID" select="getPropertiesBack"></collection>
+	</resultMap>
+
+
+	<resultMap id="PropertiesBackResultMap"
+		type="cn.soa.entity.EquipmentPropertiesBack">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="BACK_ID" jdbcType="VARCHAR" property="backId" />
+		<result column="EQU_ID" jdbcType="VARCHAR" property="equId" />
+		<result column="PRO_NAME_CN" jdbcType="VARCHAR"
+			property="proNameCn" />
+		<result column="PRO_NAME_EN" jdbcType="VARCHAR"
+			property="proNameEn" />
+		<result column="PRO_VALUE" jdbcType="VARCHAR"
+			property="proValue" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		BACK_ID,
+		case OPERATE_TYPE
+		when '1' then '修改'
+		when '2' then
+		'删除'
+		when '3' then '更换'
+		else ''
+		end
+		as
+		OPERATE_TYPE,
+		to_char(OPERATE_TIME,'YYYY-MM-DD') as OPERATE_TIME,
+		OPERATE_PEOPLE,
+		EQU_ID,
+		EQU_NAME,
+		case EQU_STATUS
+		when '1' then '在用'
+		when
+		'2' then '备用'
+		when '3' then '停用'
+		when '4' then '闲置'
+		when '5' then '报废'
+		else
+		''
+		end
+		as
+		EQU_STATUS
+		,
+		EQU_POSITION_NUM,
+		PROCESS_UNITS, EQU_MODEL,
+		EQU_TYPE,
+		EQU_TYPE_ID,
+		ASSET_VALUE,
+		EQU_MANUFACTURER,to_char(EQU_PRODUC_DATE,'YYYY-MM-DD') AS
+		EQU_PRODUC_DATE,
+		to_char(EQU_COMMISSION_DATE,'YYYY-MM-DD') AS
+		EQU_COMMISSION_DATE,
+		EQU_INSTALL_POSITION, STANDBY1, STANDBY2, STANDBY3
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_COMMON_INFO_BACK
+		where BACK_ID =
+		#{backId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据条件查询数据 -->
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.QueryCondition"
+		resultMap="ResultMapWithProperties">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_COMMON_INFO_BACK
+		<where>
+			<if test="equId != null and equId != ''">
+				and EQU_ID = #{equId,jdbcType=VARCHAR}
+			</if>
+			<if test="operatePeople != null and operatePeople != ''">
+				and OPERATE_PEOPLE = #{operatePeople,jdbcType=VARCHAR}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				and OPERATE_TYPE = #{operateType,jdbcType=VARCHAR}
+			</if>
+			<if test="equTypeId != null and equTypeId != ''">
+				and EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<select id="getPropertiesBack"
+		resultMap="PropertiesBackResultMap">
+		select ID, BACK_ID, EQU_ID, PRO_NAME_CN, PRO_NAME_EN,
+		PRO_VALUE,
+		STANDBY1,
+		STANDBY2, STANDBY3
+		from
+		IOT_EQUIPMENT_PROPERTIES_BACK
+		where BACK_ID =
+		#{BACK_ID,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_EQUIPMENT_COMMON_INFO_BACK
+		where BACK_ID =
+		#{backId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.soa.entity.EquipmentCommonInfoBack">
+		insert into IOT_EQUIPMENT_COMMON_INFO_BACK (BACK_ID,
+		OPERATE_TYPE,
+		OPERATE_TIME,
+		OPERATE_PEOPLE, EQU_ID, EQU_NAME,
+		EQU_STATUS, EQU_POSITION_NUM, PROCESS_UNITS,
+		EQU_MODEL, EQU_TYPE,
+		EQU_TYPE_ID,
+		ASSET_VALUE, EQU_MANUFACTURER, EQU_PRODUC_DATE,
+		EQU_COMMISSION_DATE, EQU_INSTALL_POSITION,
+		STANDBY1, STANDBY2, STANDBY3
+		)
+		values (#{backId,jdbcType=VARCHAR}, #{operateType,jdbcType=VARCHAR},
+		#{operateTime,jdbcType=TIMESTAMP},
+		#{operatePeople,jdbcType=VARCHAR},
+		#{equId,jdbcType=VARCHAR}, #{equName,jdbcType=VARCHAR},
+		#{equStatus,jdbcType=VARCHAR}, #{equPositionNum,jdbcType=VARCHAR},
+		#{processUnits,jdbcType=VARCHAR},
+		#{equModel,jdbcType=VARCHAR},
+		#{equType,jdbcType=VARCHAR}, #{equTypeId,jdbcType=VARCHAR},
+		#{assetValue,jdbcType=VARCHAR}, #{equManufacturer,jdbcType=VARCHAR},
+		#{equProducDate,jdbcType=TIMESTAMP},
+		#{equCommissionDate,jdbcType=TIMESTAMP},
+		#{equInstallPosition,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR},
+		#{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertByCondition"
+		parameterType="cn.soa.entity.QueryCondition">
+		INSERT INTO IOT_EQUIPMENT_COMMON_INFO_BACK SELECT
+		#{uuid,jdbcType=VARCHAR},#{operateType,jdbcType=VARCHAR},SYSDATE,#{operatePeople,jdbcType=VARCHAR},t.*
+		FROM IOT_EQUIPMENT_COMMON_INFO t
+		<where>
+			<if test="equId != null and equId != ''">
+				EQU_ID = #{equId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</insert>
+
+
+
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquipmentCommonInfoBack">
+		insert into IOT_EQUIPMENT_COMMON_INFO_BACK
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="backId != null">
+				BACK_ID,
+			</if>
+			<if test="operateType != null">
+				OPERATE_TYPE,
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME,
+			</if>
+			<if test="operatePeople != null">
+				OPERATE_PEOPLE,
+			</if>
+			<if test="equId != null">
+				EQU_ID,
+			</if>
+			<if test="equName != null">
+				EQU_NAME,
+			</if>
+			<if test="equStatus != null">
+				EQU_STATUS,
+			</if>
+			<if test="equPositionNum != null">
+				EQU_POSITION_NUM,
+			</if>
+			<if test="processUnits != null">
+				PROCESS_UNITS,
+			</if>
+			<if test="equModel != null">
+				EQU_MODEL,
+			</if>
+			<if test="equType != null">
+				EQU_TYPE,
+			</if>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID,
+			</if>
+			<if test="assetValue != null">
+				ASSET_VALUE,
+			</if>
+			<if test="equManufacturer != null">
+				EQU_MANUFACTURER,
+			</if>
+			<if test="equProducDate != null">
+				EQU_PRODUC_DATE,
+			</if>
+			<if test="equCommissionDate != null">
+				EQU_COMMISSION_DATE,
+			</if>
+			<if test="equInstallPosition != null">
+				EQU_INSTALL_POSITION,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="backId != null">
+				#{backId,jdbcType=VARCHAR},
+			</if>
+			<if test="operateType != null">
+				#{operateType,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatePeople != null">
+				#{operatePeople,jdbcType=VARCHAR},
+			</if>
+			<if test="equId != null">
+				#{equId,jdbcType=VARCHAR},
+			</if>
+			<if test="equName != null">
+				#{equName,jdbcType=VARCHAR},
+			</if>
+			<if test="equStatus != null">
+				#{equStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="equPositionNum != null">
+				#{equPositionNum,jdbcType=VARCHAR},
+			</if>
+			<if test="processUnits != null">
+				#{processUnits,jdbcType=VARCHAR},
+			</if>
+			<if test="equModel != null">
+				#{equModel,jdbcType=VARCHAR},
+			</if>
+			<if test="equType != null">
+				#{equType,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeId != null">
+				#{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="assetValue != null">
+				#{assetValue,jdbcType=VARCHAR},
+			</if>
+			<if test="equManufacturer != null">
+				#{equManufacturer,jdbcType=VARCHAR},
+			</if>
+			<if test="equProducDate != null">
+				#{equProducDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="equCommissionDate != null">
+				#{equCommissionDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="equInstallPosition != null">
+				#{equInstallPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquipmentCommonInfoBack">
+		update IOT_EQUIPMENT_COMMON_INFO_BACK
+		<set>
+			<if test="operateType != null">
+				OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatePeople != null">
+				OPERATE_PEOPLE = #{operatePeople,jdbcType=VARCHAR},
+			</if>
+			<if test="equId != null">
+				EQU_ID = #{equId,jdbcType=VARCHAR},
+			</if>
+			<if test="equName != null">
+				EQU_NAME = #{equName,jdbcType=VARCHAR},
+			</if>
+			<if test="equStatus != null">
+				EQU_STATUS = #{equStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="equPositionNum != null">
+				EQU_POSITION_NUM = #{equPositionNum,jdbcType=VARCHAR},
+			</if>
+			<if test="processUnits != null">
+				PROCESS_UNITS = #{processUnits,jdbcType=VARCHAR},
+			</if>
+			<if test="equModel != null">
+				EQU_MODEL = #{equModel,jdbcType=VARCHAR},
+			</if>
+			<if test="equType != null">
+				EQU_TYPE = #{equType,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="assetValue != null">
+				ASSET_VALUE = #{assetValue,jdbcType=VARCHAR},
+			</if>
+			<if test="equManufacturer != null">
+				EQU_MANUFACTURER = #{equManufacturer,jdbcType=VARCHAR},
+			</if>
+			<if test="equProducDate != null">
+				EQU_PRODUC_DATE = #{equProducDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="equCommissionDate != null">
+				EQU_COMMISSION_DATE =
+				#{equCommissionDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="equInstallPosition != null">
+				EQU_INSTALL_POSITION =
+				#{equInstallPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where BACK_ID = #{backId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquipmentCommonInfoBack">
+		update IOT_EQUIPMENT_COMMON_INFO_BACK
+		set OPERATE_TYPE =
+		#{operateType,jdbcType=VARCHAR},
+		OPERATE_TIME =
+		#{operateTime,jdbcType=TIMESTAMP},
+		OPERATE_PEOPLE =
+		#{operatePeople,jdbcType=VARCHAR},
+		EQU_ID = #{equId,jdbcType=VARCHAR},
+		EQU_NAME = #{equName,jdbcType=VARCHAR},
+		EQU_STATUS =
+		#{equStatus,jdbcType=VARCHAR},
+		EQU_POSITION_NUM =
+		#{equPositionNum,jdbcType=VARCHAR},
+		PROCESS_UNITS =
+		#{processUnits,jdbcType=VARCHAR},
+		EQU_MODEL =
+		#{equModel,jdbcType=VARCHAR},
+		EQU_TYPE = #{equType,jdbcType=VARCHAR},
+		EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
+		ASSET_VALUE =
+		#{assetValue,jdbcType=VARCHAR},
+		EQU_MANUFACTURER =
+		#{equManufacturer,jdbcType=VARCHAR},
+		EQU_PRODUC_DATE =
+		#{equProducDate,jdbcType=TIMESTAMP},
+		EQU_COMMISSION_DATE =
+		#{equCommissionDate,jdbcType=TIMESTAMP},
+		EQU_INSTALL_POSITION =
+		#{equInstallPosition,jdbcType=VARCHAR},
+		STANDBY1 =
+		#{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR}
+		where BACK_ID =
+		#{backId,jdbcType=VARCHAR}
+	</update>
+</mapper>

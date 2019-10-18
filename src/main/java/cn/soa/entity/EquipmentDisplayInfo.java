@@ -33,6 +33,8 @@ public class EquipmentDisplayInfo {
 
     private Short columnType;
 
+    private Short isSearch;
+
     private Integer sortNum;
 
     private String standby1;
@@ -167,6 +169,14 @@ public class EquipmentDisplayInfo {
 
     public void setColumnType(Short columnType) {
         this.columnType = columnType;
+    }
+
+    public Short getIsSearch() {
+        return isSearch;
+    }
+
+    public void setIsSearch(Short isSearch) {
+        this.isSearch = isSearch;
     }
 
     public Integer getSortNum() {

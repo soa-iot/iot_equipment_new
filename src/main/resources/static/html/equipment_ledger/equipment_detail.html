@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设备台账页面</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<style type="text/css">
+.layui-colla-title {
+	background-color: #E0ECFF;
+}
+
+#equ_detail span {
+	overflow: scroll;
+}
+
+#equ_picture{
+	margin: 0 auto;
+}
+</style>
+
+
+</head>
+<body>
+	<blockquote class="layui-elem-quote layui-text">
+		<h2>设备详情查看</h2>
+	</blockquote>
+	<div class="layui-collapse" lay-accordion="" lay-filter="test">
+		<div class="layui-colla-item">
+			<h2 class="layui-colla-title">
+				<i class="layui-icon layui-icon-form"></i> <span>设备详情</span>
+			</h2>
+			<div class="layui-colla-content layui-show">
+				<div id="equ_detail"></div>
+			</div>
+		</div>
+		<div class="layui-colla-item">
+			<h2 class="layui-colla-title">
+				<i class="layui-icon layui-icon-util"></i> <span>检维修信息</span>
+			</h2>
+			<div class="layui-colla-content">
+				<table id="equ_maintenance_table" lay-filter="equ_maintenance_table"></table>
+			</div>
+		</div>
+		<div class="layui-colla-item" style="display: none;">
+			<h2 class="layui-colla-title">
+				<i class="layui-icon layui-icon-component"></i> <span>备品备件</span>
+			</h2>
+			<div class="layui-colla-content">
+				<table id="equ_spare_table" lay-filter="equ_spare_table"></table>
+			</div>
+		</div>
+		<div class="layui-colla-item">
+			<h2 class="layui-colla-title">
+				<i class="layui-icon layui-icon-picture"></i><span> 设备图片</span>
+			</h2>
+			<div class="layui-colla-content">
+
+				<div class="layui-carousel" id="equ_picture">
+					<div carousel-item="">
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/3.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/2.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/3.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/4.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/5.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/6.png">
+						</div>
+						<div>
+							<img src="https://res.layui.com/images/layui/demo/7.png">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript"
+	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/equipment_ledger/common.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/equipment_detail.js"></script>
+</html>

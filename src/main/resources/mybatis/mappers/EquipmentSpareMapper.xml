@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquipmentSpareMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquipmentSpare">
+		<id column="SPARE_ID" jdbcType="VARCHAR" property="spareId" />
+		<result column="SPARE_PARTS_TYPE" jdbcType="VARCHAR"
+			property="sparePartsType" />
+		<result column="MATERIAL_CODING" jdbcType="VARCHAR"
+			property="materialCoding" />
+		<result column="MATERIAL_NAME" jdbcType="VARCHAR"
+			property="materialName" />
+		<result column="MATERIAL_SPECIFICATIONS" jdbcType="VARCHAR"
+			property="materialSpecifications" />
+		<result column="UNIT" jdbcType="VARCHAR" property="unit" />
+		<result column="ACTUAL_INVENTORY" jdbcType="VARCHAR"
+			property="actualInventory" />
+		<result column="REASONABLE_INVENTORY" jdbcType="VARCHAR"
+			property="reasonableInventory" />
+		<result column="REMARKONE" jdbcType="VARCHAR"
+			property="remarkone" />
+		<result column="REMARKTWO" jdbcType="VARCHAR"
+			property="remarktwo" />
+		<result column="REMARKTHREE" jdbcType="VARCHAR"
+			property="remarkthree" />
+		<result column="REMARKFOUR" jdbcType="VARCHAR"
+			property="remarkfour" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		SPARE_ID, SPARE_PARTS_TYPE, MATERIAL_CODING, MATERIAL_NAME,
+		MATERIAL_SPECIFICATIONS,
+		UNIT, ACTUAL_INVENTORY, REASONABLE_INVENTORY,
+		REMARKONE, REMARKTWO,
+		REMARKTHREE,
+		REMARKFOUR
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from CZ_EQUIPMENT_SPARE
+		where SPARE_ID = #{spareId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from CZ_EQUIPMENT_SPARE
+		<where>
+			<if test="equPositionNum != null and equPositionNum != ''">
+			and REMARKTWO = #{equPositionNum,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		CZ_EQUIPMENT_SPARE
+		where SPARE_ID = #{spareId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.soa.entity.EquipmentSpare">
+		insert into CZ_EQUIPMENT_SPARE
+		(SPARE_ID, SPARE_PARTS_TYPE, MATERIAL_CODING,
+		MATERIAL_NAME,
+		MATERIAL_SPECIFICATIONS, UNIT,
+		ACTUAL_INVENTORY, REASONABLE_INVENTORY,
+		REMARKONE,
+		REMARKTWO, REMARKTHREE, REMARKFOUR
+		)
+		values
+		(#{spareId,jdbcType=VARCHAR}, #{sparePartsType,jdbcType=VARCHAR},
+		#{materialCoding,jdbcType=VARCHAR},
+		#{materialName,jdbcType=VARCHAR},
+		#{materialSpecifications,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+		#{actualInventory,jdbcType=VARCHAR},
+		#{reasonableInventory,jdbcType=VARCHAR},
+		#{remarkone,jdbcType=VARCHAR},
+		#{remarktwo,jdbcType=VARCHAR},
+		#{remarkthree,jdbcType=VARCHAR}, #{remarkfour,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquipmentSpare">
+		insert into CZ_EQUIPMENT_SPARE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="spareId != null">
+				SPARE_ID,
+			</if>
+			<if test="sparePartsType != null">
+				SPARE_PARTS_TYPE,
+			</if>
+			<if test="materialCoding != null">
+				MATERIAL_CODING,
+			</if>
+			<if test="materialName != null">
+				MATERIAL_NAME,
+			</if>
+			<if test="materialSpecifications != null">
+				MATERIAL_SPECIFICATIONS,
+			</if>
+			<if test="unit != null">
+				UNIT,
+			</if>
+			<if test="actualInventory != null">
+				ACTUAL_INVENTORY,
+			</if>
+			<if test="reasonableInventory != null">
+				REASONABLE_INVENTORY,
+			</if>
+			<if test="remarkone != null">
+				REMARKONE,
+			</if>
+			<if test="remarktwo != null">
+				REMARKTWO,
+			</if>
+			<if test="remarkthree != null">
+				REMARKTHREE,
+			</if>
+			<if test="remarkfour != null">
+				REMARKFOUR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="spareId != null">
+				#{spareId,jdbcType=VARCHAR},
+			</if>
+			<if test="sparePartsType != null">
+				#{sparePartsType,jdbcType=VARCHAR},
+			</if>
+			<if test="materialCoding != null">
+				#{materialCoding,jdbcType=VARCHAR},
+			</if>
+			<if test="materialName != null">
+				#{materialName,jdbcType=VARCHAR},
+			</if>
+			<if test="materialSpecifications != null">
+				#{materialSpecifications,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				#{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInventory != null">
+				#{actualInventory,jdbcType=VARCHAR},
+			</if>
+			<if test="reasonableInventory != null">
+				#{reasonableInventory,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkone != null">
+				#{remarkone,jdbcType=VARCHAR},
+			</if>
+			<if test="remarktwo != null">
+				#{remarktwo,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkthree != null">
+				#{remarkthree,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkfour != null">
+				#{remarkfour,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquipmentSpare">
+		update CZ_EQUIPMENT_SPARE
+		<set>
+			<if test="sparePartsType != null">
+				SPARE_PARTS_TYPE = #{sparePartsType,jdbcType=VARCHAR},
+			</if>
+			<if test="materialCoding != null">
+				MATERIAL_CODING = #{materialCoding,jdbcType=VARCHAR},
+			</if>
+			<if test="materialName != null">
+				MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+			</if>
+			<if test="materialSpecifications != null">
+				MATERIAL_SPECIFICATIONS =
+				#{materialSpecifications,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				UNIT = #{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInventory != null">
+				ACTUAL_INVENTORY = #{actualInventory,jdbcType=VARCHAR},
+			</if>
+			<if test="reasonableInventory != null">
+				REASONABLE_INVENTORY =
+				#{reasonableInventory,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkone != null">
+				REMARKONE = #{remarkone,jdbcType=VARCHAR},
+			</if>
+			<if test="remarktwo != null">
+				REMARKTWO = #{remarktwo,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkthree != null">
+				REMARKTHREE = #{remarkthree,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkfour != null">
+				REMARKFOUR = #{remarkfour,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where SPARE_ID = #{spareId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquipmentSpare">
+		update CZ_EQUIPMENT_SPARE
+		set SPARE_PARTS_TYPE =
+		#{sparePartsType,jdbcType=VARCHAR},
+		MATERIAL_CODING =
+		#{materialCoding,jdbcType=VARCHAR},
+		MATERIAL_NAME =
+		#{materialName,jdbcType=VARCHAR},
+		MATERIAL_SPECIFICATIONS =
+		#{materialSpecifications,jdbcType=VARCHAR},
+		UNIT =
+		#{unit,jdbcType=VARCHAR},
+		ACTUAL_INVENTORY =
+		#{actualInventory,jdbcType=VARCHAR},
+		REASONABLE_INVENTORY =
+		#{reasonableInventory,jdbcType=VARCHAR},
+		REMARKONE =
+		#{remarkone,jdbcType=VARCHAR},
+		REMARKTWO =
+		#{remarktwo,jdbcType=VARCHAR},
+		REMARKTHREE =
+		#{remarkthree,jdbcType=VARCHAR},
+		REMARKFOUR =
+		#{remarkfour,jdbcType=VARCHAR}
+		where SPARE_ID =
+		#{spareId,jdbcType=VARCHAR}
+	</update>
+</mapper>

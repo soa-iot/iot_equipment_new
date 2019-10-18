@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import cn.soa.entity.EquipmentCommonInfo;
 import cn.soa.entity.EquipmentProperties;
+import cn.soa.entity.QueryCondition;
 
 @Mapper
 public interface EquipmentPropertiesMapper {
@@ -36,4 +37,16 @@ public interface EquipmentPropertiesMapper {
 	 * @return
 	 */
 	int delByEquIds(List<EquipmentCommonInfo> equipmentCommonInfos);
+	
+	/**
+	 * 恢复设备数据
+	 * @param condition
+	 * @return
+	 */
+	int recoveryEquInfo(QueryCondition condition);
+
+	/**
+	 * @param condition
+	 */
+	int deleteByCondition(QueryCondition condition);
 }
