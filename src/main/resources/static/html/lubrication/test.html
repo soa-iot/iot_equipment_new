@@ -5,27 +5,96 @@
 <title>test</title>
 </head>
 <body>
-
+<div id="cc" style="margin: 60px 0px 0px 0px;"></div>
 <script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
-$.ajax({
+ $.ajax({
 		  type: 'get',
-		  url: '/iot_equipment/lubrication/lueqpladdchangeoil',
-		  data:{
-				 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
-				  "excutor":"赵六",
-				  "rtype":"换油",
-				  "ramount":"40",
-				  "ptime":new Date()
-			  },
+		  url: '/iot_equipment/lubrication/lubplace',
 		  dataType : "json",
 		  success: function(json){
 			  console.log(json)
 			  
 		  }
 
-	})
+	}) 
+	
+	$.get('http://10.89.90.43:8080/iot_equipment/lubrication/lubplace', null, function(results) {
+		console.log(results.data);
+		if (results.code == 0) {
+			console.log(results.data);
+			oil_homepage(results.data);
+		}
+	});
+ 
+	var datas = [{
+		 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
+		  "excutor":"赵六",
+		  "operatetype":"换油",
+		  "ramount":"40",
+		  "ptime":new Date()
+	  },{
+			 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
+			  "excutor":"赵六",
+			  "operatetype":"加油",
+			  "ramount":"10",
+			  "ptime":new Date()
+		  },{
+				 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
+				  "excutor":"赵六",
+				  "operatetype":"换油",
+				  "ramount":"5",
+				  "ptime":new Date()
+			  },{
+					 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
+					  "excutor":"赵六",
+					  "operatetype":"加油",
+					  "ramount":"8",
+					  "ptime":new Date()
+				  }];
+	/*  $.ajax({
+		  type: 'post',
+		  url: '/iot_equipment/lubrication/lueqpladdchangeoillist',
+		  data:JSON.stringify(datas),
+		  contentType: 'application/json;charset=utf-8',
+		  dataType : "json",
+		  success: function(json){
+			  console.log(json)
+			  
+		  }
 
+	}) */
+	
+	function oil_homepage(data) {
+		var html = '';
+		$.each(data, function(index, item) {
+			html += '<div class="mui-content">';
+			html += '<div class="mui-card">';
+			html += '<div class="mui-card-content">';
+			html += '<div class="mui-card-content-inner">';
+			html += '<table style="width:100%">';
+			html += '<tr><td style="width: 30%;">设备位号</td><td style="width: 10%;"> : </td><td>' + item.lnamekey +
+				'</td><td></td></tr>';
+			html += '<tr><td>设备名称</td><td> : </td><td>' + item.lname + '</td>';
+			html += '<tr><td>润滑部位</td><td> : </td><td>' + item.pplace + '</td>';
+			html += '<tr><td>油品</td><td> : </td><td>' + item.requireoil1 + '</td>';
+			html += '<tr><td>换油量</td><td> : </td><td><input id="' + item.pid + '" style="width: 30%;"  type="text" /></td>';
+			html += '<tr><td>下一次换油时间</td><td> : </td><td>' + todata(item.nextchangetime) + '</td>';
+			html +=
+				'<tr><td colspan="3"  align="center">	<button onclick="oil_change(\'' + item.pid +
+				'\')" type="button" class="mui-btn mui-btn-primary">确认换油</button></td>';
+			html += '</table>';
+			html += '</div>';
+			html += '</div>';
+			html += '</div>';
+		});
+
+		$('#cc').html(html);
+	}
+	
+	function todata(d){
+		return d.replace(/T/, ' ').replace(/\..*/, '');
+	}
 </script>
 </body>
 </html>
