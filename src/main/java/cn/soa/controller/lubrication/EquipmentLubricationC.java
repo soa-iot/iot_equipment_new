@@ -15,8 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 import cn.soa.entity.LubricationMothlyReport;
 import cn.soa.entity.LubricationRecordReport;
@@ -241,9 +247,9 @@ public class EquipmentLubricationC {
 	 * @return
 	 */
 	@GetMapping("lueqpladdchangeoil")
-	public ResultJson<Integer> LuEqPlAddChangeOil(LubricateEquipmentRecord lubricateEquipmentRecord, String rtype) {
+	public ResultJson<Integer> LuEqPlAddChangeOil(LubricateEquipmentRecord lubricateEquipmentRecord) {
 		
-		//lubricateEquipmentRecord.setPtime(new Date());
+		String rtype = lubricateEquipmentRecord.getOperatetype();
 		log.info("-----------C------------加/换油部位id："+lubricateEquipmentRecord.getPid());
 		log.info("-----------C------------操作人："+lubricateEquipmentRecord.getExcutor());
 		log.info("-----------C------------加/换油时间："+lubricateEquipmentRecord.getPtime());
@@ -255,7 +261,39 @@ public class EquipmentLubricationC {
 		if (row > 0) {
 			return new ResultJson<Integer>(0, "加换油成功");
 		}else {
-			return new ResultJson<Integer>(1, "加换油设备");
+			return new ResultJson<Integer>(1, "加换油失败");
+		}
+		
+		
+	}
+	
+	/**
+	 * 设备加换油
+	 * @param lubricateEquipmentRecord
+	 * @return
+	 */
+	@PostMapping("lueqpladdchangeoillist")
+	//@RequestMapping(value = "lueqpladdchangeoillist", method = RequestMethod.POST)
+	
+	public ResultJson<Integer> LuEqPlAddChangeOilList(@RequestBody List<LubricateEquipmentRecord> lubricateEquipmentRecords) {
+
+		log.info("-----------C------------加/换油数据："+lubricateEquipmentRecords);
+		log.info("-----------C------------加/换油数据总量："+lubricateEquipmentRecords.size());
+		Integer row = 0;
+		for (int i = 0; i < lubricateEquipmentRecords.size(); i++) {
+			
+			Integer row1 = equipmentLubricationSI.updateLuEqPlByPid(lubricateEquipmentRecords.get(i) ,lubricateEquipmentRecords.get(i).getOperatetype());
+			if (row1 > 0) {
+				row++;
+			}
+			
+		}
+		
+		log.info("-----------C--------------加换油数量："+ row);
+		if (row > 0) {
+			return new ResultJson<Integer>(0, "加换油成功", row);
+		}else {
+			return new ResultJson<Integer>(1, "加换油失败", row);
 		}
 		
 		

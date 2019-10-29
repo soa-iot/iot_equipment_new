@@ -280,6 +280,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		String oid = equipmentLubricationOils.get(0).getOid();
 		lubricateEquipmentRecord.setLid(lubricateEquipmentPlace.getLid());
 		lubricateEquipmentRecord.setOid(oid);
+		lubricateEquipmentRecord.setOperatetype(rtype);
 		
 		Integer insetRow = equipmentLubricationMapper.insertLubRecord(lubricateEquipmentRecord);
 		log.info("--------S-----------S插入换油记录行数："+insetRow);
@@ -291,7 +292,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		equipmentOilRecord.setOid(oid);
 		equipmentOilRecord.setRtime(ptime);                           
 		equipmentOilRecord.setRinout("减");                                 
-		equipmentOilRecord.setRamount("-"+lubricateEquipmentRecord.getRamount());
+		equipmentOilRecord.setRamount(lubricateEquipmentRecord.getRamount());
 		equipmentOilRecord.setUserid(lubricateEquipmentRecord.getExcutor());                              
 		equipmentOilRecord.setRtype(rtype);  
 		equipmentOilRecord.setRstock(ostock-ramount);
