@@ -172,6 +172,9 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 			minSize = (page - 1 ) * limit;
 			maxSize = page * limit;
 		}
+		log.info("---------------maxSize:"+maxSize);
+		
+		log.info("---------------minSize:"+minSize);
 		
 		return equipmentLubricationOilMapper.queryOilAllStock(minSize, maxSize);
 	}

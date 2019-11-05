@@ -30,6 +30,7 @@ var userid = "张三";
 	  }
  
  })
+ var table_stock = null;
 layui.use(['table','laydate','layer', 'form'], function(){
 	
   var table = layui.table
@@ -37,7 +38,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
   	  ,layer = layui.layer
   	  ,form = layui.form;
   
-  table.render({
+   table_stock = table.render({
     elem: '#record-table'
     ,url:'/iot_equipment/equipmentoil/queryoilallstock'
     ,limit:10
@@ -58,7 +59,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	    var data = obj.data
 	    ,oid = data.oid;
 	    console.log(data.oid)
-	    top.location.href = "../../html/lubrication/equipment-oil-record.html?oid="+oid;
+	   location.href = "../../html/lubrication/equipment-oil-record.html?oid="+oid;
 	  });
 	  
 	  $("#oname").blur(function(){
@@ -122,7 +123,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 			  nameCheck("oname1",$("#oname1").val());
 		}else{
 			$("#warning1").html("*油品名称不能为空*")
-			$("#warning1").attr("name","uncheck")
+			$("#warning1").attr("name","check")
 			$("#warning1").show();
 		}
 		 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ramount").val()) && $("#ramount").val() > 0) {
@@ -138,7 +139,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	//新增油品验证
 	 function addOilCheck(){
 		 if ($("#oname").val() != "") {
-			  nameCheck("oname",$("#oname").val());
+			  nameCheck("oname1",$("#oname").val());
 		}else{
 			$("#warning").html("*油品名称不能为空*")
 			$("#warning").attr("name","uncheck")
@@ -192,6 +193,10 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							success: function(json){
 								if(json.state == 0){
 									$("#oname").val("")
+									
+									if (table_stock != null) {
+										table_stock.reload('#record-table',null)
+									}
 									layer.msg("油品新增成功", {icon: 1, time: 2000, offset: '150px'});
 									layer.close(ope);
 								}else{
@@ -241,7 +246,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 					var ch = $("#warning1").attr("name");
 					var chnum = $("#warningnum1").attr("name");
 					
-					if (ch == "uncheck" && chnum == "check"  && $("#oname").val() != '') {
+					console.log("oname1:"+ch);
+					console.log("num:"+chnum);
+					
+					if (ch == "uncheck" && chnum == "check"  && $("#oname1").val() != '') {
+						
+						console.log("正在提交........")
 						$(".layui-layer-btn0").off('click');
 						$.ajax({
 							type: 'POST',
@@ -257,6 +267,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							success: function(json){
 								if(json.state == 0){
 									$("#oname1").val("")
+									
+									console.log("table_stock:"+table_stock);
+									if (table_stock != null) {
+										table_stock.reload('#record-table',null)
+									}
+									
 									layer.msg("入库成功", {icon: 1, time: 2000, offset: '150px'});
 									layer.close(ope);
 								}else{
@@ -293,6 +309,7 @@ function nameCheck(str,oname) {
 		},
 		dataType: 'JSON',
 		success: function(json){
+			
 			console.log(json);
 			
 			if(json.state == 0){

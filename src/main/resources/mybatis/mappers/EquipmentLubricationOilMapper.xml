@@ -26,19 +26,19 @@
 	<!-- List<EquipmentLubricationOil> queryOilAllStock(Integer page, Integer limit); -->
 	<select id="queryOilAllStock" resultType="cn.soa.entity.lubrication.EquipmentLubricationOil">
 		SELECT 
-			<include refid="EquipmentLubricationOilSQL"></include>
+			rn,OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
           FROM (SELECT 
 	          		<include refid="EquipmentLubricationOilSQL"></include>
 	            FROM (
 	            	SELECT 
-	          		<include refid="EquipmentLubricationOilSQL"></include>
-	            FROM 
-	            	IOT_EQUIPMENT_LUBRICATION_OIL ORDER BY cast(ostock as int))
+	          			OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
+	           		 FROM 
+	            		IOT_EQUIPMENT_LUBRICATION_OIL ORDER BY ostock+0,ONAME)
 				WHERE
 					1=1 
 					<if test="maxSize != null and maxSize != ''">
 						AND	ROWNUM <![CDATA[ <= ]]> #{maxSize} 
-					</if>)
+					</if> )
  			WHERE 
  				1=1
 				<if test="minSize != null and minSize != ''">
