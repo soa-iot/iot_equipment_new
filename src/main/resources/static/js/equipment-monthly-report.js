@@ -137,6 +137,7 @@ $(function(){
 		}
 		,parseData: function(res){ 
 			var data = res.data;
+			console.log(data);
 			//生成表头，数据格式化
 			var tableData = init.dataFormat(data);
 			

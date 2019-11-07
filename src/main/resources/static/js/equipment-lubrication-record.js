@@ -82,8 +82,9 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 	    if(obj.event === 'query'){
 	    	//查看换油记录
 	    	console.log("lid = "+data.lid);
+	    	console.log(data);
 	    	$("#record-div").css({"display": "block"});
-	    	$("#record-legend").text(data.lposition1+" 设备换油记录");
+	    	$("#record-legend").text(data.lnamekey+" 设备换油记录");
 	    	equipRecordTable.reload({
 	    	   url: '/iot_equipment/lubrication/record/query/lid'
 	     	   ,page: {

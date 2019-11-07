@@ -53,12 +53,12 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 		},
 		parseData: function(res){ //res 即为原始返回的数据
 			var data = res.data     
-			
+			console.log(data);
 			if(data != null && data.length != 0){
 				for(var i=0;i<data.length;i++){
-					if(data[i].operatetype == 1){
+					if(data[i].operatetype == "加油"){
 						data[i].addAmount = data[i].ramount;
-					}else if(data[i].operatetype == 2){
+					}else if(data[i].operatetype == "换油"){
 						data[i].changeAmount = data[i].ramount;
 					}
 				}

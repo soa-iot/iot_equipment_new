@@ -49,7 +49,9 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 			{field:'pplace', title:'润滑部位', sort:false, align:'center'},
 			{field:'requireoil1', title:'油品', sort:false, align:'center'},
 			{field:'pamount', title:'加油量', sort:false, align:'center'},
-			{field:'nextchangetime', title:'下一次换油日期', sort:false, align:'center'}]]
+			{field:'nextchangetime', title:'下一次换油日期', sort:false, align:'center',templet:function(d){
+				return d.nextchangetime.replace(/T/, ' ').replace(/\..*/, '');
+			}}]]
 	});
 	
 	/**

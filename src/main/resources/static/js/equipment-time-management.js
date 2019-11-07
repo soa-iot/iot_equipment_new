@@ -47,8 +47,8 @@ layui.use(['jquery','form','layer','table','excel'], function(){
 		},
 		parseData: function(res){ //res 即为原始返回的数据
 			var data = res.data     
-			
-			if(data != null || data != ''){
+			console.log(data);
+			if(data != null && data != '' ){
 				positionNum = data[0].positionNum;
 			}else{
 				positionNum = null;

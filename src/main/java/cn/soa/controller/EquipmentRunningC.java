@@ -56,8 +56,12 @@ public class EquipmentRunningC {
 		if( params == null ) return null;
 		Object startTime = params.get( "startTime" );
 		Object endTime = params.get( "endTime" );
-		if( startTime == null || StringUtils.isEmpty(startTime) ) return null; 
-		if( endTime == null || StringUtils.isEmpty(endTime) ) return null; 
+		log.info( "startTime:"+startTime );
+		log.info( "endTime:"+endTime );
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		//log.info( "endTime2:"+sdf.format(new  Date()));
+		if( startTime == null || StringUtils.isEmpty(startTime) ) startTime = sdf.format(new  Date()) + "-01 00:00:00"; 
+		if( endTime == null || StringUtils.isEmpty(endTime) ) endTime = sdf.format(new  Date()) + "-30 23:59:59.99999"; 
 		log.info( params.toString() );
 		
 		//查询
