@@ -32,9 +32,10 @@ layui.use(['table','laydate','form'], function(){
 	    ,cols: [[
 	    	{field:'zizeng', width:"10%", title: '序号',templet:'#numb'}
 	      ,{field:'oname', width:"20%", title: '油品名称'}
-	      ,{field:'rtime', width:"30%", title: '入库时间',templet:function(d){
+	      ,{field:'rtime', width:"20%", title: '入库时间',templet:function(d){
 				return d.rtime.replace(/T/, ' ').replace(/\..*/, '');
 			}}
+	      ,{field:'rtype', width:"10%", title: '类型'}
 	      ,{field:'ramount', width:"20%", title: '出入库量(升)'}
 	      ,{field:'rstock', width:"20%", title: '库存量(升)'}
 	    ]]
