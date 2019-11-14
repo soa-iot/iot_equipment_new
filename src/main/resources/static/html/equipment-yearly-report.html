@@ -23,7 +23,7 @@
 			    <div class="layui-inline" >
 					<label class="layui-form-label" style="width: 70px;">设备位号</label>
 		      		<div class="layui-input-inline">
-				        <select name="position" id="position">
+				        <select lay-submit name="position" id="position" lay-search="">
 				        </select>
 					</div>
 				</div>	
@@ -34,8 +34,8 @@
 			      </div>
 			    </div> -->
 			    <div class="layui-inline layui-inline-btn"> 
-			    	<button type="button " class="layui-btn layui-btn-sm layui-btn-normal" 
-			    		data-type="reload" id="querydata" style="margin-left:40px">
+			    	<button class="layui-btn layui-btn-sm layui-btn-normal"  lay-submit
+			    		lay-filter="querydata" id="querydata" style="margin-left:40px">
 						<i class="layui-icon">&#xe615;</i>&nbsp&nbsp&nbsp查&nbsp&nbsp询&nbsp&nbsp&nbsp
 					</button> 
 			    </div>

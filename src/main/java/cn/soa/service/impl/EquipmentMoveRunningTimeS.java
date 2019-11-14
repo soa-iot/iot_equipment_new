@@ -24,6 +24,7 @@ import cn.soa.dao.EquipmentMoveRunningTimeMapper;
 import cn.soa.entity.EquipmentBigEvent;
 import cn.soa.entity.EquipmentMoveRunningTime;
 import cn.soa.entity.ResultJsonForTable;
+import cn.soa.entity.TimeStringOfLong;
 import cn.soa.service.intel.EquipmentMoveRunningTimeSI;
 import cn.soa.utils.InfluxDBTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -289,7 +290,8 @@ public class EquipmentMoveRunningTimeS implements EquipmentMoveRunningTimeSI {
 	 */  
 	public List<Map<String,Object>> getEquipmentRunningData( 
 			List<Object> equips, String startTime, String endTime ){
-		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();		
+		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+		TimeStringOfLong timeLong = new TimeStringOfLong();
 		try {
 			//查询结果集
 			String position_number = "";
@@ -303,10 +305,10 @@ public class EquipmentMoveRunningTimeS implements EquipmentMoveRunningTimeSI {
 					String[] positionNumberArr = position_number.split("_");
 					String sql = " select * from iot_equipment_running_dayMonitor "
 							   + " where position = '" + positionNumberArr[0] 
-							   + "' and number = '" + positionNumberArr[1]
-							   + "' and time >= '" + startTime 
-							   + "' and time <= '" + endTime 
-							   + "' order by time ";
+							   + "' and number = '1" //+ positionNumberArr[1]
+							   + "' and time >= " + timeLong.getTime(startTime) 
+							   + " and time <= " + timeLong.getTime(endTime) 
+							   + " order by time ";
 					System.out.println(sql);
 					//结果集处理
 					QueryResult results = influxDBTemplate.query(sql);					
@@ -320,7 +322,7 @@ public class EquipmentMoveRunningTimeS implements EquipmentMoveRunningTimeSI {
 					for( List<Object> lo : values ) {
 						Map<String, Object> tempData = new LinkedHashMap<String,Object>();
 						tempData.put("position", positionNumberArr[0] );
-						tempData.put("number", positionNumberArr[1] );
+						tempData.put("number", 1 );
 						for( int k = 0; k < columns.size(); k++ ) {
 							tempData.put(columns.get(k).toString(), lo.get(k));
 						}

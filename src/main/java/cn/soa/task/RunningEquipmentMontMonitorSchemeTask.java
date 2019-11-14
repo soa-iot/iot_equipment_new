@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 import cn.soa.dao.influx.EquipmentRunningMonthMonitorDao;
+import cn.soa.entity.TimeStringOfLong;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -17,12 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RunningEquipmentMontMonitorSchemeTask {
 	@Autowired
-	private EquipmentRunningMonthMonitorDao dao; 
+	private EquipmentRunningMonthMonitorDao dao;
+	private TimeStringOfLong strTime = new TimeStringOfLong();
+	
     @Scheduled(cron = "0 0 0 1 * ?")
     private void insertToEquipmentMonthMonitor() {
     	String startTime=getLastDayOfMonth("min");
     	String endTime=getLastDayOfMonth("max");
-    	dao.insertEquipmentMonthMonitor(startTime, endTime);
+    	dao.insertEquipmentMonthMonitor(strTime.getTime(startTime), strTime.getTime(endTime));
     }
 
     //获取每个月的最后一天或者第一天

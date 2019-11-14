@@ -25,7 +25,10 @@ $(function(){
 		,{field:'monthTime', title:'当月累计运行时间', minWidth: 150, sort:true, align:'center'}
 		,{field:'repairTime', title:'大修后运行时间', minWidth: 150, sort:true, align:'center'}
 		,{field:'changeTime', title:'切换后运行时间', minWidth: 150, sort:true, align:'center'}
-		,{field:'allTime', title:'总运行时间', minWidth: 120,sort:true, align:'center'}
+		,{field:'allTime', title:'总运行时间', minWidth: 120,sort:true, align:'center'/*, templet:function(d){
+			var hie = d.allTime/60;
+			return hie;
+		}*/}
 	];
 	cols.push( col );	
 	var dateFlag = 31;
@@ -44,7 +47,7 @@ $(function(){
 			getSearchCondition: function(){
 				p('更新搜索条件……');
 				var searchTime = $( '#querymonth' ).val();
-				searchedEquipment = $( '#position' ).next().find( 'dl .layui-this' ).text();
+				//searchedEquipment = $( '#position' ).val()//next().find( 'dl .layui-this' ).text();
 				p(searchTime);
 				if( !searchTime ) return false;				
 				
@@ -52,8 +55,7 @@ $(function(){
 				startTime = searchTime+"-01 00:00:00"
 				endTime = searchTime + ( index == -1?"-30 23:59:59.99999":"-31 23:59:59.99999" );
 				var $obj = $( '#position' ).next().find( 'dl .layui-this' );
-				searchedEquipment = 
-					contains( $obj.text(), '请')? null:($obj.text()+"_" + $obj.attr('lay-value'));
+				searchedEquipment = $obj.text();
 				console.log(startTime + "," + endTime);
 				console.log(searchedEquipment);
 				return true;
@@ -66,9 +68,17 @@ $(function(){
 				);
 				$.each(data, function(index, item){
 					var tempTime = {};
-					for( var key in item ){					
+					for( var key in item ){		
+						
+						if(key != "position" && key != "number" ){
+							var num = item[key]/60
+							item[key] = num.toFixed(2);
+							
+						}
+						console.log(item[key])
 						if( $.inArray(key, otherKey) != -1) {
 							var value = item[key];
+							
 							tempTime[key] = value==null?0:value;
 							continue ;
 						}					
@@ -105,12 +115,12 @@ $(function(){
 	ajax('GET', getEquipmentAllUrl, {}, function( data ){
 		p("设备初始化数据回调函数……")
 		p(data);
-		$('#position').append( '<option value="null" > 请选择设备 </option>');
+		$('#position').append( '<option value="" >请选择设备 </option>');
 		$.each(data, function(index, item){
 //			var flag = index==0?" selected=true":" ";
 			var flag = '';
 			$('#position').append(
-					'<option value="' + item.rnumber+ '" '+ flag + '>'
+					'<option value="' + item.rnumber+ '" >'
 					+ item.positionNum + '</option>'		
 			);
 		})
@@ -133,10 +143,11 @@ $(function(){
 		,where: {
 			"startTime": startTime
 			,"endTime": endTime
-//			,"equipment_number": searchedEquipment
+			//,"equipment_number": searchedEquipment
 		}
 		,parseData: function(res){ 
 			var data = res.data;
+				
 			console.log(data);
 			//生成表头，数据格式化
 			var tableData = init.dataFormat(data);
@@ -166,9 +177,14 @@ $(function(){
 					}
 					var param = {
 							"startTime": startTime
-							,"endTime": endTime	
+							,"endTime": endTime
 					}
-					if( searchedEquipment ) param.equipment_number = searchedEquipment;
+					if( searchedEquipment != "" && searchedEquipment != null) {
+							param.equipment_number = searchedEquipment
+						}else{
+							param.equipment_number = ""
+							};
+					console.log(param);
 					tableIns.reload({
 			    	    page: {
 			    	    	curr: 1
@@ -191,7 +207,7 @@ $(function(){
 				}				
 				ajax( 'GET', getEquipmentRunningMonthData, param, function( data ){
 					console.log(data);
-//					exportExcel( htmlId, name, buttonId );
+					//exportExcel( htmlId, name, buttonId );
 				})
 			}
 	}

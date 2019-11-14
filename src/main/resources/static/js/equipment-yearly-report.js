@@ -37,7 +37,7 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 		totalRow: true,
 		where: {
 			"Time": $('#startdate').val()
-		   //,"equipment_number": searchedEquipment
+		  // ,"equipment_number": $('#position').val()
 		},
 		page: true,   //开启分页
 		cols: [[{field:'id', title:'序号', width:60, sort:false, type:'numbers', fixed:'left', align:'center'},
@@ -64,28 +64,34 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 	ajax('GET', getEquipmentAllUrl, {}, function( data ){
 		p("设备初始化数据回调函数……")
 		p(data);
-		$('#position').append( '<option value="null" > 请选择设备 </option>');
+		$('#position').append( '<option value="" > 请选择设备 </option>');
 		$.each(data, function(index, item){
 //			var flag = index==0?" selected=true":" ";
 			var flag = '';
 			$('#position').append(
-					'<option value="' + item.rnumber+ '" '+ flag + '>'
+					'<option value="' + item.positionNum+ '" '+ flag + '>'
 					+ item.positionNum + '</option>'		
 			);
 		})
 	}, false)
 	form.render();
+	
 	/**
 	 * 监听查询功能
 	 */
-	$('#querydata').click(function(){
+	form.on('submit(querydata)',function(){
+		
+		console.log($('#startdate').val())
 		yearlyTable.reload({
     	    page: {
     	    	curr: 1
     	    }
 			,where: {
 				"Time": $('#startdate').val()
+				 ,"equipment_number": $('#position').val()
 			}
     	})
+		return false;
 	});
+	
 })

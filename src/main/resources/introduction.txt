@@ -166,13 +166,24 @@
 		END
 	
 	CREATE CONTINUOUS QUERY equipment_running_day1 ON jhc BEGIN SELECT SUM(value) INTO iot_equipment_running_dayMonitor FROM iot_equipment_running_monitor GROUP BY time(5m,-8h),*  END
+		
 		CREATE CONTINUOUS QUERY "equipment_running_day" on "jhc1" BEGIN SELECT SUM("value") INTO "iot_equipment_running_dayMonitor" FROM "iot_equipment_running_monitor" GROUP BY time(1m),* END
 		CREATE CONTINUOUS QUERY "equipment_running_day1" on "jhc2" BEGIN SELECT SUM(value) INTO "iot_equipment_running_dayMonitor1" FROM "iot_equipment_running_monitor" GROUP BY time(5m),* END
-			
+		
+		//influxdb月度报表用此sql
+		CREATE CONTINUOUS QUERY equipment_running_day ON jhc1 RESAMPLE  EVERY 24h BEGIN SELECT SUM(value) INTO iot_equipment_running_dayMonitor FROM iot_equipment_running_monitor GROUP BY time(24h),number,position END	
+		CREATE CONTINUOUS QUERY equipment_running_month ON jhc1 RESAMPLE  EVERY 1m BEGIN SELECT SUM(sum) as value INTO iot_equipment_running_Monthmonitor FROM iot_equipment_running_dayMonitor GROUP BY time(1M),number,position END
 			
 			
 			CREATE CONTINUOUS QUERY equipment_running_day ON jhc BEGIN SELECT sum(value) INTO jhc.autogen.iot_equipment_running_dayMonitor FROM jhc.autogen.iot_equipment_running_monitor GROUP BY time(5m), * END	
 		insert iot_equipment_running_dayMonitor,position="1",number="1" value="10"
+		insert iot_equipment_running_Monthmonitor,position="P-2301(Ⅰ)A",runningDate="2019-11" value="10"
+		
+		SELECT value,position,runningDate FROM iot_equipment_running_Monthmonitor where runningDate=~/2019/
+		
+		SELECT sum(sum) FROM iot_equipment_running_dayMonitor where time>='1548950400000000000' and time<'1551369600000000000' group by position order by time desc
+		
+		SELECT value,position,runningDate FROM iot_equipment_running_Monthmonitor where runningDate=~/2019/ and position=P-1602(Ⅴ)
 		
 	2.2 定时生成日统计数据:
 	

@@ -150,11 +150,11 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 			yes: function(index, layero){
 				index_ = index;
 				//表单校验
-				if($('#positionnum').val() == ''){
+				if($('#positionnum1').val() == ''){
 					layer.msg("设备位号不能为空", {icon: 7, time: 2000, offset: '150px'});
 					return;
 				}
-				if($('#measuretype').val() == ''){
+				if($('#measuretype1').val() == ''){
 					layer.msg("仪器型号不能为空", {icon: 7, time: 2000, offset: '150px'});
 					return;
 				}
@@ -190,9 +190,9 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 				console.log(uploadList);
 				uploadList.config.elem.next()[0].value = '';  ///清空 input file 值，以免删除后出现同名文件不可选
 				$(".layui-layer-btn0").on('click');
-				$("#positionnum").val('');
-				$("#tname").val('');
-				$("#measuretype").val('');
+				$("#positionnum1").val('');
+				$("#tname1").val('');
+				$("#measuretype1").val('');
 				$("#pointnum").val('');
 				$("#cycle").val('');
 				$("#nextmeasuretime").val('');
@@ -211,9 +211,9 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
          , data: {	
         	 'eid': function(){ return equID; },
         	 'creator': function(){ return resavepeople;},
-        	 'positionnum': function(){  return $("#positionnum").val();},
-        	 'tname': function(){  return $("#tname").val();},
-        	 'measuretype': function(){  return $("#measuretype").val();},
+        	 'positionnum': function(){  return $("#positionnum1").val();},
+        	 'tname': function(){  return $("#tname1").val();},
+        	 'measuretype': function(){  return $("#measuretype1").val();},
         	 'pointnum': function(){  return $("#pointnum").val();},
         	 'cycle': function(){  return $("#cycle").val();},
         	 'nextmeasuretime': function(){  return $("#nextmeasuretime").val();},
@@ -275,8 +275,10 @@ layui.use(['jquery','form','layer','table','excel','upload'], function(){
 	        	var value = body.find(".layui-table-click td[data-field='equPositionNum']").find("div").text();
 	        	var equipName = body.find(".layui-table-click td[data-field='equName']").find("div").text();
 	        	equID = body.find(".layui-table-click td[data-field='equID']").find("div").text();
-	        	$("#positionnum").val(value);
-	        	$("#tname").val(equipName);
+	        	
+	        	console.log("value:"+value +",equipName:"+equipName)
+	        	$("#positionnum1").val(value);
+	        	$("#tname1").val(equipName);
 	        	layer.close(index); //如果设定了yes回调，需进行手工关闭
 			}
 		})	
