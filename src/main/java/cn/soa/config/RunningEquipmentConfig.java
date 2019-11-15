@@ -74,7 +74,7 @@ public class RunningEquipmentConfig {
 	 * @Description: 开启动设备运行监听  
 	 * @return: void        
 	 */  
-	@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void startEquipmentRunningMonitor() {
 		logger.info( "----------开启动设备运行监听---------" );
 		//判断是否开启监听

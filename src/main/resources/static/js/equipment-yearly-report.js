@@ -35,13 +35,14 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		totalRow: true,
+		toolbar: ['filter', 'exports', 'print'],
 		where: {
 			"Time": $('#startdate').val()
 		  // ,"equipment_number": $('#position').val()
 		},
-		page: true,   //开启分页
+		//page: true,   //开启分页
 		cols: [[{field:'id', title:'序号', width:60, sort:false, type:'numbers', fixed:'left', align:'center'},
-			{field:'position', title:'设备位号', width:120,  align:'center'},
+			{field:'position', title:'设备位号', width:120, fixed:'left',  align:'center'},
 			{field:'January', title:'1月', width:60,  align:'center'},
 			{field:'February', title:'2月', width:60,  align:'center'},
 			{field:'March', title:'3月', width:60,  align:'center'},
@@ -54,10 +55,10 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 			{field:'October', title:'10月', width:70,  align:'center'},
 			{field:'November', title:'11月', width:70,  align:'center'},
 			{field:'December', title:'12月', width:70,  align:'center'},
-			{field:'Total_time', title:'当年累计运行时间', width:150,  align:'center'},
-			{field:'Modify_time', title:'大修后运行时间', width:140,  align:'center'},
-			{field:'Chang_time', title:'设备更换后运行时间', width:150,  align:'center'},
-			{field:'Total', title:'总运行时间', width:120,  align:'center'}
+			{field:'Total_time', title:'当年累计运行时间', width:150, fixed:'right',  align:'center'},
+			{field:'Modify_time', title:'大修后运行时间', width:140, fixed:'right',  align:'center'},
+			{field:'Chang_time', title:'设备更换后运行时间', width:150, fixed:'right',  align:'center'},
+			{field:'Total', title:'总运行时间', width:120, fixed:'right',  align:'center'}
 			]]
 	});
 	//设备

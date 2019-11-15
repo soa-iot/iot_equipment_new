@@ -173,7 +173,7 @@
 		//influxdb月度报表用此sql
 		CREATE CONTINUOUS QUERY equipment_running_day ON jhc1 RESAMPLE  EVERY 24h BEGIN SELECT SUM(value) INTO iot_equipment_running_dayMonitor FROM iot_equipment_running_monitor GROUP BY time(24h),number,position END	
 		CREATE CONTINUOUS QUERY equipment_running_month ON jhc1 RESAMPLE  EVERY 1m BEGIN SELECT SUM(sum) as value INTO iot_equipment_running_Monthmonitor FROM iot_equipment_running_dayMonitor GROUP BY time(1M),number,position END
-			
+		drop continuous query equipment_running_day on jhc1
 			
 			CREATE CONTINUOUS QUERY equipment_running_day ON jhc BEGIN SELECT sum(value) INTO jhc.autogen.iot_equipment_running_dayMonitor FROM jhc.autogen.iot_equipment_running_monitor GROUP BY time(5m), * END	
 		insert iot_equipment_running_dayMonitor,position="1",number="1" value="10"
@@ -184,6 +184,8 @@
 		SELECT sum(sum) FROM iot_equipment_running_dayMonitor where time>='1548950400000000000' and time<'1551369600000000000' group by position order by time desc
 		
 		SELECT value,position,runningDate FROM iot_equipment_running_Monthmonitor where runningDate=~/2019/ and position=P-1602(Ⅴ)
+		
+		SELECT value FROM iot_equipment_running_Monthmonitor where time>=1546272000000000000 and time<=1577807999000000000
 		
 	2.2 定时生成日统计数据:
 	

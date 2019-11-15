@@ -22,13 +22,10 @@ $(function(){
 	,col = [
 		{field:'id', title:'序号', sort:false, minWidth: 100,type:'numbers', fixed:'left', align:'center'}
 		,{field:'position', title:'设备位号', minWidth: 120, fixed:'left', align:'center'}
-		,{field:'monthTime', title:'当月累计运行时间', minWidth: 150, sort:true, align:'center'}
-		,{field:'repairTime', title:'大修后运行时间', minWidth: 150, sort:true, align:'center'}
-		,{field:'changeTime', title:'切换后运行时间', minWidth: 150, sort:true, align:'center'}
-		,{field:'allTime', title:'总运行时间', minWidth: 120,sort:true, align:'center'/*, templet:function(d){
-			var hie = d.allTime/60;
-			return hie;
-		}*/}
+		,{field:'monthTime', title:'当月累计运行时间', minWidth: 150, fixed:'right', sort:true, align:'center'}
+		,{field:'repairTime', title:'大修后运行时间', minWidth: 150, fixed:'right', sort:true, align:'center'}
+		,{field:'changeTime', title:'切换后运行时间', minWidth: 150, fixed:'right', sort:true, align:'center'}
+		,{field:'allTime', title:'总运行时间', minWidth: 120,fixed:'right', sort:true, align:'center'}
 	];
 	cols.push( col );	
 	var dateFlag = 31;
@@ -84,8 +81,14 @@ $(function(){
 						}					
 						tempTime[key.split("-")[2]] = item[key];					
 					}
+					for(var i=1;i<=31;i++){
+						if(tempTime[i]==null||tempTime[i]=="" ){
+							tempTime[i]=0
+						}
+					}
 					tableData.push( tempTime );
 				})
+				console.log(tableData);
 				return tableData;
 			}
 			
@@ -134,8 +137,9 @@ $(function(){
 		elem: '#monthlyReport'
 		,method: "GET"
 	    ,url: getEquipmentRunningMonthData
+	    
 	    ,autoSort: false
-	    ,page: true
+	   // ,page: true
 	    ,request: {
 		    pageName: 'page' 
 		    ,limitName: 'size' 
@@ -145,6 +149,7 @@ $(function(){
 			,"endTime": endTime
 			//,"equipment_number": searchedEquipment
 		}
+		,toolbar: ['filter', 'exports', 'print']
 		,parseData: function(res){ 
 			var data = res.data;
 				
@@ -179,7 +184,7 @@ $(function(){
 							"startTime": startTime
 							,"endTime": endTime
 					}
-					if( searchedEquipment != "" && searchedEquipment != null) {
+					if( searchedEquipment != "" && searchedEquipment != null && searchedEquipment != "请选择设备") {
 							param.equipment_number = searchedEquipment
 						}else{
 							param.equipment_number = ""
@@ -205,10 +210,77 @@ $(function(){
 						,"page": 0
 						,"size": 1000
 				}				
-				ajax( 'GET', getEquipmentRunningMonthData, param, function( data ){
+				/*ajax( 'GET', getEquipmentRunningMonthData, param, function( data ){
 					console.log(data);
 					//exportExcel( htmlId, name, buttonId );
-				})
+				})*/
+				
+				$.ajax({
+				     type : "GET",
+				     url : getEquipmentRunningMonthData,
+				     data : param,
+				     async : false, 
+				     cache : true,
+				     contentType : "application/x-www-form-urlencoded",
+				     dataType : "json",
+				     success : function( jsonData ){
+				 		if( jsonData ){
+				 			var data = jsonData.data;
+				 			if( jsonData.code == 0 && data ){
+				 				layer.msg( jsonData.msg, {icon:1} );
+				 				var exl = ["设备位号"];
+				 				for (var i = 1; i < 32; i++) {
+				 					exl[exl.length]=i+"日"
+								}
+				 				exl[exl.length]="当月累计运行时间";
+				 				exl[exl.length]="大修后运行时间";
+				 				exl[exl.length]="切换后运行时间";
+				 				exl[exl.length]="总运行时间";
+				 				console.log(exl);
+				 				
+				 				var excldata = [];
+				 				$.each(data, function(index, item){
+									var tempTime = [];
+									tempTime[0] = item["position"]
+									var dae = {}
+									for(var i=1;i<=31;i++){
+										
+										
+									}
+									for( var key in item ){	
+										var da = 0;
+										if (condition) {
+											
+										}
+									
+									}
+									da = key.split("-")[2];	
+									if (da==i) {
+										console.log(item[key]);
+										tempTime[tempTime.length]=item[key];
+									}else{
+										tempTime[tempTime.length]=0;
+									}
+									tempTime[tempTime.length]=item["monthTime"];
+									tempTime[tempTime.length]=item["repairTime"];
+									tempTime[tempTime.length]=item["changeTime"];
+									tempTime[tempTime.length]=item["allTime"];
+									excldata[excldata.length]= tempTime ;
+								})
+				 				
+								console.log(excldata);
+				 				//table.exportFile(col, data,"xls");
+				 			}else{
+				 				layer.msg( jsonData.msg, {icon:2} );
+				 			}		
+				 		}else{
+				 			layer.msg( '请求失败', {icon:2} );
+				 		}		
+				     },
+				     error:function(){
+				    	 layer.msg('请求失败：');
+				     }		       
+				});
 			}
 	}
 	$('#exportExcel').on('click', cf.exportExcelCF );

@@ -36,7 +36,7 @@ public class EquipmentRunningMonthMonitorDao {
 	public List<Map<String ,String>> getEquipmentRuningMonitor(String time,String equipment_number,Integer page,Integer limit){
 		String command="SELECT value,position,runningDate FROM iot_equipment_running_Monthmonitor where runningDate=~/"+time+"/";
 		if (equipment_number != null && equipment_number.length()>2) command += " and position='" + equipment_number + "'";
-		command += " limit "+limit+" offset "+(page - 1) * limit;
+		//command += " limit "+limit+" offset "+(page - 1) * limit;
 		log.info("========================================:"+command);
 		//每个月查询累计运行时间
 		QueryResult results = influxDBTemplate.query(command);
@@ -93,7 +93,7 @@ public class EquipmentRunningMonthMonitorDao {
 		
 		String command = "SELECT value FROM iot_equipment_running_Monthmonitor where time>=" + strTime.getTime(time + "-01-01 00:00:00") + " and time<=" + strTime.getTime(time + "-12-31 23:59:59");
 		if (equipment_number != null && equipment_number.length()>2) command += " and position='" + equipment_number+"'";
-		command += " group by position" + " limit " + limit + " offset " + (page - 1) * limit;
+		command += " group by position";// + " limit " + limit + " offset " + (page - 1) * limit;
 		log.info("command："+command);
 		QueryResult results = influxDBTemplate.query(command);
 		Result oneResult = results.getResults().get(0);
@@ -136,7 +136,7 @@ public class EquipmentRunningMonthMonitorDao {
 	public List<Map<String ,Object>> getTotal(String time,String equipment_number,Integer page,Integer limit){
 		String command="SELECT sum(value) FROM iot_equipment_running_monitor where time>='2018-01-01 00:00:00'and time<='"+time+"-12-31 23:59:59'";
 		if(equipment_number != null && equipment_number.length()>2) command += " and position='" + equipment_number+"'";
-		command += " group by position" + " limit " + limit + " offset " + (page - 1) * limit;
+		command += " group by position";// + " limit " + limit + " offset " + (page - 1) * limit;
 		log.info(command);
 		QueryResult results = influxDBTemplate.query(command);
 		Result oneResult = results.getResults().get(0);

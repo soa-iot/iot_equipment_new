@@ -3,7 +3,9 @@ package test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import cn.soa.IotEquipmentApplication;
 
 @RunWith(SpringRunner.class)
@@ -26,18 +30,8 @@ import cn.soa.IotEquipmentApplication;
 public class Test01 {
 	
 	@Test
-	public void excelTest() throws InvalidFormatException, IOException {
-		ClassPathResource resource = new ClassPathResource("/config/润滑油月度记录表.xlsx");
-		//生成工作簿
-		XSSFWorkbook workbook = new XSSFWorkbook(resource.getFile());
-		//生成sheet表
-		XSSFSheet sheet = workbook.getSheetAt(0);
-		XSSFCell cell = sheet.getRow(0).getCell(0);
-		cell.setCellValue("123");
-		System.err.println(cell );
-		
-		System.err.println(sheet.getRow(0).getLastCellNum());
-		
-		workbook.close();
+	public void excelTest() {
+		String dat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(1573603200000l));
+		System.err.println("++++++++++++++++++++++++++++++++"+dat);
 	}
 }
