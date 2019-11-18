@@ -75,10 +75,12 @@ public class EquipmentMoveRunningBYyearS implements EquipmentMoveRunningBYyearSI
 	@Override
 	public String findChangeOrFixDate(String position, String event,String time) {
 		List<Map<String,Object>> list=mapper.findChangeOrFixDate(position, event, time);
+		log.info("------------------------list.size()---------------------------："+list.size());
+		log.info("------------------------list.size()---------------------------："+list);
 		if(list.size()==0) {
 		 time=time+"-01-01 00:00:00";
 		}else {
-		time=(String) list.get(0).get("eventtime");
+		time=(String) list.get(0).get("EVENTTIME").toString();
 		}
 		return time;
 	}
