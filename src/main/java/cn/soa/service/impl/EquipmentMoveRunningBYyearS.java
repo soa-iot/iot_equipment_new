@@ -143,7 +143,7 @@ public class EquipmentMoveRunningBYyearS implements EquipmentMoveRunningBYyearSI
 				String position=map.get("position").toString();
 				log.info("position:"+position);
 				map.put("Modify_time",d.format(equipmentMonitorChangeOrFix(findChangeOrFixDate( position, "大修", time), time, position)/60));
-				map.put("Chang_time",d.format(equipmentMonitorChangeOrFix( findChangeOrFixDate( position, "更换", time), time, position)/60));
+				map.put("Chang_time",d.format(equipmentMonitorChangeOrFix( findChangeOrFixDate( position, "切换", time), time, position)/60));
 				for(Map<String, Object> t:totalTime) {
 					if(position.equals(t.get("position"))) {
 						map.put("Total", d.format(Float.parseFloat(t.get("value").toString())/60));

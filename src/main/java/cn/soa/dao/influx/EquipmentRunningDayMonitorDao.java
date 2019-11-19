@@ -37,7 +37,7 @@ public class EquipmentRunningDayMonitorDao {
 	public Object sumByPositionAndTime(
 			String position, Date beginTime, 
 			Date endTime, String number ){
-		log.info("-------------查询统计指定时间运行时间 ---------------");
+		//log.info("-------------查询统计指定时间运行时间 ---------------");
 		//检查
 		if(StringUtils.isBlank(position) || StringUtils.isBlank(number) ) return null;
 		
@@ -53,7 +53,7 @@ public class EquipmentRunningDayMonitorDao {
 					+ "    where position = '" + position 
 					+ "'      and number = '" + number + "'"
 					+ condition;
-			log.info(sql);
+			//log.info(sql);
 			QueryResult results = influxDBTemplate.query(sql);
 			if( results == null) return null;
 			List<Series> series = results.getResults().get(0).getSeries();
@@ -61,7 +61,7 @@ public class EquipmentRunningDayMonitorDao {
 			if(series.isEmpty() ) return null;
 			List<List<Object>> values = series.get(0).getValues();
 			Object value = values.get(0).get(1);
-			log.info( values.toString() );
+			//log.info( values.toString() );
 			if(value != null ) log.info( value.toString() );
 			return value;
 		} catch (Exception e) {

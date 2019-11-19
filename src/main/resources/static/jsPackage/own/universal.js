@@ -107,7 +107,7 @@ var judgeMonthHas31 = function( currDate ){
  * 根据浏览器url的参数名，获取参数值
  */
 function getUrlParamValueByName ( name ) {
-    var reg = new RegExp( "(^|&)" + name + "=([^&]*)(&|$)", "i" );
+	var reg = new RegExp( "(^|&)" + name + "=([^&]*)(&|$)", "i" );
     var r = window.location.search.substr( 1 ).match( reg ); //获取url中"?"符后的字符串并正则匹配
     var context = "";
     if ( r != null )

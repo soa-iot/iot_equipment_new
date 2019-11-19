@@ -5,7 +5,10 @@ layui.config({
     excel: 'excel',
 });
 //从cookie中获取当前登录用户
-var resavepeople = getCookie1("name").replace(/"/g,'');
+var resavepeople = getCookie1("name").replace(/"/g,'')
+,searchedEquipment = getQueryUrlString("equipment_number") == null || getQueryUrlString("equipment_number") == "请选择"? "":getQueryUrlString("equipment_number");
+
+console.log("searchedEquipment:"+searchedEquipment);
 
 //加载layui内置模块
 layui.use(['jquery','form','layer','table','excel','laydate'], function(){
@@ -32,13 +35,14 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 		elem: '#yearlyReport',
 		method: 'post',
 		url: '/iot_equipment/equipmen_influx/query?',
+		width:"1510",
 		autoSort: false,  //禁用前端自动排序
 		cellMinWidth:60,
 		totalRow: true,
 		toolbar: ['filter', 'exports', 'print'],
 		where: {
 			"Time": $('#startdate').val()
-		  // ,"equipment_number": $('#position').val()
+		   ,"equipment_number": searchedEquipment
 		},
 		//page: true,   //开启分页
 		cols: [[{field:'id', title:'序号', width:60, sort:false, type:'numbers', fixed:'left', align:'center'},
@@ -57,7 +61,7 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 			{field:'December', title:'12月', width:70,  align:'center'},
 			{field:'Total_time', title:'当年累计运行时间', width:150, fixed:'right',  align:'center'},
 			{field:'Modify_time', title:'大修后运行时间', width:140, fixed:'right',  align:'center'},
-			{field:'Chang_time', title:'设备更换后运行时间', width:150, fixed:'right',  align:'center'},
+			{field:'Chang_time', title:'设备切换后运行时间', width:150, fixed:'right',  align:'center'},
 			{field:'Total', title:'总运行时间', width:120, fixed:'right',  align:'center'}
 			]]
 	});
@@ -81,15 +85,15 @@ layui.use(['jquery','form','layer','table','excel','laydate'], function(){
 	 * 监听查询功能
 	 */
 	form.on('submit(querydata)',function(){
-		
-		console.log($('#startdate').val())
+		searchedEquipment = $('#position').val();
+		console.log("$('#startdate').val():"+searchedEquipment)
 		yearlyTable.reload({
     	    page: {
     	    	curr: 1
     	    }
 			,where: {
 				"Time": $('#startdate').val()
-				 ,"equipment_number": $('#position').val()
+				 ,"equipment_number": searchedEquipment
 			}
     	})
 		return false;

@@ -54,7 +54,12 @@ public class AddInfoToEquipementRunningS implements AddInfoToEquipementRunningSI
 					List<EquipmentBigEvent> events = 
 							equipmentBigEventMapper.findByEvent(currEquip, "大修");
 					//没有设备的大修时间，那以设备的更换时间作为开始时间
-					if( events == null ) events = equipmentBigEventMapper.findByEvent(currEquip, "更换");
+					if( events == null || events.size()==0  ) {
+						events = equipmentBigEventMapper.findByEvent(currEquip, "更换");
+						if( events == null || events.size()==0  ) {
+							beginTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2019-6-28 00:00:00");
+						}	
+					}
 					if( events != null && events.size()>0  ) beginTime = events.get(events.size()-1).getEventTime();
 					log.info("-----查询统计大修后查询起始时间-------" + beginTime);
 					
@@ -91,14 +96,20 @@ public class AddInfoToEquipementRunningS implements AddInfoToEquipementRunningSI
 			Date beginTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2019-6-28 00:00:00");
 			Date endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(time.toString());
 			for( Map<String, Object> m : list) {				
-				try {
+				try { 
 					if( m.get("position") == null ) continue;
 					currEquip = m.get("position").toString();
 					currNumber = m.get("number").toString();
 					List<EquipmentBigEvent> events = 
 							equipmentBigEventMapper.findByEvent(currEquip, "切换");
 					//没有设备的大修时间，那以设备的更换时间作为开始时间
-					if( events == null && events.size()>0  ) events = equipmentBigEventMapper.findByEvent(currEquip, "更换");
+					if( events == null || events.size()==0  ) {
+						events = equipmentBigEventMapper.findByEvent(currEquip, "更换");
+						if( events == null || events.size()==0  ) {
+							beginTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2019-6-28 00:00:00");
+						}					
+					}
+					
 					log.info(events.toString());
 					if( events != null && events.size()>0 ) beginTime = events.get(events.size()-1).getEventTime();
 					log.info("-----查询统计切换后查询起始时间-------" + beginTime);
@@ -191,7 +202,7 @@ public class AddInfoToEquipementRunningS implements AddInfoToEquipementRunningSI
 					 * 查询统计切换后运行时间
 					 */
 					Object sumValue = dayMonitorDao.sumByPositionAndTime(currEquip, beginTime, endTime, currNumber);
-					log.info(currEquip + "-----查询统计当月运行时间-------" + sumValue);
+//					log.info(currEquip + "-----查询统计当月运行时间-------" + sumValue);
 					m.put("monthTime", sumValue);
 				} catch (Exception e) {
 					e.printStackTrace();

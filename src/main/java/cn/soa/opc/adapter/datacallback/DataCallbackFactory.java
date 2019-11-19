@@ -21,11 +21,11 @@ public final class DataCallbackFactory {
 		}
 		switch (mode) {
 		case redis:
-			className = "com.soa.opc.adapter.datacallback.RedisDataCallback";
+			className = "cn.soa.opc.adapter.datacallback.RedisDataCallback";
 			break;
 		case memory:
 		default:
-			className = "com.soa.opc.adapter.datacallback.MemoryDataCallback";
+			className = "cn.soa.opc.adapter.datacallback.MemoryDataCallback";
 			break;
 		}
 		Class clazz;

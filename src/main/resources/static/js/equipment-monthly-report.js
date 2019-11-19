@@ -14,7 +14,9 @@ $(function(){
 		
 	,startTime = ""
 	,endTime = ""
-	,searchedEquipment = "";
+	,searchedEquipment = getQueryUrlString("equipment_number") == null ? "":getQueryUrlString("equipment_number");
+	
+	console.log("searchedEquipment:"+searchedEquipment);
 	
 	
 	//动态表头
@@ -72,7 +74,7 @@ $(function(){
 							item[key] = num.toFixed(2);
 							
 						}
-						console.log(item[key])
+						//console.log(item[key])
 						if( $.inArray(key, otherKey) != -1) {
 							var value = item[key];
 							
@@ -147,8 +149,9 @@ $(function(){
 		,where: {
 			"startTime": startTime
 			,"endTime": endTime
-			//,"equipment_number": searchedEquipment
+			,"equipment_number": searchedEquipment
 		}
+		,width:"4000"
 		,toolbar: ['filter', 'exports', 'print']
 		,parseData: function(res){ 
 			var data = res.data;

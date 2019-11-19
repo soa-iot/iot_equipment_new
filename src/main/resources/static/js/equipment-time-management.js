@@ -15,8 +15,8 @@ layui.use('laydate', function(){
 	//常规用法
 	laydate.render({
 		elem: '#eventTime',
-		type: 'date',
-		format: 'yyyy-MM-dd'
+		type: 'datetime',
+		format: 'yyyy-MM-dd HH:mm:ss'
 	});
 });
 
