@@ -14,10 +14,14 @@ $(function(){
 		
 	,startTime = ""
 	,endTime = ""
-	,searchedEquipment = getQueryUrlString("equipment_number") == null ? "":getQueryUrlString("equipment_number");
+	,searchedEquipment = ""
+	,searchedEquipment1 = getQueryUrlString("equipment_number") == null ? "":getQueryUrlString("equipment_number");
 	
 	console.log("searchedEquipment:"+searchedEquipment);
 	
+	if(searchedEquipment != null && searchedEquipment != ""){
+		$("#position").val(searchedEquipment);
+	}
 	
 	//动态表头
 	var cols = []
@@ -134,6 +138,11 @@ $(function(){
 	
 	//初始化表格	
 	init.getSearchCondition();
+	
+	if(searchedEquipment1 != "" && searchedEquipment1 != null && searchedEquipment1 != "请选择"){
+		searchedEquipment = searchedEquipment1;
+	}
+	
 	console.log(searchedEquipment);
 	var tableIns = table.render({
 		elem: '#monthlyReport'
