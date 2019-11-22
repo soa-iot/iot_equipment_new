@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import cn.soa.entity.LubricationMothlyReport;
 import cn.soa.entity.LubricationRecordReport;
 import cn.soa.entity.ResultJsonForTable;
+import cn.soa.entity.lubrication.EquipmentLubricationOil;
 import cn.soa.entity.lubrication.LubricateEquipment;
 import cn.soa.entity.lubrication.LubricateEquipmentPlace;
 import cn.soa.entity.lubrication.LubricateEquipmentRecord;
@@ -117,4 +118,5 @@ public interface EquipmentLubricationSI {
 	 * @return
 	 */
 	Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord,String rtype);
+	
 }

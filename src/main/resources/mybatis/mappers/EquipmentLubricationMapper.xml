@@ -728,6 +728,10 @@
 					<if test="lastchangetime != null">
 						LASTCHANGETIME = #{lastchangetime},
 					</if>
+					
+					<if test="requireoil1 != null and requireoil1 != ''">
+						REQUIREOIL1=(case when REQUIREOIL1 is null then #{requireoil1} else REQUIREOIL1 end),
+					</if>
 				</set>
 				<where>
 					PID =#{pid}

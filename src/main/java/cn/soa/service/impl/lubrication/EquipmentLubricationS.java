@@ -254,6 +254,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		//加换油时间
 		Date ptime = lubricateEquipmentRecord.getPtime();
 		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+"，操作人："+lubricateEquipmentRecord.getExcutor()+",加/换油时间："+ptime+",加/油量："+lubricateEquipmentRecord.getRamount()+",加/换油类型："+rtype);
+		
 		//查询油品部位数据
 		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentPlace();
 		lubricateEquipmentPlace.setPid(lubricateEquipmentRecord.getPid());
@@ -346,5 +347,5 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		return nextchangetime.getTime();
 		
 	}
-	
+
 }

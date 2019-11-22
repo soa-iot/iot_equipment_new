@@ -248,4 +248,28 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 		}
 	}
 	
+	/**
+	 * 更新/删除油品
+	 * @param equipmentLubricationOil
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public Integer updateOil(EquipmentLubricationOil equipmentLubricationOil) {
+		
+		int row = -1;
+		if ("0".equals(equipmentLubricationOil.getOremark1())) {
+			//修改油品
+			equipmentLubricationOilMapper.updateEquPlace(equipmentLubricationOil.getOname(), equipmentLubricationOil.getOid());
+			row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil);
+		}else if("1".equals(equipmentLubricationOil.getOremark1())) {
+			//删除油品
+			equipmentLubricationOilMapper.updateEquPlace("", equipmentLubricationOil.getOid());
+			row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil);
+		}
+			
+		return row;
+	}
+
+	
 }

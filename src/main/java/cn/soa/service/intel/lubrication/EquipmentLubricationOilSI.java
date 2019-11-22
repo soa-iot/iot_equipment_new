@@ -62,4 +62,11 @@ public interface EquipmentLubricationOilSI {
 	 * @return
 	 */
 	Integer oilStock(String oname,String ramount,String rnote,String userid);
+	
+	/**
+	 * 更新/删除油品
+	 * @param equipmentLubricationOil
+	 * @return
+	 */
+	Integer updateOil(EquipmentLubricationOil equipmentLubricationOil);
 }

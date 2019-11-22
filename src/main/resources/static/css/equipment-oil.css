@@ -10,3 +10,6 @@
 	max-height: 220px;
 	/* top:0px; */
 }
+.layui-form-label{
+	width: 100px;
+}

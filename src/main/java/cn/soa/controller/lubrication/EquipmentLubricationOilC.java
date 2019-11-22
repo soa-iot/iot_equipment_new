@@ -3,6 +3,8 @@ package cn.soa.controller.lubrication;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,21 +106,36 @@ public class EquipmentLubricationOilC {
 			return new ResultJsonForTable<List<EquipmentLubricationOil>>(1, "出入库记录查询失败", 0, null);
 		}
 	}
-		/**
-		 * 油品入库
-		 * @return
-		 */
-		@RequestMapping("/oilstock")
-		public ResultJson<Integer> oilStock(String oname,String ramount,String rnote,String userid) {
-			
-			log.info("==============================所有油品查询================================");
-			log.info("===================油品名称："+oname+"；入库数量："+ramount+";备注rnote："+rnote+";操作人userid："+userid);
-			 Integer row = equipmentLubricationOilSI.oilStock(oname,ramount,rnote,userid);
-			log.info("===============================入库油品更新条数："+row);
-			if (row > 0 ) {
-				return new ResultJson<Integer>(0, "油品入库成功", row);
-			}else {
-				return new ResultJson<Integer>(1, "油品入库失败", row);
-			}
+	/**
+	 * 油品入库
+	* @return
+	*/
+	@RequestMapping("/oilstock")
+	public ResultJson<Integer> oilStock(String oname,String ramount,String rnote,String userid) {
+		
+		log.info("==============================所有油品查询================================");
+		log.info("===================油品名称："+oname+"；入库数量："+ramount+";备注rnote："+rnote+";操作人userid："+userid);
+		 Integer row = equipmentLubricationOilSI.oilStock(oname,ramount,rnote,userid);
+		log.info("===============================入库油品更新条数："+row);
+		if (row > 0 ) {
+			return new ResultJson<Integer>(0, "油品入库成功", row);
+		}else {
+			return new ResultJson<Integer>(1, "油品入库失败", row);
+		}
+	}
+		
+	/**
+	 * 更新/删除油品
+	 * @param equipmentLubricationOil
+	 * @return
+	 */
+	@RequestMapping("/editoil")
+	public ResultJson<Integer> updateOil(EquipmentLubricationOil equipmentLubricationOil) {
+		Integer row = equipmentLubricationOilSI.updateOil(equipmentLubricationOil);
+		if (row >= 0 ) {
+			return new ResultJson<Integer>(0, "油品更新成功", row);
+		}else {
+			return new ResultJson<Integer>(1, "发生未知错误，请联系管理员", row);
+		}
 	}
 }

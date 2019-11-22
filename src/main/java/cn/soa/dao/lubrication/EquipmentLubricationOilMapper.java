@@ -78,4 +78,21 @@ public interface EquipmentLubricationOilMapper {
 	 * @return
 	 */
 	Integer updateStock(Integer ramount,String oid);
+	
+	/**
+	 * 更新油品
+	 * @param ramount
+	 * @param oid
+	 * @return
+	 */
+	Integer updateOil(EquipmentLubricationOil equipmentLubricationOil);
+	
+	/**
+	 * 更新油品部位表的油品名称
+	 * @param ramount
+	 * @param oid
+	 * @return
+	 */
+	Integer updateEquPlace(@Param("oname")String oname, @Param("oid")String oid);
+	
 }
