@@ -8,7 +8,7 @@
 <div id="cc" style="margin: 60px 0px 0px 0px;"></div>
 <script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
- $.ajax({
+ /* $.ajax({
 		  type: 'get',
 		  url: '/iot_equipment/lubrication/lubplace',
 		  dataType : "json",
@@ -25,34 +25,16 @@
 			console.log(results.data);
 			oil_homepage(results.data);
 		}
-	});
+	}); */
  
-	var datas = [{
-		 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
-		  "excutor":"赵六",
-		  "operatetype":"换油",
-		  "ramount":"40",
-		  "ptime":new Date()
-	  },{
-			 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
-			  "excutor":"赵六",
-			  "operatetype":"加油",
-			  "ramount":"10",
-			  "ptime":new Date()
-		  },{
-				 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
-				  "excutor":"赵六",
-				  "operatetype":"换油",
-				  "ramount":"5",
-				  "ptime":new Date()
-			  },{
-					 "pid":"6BC40C20E04445219932FEA4CE2CF31F",
-					  "excutor":"赵六",
-					  "operatetype":"加油",
-					  "ramount":"8",
-					  "ptime":new Date()
-				  }];
-	/*  $.ajax({
+	var datas = [
+		
+		{"pid":"EF59DBAB56FD4699809B9F59482886D6",
+			"excutor":"冯志伟",
+			"operatetype":"加油",
+			"ramount":"23",
+			"ptime":"2019-11-22T09:01:35.636Z"}];
+	$.ajax({
 		  type: 'post',
 		  url: '/iot_equipment/lubrication/lueqpladdchangeoillist',
 		  data:JSON.stringify(datas),
@@ -63,7 +45,7 @@
 			  
 		  }
 
-	}) */
+	})
 	
 	function oil_homepage(data) {
 		var html = '';

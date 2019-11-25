@@ -107,15 +107,15 @@ public class EquipmentLubricationOilC {
 		}
 	}
 	/**
-	 * 油品入库
+	 * 油品入库/盘点
 	* @return
 	*/
 	@RequestMapping("/oilstock")
-	public ResultJson<Integer> oilStock(String oname,String ramount,String rnote,String userid) {
+	public ResultJson<Integer> oilStock(String oname,String ramount,String rnote,String userid,String otype,String calcType) {
 		
 		log.info("==============================所有油品查询================================");
 		log.info("===================油品名称："+oname+"；入库数量："+ramount+";备注rnote："+rnote+";操作人userid："+userid);
-		 Integer row = equipmentLubricationOilSI.oilStock(oname,ramount,rnote,userid);
+		 Integer row = equipmentLubricationOilSI.oilStock(oname,ramount,rnote,userid,otype,calcType);
 		log.info("===============================入库油品更新条数："+row);
 		if (row > 0 ) {
 			return new ResultJson<Integer>(0, "油品入库成功", row);

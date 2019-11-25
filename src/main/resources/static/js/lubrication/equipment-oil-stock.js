@@ -386,7 +386,9 @@ layui.use(['table','laydate','layer', 'form'], function(){
 								"oname": $("#oname1").val(),
 								"ramount": $("#ramount").val(),
 								"rnote": $("#rnote").val(),
-								"userid":userid
+								"userid":userid,
+								"otype":"油品入库",
+								"calcType":"加"
 							},
 							dataType: 'JSON',
 							success: function(json){

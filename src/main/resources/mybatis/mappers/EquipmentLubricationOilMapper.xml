@@ -63,10 +63,15 @@
 			<include refid="EquipmentOilRecordVOSQL"></include>
           FROM (SELECT 
 	          		<include refid="EquipmentOilRecordVOSQL"></include>
-	            FROM 
-	            	IOT_EQUIPMENT_OIL_RECORD record,IOT_EQUIPMENT_LUBRICATION_OIL oil
-				WHERE 
-					record.oid = oil.oid 
+	            FROM(
+	            	SELECT 
+	          			<include refid="EquipmentOilRecordVOSQL"></include>
+		            FROM
+		            	IOT_EQUIPMENT_OIL_RECORD record,IOT_EQUIPMENT_LUBRICATION_OIL oil
+					WHERE 
+						record.oid = oil.oid ORDER BY rtime DESC
+	            	) OIL
+	            WHERE 1=1 	
 				<if test="oid != null and oid != ''">
 					AND oil.OID = #{oid}
 				</if>
@@ -77,7 +82,7 @@
 					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
 				</if>
 					and ROWNUM <![CDATA[ <= ]]> #{maxSize}
- 					 ORDER BY rtime
+ 					 
  					 ) oil
 
  		WHERE 

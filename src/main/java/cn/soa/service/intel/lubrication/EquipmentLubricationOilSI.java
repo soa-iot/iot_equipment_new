@@ -61,7 +61,7 @@ public interface EquipmentLubricationOilSI {
 	 * @param userid
 	 * @return
 	 */
-	Integer oilStock(String oname,String ramount,String rnote,String userid);
+	Integer oilStock(String oname,String ramount,String rnote,String userid,String otype,String calcType);
 	
 	/**
 	 * 更新/删除油品

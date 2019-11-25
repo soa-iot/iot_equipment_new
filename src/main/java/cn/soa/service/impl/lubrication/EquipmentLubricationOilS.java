@@ -74,7 +74,7 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 	 * 油品入库
 	 */
 	@Transactional
-	public Integer oilStock(String oname,String ramount,String rnote,String userid) {
+	public Integer oilStock(String oname,String ramount,String rnote,String userid,String otype,String calcType) {
 		
 		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
 		equipmentLubricationOil.setOname(oname);
@@ -100,7 +100,7 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI{
 		Integer row = equipmentLubricationOilMapper.updateStock(ramount1,oid);
 		
 		if (row > 0) {
-			return addRecord("加", "油品入库", ramount,oid , userid, rnote,rstock);
+			return addRecord(calcType, otype, ramount,oid , userid, rnote,rstock);
 		}else {
 			return row;
 		}
