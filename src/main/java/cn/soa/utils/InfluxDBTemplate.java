@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import cn.soa.config.InfluxdbConfig;
 import cn.soa.service.impl.EquipmentMoveRunningTimeS;
 
-//@Component
 @Configuration
 public class InfluxDBTemplate {
 	private static Logger logger = LoggerFactory.getLogger( InfluxDBTemplate.class );

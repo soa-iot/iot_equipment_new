@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import cn.soa.entity.EquipmentMoveInfo;
 import cn.soa.entity.EquipmentMoveRunningTime;
 
 /**
@@ -53,4 +54,55 @@ public interface EquipmentMoveRunningTimeMapper {
 	 * @return 受影响行数
 	 */
 	Integer insertOne(@Param("equip") EquipmentMoveRunningTime equip);
+	
+	/**
+	 * 分页查找动设备检维修信息
+	 * @return List<EquipmentMoveInfo> - 动设备检维修信息
+	 */
+	List<EquipmentMoveInfo> selectEquipMoveInfo(
+			@Param("positionNum") String positionNum, 
+			@Param("equipName") String equipName,
+			@Param("startDate") String startDate, 
+			@Param("endDate") String endDate,
+			@Param("page") Integer page, 
+			@Param("limit") Integer limit);
+	
+	/**
+	 * 根据主键id查找动设备检维修信息
+	 * @param mid - 主键id
+	 * @return EquipmentMoveInfo - 动设备检维修信息
+	 */
+	EquipmentMoveInfo selectEquipMoveInfoByMid(@Param("mid") String mid);
+	
+	/**
+	 * 统计动设备检维修信息条数
+	 * @return 动设备检维修信息条数
+	 */
+	Integer countEquipMoveInfo(
+			@Param("positionNum") String positionNum, 
+			@Param("equipName") String equipName,
+			@Param("startDate") String startDate, 
+			@Param("endDate") String endDate);
+	
+	/**
+	 * 添加一条动设备检维修信息
+	 * @param info - 动设备检维修信息
+	 * @return 受影响行数
+	 */
+	Integer insertEquipMoveInfo(@Param("info") EquipmentMoveInfo info);
+	
+	/**
+	 * 删除一条动设备检维修信息
+	 * @param mid - 设备id
+	 * @return 受影响行数
+	 */
+	Integer deleteEquipMoveInfo(String mid);
+	
+	/**
+	 * 更新一条动设备检维修信息
+	 * @param info - 动设备检维修信息
+	 * @return 受影响行数
+	 */
+	Integer updateEquipMoveInfo(EquipmentMoveInfo info);
+	
 }

@@ -110,7 +110,108 @@
 			<include refid="EquipmentMoveRunningTimeSQL"></include>
 		FROM IOT_EQUIPMENT_MOVE_RUNNINGTIME		
 	</select>
-
+	
+	<!-- 1.5 分页查找动设备检维修信息  -->
+	<!-- List<EquipmentMoveInfo> selectEquipMoveInfo(
+			@Param("positionNum") String positionNum, 
+			@Param("equipName") String equipName,
+			@Param("startDate") String startDate, 
+			@Param("endDate") String endDate,
+			@Param("page") Integer page, 
+			@Param("limit") Integer limit); -->
+	<resultMap type="cn.soa.entity.EquipmentMoveInfo" id="selectEquipMoveInfoMap">
+		<id column="MID" property="mid" />
+		<result column="POSITIONNUM" property="positionNum" />
+		<result column="EQUIPNAME" property="equipName" />
+		<result column="EQUIPVERSION" property="equipVersion" />
+		<result column="MAINTENANCEPERSON" property="maintenancePerson" />
+		<result column="MAINTENANCEREASON" property="maintenanceReason" />
+		<result column="MAINTENANCECONTENT" property="maintenanceContent" />
+		<result column="MAINTENANCETIME" property="maintenanceTime" />
+		<result column="SPECIFICATIONANDNUMBER" property="specificationAndNumber" />
+		<result column="MAINTENANCECOMMENT" property="comment" />
+	</resultMap>
+			
+	<select id="selectEquipMoveInfo" resultMap="selectEquipMoveInfoMap">
+		SELECT
+			info1.*
+		FROM
+			(
+				SELECT
+					info.*, ROWNUM rownum1
+				FROM
+				(
+					SELECT
+						*
+					FROM
+						IOT_EQUIPMENT_MOVE_INFO
+					<where>
+						<if test="positionNum != null and positionNum != ''">
+							LOWER(POSITIONNUM)  LIKE LOWER('%${positionNum}%')
+						</if>
+						<if test="equipName != null and equipName != ''">
+							AND LOWER(EQUIPNAME) LIKE LOWER('%${equipName}%')
+						</if>
+						<if test="startDate != null and startDate != ''">
+							AND to_char(MAINTENANCETIME,'YYYY-MM-DD') &gt;= #{startDate}
+						</if>
+						<if test="endDate != null and endDate != ''">
+							AND to_char(MAINTENANCETIME,'YYYY-MM-DD') &lt;= #{endDate}
+						</if>
+					</where>
+					ORDER BY MAINTENANCETIME DESC
+				) info
+				<where>
+					<if test="limit != null and limit != ''">
+						ROWNUM &lt;= (${limit}*${page})
+					</if>
+				</where>
+			) info1
+		<where>
+			<if test="page != null and page != ''">
+				rownum1 &gt; (${limit}*(${page}-1))
+			</if>
+		</where>
+	</select>
+	
+	<!-- Integer countEquipMoveInfo(
+			@Param("positionNum") String positionNum, 
+			@Param("equipName") String equipName,
+			@Param("startDate") String startDate, 
+			@Param("endDate") String endDate); -->
+			
+	<select id="countEquipMoveInfo" resultType="int"> 
+		SELECT
+			COUNT(1)
+		FROM
+			IOT_EQUIPMENT_MOVE_INFO
+		<where>
+			<if test="positionNum != null and positionNum != ''">
+				LOWER(POSITIONNUM)  LIKE LOWER('%${positionNum}%')
+			</if>
+			<if test="equipName != null and equipName != ''">
+				AND LOWER(EQUIPNAME) LIKE LOWER('%${equipName}%')
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND to_char(MAINTENANCETIME,'YYYY-MM-DD') &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND to_char(MAINTENANCETIME,'YYYY-MM-DD') &lt;= #{endDate}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 1.6 根据主键id查找动设备检维修信息  -->
+	<!-- EquipmentMoveInfo selectEquipMoveInfoByMid(@Param("mid") String mid); -->
+	<select id="selectEquipMoveInfoByMid" resultMap="selectEquipMoveInfoMap">
+		SELECT
+			*
+		FROM
+			IOT_EQUIPMENT_MOVE_INFO
+		WHERE
+			MID = #{mid, jdbcType=VARCHAR}
+	</select>
+	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加动设备信息  -->
 	<!-- Integer insertOne(@Param("equip") EquipmentMoveRunningTime equip) -->
@@ -132,13 +233,92 @@
 			
 	</insert>
 	
+	<!-- 2.2 添加一条动设备检维修信息  -->
+	<!-- Integer insertEquipMoveInfo(@Param("info") EquipmentMoveInfo info); -->
+	<insert id="insertEquipMoveInfo" parameterType="cn.soa.entity.EquipmentMoveInfo">
+		<selectKey order="BEFORE" resultType="string" keyProperty="mid">
+			select sys_guid() from dual 
+		</selectKey>
+		INSERT INTO
+			IOT_EQUIPMENT_MOVE_INFO
+			(MID, POSITIONNUM, EQUIPNAME, EQUIPVERSION, MAINTENANCEPERSON, MAINTENANCEREASON,
+			MAINTENANCECONTENT, MAINTENANCETIME, SPECIFICATIONANDNUMBER, MAINTENANCECOMMENT)
+		VALUES
+			(	
+				<if test="mid != null and mid != ''">
+					#{mid, jdbcType=VARCHAR},
+				</if>
+				<if test="info.positionNum != null and info.positionNum != ''">
+					#{info.positionNum, jdbcType=VARCHAR},
+				</if>
+				<if test="info.equipName != null and info.equipName != ''">
+					#{info.equipName, jdbcType=VARCHAR},
+				</if>
+				<if test="info.equipVersion != null and info.equipVersion != ''">
+					#{info.equipVersion, jdbcType=VARCHAR},
+				</if>
+				<if test="info.maintenancePerson != null and info.maintenancePerson != ''">
+					#{info.maintenancePerson, jdbcType=VARCHAR},
+				</if>
+				<if test="info.maintenanceReason != null and info.maintenanceReason != ''">
+					#{info.maintenanceReason, jdbcType=VARCHAR},
+				</if>
+				<if test="info.maintenanceContent != null and info.maintenanceContent != ''">
+					#{info.maintenanceContent, jdbcType=VARCHAR},
+				</if>
+				<if test="info.maintenanceTime != null">
+					#{info.maintenanceTime},
+				</if>
+				#{info.specificationAndNumber, jdbcType=VARCHAR},
+				#{info.comment, jdbcType=VARCHAR}
+			)
+	</insert>
 	
 	<!-- ===========================3、修改===============================  -->
-
+	<!--3.1 更新一条动设备检维修信息 -->
+	<!-- Integer updateEquipMoveInfo(EquipmentMoveInfo info); -->
+	<update id="updateEquipMoveInfo">
+		UPDATE
+			IOT_EQUIPMENT_MOVE_INFO
+		<set>
+			<if test="positionNum != null and positionNum != ''">
+					POSITIONNUM = #{positionNum, jdbcType=VARCHAR},
+				</if>
+				<if test="equipName != null and equipName != ''">
+					EQUIPNAME = #{equipName, jdbcType=VARCHAR},
+				</if>
+				<if test="equipVersion != null and equipVersion != ''">
+					EQUIPVERSION = #{equipVersion, jdbcType=VARCHAR},
+				</if>
+				<if test="maintenancePerson != null and maintenancePerson != ''">
+					MAINTENANCEPERSON = #{maintenancePerson, jdbcType=VARCHAR},
+				</if>
+				<if test="maintenanceReason != null and maintenanceReason != ''">
+					MAINTENANCEREASON = #{maintenanceReason, jdbcType=VARCHAR},
+				</if>
+				<if test="maintenanceContent != null and maintenanceContent != ''">
+					MAINTENANCECONTENT = #{maintenanceContent, jdbcType=VARCHAR},
+				</if>
+				<if test="maintenanceTime != null">
+					MAINTENANCETIME = #{maintenanceTime},
+				</if>
+				SPECIFICATIONANDNUMBER = #{specificationAndNumber, jdbcType=VARCHAR},
+				MAINTENANCECOMMENT = #{comment, jdbcType=VARCHAR}
+		</set>
+		<where>
+			MID = #{mid, jdbcType=VARCHAR} 
+		</where>
+	</update>
 	
 	<!-- ===========================4、删除===============================  -->
-			
-	
+	<!--4.1 删除一条动设备检维修信息 -->
+	<!-- Integer deleteEquipMoveInfo(String mid); -->
+	<delete id="deleteEquipMoveInfo">
+		DELETE FROM
+			IOT_EQUIPMENT_MOVE_INFO
+		WHERE
+			MID = #{mid, jdbcType=VARCHAR}
+	</delete>
 </mapper>
  
 

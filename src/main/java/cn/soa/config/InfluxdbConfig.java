@@ -55,9 +55,10 @@ public class InfluxdbConfig {
 	
 	@Bean(name="influxDB")
 	public InfluxDB influxDbBuild() {
-			InfluxDB influxDB = InfluxDBFactory.connect( 
-					openurl, username, password );
+		InfluxDB influxDB = null;
 		try {
+			influxDB = InfluxDBFactory.connect( 
+					openurl, username, password );
 			if (!influxDB.databaseExists( database )) {
 				logger.info( "-----指定数据库不存在-----创建---");
 				influxDB.createDatabase( database );

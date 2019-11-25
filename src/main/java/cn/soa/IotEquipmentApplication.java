@@ -6,9 +6,16 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
+
+import cn.soa.config.RestTemplateConfig;
+import cn.soa.controller.EquipmentInfoC;
+import cn.soa.service.impl.EquipmentInfoS;
+import cn.soa.service.impl.EquipmentTypeBackupS;
+import cn.soa.service.impl.equipment.EquipmentDetailsS;
 
 @EnableTransactionManagement
-@SpringBootApplication(scanBasePackages = "cn.soa",exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = {"cn.soa"}, exclude = SecurityAutoConfiguration.class)
 public class IotEquipmentApplication  extends SpringBootServletInitializer{
 	public static void main(String[] args) {
 		try {
