@@ -33,7 +33,7 @@
 	            	SELECT 
 	          			OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
 	           		 FROM 
-	            		IOT_EQUIPMENT_LUBRICATION_OIL ORDER BY ostock+0,ONAME)
+	            		IOT_EQUIPMENT_LUBRICATION_OIL where OREMARK1 = 0  ORDER BY ostock+0,ONAME)
 				WHERE
 					1=1 
 					<if test="maxSize != null and maxSize != ''">
@@ -54,7 +54,7 @@
 		SELECT
 			count(*)
 		FROM
-			IOT_EQUIPMENT_LUBRICATION_OIL
+			IOT_EQUIPMENT_LUBRICATION_OIL where oremark1 = '0'
 	</select>
 	
 	<!-- List<EquipmentOilRecordVO> findOilAll(); -->
@@ -338,8 +338,70 @@
 				</where>
 	</update>
 	
+	<!-- 更新油品
+	Integer updateOil(EquipmentLubricationOil equipmentLubricationOil); -->
+	
+	<update id="updateOil" parameterType="java.lang.Integer">
+		UPDATE 
+			IOT_EQUIPMENT_LUBRICATION_OIL
+				<set>
+				  <if test="oname != null and oname != ''">
+						oname = #{oname} ,
+					</if>
+					<if test="ostock != null and ostock != ''">
+						ostock = #{ostock} ,
+					</if>
+					<if test="ostate != null and ostate != ''">
+						 ostate = #{ostate},
+					</if>
+					<if test="ounit != null and ounit != ''">
+						 ounit = #{ounit} ,
+					</if>
+					<if test="odescribe != null and odescribe != ''">
+						 odescribe = #{odescribe} ,
+					</if>
+					<if test="otype != null and otype != ''">
+						 otype = #{otype} ,
+					</if>
+					<if test="manufacture != null and manufacture != ''">
+						 manufacture = #{manufacture} ,
+					</if>
+					<if test="osign != null and osign != ''">
+						 osign = #{osign} ,
+					</if>
+					<if test="oremark1 != null and oremark1 != ''">
+						 oremark1 = #{oremark1} ,
+					</if>
+					<if test="oremark2 != null and oremark2 != ''">
+						 oremark2 = #{oremark2} ,
+					</if>
+				</set>
+				<where>
+					oid = #{oid}
+				</where>
+	</update>
+	
+	<!-- 更新油品部位表的油品名称 -->
+	<!-- Integer updateEquPlace(String oname, String oid); -->
+	
+	<update id="updateEquPlace" parameterType="java.lang.Integer">
+		UPDATE 
+			IOT_EQUIPMENT_LUBRICATE_PLACE 
+		SET 
+			REQUIREOIL1 = #{oname}
+				<where>
+					REQUIREOIL1 = (
+						SELECT ONAME FROM IOT_EQUIPMENT_LUBRICATION_OIL 
+						<where>
+							oid = #{oid}
+						</where>
+						)
+				</where>
+	</update>
+	
 	<!-- ===========================4、删除===============================  -->
-			
+	<!--  删除油品
+	Integer deleteOil(EquipmentLubricationOil equipmentLubricationOil);	-->
 	
 </mapper>
  

@@ -35,6 +35,7 @@ public class LubricateEquipmentRecord extends LubricateEquipmentPlace implements
 	private String ramount; 
 	private String rremark1; 
 	private String rremark2;
+	
 	/*添加润滑部位和润滑油品字段*/
 	private String requireoil;
 	private String pplace;

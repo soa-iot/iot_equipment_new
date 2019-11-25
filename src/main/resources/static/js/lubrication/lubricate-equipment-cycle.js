@@ -79,7 +79,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	      ,{field:'lname', title: '设备名称', width:'11%'}
 	      ,{field:'pplace', title: '润滑部位', width:'11%'}
 	      ,{field:'requireoil1', title:'油品', width:'11%'}
-	      ,{field: 'pamount', title:'加油量', width:'10%'}
+	      ,{field: 'pamount', title:'加油量(升)', width:'10%'}
 	      ,{field: 'pfrequency', title:'润滑周期', width:'10%'}
 	      ,{field: 'nextchangetime', title:'下一次换油时间', width:'15%', templet:function(d){
 	    	  var date = '';

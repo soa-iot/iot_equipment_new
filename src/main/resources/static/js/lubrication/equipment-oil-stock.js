@@ -36,7 +36,8 @@ layui.use(['table','laydate','layer', 'form'], function(){
   var table = layui.table
   	  ,laydate = layui.laydate
   	  ,layer = layui.layer
-  	  ,form = layui.form;
+  	  ,form = layui.form
+  	  ,$ = layui.jquery;
   
    table_stock = table.render({
     elem: '#record-table'
@@ -56,10 +57,110 @@ layui.use(['table','laydate','layer', 'form'], function(){
   
   //监听行工具事件
 	  table.on('tool(record-table)', function(obj){
+		  console.log(obj);
 	    var data = obj.data
 	    ,oid = data.oid;
+	    if(obj.event == 'record'){
+	    	location.href = "../../html/lubrication/equipment-oil-record.html?oid="+oid;
+	    }else if (obj.event == 'delelio') {
+	    	layer.confirm("是否确认删除", {icon: 7, offset: '150px'},function(index){
+	    		$.ajax({
+					type: 'POST',
+					async: false,
+					url: '/iot_equipment/equipmentoil/editoil',
+					data:{ 
+						"oid": data.oid,
+						"oremark1":'1',
+						"userid":userid
+					},
+					dataType: 'JSON',
+					success: function(json){
+						if(json.state == 0){
+							if (table_stock != null) {
+								table_stock.reload('#record-table',null)
+							}
+							layer.msg("油品删除成功", {icon: 1, time: 2000, offset: '150px'});
+						}else{
+							layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
+						}	
+					},
+					error: function(){
+						layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+					}
+				})
+				
+	    		layer.close(index);
+	    	});
+		} else if (obj.event == 'edit'){
+			
+				  $("#title-lio").text("修改油品");
+				  $("#oname").val(data.oname);
+				  $("#ostock").val(data.ostock);
+				 // $("#otype").val(data.otype);
+				  $("#manufacture").val(data.manufacture);
+				  $("#osign").val(data.osign);
+				  $("#odescribe").val(data.odescribe);
+				  
+				  addOilCheck1();
+				  
+				  var ope= layer.open({
+						type: 1
+						,offset: 't' 
+						,area: ['550px','620px;']
+						,id: 'coordinate' //防止重复弹出
+						,key:'id'
+						,title:"修改油品"
+						,content: $("#add-oil-div")
+						,btn: ['提交',"取消"]
+						,btnAlign: 'c' //按钮居中
+						,yes: function(){
+							
+							addOilCheck1();
+							var ch = $("#warning").attr("name");
+							var chnum = $("#warningnum").attr("name");
+							
+							if (ch == "check" && chnum == "check" && $("#oname").val() != '') {
+								$(".layui-layer-btn0").off('click');
+								$.ajax({
+									type: 'POST',
+									async: false,
+									url: '/iot_equipment/equipmentoil/editoil',
+									data:{ 
+										"oname": $("#oname").val(),
+										"ostock": $("#ostock").val(),
+										//"otype": $("#otype").val(),
+										"manufacture": $("#manufacture").val(),
+										"osign": $("#osign").val(),
+										"odescribe": $("#odescribe").val(),
+										"oremark1":'0',
+										"oid":data.oid,
+										"userid":userid
+									},
+									dataType: 'JSON',
+									success: function(json){
+										if(json.state == 0){
+											$("#oname").val("")
+											
+											if (table_stock != null) {
+												table_stock.reload('#record-table',null)
+											}
+											layer.msg("油品修改成功", {icon: 1, time: 2000, offset: '150px'});
+											layer.close(ope);
+										}else{
+											layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
+										}	
+									},
+									error: function(){
+										layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
+									}
+								})
+								
+							}
+							
+						}
+				  });
+		}
 	    console.log(data.oid)
-	   location.href = "../../html/lubrication/equipment-oil-record.html?oid="+oid;
 	  });
 	  
 	  $("#oname").blur(function(){
@@ -139,7 +240,25 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	//新增油品验证
 	 function addOilCheck(){
 		 if ($("#oname").val() != "") {
-			  nameCheck("oname1",$("#oname").val());
+			  nameCheck("oname",$("#oname").val());
+		}else{
+			$("#warning").html("*油品名称不能为空*")
+			$("#warning").attr("name","uncheck")
+			$("#warning").show();
+		}
+		 if (/(^[\-0-9][0-9]*(.[0-9]+)?)$/.test($("#ostock").val()) && $("#ostock").val() > 0) {
+			  $("#warningnum").attr("name","check");
+			  $("#warningnum").hide();
+		}else{
+			  $("#warningnum").attr("name","uncheck")
+			  $("#warningnum").show();
+		}
+		 
+	 }
+	 
+	 function addOilCheck1(){
+		 if ($("#oname").val() != "") {
+			 $("#warning").attr("name","check");
 		}else{
 			$("#warning").html("*油品名称不能为空*")
 			$("#warning").attr("name","uncheck")
@@ -158,6 +277,10 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  form.on('submit(add-oil)', function(obj){
 		  console.log(obj)
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+		  
+		  $("#title-lio").text("新增油品");
+		  $(".layui-input").val("");
+		  
 		  var ope= layer.open({
 				type: 1
 				,offset: 't' 
@@ -171,6 +294,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				,yes: function(){
 					
 					addOilCheck();
+					
 					var ch = $("#warning").attr("name");
 					var chnum = $("#warningnum").attr("name");
 					
@@ -183,10 +307,11 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							data:{ 
 								"oname": $("#oname").val(),
 								"ostock": $("#ostock").val(),
-								"otype": $("#otype").val(),
+								//"otype": $("#otype").val(),
 								"manufacture": $("#manufacture").val(),
 								"osign": $("#osign").val(),
 								"odescribe": $("#odescribe").val(),
+								"oremark1":'0',
 								"userid":userid
 							},
 							dataType: 'JSON',

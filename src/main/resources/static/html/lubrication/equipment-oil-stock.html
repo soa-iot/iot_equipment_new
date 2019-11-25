@@ -18,11 +18,13 @@
 		<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
 		<div type="text/html" id="barDemo">
 		  <a class="layui-btn layui-btn-xs" lay-event="record">出入库记录</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="delelio">删除</a>
 		</div>
 	</fieldset>
 		<!-- 新增油品 -->
 		<div class="layui-form-item" id="add-oil-div">
-			<h1 style="text-align: center;margin: 10px">新增油品</h1>
+			<h1 style="text-align: center;margin: 10px" id="title-lio">新增油品</h1>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品名称</label>
 				<div class="layui-input-inline" style="width: 260px">
@@ -31,7 +33,7 @@
 					<span style="color: red" name="check" id="warning"></span>
 			</div>
 			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">油品数量</label>
+				<label class="layui-form-label">油品数量(升)</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="number" name="ostock" id="ostock"  min="0" value="0" class="layui-input" >
 				</div>
@@ -44,12 +46,12 @@
 						autocomplete="off" class="layui-input">
 				</div>
 			</div> -->
-			<div class="layui-inline input-inline-padding">
+			<!-- <div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品类型</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="text" name="otype" id="otype" class="layui-input" placeholder="请输入油品类型">
 				</div>
-			</div>
+			</div> -->
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">生产厂家</label>
 				<div class="layui-input-inline" style="width: 260px">
@@ -84,7 +86,7 @@
 					<span style="color: red" name="check" id="warning1"></span>
 			</div>
 			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">油品数量</label>
+				<label class="layui-form-label">油品数量(升)</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="number" name="ramount" id="ramount" min="0" value="0" class="layui-input">
 				</div>

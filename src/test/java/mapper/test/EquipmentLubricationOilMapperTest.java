@@ -70,5 +70,22 @@ public class EquipmentLubricationOilMapperTest {
 			System.err.println("查询油品数量："+row);
 	}
 	
+	@Test
+	public void updateOilTest() {
+		
+			 EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
+			 equipmentLubricationOil.setOremark1("0");
+			 equipmentLubricationOil.setOid("F1AD632EFF054BE2B45923A7CCBC78A5");
+			Integer row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil );
+			System.err.println("查询油品数量："+row);
+	}
+	
+	@Test
+	public void updateEquPlaceTest() {
+		
+			Integer row = equipmentLubricationOilMapper.updateEquPlace("220#齿轮油", "F1AD632EFF054BE2B45923A7CCBC78A5");
+			System.err.println("查询油品数量："+row);
+	}
+	
 
 }
