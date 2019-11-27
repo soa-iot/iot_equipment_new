@@ -88,7 +88,7 @@ public class EquipmentLubricationMapperTest {
 	@Test
 	public void findPlaceEquiTest() {
 		
-		LubricateEquipmentPlace  lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlaceByNamekey("K-1402(Ⅰ)", "风扇叶子");
+		List<LubricateEquipmentPlace>  lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlaceByNamekey("K-1402(Ⅰ)", "风扇叶子");
 		 System.err.println(lubricateEquipmentPlaces);
 	}
 	

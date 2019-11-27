@@ -237,7 +237,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	 * @return
 	 */
 	@Override
-	public LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace) {
+	public List<LubricateEquipmentPlace> findLubPlaceByNamekey(String lnamekey, String pplace) {
 		return equipmentLubricationMapper.findLubPlaceByNamekey(lnamekey, pplace);
 	}
 
@@ -250,20 +250,22 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	@Override
 	@Transactional
 	public Integer updateLuEqPlByPid(LubricateEquipmentRecord lubricateEquipmentRecord, String rtype) {
-		
+		String oname = lubricateEquipmentRecord.getRequireoil1();
+		log.info("------------s-------------oname:"+oname);
 		//加换油时间
 		Date ptime = lubricateEquipmentRecord.getPtime();
-		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+"，操作人："+lubricateEquipmentRecord.getExcutor()+",加/换油时间："+ptime+",加/油量："+lubricateEquipmentRecord.getRamount()+",加/换油类型："+rtype);
+		log.info("-----S-----lubricateEquipmentRecord——pid:"+lubricateEquipmentRecord.getPid()+"，操作人："+lubricateEquipmentRecord.getExcutor()+",加/换油时间："+ptime+",加/换油量："+lubricateEquipmentRecord.getRamount()+",加/换油类型："+rtype);
 		
 		//查询油品部位数据
 		LubricateEquipmentPlace lubricateEquipmentPlace = new LubricateEquipmentPlace();
 		lubricateEquipmentPlace.setPid(lubricateEquipmentRecord.getPid());
 		
 		lubricateEquipmentPlace = equipmentLubricationMapper.findLuEqPlByAll(lubricateEquipmentPlace);
+		lubricateEquipmentPlace.setRequireoil1(oname);
 		log.info("--------S----------lubricateEquipmentPlace:"+lubricateEquipmentPlace);
 		
 		Integer updateRow=null;
-		if ("换油".equals(rtype)) {
+		if ("换油".equals(rtype) || "换脂".equals(rtype)) {
 			
 			//更新最后一次换油时间和下一次换油时间
 			lubricateEquipmentPlace.setLastchangetime(ptime);
@@ -276,6 +278,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		//获取油品信息
 		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
 		equipmentLubricationOil.setOname(lubricateEquipmentPlace.getRequireoil1());
+		//equipmentLubricationOil.setOname(oname);
 		List<EquipmentLubricationOil> equipmentLubricationOils = equipmentLubricationOilMapper.findOilbyConditions(equipmentLubricationOil);
 		
 		String oid = equipmentLubricationOils.get(0).getOid();
@@ -286,8 +289,8 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		Integer insetRow = equipmentLubricationMapper.insertLubRecord(lubricateEquipmentRecord);
 		log.info("--------S-----------S插入换油记录行数："+insetRow);
 		
-		Integer ostock = Integer.valueOf(equipmentLubricationOils.get(0).getOstock());
-		Integer ramount = Integer.valueOf(lubricateEquipmentRecord.getRamount());
+		Double ostock = Double.valueOf(equipmentLubricationOils.get(0).getOstock());
+		Double ramount = Double.valueOf(lubricateEquipmentRecord.getRamount());
 		//出入库记录
 		EquipmentOilRecord equipmentOilRecord = new EquipmentOilRecord();
 		equipmentOilRecord.setOid(oid);
@@ -303,7 +306,7 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 		Integer updateStockRow = equipmentLubricationOilMapper.updateStock(-ramount, oid);
 		log.info("-----S-----更新油品数据数量："+updateStockRow);
 		if (insetRow > 0 && insertRecordRow > 0 && updateStockRow > 0) { 
-			if ("换油".equals(rtype)) {
+			if ("换油".equals(rtype) || "换脂".equals(rtype)) {
 				if (updateRow > 0) {
 					return 1;
 				}else {

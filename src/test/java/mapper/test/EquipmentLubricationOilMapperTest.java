@@ -29,7 +29,7 @@ public class EquipmentLubricationOilMapperTest {
 		
 		EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
 		equipmentLubricationOil.setOname("320#液压齿轮油2");
-		equipmentLubricationOil.setOstock("15");
+		equipmentLubricationOil.setOstock(15.0);
 		equipmentLubricationOil.setOstate(1);
 		equipmentLubricationOil.setOunit("油品集团");
 		equipmentLubricationOil.setOdescribe("没有描述");

@@ -2,7 +2,7 @@
  * 所有油品
  * @returns
  */
-var userid = "张三";
+var userid =getCookie("userID").replace(/"/g,'');//"张三";
 
  $("#barDemo").hide();
  $("#add-oil-div").hide();
@@ -438,11 +438,10 @@ function nameCheck(str,oname) {
 		success: function(json){
 			
 			console.log(json);
-			
 			if(json.state == 0){
 				var leng = json.data.length;
 				if (str == 'oname') {
-					if (leng > 0) {
+					if (leng > 0 && json.data[0].oremark1==0) {
 						$("#warning").html("*此油品名称已存在*");
 						$("#warning").show();
 						$("#warning").attr("name","uncheck")
@@ -451,7 +450,7 @@ function nameCheck(str,oname) {
 						 $("#warning").attr("name","check")
 					}
 				} else if(str == 'oname1'){
-					if (leng > 0) {
+					if (leng > 0 && json.data[0].oremark1==0) {
 						
 						$("#warning1").hide();
 						$("#warning1").attr("name","uncheck")

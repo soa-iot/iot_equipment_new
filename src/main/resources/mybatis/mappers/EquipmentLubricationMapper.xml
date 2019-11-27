@@ -70,19 +70,19 @@
 	<!-- List<LubricateEquipmentPlace> findLubPlace(LubricateEquipmentPlace lubricateEquipmentPlace); -->
 	<select id="findLubPlace" resultType="cn.soa.entity.lubrication.LubricateEquipmentPlace">
 		SELECT 
-			ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+			rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 		FROM(
 			SELECT 
-				ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+				rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 	         FROM (
 				SELECT 
-					PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,to_char(NEXTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') NEXTCHANGETIME,to_char(LASTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') LASTCHANGETIME 
+					ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,to_char(NEXTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') NEXTCHANGETIME,to_char(LASTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') LASTCHANGETIME 
 				FROM 	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
 					ON sub.lid = place.lid  ORDER BY NEXTCHANGETIME
 				)
 	         <where>
 					<if test="page != null and page != '' and limit != null and limit != ''">
-						AND ROWNUM &lt;= ${page * limit}
+						AND rn &lt;= ${page * limit}
 					</if>
 			</where>
 		)	
@@ -102,7 +102,10 @@
 	          	IOT_EQUIPMENT_LUBRICATE_PLACE
 	          WHERE LID IN (
 				SELECT LID FROM IOT_EQUIPMENT_LUBRICATE WHERE LNAMEKEY = #{lnamekey})
-			 AND PPLACE = #{pplace}
+				<if test="pplace != null and pplace != '' ">
+						AND PPLACE = #{pplace}
+				</if>
+			 
 	</select>
 	
 	<!-- 查询换油部位 -->
@@ -180,10 +183,12 @@
 		FROM
 			(
 			SELECT 
-				record.excutor, record.ptime, record.ramount, place.pplace, place.requireoil1 requireoil, ROWNUM rownum1
+				record.excutor, record.ptime, record.ramount, place.pplace, oil.oname requireoil, ROWNUM rownum1
 			FROM
 				IOT_EQUIPMENT_LUBRICATE_RECORD record JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
-				ON record.pid = place.pid and record.lid = place.lid
+				ON record.pid = place.pid and record.lid = place.lid 
+				 JOIN IOT_EQUIPMENT_LUBRICATION_OIL oil 
+				 ON record.oid = oil.oid
 			<where>
 				<if test="lid != null and lid != ''">
 					record.lid = #{lid}

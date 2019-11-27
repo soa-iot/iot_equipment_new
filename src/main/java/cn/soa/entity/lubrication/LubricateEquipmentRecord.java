@@ -32,7 +32,7 @@ public class LubricateEquipmentRecord extends LubricateEquipmentPlace implements
 	private String operatestate; 
 	private String operatetype; 
 	private String rnote; 
-	private String ramount; 
+	private Double ramount; 
 	private String rremark1; 
 	private String rremark2;
 	

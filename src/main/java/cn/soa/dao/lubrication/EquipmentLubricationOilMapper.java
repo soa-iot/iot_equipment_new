@@ -77,7 +77,7 @@ public interface EquipmentLubricationOilMapper {
 	 * @param oid
 	 * @return
 	 */
-	Integer updateStock(Integer ramount,String oid);
+	Integer updateStock(Double ramount,String oid);
 	
 	/**
 	 * 更新油品

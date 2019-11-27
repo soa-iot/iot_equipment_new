@@ -227,17 +227,17 @@ public class EquipmentLubricationC {
 	 * @param pplace
 	 * @return
 	 */
-	@PostMapping("/findplaceandnamekey")
-	public ResultJson<LubricateEquipmentPlace> findLubPlaceByNamekey(String lnamekey, String pplace) {
+	@RequestMapping("/findplaceandnamekey")
+	public ResultJson<List<LubricateEquipmentPlace>> findLubPlaceByNamekey(String lnamekey, String pplace) {
 		
 		log.info("===========根据位号和换油部位查询换油部位=====设备位号====="+lnamekey);
 		log.info("===========根据位号和换油部位查询换油部位=====设备部位====="+pplace);
-		LubricateEquipmentPlace lubricateEquipmentPlace = equipmentLubricationSI.findLubPlaceByNamekey(lnamekey, pplace);
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationSI.findLubPlaceByNamekey(lnamekey, pplace);
 		
-		if (lubricateEquipmentPlace != null) {
-			return new ResultJson<LubricateEquipmentPlace>(0, "此设备的该部位已存在！！", lubricateEquipmentPlace);
+		if (lubricateEquipmentPlaces.size() > 0) {
+			return new ResultJson<List<LubricateEquipmentPlace>>(0, "此设备的该部位已存在！！", lubricateEquipmentPlaces);
 		}else {
-			return new ResultJson<LubricateEquipmentPlace>(1, "该部位可以增加！！", null);
+			return new ResultJson<List<LubricateEquipmentPlace>>(1, "该部位可以增加！！", null);
 		}
 	}
 	
@@ -251,6 +251,7 @@ public class EquipmentLubricationC {
 		
 		String rtype = lubricateEquipmentRecord.getOperatetype();
 		log.info("-----------C------------加/换油部位id："+lubricateEquipmentRecord.getPid());
+		log.info("-----------C------------油品名称："+lubricateEquipmentRecord.getRequireoil1());
 		log.info("-----------C------------操作人："+lubricateEquipmentRecord.getExcutor());
 		log.info("-----------C------------加/换油时间："+lubricateEquipmentRecord.getPtime());
 		log.info("-----------C------------加/换油量："+lubricateEquipmentRecord.getRamount());

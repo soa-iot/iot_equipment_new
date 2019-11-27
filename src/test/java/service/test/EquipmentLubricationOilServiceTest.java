@@ -29,7 +29,7 @@ public class EquipmentLubricationOilServiceTest {
 			
 			EquipmentLubricationOil equipmentLubricationOil = new EquipmentLubricationOil();
 			equipmentLubricationOil.setOname("新增测试油"+i);
-			equipmentLubricationOil.setOstock("15");
+			equipmentLubricationOil.setOstock(15.0);
 			equipmentLubricationOil.setOstate(1);
 			equipmentLubricationOil.setOunit("油品集团");
 			equipmentLubricationOil.setOdescribe("没有描述");

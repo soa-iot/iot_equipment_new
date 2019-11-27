@@ -111,7 +111,7 @@ public class EquipmentLubricationOilC {
 	* @return
 	*/
 	@RequestMapping("/oilstock")
-	public ResultJson<Integer> oilStock(String oname,String ramount,String rnote,String userid,String otype,String calcType) {
+	public ResultJson<Integer> oilStock(String oname,Double ramount,String rnote,String userid,String otype,String calcType) {
 		
 		log.info("==============================所有油品查询================================");
 		log.info("===================油品名称："+oname+"；入库数量："+ramount+";备注rnote："+rnote+";操作人userid："+userid);

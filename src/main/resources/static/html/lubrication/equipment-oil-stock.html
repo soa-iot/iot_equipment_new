@@ -9,8 +9,9 @@
 <body>
 
 	<!-- <h1 style="text-align: center;" class="input-inline-padding">油品库存管理</h1> -->
-    <fieldset class="layui-elem-field" style="margin-top: 20px; border: 2px solid gray; border-radius: 25px;">
+    <fieldset class="layui-elem-field layui-field-title" > 
 		<legend>油品库存管理</legend>
+	</fieldset>
 		 <div style="text-align: center;padding: 10px">
 			<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="add-oil" id="add-oil">新增油品</button>
 			<button type="button" class="layui-btn layui-btn-normal" style="margin-left: 85px" lay-submit lay-filter="oil-stock">油品入库</button>
@@ -21,7 +22,6 @@
 		  <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 		  <a class="layui-btn layui-btn-xs" lay-event="delelio">删除</a>
 		</div>
-	</fieldset>
 		<!-- 新增油品 -->
 		<div class="layui-form-item" id="add-oil-div">
 			<h1 style="text-align: center;margin: 10px" id="title-lio">新增油品</h1>
@@ -103,6 +103,7 @@
 
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script src="../../jsPackage/own/universal.js"></script>
     <script type="text/javascript" src="../../js/lubrication/equipment-oil-stock.js" charset="utf-8"></script>
     <script type="text/html" id="numb">
     	{{d.LAY_TABLE_INDEX+1}}

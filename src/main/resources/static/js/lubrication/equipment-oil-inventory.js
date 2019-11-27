@@ -4,8 +4,9 @@
  * 
  */
 
-var userid = "张三";
+var userid = getCookie("userID").replace(/"/g,'');//"张三";
 
+console.log("userid:"+userid);
 
 $.ajax({
 	  type: 'post',
@@ -43,11 +44,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  form.on('submit(sub)', function(obj){
 		  console.log("提交盘点信息....");
 		  
+		  console.log("提交盘点信息:"+$("#ramount").val());
 		  if ($("#oname").val() == null || $("#oname").val() == "" ) {
 			  layer.msg("油品名称不能为空！！", {icon: 7, time: 2000, offset: '150px'});
 			  return;
-		}else if( $("#ramount").val()==0 || $("#ramount").val() == null){
-			layer.msg("油品数量不能为0！！", {icon: 7, time: 2000, offset: '150px'});
+		}else if( $("#ramount").val()==0 || $("#ramount").val() == null || $("#ramount").val() < 0 ){
+			layer.msg("油品数量必须大于0！！", {icon: 7, time: 2000, offset: '150px'});
 			  return;
 		}
 		  
@@ -66,8 +68,9 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				dataType: 'JSON',
 				success: function(json){
 					if(json.state == 0){
-						$("#oname").val("")
-						
+						$('#inv-from')[0].reset(); 
+						  $("#userid").val(userid);
+						  $("#inv-time").val(new Date());
 						layer.msg("提交成功", {icon: 1, time: 2000, offset: '150px'});
 					}else{
 						layer.msg(json.message, {icon: 2, time: 2000, offset: '150px'});
@@ -77,6 +80,12 @@ layui.use(['table','laydate','layer', 'form'], function(){
 					layer.msg("连接服务器失败，请检查网络是否正常", {icon: 7, time: 2000, offset: '150px'});
 				}
 			})
-	  })
+	  });
+	  
+	  form.on('submit(reset)', function(obj){
+		  $('#inv-from')[0].reset(); 
+		  $("#userid").val(userid);
+		  $("#inv-time").val(new Date());
+	  });
 
 })

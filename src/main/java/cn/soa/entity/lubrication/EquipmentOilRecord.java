@@ -23,12 +23,12 @@ public class EquipmentOilRecord implements Serializable {
 	private Date rtime;
 	private String rid;
 	private String rinout;
-	private String ramount;
+	private Double ramount;
 	private String userid;
 	private String rtype;
 	private String rnote;
 	private String rremark1;
 	private String rremark2;
-	private Integer rstock;
+	private Double rstock;
 
 }

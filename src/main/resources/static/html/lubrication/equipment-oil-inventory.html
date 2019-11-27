@@ -8,22 +8,23 @@
 </head>
 <body>
 
-  <!--   <fieldset class="layui-elem-field" style="margin-top: 20px; border: 2px solid gray; border-radius: 25px;"> -->
-		<!-- <legend>油脂库存盘点</legend> -->
+    <fieldset class="layui-elem-field layui-field-title" > 
+		 <legend>油脂库存盘点</legend> 
+	</fieldset>
 		<!-- 盘点油品 -->
-		<form class="layui-form" action="">
+		<form class="layui-form" action="" id="inv-from">
 		<div class="layui-form-item" id="inventory-div" style="width: 1000px;margin: auto;">
 			<h1 style="text-align: center;margin: 10px" id="title-lio">油品盘点</h1>
-			<div class="layui-inline input-inline-padding">
+			<div class="layui-inline input-inline-padding" style="margin-top: 30px">
 				<label class="layui-form-label">油品名称</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<select  lay-submit lay-filter="oname" name="oname" id="oname"  lay-search="">
+					<select  lay-submit lay-filter="oname" name="oname" id="oname"  lay-search="" autocomplete="off">
 			          <option value="">直接选择或搜索选择</option>
 			        </select>
 				</div>
 			</div>
 			
-			<div class="layui-inline input-inline-padding">
+			<div class="layui-inline input-inline-padding"  style="margin-top: 30px">
 				<label class="layui-form-label">操作人</label>
 				<div class="layui-input-inline" style="width: 260px">
 					<input type="text" name="userid" id="userid" class="layui-input" disabled="disabled">
@@ -64,18 +65,18 @@
 				</div>
 			</div>
 			
-			<div class="layui-inline input-inline-padding" style="width: 100%;text-align: center;">
+			<div class="layui-inline input-inline-padding" style="width: 100%;text-align: center; margin-bottom: 30px">
 				<div class="layui-input-inline"  style="width: 100%;margin-top: 30px;">
-					 <button type="button" class="layui-btn" lay-submit="sub" lay-filter="sub">立即提交</button>
-     				 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					 <button type="button" class="layui-btn" lay-submit="sub" lay-filter="sub" style="margin-right:70px">立即提交</button>
+     				 <button type="button" class="layui-btn layui-btn-primary"  lay-submit="reset" lay-filter="reset" >重置</button>
 				</div>
 			</div>
 		</div>
 		</form>
-	<!-- </fieldset> -->
 
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script src="../../jsPackage/own/universal.js"></script>
     <script type="text/javascript" src="../../js/lubrication/equipment-oil-inventory.js" charset="utf-8"></script>
 </body>
 </html>

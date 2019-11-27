@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>临时换油</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<link rel="stylesheet" href="../../css/equipment-oil.css">
+
+</head>
+<body>
+
+	<fieldset class="layui-elem-field layui-field-title">
+		<legend>临时换油</legend>
+	</fieldset> 
+	<div style="width: 85%;margin: auto; ">
+		<table class="layui-hide" id="record-table" lay-data="" lay-filter="record-table" ></table>
+	</div>
+		<div  id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="addoil">加油</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="changeoil">换油</a>
+		</div>
+	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script type="text/html" id="select"></script>
+    <script type="text/javascript" src="../../js/lubrication/lubricate-equipment-oil-change.js" charset="utf-8"></script>
+</body>
+</html>

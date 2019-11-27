@@ -24,7 +24,7 @@ public class EquipmentLubricationOil implements Serializable {
 	
 	private String oid;
 	private String oname;
-	private String ostock;
+	private Double ostock;
 	private Integer ostate;
 	private String ounit;
 	private String odescribe;

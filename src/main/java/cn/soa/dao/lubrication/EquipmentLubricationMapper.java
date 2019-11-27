@@ -180,7 +180,7 @@ public interface EquipmentLubricationMapper {
 	 * @param pplace
 	 * @return
 	 */
-	LubricateEquipmentPlace findLubPlaceByNamekey(String lnamekey, String pplace);
+	List<LubricateEquipmentPlace> findLubPlaceByNamekey(String lnamekey, String pplace);
 	
 	/**
 	 * 根据润滑部位条件查询数据
