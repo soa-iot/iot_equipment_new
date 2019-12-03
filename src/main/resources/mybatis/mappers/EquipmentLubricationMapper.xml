@@ -78,7 +78,13 @@
 				SELECT 
 					ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,to_char(NEXTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') NEXTCHANGETIME,to_char(LASTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') LASTCHANGETIME 
 				FROM 	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
-					ON sub.lid = place.lid  ORDER BY NEXTCHANGETIME
+					ON sub.lid = place.lid  
+						<where>
+							<if test="nextchangetime != null and nextchangetime != '' ">
+								AND nextchangetime &lt;= to_date(#{nextchangetime,jdbcType=DATE},'YYYY-MM-DD hh24:mi:ss')
+							</if>
+						</where>
+					ORDER BY NEXTCHANGETIME
 				)
 	         <where>
 					<if test="page != null and page != '' and limit != null and limit != ''">
@@ -117,6 +123,11 @@
 	          FROM 
 	          	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
 	          ON sub.lid = place.lid
+	          <where>
+				<if test="nextchangetime != null and nextchangetime != '' ">
+					AND nextchangetime <![CDATA[ <= ]]> to_date(#{nextchangetime,jdbcType=DATE},'YYYY-MM-DD hh24:mi:ss')
+				</if>
+			</where>
 	          
 	</select>
 	

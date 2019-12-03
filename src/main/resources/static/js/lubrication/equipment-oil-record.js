@@ -20,6 +20,29 @@ layui.use(['table','laydate','form'], function(){
 	  ,format:'yyyy-MM-dd'
   });
   
+  initOname();
+  function initOname(){
+	  $.ajax({
+		  type: 'post',
+		  async: false,
+		  url: '/iot_equipment/equipmentoil/queryoilallstock',
+		  dataType : "json",
+		  success: function(json){
+			  $("#oname1").empty();
+			  console.log(json)
+			  var data = json.data;
+			  console.log($(".layui-anim").html())
+			  var option = '<option value=" ">直接选择或搜索选择</option>'
+			  $.each(data, function (i, item) {
+				  option += '<option  value="'+item.oid+'">'+item.oname+'</option>';
+			  });
+			  $("#oname1").append(option);
+			  form.render('select');
+		  }
+	  
+	  })
+  }
+  
   var rectable = table.render({
 	    elem: '#record-table'
 	    ,url:'/iot_equipment/equipmentoil/queryoilall'
@@ -30,14 +53,14 @@ layui.use(['table','laydate','form'], function(){
 	    ,page: true
 	    ,type:"numbers"
 	    ,cols: [[
-	    	{field:'zizeng', width:"10%", title: '序号',templet:'#numb'}
-	      ,{field:'oname', width:"20%", title: '油品名称'}
-	      ,{field:'rtime', width:"20%", title: '入库时间',templet:function(d){
+	    	{field:'zizeng', width:"10%", title: '序号',templet:'#numb', align:'center'}
+	      ,{field:'oname', width:"20%", title: '油品名称', align:'center'}
+	      ,{field:'rtime', width:"20%", title: '入库时间', align:'center',templet:function(d){
 				return d.rtime.replace(/T/, ' ').replace(/\..*/, '');
 			}}
-	      ,{field:'rtype', width:"10%", title: '类型'}
-	      ,{field:'ramount', width:"20%", title: '出入库量(升)'}
-	      ,{field:'rstock', width:"20%", title: '库存量(升)'}
+	      ,{field:'rtype', width:"10%", title: '类型', align:'center'}
+	      ,{field:'ramount', width:"20%", title: '出入库量(升)', align:'center'}
+	      ,{field:'rstock', width:"20%", title: '库存量(升)', align:'center'}
 	    ]]
 	   
 	  });
@@ -45,8 +68,9 @@ layui.use(['table','laydate','form'], function(){
 	  form.on('submit(sub-record)', function(obj){
 		  var starttime = $("#starttime").val();
 		 var endtime = $("#endtime").val();
-		  console.log(starttime);
-		  console.log(endtime);
+//		  console.log(starttime);
+//		  console.log(endtime);
+//		  console.log(oid);
 
 		  if (endtime != '' && starttime > endtime) {
 			  layer.msg("开始时间不能大于结束时间！", {icon: 7, time: 2000, offset: '150px'});
@@ -55,6 +79,10 @@ layui.use(['table','laydate','form'], function(){
 			  where: {
 				  "startTime":starttime
 				  ,"endTime":endtime
+				  ,"oid":$("#oname1").val()
+			  }
+		  ,page: {
+			    curr: 1 
 			  }
 		  });
 	  });

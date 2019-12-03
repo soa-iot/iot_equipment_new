@@ -68,5 +68,5 @@ public interface EquipmentLubricationOilSI {
 	 * @param equipmentLubricationOil
 	 * @return
 	 */
-	Integer updateOil(EquipmentLubricationOil equipmentLubricationOil);
+	Integer updateOil(EquipmentLubricationOil equipmentLubricationOil,String userid, String rtype);
 }

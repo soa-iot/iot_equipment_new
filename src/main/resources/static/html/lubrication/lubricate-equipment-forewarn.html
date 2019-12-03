@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设备润滑预警</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<link rel="stylesheet" href="../../css/equipment-oil.css">
+</head>
+<body>
+
+	<!-- <h1 style="text-align: center;" class="input-inline-padding">动设备润滑周期管理</h1> -->
+    	<fieldset class="layui-elem-field layui-field-title">
+		     <legend>设备润滑预警</legend>
+		</fieldset> 
+			 <div style="padding-top: 10px; width: 85%; margin: auto; background-color:  #EDF6FA;padding-bottom: 10px">
+				<button type="button" class="layui-btn layui-btn-ms" lay-submit lay-filter="go-oil-place" id="add-oil" style="margin-left: 20px;">去处理</button>
+				<!-- <button type="button" class="layui-btn layui-btn-normal" style="margin-left: 85px" lay-submit lay-filter="oil-stock">油品入库</button> -->
+			</div>
+			<div style="width: 85%;margin: auto;">
+				<table class="layui-hide" id="record-table" lay-filter="record-table" ></table>
+			</div>
+		
+	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+    <script src="../../jsPackage/own/universal.js"></script>
+    <script type="text/javascript" src="../../js/lubrication/lubricate-equipment-forewarn.js" charset="utf-8"></script>
+    <script type="text/html" id="numb">
+    	{{d.LAY_TABLE_INDEX+1}}
+	</script>
+</body>
+</html>

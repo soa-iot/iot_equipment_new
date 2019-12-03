@@ -76,10 +76,10 @@
 					AND oil.OID = #{oid}
 				</if>
 				<if test="startTime != null and startTime != ''">
-					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
+					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')
 				</if>
 				<if test="endTime != null and endTime != ''">
-					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
+					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')
 				</if>
 					and ROWNUM <![CDATA[ <= ]]> #{maxSize}
  					 
@@ -103,10 +103,10 @@
 					AND oil.OID = #{oid}
 				</if> 
 				<if test="startTime != null and startTime != ''">
-					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-mm-dd')
+					AND rtime <![CDATA[ >= ]]> to_date(#{startTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')
 				</if>
 				<if test="endTime != null and endTime != ''">
-					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-mm-dd')
+					AND rtime <![CDATA[ <= ]]> to_date(#{endTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')
 				</if>
 	</select>
 	

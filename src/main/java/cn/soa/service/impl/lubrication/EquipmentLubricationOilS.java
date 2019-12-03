@@ -40,9 +40,12 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI {
 	public Integer addOil(EquipmentLubricationOil equipmentLubricationOil, String userid, String rnote) {
 		Integer row = 0;
 		equipmentLubricationOil.setOunit("升");
-
+		
+		EquipmentLubricationOil equipmentLubricationOil1 = new EquipmentLubricationOil();
+		equipmentLubricationOil1.setOname(equipmentLubricationOil.getOname());
+		
 		//判断油品是否录入过
-		List<EquipmentLubricationOil> EquipmentLubricationOils = findOilbyConditions(equipmentLubricationOil);
+		List<EquipmentLubricationOil> EquipmentLubricationOils = findOilbyConditions(equipmentLubricationOil1 );
 		
 		if (EquipmentLubricationOils == null || EquipmentLubricationOils.size() <= 0) {
 			
@@ -51,7 +54,7 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI {
 		} else {
 			
 			equipmentLubricationOil.setOid(EquipmentLubricationOils.get(0).getOid());
-			row = updateOil(equipmentLubricationOil);
+			row = updateOil(equipmentLubricationOil,userid,"新增");
 			
 		}
 
@@ -270,20 +273,26 @@ public class EquipmentLubricationOilS implements EquipmentLubricationOilSI {
 	 */
 	@Override
 	@Transactional
-	public Integer updateOil(EquipmentLubricationOil equipmentLubricationOil) {
-
+	public Integer updateOil(EquipmentLubricationOil equipmentLubricationOil,String userid, String rtype) {
+		String oname = "";
+		String oid = equipmentLubricationOil.getOid();
 		int row = -1;
 		if ("0".equals(equipmentLubricationOil.getOremark1())) {
 			// 修改油品
-			equipmentLubricationOilMapper.updateEquPlace(equipmentLubricationOil.getOname(),
-					equipmentLubricationOil.getOid());
-			row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil);
+			oname = equipmentLubricationOil.getOname();
+			
 		} else if ("1".equals(equipmentLubricationOil.getOremark1())) {
 			// 删除油品
-			equipmentLubricationOilMapper.updateEquPlace("", equipmentLubricationOil.getOid());
-			row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil);
+			oname = "";
 		}
-
+		
+		equipmentLubricationOilMapper.updateEquPlace(oname, equipmentLubricationOil.getOid());
+		row = equipmentLubricationOilMapper.updateOil(equipmentLubricationOil);
+		
+		if (!"新增".equals(rtype)) {
+			addRecord("", rtype, equipmentLubricationOil.getOstock(), oid, userid, "", equipmentLubricationOil.getOstock());
+		}
+		
 		return row;
 	}
 

@@ -3,9 +3,11 @@ package cn.soa.controller.lubrication;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.icu.util.Calendar;
 import com.sun.javafx.collections.MappingChange.Map;
 
 import cn.soa.entity.LubricationMothlyReport;
@@ -146,10 +149,21 @@ public class EquipmentLubricationC {
 	 * @return
 	 */
 	@GetMapping("/lubplace")
-	public ResultJsonForTable<List<LubricateEquipmentPlace>> findLubPlace(Integer page, Integer limit){
-		log.info("------page：{} , limit: {}", page, limit);
-		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationSI.findLubPlace(page, limit);
-		Integer count = equipmentLubricationSI.findLubPlaceCount();
+	public ResultJsonForTable<List<LubricateEquipmentPlace>> findLubPlace(Integer page, Integer limit, Date nextchangetime){
+		
+		String nextchangetime1 =null;
+		if(nextchangetime != null) {
+			Calendar c = Calendar.getInstance();
+			c.setTime(nextchangetime);
+			c.add(Calendar.MONTH, 5);
+			nextchangetime = c.getTime();
+			nextchangetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(nextchangetime);
+			log.info("------page：{} , limit: {}", page, limit);
+		}
+		
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces =equipmentLubricationSI.findLubPlace(page, limit, nextchangetime1);
+		Integer count = equipmentLubricationSI.findLubPlaceCount(nextchangetime1);
+		
 		
 		if(lubricateEquipmentPlaces != null) {
 			return new ResultJsonForTable<List<LubricateEquipmentPlace>>(0, "查询成功",count, lubricateEquipmentPlaces);

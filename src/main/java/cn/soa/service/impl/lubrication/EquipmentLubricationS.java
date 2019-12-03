@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -200,8 +201,9 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	 * @return
 	 */
 	@Override
-	public List<LubricateEquipmentPlace> findLubPlace(Integer page, Integer limit) {
-		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit);
+	public List<LubricateEquipmentPlace> findLubPlace(Integer page, Integer limit,String nextchangetime) {
+		
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit,nextchangetime);
 		
 		//将周期放入一个字段中
 		Integer rn=0;
@@ -226,8 +228,9 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	}
 
 	@Override
-	public Integer findLubPlaceCount() {
-		return equipmentLubricationMapper.findLubPlaceCount();
+	public Integer findLubPlaceCount(String nextchangetime) {
+		
+		return equipmentLubricationMapper.findLubPlaceCount(nextchangetime);
 	}
 
 	/**

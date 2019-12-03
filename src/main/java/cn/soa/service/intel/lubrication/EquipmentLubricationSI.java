@@ -34,7 +34,7 @@ public interface EquipmentLubricationSI {
 	 * @return  换油设备数据列表
 	 */
 	ResultJsonForTable<List<LubricateEquipment>> findEquipLubricationByPage(
-			LubricateEquipment equip, Integer page, Integer limit);
+			LubricateEquipment equip, Integer page, Integer limit );
 	
 	
 	/**
@@ -94,7 +94,8 @@ public interface EquipmentLubricationSI {
 	 */
 	List<LubricateEquipmentPlace> findLubPlace(
 			@Param("page") Integer page,
-			@Param("limit") Integer limit);
+			@Param("limit") Integer limit,
+			@Param("nextchangetime") String nextchangetime);
 	
 	/**
 	 * 查询设备润滑部位
@@ -102,7 +103,7 @@ public interface EquipmentLubricationSI {
 	 * @param limit
 	 * @return
 	 */
-	Integer findLubPlaceCount();
+	Integer findLubPlaceCount(String nextchangetime);
 	
 	/**
 	 * 根据位号和换油部位查询换油部位

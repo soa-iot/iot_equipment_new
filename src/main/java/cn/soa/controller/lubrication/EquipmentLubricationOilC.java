@@ -73,7 +73,8 @@ public class EquipmentLubricationOilC {
 	public ResultJsonForTable<List<EquipmentOilRecordVO>> queryOilAll(Integer page,Integer limit,String oid, String startTime,String endTime) {
 		
 		log.info("==============================出入库记录查询================================");
-		
+		startTime = startTime == null || "".equals(startTime) ? null : startTime + " 00:00:00";
+		endTime = endTime == null || "".equals(endTime) ? null : endTime + " 23:59:59";
 		log.info("==================oid："+oid);
 		log.info("==================startTime："+startTime);
 		
@@ -130,8 +131,8 @@ public class EquipmentLubricationOilC {
 	 * @return
 	 */
 	@RequestMapping("/editoil")
-	public ResultJson<Integer> updateOil(EquipmentLubricationOil equipmentLubricationOil) {
-		Integer row = equipmentLubricationOilSI.updateOil(equipmentLubricationOil);
+	public ResultJson<Integer> updateOil(EquipmentLubricationOil equipmentLubricationOil,String userid,String rtype) {
+		Integer row = equipmentLubricationOilSI.updateOil(equipmentLubricationOil,userid,rtype);
 		if (row >= 0 ) {
 			return new ResultJson<Integer>(0, "油品更新成功", row);
 		}else {

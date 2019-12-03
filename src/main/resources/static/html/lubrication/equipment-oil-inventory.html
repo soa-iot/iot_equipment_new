@@ -14,7 +14,7 @@
 		<!-- 盘点油品 -->
 		<form class="layui-form" action="" id="inv-from">
 		<div class="layui-form-item" id="inventory-div" style="width: 1000px;margin: auto;">
-			<h1 style="text-align: center;margin: 10px" id="title-lio">油品盘点</h1>
+			<!-- <h1 style="text-align: center;margin: 10px" id="title-lio">油品盘点</h1> -->
 			<div class="layui-inline input-inline-padding" style="margin-top: 30px">
 				<label class="layui-form-label">油品名称</label>
 				<div class="layui-input-inline" style="width: 260px">
@@ -34,7 +34,7 @@
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">操作类型</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="otype" id="otype" class="layui-input" value="盘点" >
+					<input type="text" name="otype" id="otype" class="layui-input" value="盘点" disabled="disabled">
 				</div>
 			</div>
 			
@@ -46,7 +46,7 @@
 			</div>
 			
 			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label">盘点量(升)</label>
+				<label class="layui-form-label">盘点差异量(升)</label>
 				<div class="layui-input-inline" style="width: 190px">
 					<input type="number" name="ramount" id="ramount"  min="0" value="0" class="layui-input">
 				</div>

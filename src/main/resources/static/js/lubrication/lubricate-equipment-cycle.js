@@ -74,21 +74,21 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	    ,limit:10
 	    ,page: true
 	    ,cols: [[
-	    	{field:'rn', title: '序号', width:'6%'}
-	      ,{field:'lnamekey', title: '设备位号', width:'11%'}
-	      ,{field:'lname', title: '设备名称', width:'11%'}
-	      ,{field:'pplace', title: '润滑部位', width:'11%'}
-	      ,{field:'requireoil1', title:'油品', width:'11%'}
-	      ,{field: 'pamount', title:'加油量(升)', width:'10%'}
-	      ,{field: 'pfrequency', title:'润滑周期', width:'10%'}
-	      ,{field: 'nextchangetime', title:'下一次换油时间', width:'15%', templet:function(d){
+	    	{field:'rn', title: '序号', width:'6%', align:'center'}
+	      ,{field:'lnamekey', title: '设备位号', width:'11%', align:'center'}
+	      ,{field:'lname', title: '设备名称', width:'11%', align:'center'}
+	      ,{field:'pplace', title: '润滑部位', width:'11%', align:'center'}
+	      ,{field:'requireoil1', title:'油品', width:'11%', align:'center'}
+	      ,{field: 'pamount', title:'加油量(升)', width:'10%', align:'center'}
+	      ,{field: 'pfrequency', title:'润滑周期', width:'10%', align:'center'}
+	      ,{field: 'nextchangetime', title:'下一次换油时间', align:'center', width:'15%', templet:function(d){
 	    	  var date = '';
 	    	  if (d.nextchangetime != null && d.nextchangetime != '') {
 	    		  date = d.nextchangetime.substring(0,10);
 			}
 				return date;
 			}}
-	      ,{field: 'lastchangetime', title:'最后一次换油时间', templet:function(d){
+	      ,{field: 'lastchangetime', title:'最后一次换油时间', align:'center', templet:function(d){
 	    	  var date = '';
 	    	  if (d.lastchangetime != null && d.lastchangetime != '') {
 	    		  date = d.lastchangetime.substring(0,10);

@@ -53,7 +53,10 @@ public interface EquipmentLubricationMapper {
 	 */
 	List<LubricateEquipmentPlace> findLubPlace(
 			@Param("page") Integer page,
-			@Param("limit") Integer limit);
+			@Param("limit") Integer limit,
+			@Param("nextchangetime") String nextchangetime);
+	
+	
 	
 	/**
 	 *查询换油记录 
@@ -172,7 +175,7 @@ public interface EquipmentLubricationMapper {
 	 * @param limit
 	 * @return
 	 */
-	Integer findLubPlaceCount();
+	Integer findLubPlaceCount(@Param("nextchangetime")String nextchangetime);
 	
 	/**
 	 * 根据位号和换油部位查询换油部位
