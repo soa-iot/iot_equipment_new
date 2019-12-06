@@ -45,12 +45,16 @@
 						autocomplete="off" class="layui-input">
 				</div>
 			</div> -->
-			<!-- <div class="layui-inline input-inline-padding">
+			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">油品类型</label>
 				<div class="layui-input-inline" style="width: 260px">
-					<input type="text" name="otype" id="otype" class="layui-input" placeholder="请输入油品类型">
+					<!-- <input type="text" name="otype" id="otype" class="layui-input" placeholder="请输入油品类型"> -->
+					<select  lay-submit lay-filter="otype" name="otype" id="otype"  lay-search="">
+			          <option value="油">油</option>
+			           <option value="脂">脂</option>
+			        </select>
 				</div>
-			</div> -->
+			</div>
 			<div class="layui-inline input-inline-padding">
 				<label class="layui-form-label">生产厂家</label>
 				<div class="layui-input-inline" style="width: 260px">

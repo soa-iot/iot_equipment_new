@@ -58,8 +58,9 @@ layui.use(['table','laydate','layer', 'form'], function(){
     ,type:"numbers"
     ,cols: [[
     	{field:'rn', width:"10%", title: '序号',templet:'#numb', align:'center'}
-      ,{field:'oname', width:"30%", title: '油品名称', align:'center'}
-      ,{field:'ostock', width:"20%", title: '库存量', align:'center'}
+      ,{field:'oname', width:"20%", title: '油品名称', align:'center'}
+      ,{field:'otype', width:"15%", title: '油品类型', align:'center'}
+      ,{field:'ostock', width:"15%", title: '库存量', align:'center'}
       ,{field:'ounit', width:"20%", title: '单位', align:'center'}
       ,{fixed: '', title:'操作', toolbar: '#barDemo', width:"20%", align:'center'}
     ]]
@@ -328,7 +329,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 		  console.log(obj)
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
 		  
-		  $(".layui-input").val("");
+		//  $(".layui-input").val("");
 		  
 		  var ope= layer.open({
 				type: 1
@@ -356,7 +357,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 							data:{ 
 								"oname": $("#oname").val(),
 								"ostock": $("#ostock").val(),
-								//"otype": $("#otype").val(),
+								"otype": $("#otype").val(),
 								"manufacture": $("#manufacture").val(),
 								"osign": $("#osign").val(),
 								"odescribe": $("#odescribe").val(),

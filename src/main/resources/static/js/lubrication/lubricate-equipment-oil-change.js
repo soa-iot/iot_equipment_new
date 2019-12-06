@@ -2,11 +2,11 @@
  * 所有油品
  * @returns
  */
-var userid = getCookie("userID").replace(/"/g,'');//"张三";
+var userid = ''//getCookie("userID").replace(/"/g,'');//"张三";
 
 $("#barDemo").hide();
 $("#select").hide();
- 
+var select;
  $.ajax({
 	  type: 'post',
 	  async: false,
@@ -15,16 +15,44 @@ $("#select").hide();
 	  success: function(json){
 		  console.log(json)
 		  var data = json.data;
-		  var select = " <select  lay-submit lay-filter='oname' name='{{d.pid}}' id='{{d.pid}}' lay-search=''><option  value=''>请选择油品</option>"
+		  select= " <select  lay-submit lay-filter='oname' name='{{d.pid}}' id='{{d.pid}}' lay-search=''><option  value=''>请选择油品</option>"
 		  $.each(data, function (i, item) {
 			  var option= '<option  value="'+item.oname+'">'+item.oname+'</option>';
 			  select+=option;
 			});
 		  select += "</select>"
+			  console.log(select)
 			  $("#select").append(select);
 	  }
 
 })
+
+$.ajax({
+		  type: 'get',
+		  async: false,
+		  url: '/iot_equipment/lubrication/lubwelnames',
+		  dataType : "json",
+		  success: function(json){
+			  console.log(json)
+			  var data = json.data;
+			  
+			  var orderBase=["Ⅰ列","Ⅱ列","Ⅲ列","Ⅳ列","Ⅴ列","Ⅵ列","Ⅶ列","公共单元"]
+				,orderedInspectName = [];
+				$.each( orderBase, function( index0, item0 ){	
+					$.each( data, function( index1, item1 ){	
+						if( item1.indexOf( item0 ) !=-1 ){
+							orderedInspectName.push( item1 );
+						}
+					})
+				})
+				
+			  $.each(orderedInspectName, function (i, item) {
+				  var option = '<option  value="'+item+'">'+item+'</option>';
+				  $("#welName").append(option);
+			  });
+		  }
+	  
+	  })
  
 layui.use(['table','laydate','layer', 'form'], function(){
 
@@ -36,6 +64,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
   	  ,form = layui.form
   	  ,rn = 1;
   
+ 
   var tab = table.render({
 	    elem: '#record-table'
 	    ,url:'/iot_equipment/lubrication/lubplace'
@@ -48,8 +77,17 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	      ,{field:'lnamekey', title: '设备位号', width:'8%'}
 	      ,{field:'lname', title: '设备名称', width:'11%'}
 	      ,{field:'pplace', title: '润滑部位', width:'11%'}
-	      ,{field:'oname', title:'油品', width:'11%',  templet: '#select'}
-	      ,{field: 'ramount', title:'加油量(升)', width:'10%', edit: 'text'}
+	      ,{field:'oname', title:'油品', width:'11%',  templet: function(d){
+	    	  var select1 = select;
+	    	  if (select.indexOf(d.requireoil1) != -1) {
+	    		  select1 = select.substring(0,select.indexOf(d.requireoil1)-8)+'selected = "selected"'+select.substring(select.indexOf(d.requireoil1)-8)
+			}
+	    	  console.log(select.indexOf(d.requireoil1));
+	    	  console.log(select1);
+	    	  return select1;
+	      }}
+	     // ,{field:'oname', title:'油品', width:'11%',  templet:'#select'}
+	      ,{field: 'ramount', title:'加/换油量(升)', width:'10%', edit: 'text'}
 	      ,{field: 'pfrequency', title:'润滑周期', width:'10%'}
 	      ,{field: 'nextchangetime', title:'下一次换油时间', width:'12%', templet:
 	    	  function(d){
@@ -72,10 +110,24 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	      ,{fixed: '', title:'操作', toolbar: '#barDemo'}
 	    ]]
 	  ,done: function (res, curr, count) {
-	      $(".layui-table-cell").css("overflow", "visible");
+		  $("table").css("width", "100%");
+	      $(".laytable-cell-1-0-4").css("overflow", "visible");
 	  	}
 	  });
 	  
+  
+  $("#query-equipment").click(function(){
+	  tab.reload({
+		  where:{
+			  'welName':$("#welName").val()
+			  ,'positionNum':$("#positionNum").val()
+		  }
+	  ,page: {
+		  curr: 1 
+	  }
+		  
+	  });
+  });
   
   table.on('tool(record-table)', function(obj){
 	  console.log(obj);

@@ -149,20 +149,20 @@ public class EquipmentLubricationC {
 	 * @return
 	 */
 	@GetMapping("/lubplace")
-	public ResultJsonForTable<List<LubricateEquipmentPlace>> findLubPlace(Integer page, Integer limit, Date nextchangetime){
+	public ResultJsonForTable<List<LubricateEquipmentPlace>> findLubPlace(Integer page, Integer limit, Date nextchangetime, String welName,  String positionNum){
 		
 		String nextchangetime1 =null;
 		if(nextchangetime != null) {
 			Calendar c = Calendar.getInstance();
 			c.setTime(nextchangetime);
-			c.add(Calendar.MONTH, 5);
+			c.add(Calendar.MONTH, 2);
 			nextchangetime = c.getTime();
 			nextchangetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(nextchangetime);
 			log.info("------page：{} , limit: {}", page, limit);
 		}
 		
-		List<LubricateEquipmentPlace> lubricateEquipmentPlaces =equipmentLubricationSI.findLubPlace(page, limit, nextchangetime1);
-		Integer count = equipmentLubricationSI.findLubPlaceCount(nextchangetime1);
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces =equipmentLubricationSI.findLubPlace(page, limit, nextchangetime1,welName,positionNum);
+		Integer count = equipmentLubricationSI.findLubPlaceCount(nextchangetime1,welName, positionNum);
 		
 		
 		if(lubricateEquipmentPlaces != null) {
@@ -173,6 +173,18 @@ public class EquipmentLubricationC {
 		
 	}
 	
+	@GetMapping("/lubwelnames")
+	public ResultJson<List<String>> findLubwelName(){
+		log.info("+++++++++查询装置列++++++++++");
+		List<String> welNames = equipmentLubricationSI.findLubwelName();
+		if (welNames.size() > 0) {
+			return new ResultJson<List<String>>(0, "查询成功", welNames);
+		}else {
+			return new ResultJson<List<String>>(1, "查询失败", null);
+		}
+		
+		
+	}
 	/**
 	 * 导出润滑油月度记录表
 	 * @throws UnsupportedEncodingException 

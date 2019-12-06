@@ -13,6 +13,30 @@
 		<legend>临时换油</legend>
 	</fieldset> 
 	<div style="width: 85%;margin: auto; ">
+		<form class="layui-form" >
+		    	 <div class="layui-form-item" style="background-color: #EDF6FA;padding-top: 10px;padding-bottom: 10px">
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 100px;">装置列</label>
+					      <div class="layui-input-inline" style="width: 135px;">
+					        <select name="welName" id="welName" >
+					          <option value="">请选择装置列</option>
+					        </select>
+					      </div>
+					    </div>
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 100px;">设备位号</label>
+					      <div class="layui-input-inline" style="width: 135px;">
+					        <input type="text" id="positionNum" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+					    <div class="layui-inline" style="margin-left: 30px;"> 
+							<button type="button" class="layui-btn layui-btn-sm layui-btn" id="query-equipment">
+								<i class="layui-icon">&#xe615;</i>&nbsp;查&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;询&nbsp;
+							</button> 
+					   </div>
+				</div>
+				
+		    </form>
 		<table class="layui-hide" id="record-table" lay-data="" lay-filter="record-table" ></table>
 	</div>
 		<div  id="barDemo">
@@ -21,7 +45,8 @@
 		</div>
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
-    <script type="text/html" id="select"></script>
+     <script src="../../jsPackage/own/universal.js"></script>
+    //<script type="text/html" id="select"></script>
     <script type="text/javascript" src="../../js/lubrication/lubricate-equipment-oil-change.js" charset="utf-8"></script>
 </body>
 </html>

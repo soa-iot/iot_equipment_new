@@ -201,9 +201,9 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	 * @return
 	 */
 	@Override
-	public List<LubricateEquipmentPlace> findLubPlace(Integer page, Integer limit,String nextchangetime) {
+	public List<LubricateEquipmentPlace> findLubPlace(Integer page, Integer limit,String nextchangetime,String welName, String positionNum) {
 		
-		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit,nextchangetime);
+		List<LubricateEquipmentPlace> lubricateEquipmentPlaces = equipmentLubricationMapper.findLubPlace(page, limit,nextchangetime, welName, positionNum);
 		
 		//将周期放入一个字段中
 		Integer rn=0;
@@ -228,9 +228,9 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 	}
 
 	@Override
-	public Integer findLubPlaceCount(String nextchangetime) {
+	public Integer findLubPlaceCount(String nextchangetime, String welName, String positionNum) {
 		
-		return equipmentLubricationMapper.findLubPlaceCount(nextchangetime);
+		return equipmentLubricationMapper.findLubPlaceCount(nextchangetime,welName, positionNum);
 	}
 
 	/**
@@ -352,6 +352,12 @@ public class EquipmentLubricationS implements EquipmentLubricationSI{
 				}
 		return nextchangetime.getTime();
 		
+	}
+
+	@Override
+	public List<String> findLubwelName() {
+		
+		return equipmentLubricationMapper.findLubwelName();
 	}
 
 }

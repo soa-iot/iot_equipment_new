@@ -2,7 +2,7 @@
  * 所有油品
  * @returns
  */
-var userid = getCookie("userID").replace(/"/g,'');
+var userid = ''//getCookie("userID").replace(/"/g,'');
 
  $("#add-lub-div").hide();
  $("#oil-stock-div").hide();
@@ -58,6 +58,36 @@ var userid = getCookie("userID").replace(/"/g,'');
 	  }
 
 })
+
+$.ajax({
+		  type: 'get',
+		  async: false,
+		  url: '/iot_equipment/lubrication/lubwelnames',
+		  dataType : "json",
+		  success: function(json){
+			  console.log(json)
+			  var data = json.data;
+			 // console.log($(".layui-anim").html())
+			  
+			  var orderBase=["Ⅰ列","Ⅱ列","Ⅲ列","Ⅳ列","Ⅴ列","Ⅵ列","Ⅶ列","公共单元"]
+				,orderedInspectName = [];
+				$.each( orderBase, function( index0, item0 ){	
+					$.each( data, function( index1, item1 ){	
+						if( item1.indexOf( item0 ) !=-1 ){
+							orderedInspectName.push( item1 );
+						}
+					})
+				})
+				
+			  $.each(orderedInspectName, function (i, item) {
+				  var option = '<option  value="'+item+'">'+item+'</option>';
+				 //names[onames.length]=item.oname;
+				  $("#welName").append(option);
+			  });
+			 // form.render('select');
+		  }
+	  
+	  })
  
 layui.use(['table','laydate','layer', 'form'], function(){
 	
@@ -98,6 +128,20 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	    ]]
 	  });
 	  
+  
+  $("#query-equipment").click(function(){
+	  tab.reload({
+		  where:{
+			  'welName':$("#welName").val()
+			  ,'positionNum':$("#positionNum").val()
+		  }
+	  ,page: {
+		  curr: 1 
+	  }
+		  
+	  });
+  });
+  
 	 form.on('submit(choose-equ)', function(obj){
 		  console.log(obj)
 		  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句

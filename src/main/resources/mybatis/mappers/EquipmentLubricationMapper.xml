@@ -73,22 +73,28 @@
 			rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 		FROM(
 			SELECT 
-				rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
+				ROWNUM rn,PID,LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,NEXTCHANGETIME,LASTCHANGETIME
 	         FROM (
 				SELECT 
-					ROWNUM rn,PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,to_char(NEXTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') NEXTCHANGETIME,to_char(LASTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') LASTCHANGETIME 
+					PID,place.LID,LNAMEKEY,LNAME,PPLACE,PFREQUENCY,PUNIT,REQUIREOIL1,PAMOUNT,to_char(NEXTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') NEXTCHANGETIME,to_char(LASTCHANGETIME,'YYYY-MM-DD hh24:mi:ss') LASTCHANGETIME 
 				FROM 	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
-					ON sub.lid = place.lid  
+					ON sub.lid = place.lid  JOIN CZ_EQUIPMENT_INFO c ON sub.LNAMEKEY = c.EQU_POSITION_NUM
 						<where>
 							<if test="nextchangetime != null and nextchangetime != '' ">
 								AND nextchangetime &lt;= to_date(#{nextchangetime,jdbcType=DATE},'YYYY-MM-DD hh24:mi:ss')
+							</if>
+							<if test="welName != null and welName != '' ">
+								AND wel_name = #{welName}
+							</if>
+							<if test="positionNum != null and positionNum != '' ">
+								AND LOWER(EQU_POSITION_NUM) LIKE LOWER('%${positionNum}%')
 							</if>
 						</where>
 					ORDER BY NEXTCHANGETIME
 				)
 	         <where>
 					<if test="page != null and page != '' and limit != null and limit != ''">
-						AND rn &lt;= ${page * limit}
+						AND ROWNUM &lt;= ${page * limit}
 					</if>
 			</where>
 		)	
@@ -97,6 +103,12 @@
 					AND rn &gt; ${(page-1) * limit}
 				</if>
 		</where> 
+	</select>
+	
+	<!-- 查询润滑部位装置列 -->
+	<!-- List<String> findLubwelName(); -->
+	<select id="findLubwelName" resultType="java.lang.String">
+		SELECT DISTINCT c.wel_name welName FROM 	IOT_EQUIPMENT_LUBRICATE sub JOIN CZ_EQUIPMENT_INFO c ON sub.LNAMEKEY = c.EQU_POSITION_NUM
 	</select>
 	
 	<!-- 查询换油部位1 -->
@@ -122,10 +134,16 @@
 				count(1)
 	          FROM 
 	          	IOT_EQUIPMENT_LUBRICATE sub JOIN IOT_EQUIPMENT_LUBRICATE_PLACE place
-	          ON sub.lid = place.lid
+	          ON sub.lid = place.lid JOIN CZ_EQUIPMENT_INFO c ON sub.LNAMEKEY = c.EQU_POSITION_NUM
 	          <where>
 				<if test="nextchangetime != null and nextchangetime != '' ">
 					AND nextchangetime <![CDATA[ <= ]]> to_date(#{nextchangetime,jdbcType=DATE},'YYYY-MM-DD hh24:mi:ss')
+				</if>
+				<if test="welName != null and welName != '' ">
+					AND wel_name = #{welName}
+				</if>
+				<if test="positionNum != null and positionNum != '' ">
+					AND LOWER(EQU_POSITION_NUM) LIKE LOWER('%${positionNum}%')
 				</if>
 			</where>
 	          

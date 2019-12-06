@@ -11,9 +11,33 @@
 	<!-- <h1 style="text-align: center;" class="input-inline-padding">动设备润滑周期管理</h1> -->
     	<fieldset class="layui-elem-field layui-field-title">
 		     <legend>动设备润滑周期管理</legend>
-		</fieldset> 
-			 <div style="padding-top: 10px; width: 85%; margin: auto; background-color:  #EDF6FA;padding-bottom: 10px">
-				<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="add-oil" id="add-oil" style="margin-left: 20px;">新增润滑设备</button>
+		</fieldset>
+			 <div style="padding-top: 10px; width: 85%; margin: auto; background-color:  #EDF6FA;">
+			<form class="layui-form" >
+		    	 <div class="layui-form-item" style="background-color: #EDF6FA;padding-top: 10px;padding-bottom: 10px">
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 100px;">装置列</label>
+					      <div class="layui-input-inline" style="width: 135px;">
+					        <select name="welName" id="welName" >
+					          <option value="">请选择装置列</option>
+					        </select>
+					      </div>
+					    </div>
+					    <div class="layui-inline"> 
+					      <label class="text-font layui-form-label" style="width: 100px;">设备位号</label>
+					      <div class="layui-input-inline" style="width: 135px;">
+					        <input type="text" id="positionNum" class="layui-input layui-input-one" autocomplete="off">
+					      </div>
+					    </div>
+					    <div class="layui-inline" style="margin-left: 30px;"> 
+							<button type="button" class="layui-btn layui-btn-sm layui-btn" id="query-equipment">
+								<i class="layui-icon">&#xe615;</i>&nbsp;查&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;询&nbsp;
+							</button> 
+							<button type="button" class="layui-btn layui-btn-sm layui-btn" lay-submit lay-filter="add-oil" id="add-oil" style="margin-left: 20px;">新增润滑设备</button>
+					   </div>
+				</div>
+				
+		    </form> 
 				<!-- <button type="button" class="layui-btn layui-btn-normal" style="margin-left: 85px" lay-submit lay-filter="oil-stock">油品入库</button> -->
 			</div>
 			<div style="width: 85%;margin: auto;">
@@ -56,8 +80,8 @@
 			        <span style="color: red" name="check" id="warningoname"></span>
 			</div>
 			
-			<div class="layui-inline input-inline-padding">
-				<label class="layui-form-label" style="width: 90px;">润滑周期</label>
+			<div class="layui-inline input-inline-padding" >
+				<label class="layui-form-label">润滑周期</label>
 				<div class="layui-input-inline" style="width: 60px">
 					<input type="number" name="pfrequency" id="pfrequency" min="0" value="0" class="layui-input">
 				</div>

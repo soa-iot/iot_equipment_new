@@ -135,13 +135,16 @@ layui.use(['table','laydate','layer', 'form'], function(){
 	  //验证
 	  function verify(){
 		  if ($("#oname").val() == null || $("#oname").val() == "" ) {
-			  layer.msg("油品名称不能为空！！", {icon: 7, time: 2000, offset: '150px'});
+			  layer.msg("脂名称不能为空！！", {icon: 7, time: 2000, offset: '150px'});
 			  return false;
 		}else if( $("#ramount").val()==0 || $("#ramount").val() == null || $("#ramount").val() < 0 ){
-			layer.msg("油品数量必须大于0！！", {icon: 7, time: 2000, offset: '150px'});
+			layer.msg("脂数量必须大于0！！", {icon: 7, time: 2000, offset: '150px'});
 			  return false;
 		}else if($("#equPositionNum").val() == null || $("#equPositionNum").val() == ""){
 			layer.msg("位号不能为空！！", {icon: 7, time: 2000, offset: '150px'});
+			  return false;
+		}else if($("#pplace").val() == null || $("#pplace").val() == ""){
+			layer.msg("请先添加此设备的润滑部位！！", {icon: 7, time: 2000, offset: '150px'});
 			  return false;
 		}
 		  return true;

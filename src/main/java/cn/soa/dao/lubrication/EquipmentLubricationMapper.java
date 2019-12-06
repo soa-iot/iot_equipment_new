@@ -54,7 +54,9 @@ public interface EquipmentLubricationMapper {
 	List<LubricateEquipmentPlace> findLubPlace(
 			@Param("page") Integer page,
 			@Param("limit") Integer limit,
-			@Param("nextchangetime") String nextchangetime);
+			@Param("nextchangetime") String nextchangetime,
+			@Param("welName") String welName,
+			@Param("positionNum") String positionNum);
 	
 	
 	
@@ -175,7 +177,15 @@ public interface EquipmentLubricationMapper {
 	 * @param limit
 	 * @return
 	 */
-	Integer findLubPlaceCount(@Param("nextchangetime")String nextchangetime);
+	Integer findLubPlaceCount(@Param("nextchangetime")String nextchangetime
+			,@Param("welName")String welName
+			,@Param("positionNum") String positionNum);
+	
+	/**
+	 * 查询润滑部位装置列
+	 * 
+	 */
+	List<String> findLubwelName();
 	
 	/**
 	 * 根据位号和换油部位查询换油部位
