@@ -59,7 +59,7 @@ layui.use(['table','laydate','layer', 'form'], function(){
 				url: '/iot_equipment/equipmentoil/oilstock',
 				data:{ 
 					"oname": $("#oname").val(),
-					"ramount": $("#otype").val()=='加'?$("#ramount").val():"-"+$("#ramount").val(),
+					"ramount": $("#calc-type").val()=='加'?$("#ramount").val():"-"+$("#ramount").val(),
 					"rnote": $("#rnote").val(),
 					"userid":userid,
 					"otype": $("#otype").val(),

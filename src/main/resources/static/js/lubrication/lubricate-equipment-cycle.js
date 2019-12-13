@@ -2,7 +2,7 @@
  * 所有油品
  * @returns
  */
-var userid = ''//getCookie("userID").replace(/"/g,'');
+var userid = getCookie("userID").replace(/"/g,'');
 
  $("#add-lub-div").hide();
  $("#oil-stock-div").hide();

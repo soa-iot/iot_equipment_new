@@ -297,10 +297,10 @@ public class EquipmentMoveMaintenanceC {
 		try {
 			File dirParent = new File(filePath.replace("file:/", "")+positionNum);
 			File[] list = dirParent.listFiles();
-			log.info("-----日期文件夹数量： {}", list.length);
+			log.info("-----日期文件夹数量： {}"+ list.length);
 			for(File f : list) {
 				File[] fileList = f.listFiles();
-				log.info("-----文件数量：{}", fileList.length);
+				log.info("-----文件数量：{}"+ fileList);
 				for(File ff : fileList) {
 					String name = ff.getName();
 					if(name != null && !"".equals(name)) {

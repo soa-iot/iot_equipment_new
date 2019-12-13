@@ -2,7 +2,7 @@
  * 所有油品
  * @returns
  */
-var userid = ''//getCookie("userID").replace(/"/g,'');//"张三";
+var userid = getCookie("userID").replace(/"/g,'');//"张三";
 
 $("#barDemo").hide();
 $("#select").hide();

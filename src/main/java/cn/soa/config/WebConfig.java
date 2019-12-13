@@ -18,10 +18,16 @@ public class WebConfig implements WebMvcConfigurer {
 	@Value("${thick.image.upload.path}")
 	private String rootDir;   //保存图片的根路径
 	
+	@Value("${maintenance.file.upload.path}")
+	private String rootDir1;   //文件图片的根路径
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 		registry.addResourceHandler("/picture/**")
 				.addResourceLocations(rootDir);
+		
+		registry.addResourceHandler("/picture1/**")
+		.addResourceLocations(rootDir1);
 	}
 }

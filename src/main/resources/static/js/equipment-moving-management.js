@@ -121,15 +121,48 @@ layui.use(['jquery','form','tree','layer','table','excel','upload'], function(){
 	table.on('tool(equ-filelist-table)', function(obj){
 		console.log(obj);
 	    var data = obj.data;
+	    filename = data.filename;
 	    
 	    //下载
 	    if(obj.event === 'download'){
-	    	filename = data.filename;
 	    	var url = '/iot_equipment/maintenance/equipment/move/filedownload';
 	    	url += "?positionNum="+equipNum+"&maintenanceTime="+repairTime+"&filename="+filename;
 	    	console.log("url: "+url);
 	    	
 	    	$("#files-download a[lay-event='download']").attr("href",url);
+	    }else if(obj.event === 'displayed'){
+	    	$("#displayedshow").empty();
+	    	var img = '';
+	    	if(filename.lastIndexOf(".pdf") != -1){
+	    		img += '<a class="media" href="/iot_equipment/picture1/'+equipNum+'/'+repairTime+'/'+filename+'" ></a>'
+	    	}else if(filename.lastIndexOf(".jpeg") != -1 || filename.lastIndexOf(".jpg") != -1
+	    			|| filename.lastIndexOf(".png") != -1 || filename.lastIndexOf(".gif") != -1){
+	    		img += '<img alt="图片不存在" src="/iot_equipment/picture1/'+equipNum+'/'+repairTime+'/'+filename+'"  style="height: 400px">'
+	    		//img += '<a class="media" href="/iot_equipment/picture1/'+equipNum+'/'+repairTime+'/'+filename+'" style="width: 100px;height: 100px"></a>'
+	    	}else{
+	    		layer.msg("此文件不能预览",{icon: 7, time:2000, offset: '150px'});
+		    	return;
+	    	}
+	    	
+	    	console.log(img);
+	    	$("#displayedshow").append(img);
+	    	$('a.media').media({width:'99%',height:400});  
+	        //$('a.mediase').media({width:1100, height:900}); 
+	    	layer.open({
+   		    	title: '动设备检维修文件查看',
+   		    	type: 1,
+   		    	btn: ['关&nbsp;&nbsp;闭'],
+   		    	closeBtn: 0,
+   		    	btnAlign: 'c',
+   		    	area: ['850px','510px'],
+   		        content: $("#displayedshow"),
+   		        yes: function(index, layero){
+   		      
+   		        	layer.close(index); //如果设定了yes回调，需进行手工关闭
+   		        },
+   		  		success: function(){
+   		  		}
+   		  });
 	    }
 	    
 	})
@@ -161,7 +194,7 @@ layui.use(['jquery','form','tree','layer','table','excel','upload'], function(){
    		      
    		        	layer.close(index); //如果设定了yes回调，需进行手工关闭
    		        },
-   		  		success: function(){
+   		  		success: function(layero){
    		  			equipNum = data.positionNum;
    		  			repairTime = data.maintenanceTime;
    		  			

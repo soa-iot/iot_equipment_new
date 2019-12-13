@@ -33,7 +33,7 @@
 	            	SELECT 
 	          			OID,ONAME,OSTOCK,OSTATE,OUNIT,ODESCRIBE,OTYPE,MANUFACTURE,OSIGN,OREMARK1,OREMARK2
 	           		 FROM 
-	            		IOT_EQUIPMENT_LUBRICATION_OIL where OREMARK1 = 0  ORDER BY ostock+0,ONAME)
+	            		IOT_EQUIPMENT_LUBRICATION_OIL where OREMARK1 = 0  ORDER BY otype,ostock+0,oname)
 				WHERE
 					1=1 
 					<if test="maxSize != null and maxSize != ''">
