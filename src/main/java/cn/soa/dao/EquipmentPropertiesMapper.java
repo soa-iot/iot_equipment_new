@@ -49,4 +49,9 @@ public interface EquipmentPropertiesMapper {
 	 * @param condition
 	 */
 	int deleteByCondition(QueryCondition condition);
+
+	/**
+	 * @param equTypeId
+	 */
+	int deleteByEquTypeId(String equTypeId);
 }

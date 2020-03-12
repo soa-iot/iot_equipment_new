@@ -55,8 +55,8 @@
 			tableName="IOT_EQUIPMENT_TYPE" domainObjectName="EquipmentType" enableCountByExample="false" 
 			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
 			selectByExampleQueryId="false"></table> -->
-		<table tableName="CZ_EQUIPMENT_SPARE"
-			domainObjectName="EquipmentSpare"
+		<table tableName="IOT_EQU_BEFORE_IMPORT_BACK"
+			domainObjectName="EquBeforeImportBack"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>

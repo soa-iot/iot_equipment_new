@@ -189,6 +189,15 @@
 		where EQU_ID = #{equId,jdbcType=VARCHAR}
 	</delete>
 	
+	<!-- 根据设备类型删除 -->
+	<delete id="deleteByEquTypeId" parameterType="java.lang.String">
+		delete from IOT_EQUIPMENT_PROPERTIES
+		where EQU_ID in (
+			select EQU_ID from IOT_EQUIPMENT_COMMON_INFO
+			where EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
+		)
+	</delete>
+	
 	
 	<insert id="recoveryEquInfo" parameterType="cn.soa.entity.QueryCondition">
 		insert into IOT_EQUIPMENT_PROPERTIES

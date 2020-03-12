@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设备回收站</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+<style type="text/css">
+/* .layui-row div {
+	border: 1px red solid;
+} */
+.tree-title {
+	background-color: #E5EFFF;
+	border: 1px #E5EFFF solid;
+}
+
+.layui-container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.equipment_type {
+	height: 960px;
+	box-shadow: #1d2935 0px 0px 3px;
+	overflow: auto;
+}
+
+.demo-tree-more {
+	margin-top: 10px;
+}
+/**右键菜单*/
+.rightmenu {
+	background-color: honeydew;
+	position: absolute;
+	width: 110px;
+	z-index: 9999;
+	display: none;
+	background-color: #fff;
+	padding: 2px;
+	color: #333;
+	border: 1px solid #eee;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.rightmenu li {
+	text-align: center;
+	display: block;
+	height: 30px;
+	line-height: 32px;
+}
+
+.rightmenu li:hover {
+	background-color: #666;
+	color: #fff;
+}
+</style>
+</head>
+<body>
+	<div class="layui-container">
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2 equipment_type">
+				<div class="layui-row">
+					<div
+						class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+						<span>设备分类</span>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div id="equipment_type" class="demo-tree-more"></div>
+				</div>
+
+			</div>
+			<div
+				class="layui-col-xs10 layui-col-sm10 layui-col-md10 equipment_list">
+				<div class="layui-row">
+					<div
+						class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+						<span>设备回收站</span>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-md12 " id="equipment_list">
+						<!-- <fieldset class="layui-elem-field layui-field-title"
+							style="margin-top: 20px;">
+							<legend style="color: green;">静设备</legend>
+						</fieldset> -->
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-fluid " style="overflow: visible">
+						<!-- 搜索条件 -->
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-md12 ">
+								<fieldset
+									style="border-radius: 13px; margin-top: 10px; vertical-align: middle;">
+									<legend>查询条件</legend>
+									<form class="layui-form" action="" style="margin-top: 15px;">
+										<div class="layui-form-item" id="key_word_search">
+											<div class="layui-inline">
+												<label class="layui-form-label">操作人</label>
+												<div class="layui-input-inline">
+													<input name="operatePeople" id="operatePeople" class="layui-input"
+														placeholder="请输入">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">开始时间</label>
+												<div class="layui-input-inline">
+													<input type="text" class="layui-input" id="beginDate"
+														name="beginDate">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">结束时间</label>
+												<div class="layui-input-inline">
+													<input type="text" class="layui-input" id="endDate"
+														name="endDate">
+												</div>
+											</div>
+										</div>
+										<div class="layui-btn-group" style="float: right;">
+											<button class="layui-btn" lay-submit
+												lay-filter="search_button_search">
+												<i class="layui-icon">&#xe615;</i>查询数据
+											</button>
+										</div>
+
+									</form>
+								</fieldset>
+							</div>
+						</div>
+
+						<!-- 表格-->
+						<div class="layui-row">
+							<div class="layui-col-md12 " id="equipment_list">
+								<div class="equ_history" id="equ_history"
+									lay-filter="equ_history"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script type="text/html" id="recovery">
+   <a class="layui-btn layui-btn-xs" lay-event="recovery">恢复</a>
+</script>
+<script type="text/javascript"
+	src="../../jsPackage/layui-v2.4.2/layui.js"></script>
+
+<script type="text/javascript"
+	src="../../js/equipment_ledger/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/equipment_ledger/common.js"></script>
+<script type="text/javascript"
+	src="../../js/equipment_ledger/equipment_recycler.js"></script>
+</html>

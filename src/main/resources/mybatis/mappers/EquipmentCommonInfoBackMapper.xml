@@ -173,6 +173,14 @@
 			<if test="equTypeId != null and equTypeId != ''">
 				and EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
 			</if>
+			<if test="beginDate != null and beginDate != ''">
+				and to_char(OPERATE_TIME,'yyyy-mm-dd') &gt;=
+				#{beginDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and to_char(OPERATE_TIME,'yyyy-mm-dd') &lt;=
+				#{endDate,jdbcType=VARCHAR}
+			</if>
 		</where>
 	</select>
 

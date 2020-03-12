@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.EquBeforeImportBackMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.EquBeforeImportBack">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="EQU_TYPE_ID" jdbcType="VARCHAR"
+			property="equTypeId" />
+		<result column="EQU_TYPE_NAME" jdbcType="VARCHAR"
+			property="equTypeName" />
+		<result column="OPERATOR" jdbcType="VARCHAR"
+			property="operator" />
+		<result column="OPERATE_TIME" jdbcType="TIMESTAMP"
+			property="operateTime" />
+		<result column="BACK_FILE_NAME" jdbcType="VARCHAR"
+			property="backFileName" />
+		<result column="BACK_FILE_PATH_REAL" jdbcType="VARCHAR"
+			property="backFilePathReal" />
+		<result column="BACK_FILE_PATH_VIRTUAL" jdbcType="VARCHAR"
+			property="backFilePathVirtual" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="COLUMN1" jdbcType="VARCHAR" property="column1" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, EQU_TYPE_ID, EQU_TYPE_NAME, OPERATOR,
+		to_char(OPERATE_TIME,'yyyy-mm-dd HH24:MI:SS') as OPERATE_TIME,
+		BACK_FILE_NAME,
+		BACK_FILE_PATH_REAL,
+		BACK_FILE_PATH_VIRTUAL, STANDBY1,
+		STANDBY2,
+		STANDBY3, COLUMN1
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQU_BEFORE_IMPORT_BACK
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List">
+		</include>
+		from IOT_EQU_BEFORE_IMPORT_BACK
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="equTypeId != null and equTypeId != ''">
+				and EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
+			</if>
+			<if test="beginDate != null and beginDate != ''">
+				and to_char(OPERATE_TIME,'yyyy-mm-dd') &gt;=
+				#{beginDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and to_char(OPERATE_TIME,'yyyy-mm-dd') &lt;=
+				#{endDate,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_EQU_BEFORE_IMPORT_BACK
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.soa.entity.EquBeforeImportBack">
+		insert into IOT_EQU_BEFORE_IMPORT_BACK (ID, EQU_TYPE_ID,
+		EQU_TYPE_NAME,
+		OPERATOR, OPERATE_TIME, BACK_FILE_NAME,
+		BACK_FILE_PATH_REAL, BACK_FILE_PATH_VIRTUAL,
+		STANDBY1, STANDBY2,
+		STANDBY3,
+		COLUMN1)
+		values (#{id,jdbcType=VARCHAR},
+		#{equTypeId,jdbcType=VARCHAR},
+		#{equTypeName,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP},
+		#{backFileName,jdbcType=VARCHAR},
+		#{backFilePathReal,jdbcType=VARCHAR},
+		#{backFilePathVirtual,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR},
+		#{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR},
+		#{column1,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.EquBeforeImportBack">
+		insert into IOT_EQU_BEFORE_IMPORT_BACK
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID,
+			</if>
+			<if test="equTypeName != null">
+				EQU_TYPE_NAME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME,
+			</if>
+			<if test="backFileName != null">
+				BACK_FILE_NAME,
+			</if>
+			<if test="backFilePathReal != null">
+				BACK_FILE_PATH_REAL,
+			</if>
+			<if test="backFilePathVirtual != null">
+				BACK_FILE_PATH_VIRTUAL,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+			<if test="column1 != null">
+				COLUMN1,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeId != null">
+				#{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeName != null">
+				#{equTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="backFileName != null">
+				#{backFileName,jdbcType=VARCHAR},
+			</if>
+			<if test="backFilePathReal != null">
+				#{backFilePathReal,jdbcType=VARCHAR},
+			</if>
+			<if test="backFilePathVirtual != null">
+				#{backFilePathVirtual,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="column1 != null">
+				#{column1,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.EquBeforeImportBack">
+		update IOT_EQU_BEFORE_IMPORT_BACK
+		<set>
+			<if test="equTypeId != null">
+				EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="equTypeName != null">
+				EQU_TYPE_NAME = #{equTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="backFileName != null">
+				BACK_FILE_NAME = #{backFileName,jdbcType=VARCHAR},
+			</if>
+			<if test="backFilePathReal != null">
+				BACK_FILE_PATH_REAL =
+				#{backFilePathReal,jdbcType=VARCHAR},
+			</if>
+			<if test="backFilePathVirtual != null">
+				BACK_FILE_PATH_VIRTUAL =
+				#{backFilePathVirtual,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="column1 != null">
+				COLUMN1 = #{column1,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.EquBeforeImportBack">
+		update IOT_EQU_BEFORE_IMPORT_BACK
+		set EQU_TYPE_ID =
+		#{equTypeId,jdbcType=VARCHAR},
+		EQU_TYPE_NAME =
+		#{equTypeName,jdbcType=VARCHAR},
+		OPERATOR =
+		#{operator,jdbcType=VARCHAR},
+		OPERATE_TIME =
+		#{operateTime,jdbcType=TIMESTAMP},
+		BACK_FILE_NAME =
+		#{backFileName,jdbcType=VARCHAR},
+		BACK_FILE_PATH_REAL =
+		#{backFilePathReal,jdbcType=VARCHAR},
+		BACK_FILE_PATH_VIRTUAL =
+		#{backFilePathVirtual,jdbcType=VARCHAR},
+		STANDBY1 =
+		#{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR},
+		COLUMN1 =
+		#{column1,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

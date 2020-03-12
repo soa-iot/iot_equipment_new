@@ -7,13 +7,25 @@ var equ_type_info = {
 };
 var golbal_common_property = [];
 var global_trdata;
-layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
+layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form','laydate'], function() {
 	var tree = layui.tree, layer = layui.layer, util = layui.util;
 	var layer = layui.layer;
 	var table = layui.table;
 	var $ = layui.jquery;
 	var upload = layui.upload;
 	var form = layui.form;
+
+	var laydate = layui.laydate;
+
+	// 执行一个laydate实例
+	laydate.render({
+				value : new Date(),
+				elem : '#beginDate' // 指定元素
+			});
+	laydate.render({
+				value : new Date(),
+				elem : '#endDate' // 指定元素
+			});
 
 	console.log(equ_type_info);
 	var equ_types_query = $.ajax({
@@ -37,6 +49,24 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
 				"equTypeId" : equ_type_info.equTypeId
 			});
 
+	// 监听工具条
+	table.on('tool(equ_history)', function(obj) {
+				var tr = obj.tr; // 获得当前行 tr 的 DOM 对象（如果有的话）
+				var layEvent = obj.event;
+				if (layEvent === 'detail') { // 查看
+					// do somehing
+				} else if (layEvent === 'recovery') { // 恢复
+					layer.confirm('真的要恢复此行数据么', function(index) {
+								layer.close(index);
+								recovery_data(obj.data);
+							});
+				} else if (layEvent === 'edit') { // 编辑
+					// do something
+				} else if (layEvent === 'LAYTABLE_TIPS') {
+					// do something
+				}
+			});
+
 	// 监听表单提交事件
 	form.on('submit(search_button_search)', function(data) {
 				if (!equ_type_info.equTypeId) {
@@ -46,39 +76,8 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
 					return false;
 				}
 				var form_data = data.field;
-				var query_data = {};
+				var query_data = form_data;
 				query_data.equTypeId = equ_type_info.equTypeId;
-				query_data.keyWord = form_data.key_word
-				var equipmentCommonInfo = {};
-				var equipmentProperties = [];
-				$.each(form_data, function(key, item) {
-							console.log(golbal_common_property);
-							console.log(key);
-							if (item == '') {
-								return true;
-							}
-
-							if (golbal_common_property.indexOf(key) < 0) {
-								if (key != "key_word") {
-									var equipmentProperty = {};
-									equipmentProperty.proNameEn = key;
-									equipmentProperty.proValue = item;
-									equipmentProperties.push(equipmentProperty);
-								}
-
-							} else {
-								equipmentCommonInfo[key] = item;
-							}
-						});
-				if (equipmentProperties.length > 0) {
-					equipmentCommonInfo.equipmentProperties = equipmentProperties;
-				}
-				console.log(equipmentCommonInfo.length);
-				if (equipmentCommonInfo.length != {}) {
-					query_data.equipmentCommonInfo = equipmentCommonInfo;
-				}
-				query_data.form_data = form_data;
-				// console.log(query_data);
 				load_table(table, query_data);
 				return false; // 阻止表单跳转。如果需要表单跳转，去掉这段即可。
 
@@ -247,35 +246,6 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
 		};
 	});
 
-	/**
-	 * 注册tab右键菜单点击事件
-	 */
-	$(".rightmenu li").click(function() {
-		if ($(this).attr("data-type") == "equ_detail") {
-			// 查看设备详情
-			// layer.msg('equ_detail');
-			window.location.href = 'equipment_detail.html?equId='
-					+ escape(global_trdata.equId) + '&equTypeId='
-					+ escape(global_trdata.equTypeId) + '&equPositionNum='
-					+ escape(global_trdata.equPositionNum);
-		} else if ($(this).attr("data-type") == "equ_accessory") {
-			// 查看设备附件
-			// layer.msg('equ_accessory');
-			var url = "http://192.168.18.114:10238/soa-elfinder-web/?dirClass="
-					+ global_trdata.equId + "#elf_A_aGVscA_E_E";
-			window.location.href = url;
-
-		} else if ($(this).attr("data-type") == "equ_history") {
-			// 查看设备历史
-			// layer.msg('equ_history');
-			window.location.href = 'equipment_history.html?equId='
-					+ escape(global_trdata.equId) + '&equTypeId='
-					+ escape(global_trdata.equTypeId) + '&equPositionNum='
-					+ escape(global_trdata.equPositionNum);
-		}
-		$('.rightmenu').hide();
-	});
-
 });
 
 /**
@@ -323,6 +293,8 @@ function load_tree(tree, data, table) {
  */
 function load_table(table, query_data) {
 
+	query_data.operateType = '2';
+
 	/**
 	 * 请求表头数据
 	 */
@@ -337,19 +309,40 @@ function load_table(table, query_data) {
 			console.log(res.data);
 			var cols = [[{
 						type : 'checkbox',
-						// fixed : 'left',
+						fixed : 'left',
 						rowspan : 2
 
 					}, {
 						title : '序号',
 						type : 'numbers',
-						// fixed : 'left',
+						fixed : 'left',
+						rowspan : 2
+					}, {
+						title : '操作类型',
+						field : 'operateType',
+						width : '100',
+						fixed : 'left',
+						rowspan : 2,
+						templet : function(d) {
+							return d.operateType;
+
+						}
+					}, {
+						title : '操作时间',
+						field : 'operateTime',
+						width : '120',
+						fixed : 'left',
+						rowspan : 2
+					}, {
+						title : '操作人员',
+						field : 'operatePeople',
+						width : '100',
+						fixed : 'left',
 						rowspan : 2
 					}]];
 
 			var data_item = {};
 			var maxClass = 1;
-
 			/**
 			 * 循环表头数据，生成layui要求格式的表头数据
 			 */
@@ -387,15 +380,31 @@ function load_table(table, query_data) {
 						cols[cols_index][cols[cols_index].length] = cols_item;
 
 					});
+
 			cols[0][0].rowspan = maxClass;
 			cols[0][1].rowspan = maxClass;
+			cols[0][2].rowspan = maxClass;
+			cols[0][3].rowspan = maxClass;
+			cols[0][4].rowspan = maxClass;
+
+			cols[0].push({
+						title : '恢复操作',
+						width : '100',
+						align : 'center',
+						fixed : 'right',
+						toolbar : '#recovery',
+						rowspan : maxClass
+					});
+			/*
+			 * cols[0].push({ title : '操作', fixed : 'right', rowspan : 2 });
+			 */
 
 			table.render({
-				elem : '#equipment_list_table',
-				url : '/iot_equipment/equipmentLedger/getEquipmentList',
-				height : '790',
+				elem : '#equ_history',
+				url : '/iot_equipment/equipmentHistory/getEquHistoryList',
+				height : 'full-150',
 				toolbar : '#toolbar',
-				title : '设备台账',
+				title : '设备历史版本',
 				method : 'post',
 				contentType : 'application/json',
 				where : query_data,
@@ -404,13 +413,18 @@ function load_table(table, query_data) {
 				loading : true,
 				limits : [30, 60, 90, 120, 150],
 				limit : 30,
+				initSort : {
+					field : 'operateTime' // 排序字段，对应 cols 设定的各字段名
+					,
+					type : 'desc' // 排序方式 asc: 升序、desc: 降序、null: 默认排序
+				},
 				parseData : function(res) {
 					var data = res.data;
 					console.log(res.data);
 					if (data) {
 						$.each(data, function(index, item) {
-									$.each(item.equipmentProperties, function(
-													index1, item1) {
+									$.each(item.equipmentPropertiesBack,
+											function(index1, item1) {
 												item[item1.proNameEn] = item1.proValue;
 											});
 								});
@@ -425,8 +439,7 @@ function load_table(table, query_data) {
 
 				},
 				done : function(res, curr, count) {
-					load_upload();// 初始化导入
-					load_rightMenu(res.data)// 初始化右键菜单
+
 				}
 
 			});
@@ -441,254 +454,29 @@ function load_table(table, query_data) {
 }
 
 /**
- * 删除数据
+ * 恢复设备数据
  * 
  * @param {}
  *            data
  */
-function del_data(table, data) {
-
-	var del_msg = layer.msg('数据删除中。。。');
-
-	var query_data = {};
-
-	query_data.equipmentList = data;
-	query_data.operatePeople = decodeURI(getCookie('name')).replace(/\"/g, '');
-	query_data.operateType = "2";// 2-删除
+function recovery_data(data) {
 
 	$.ajax({
-				url : '/iot_equipment/equipmentLedger/delEquipmentRecord',
+				url : '/iot_equipment/equipmentHistory/recoveryEquInfo',
 				type : 'post',
-				data : JSON.stringify(query_data),
 				dataType : 'json',
 				contentType : 'application/json',
+				data : JSON.stringify({
+							equId : data.equId,
+							backId : data.backId
+						}),
 				success : function(res) {
-					if (res.code == 0) {
-						layer.close(del_msg);
-						layer.msg('数据删除成功！！！');
-						load_table(table, {
-									"equTypeId" : equ_type_info.equTypeId
-								});
-					} else {
-						layer.close(del_msg);
-						layer.msg('数据保存失败，请联系管理员！！！', {
-									icon : 2
-								});
-					}
 
 				},
 				error : function() {
-					layer.close(del_msg);
-					layer.msg('数据保存失败，请联系管理员！！！', {
-								icon : 2
-							});
+
 				}
-			});
-
-}
-
-/**
- * 下载文件
- * 
- * @param {}
- *            options
- */
-function DownLoadFile(options) {
-	var config = $.extend(true, {
-				method : 'post'
-			}, options);
-	var $iframe = $('<iframe id="down-file-iframe" />');
-	var $form = $('<form target="down-file-iframe" method="' + config.method
-			+ '" />');
-	$form.attr('action', config.url);
-	for (var key in config.data) {
-		$form.append('<input type="hidden" name="' + key + '" value="'
-				+ config.data[key] + '" />');
-	}
-	$iframe.append($form);
-	$(document.body).append($iframe);
-	$form[0].submit();
-	$iframe.remove();
-
-}
-
-/**
- * 加载文件上传
- */
-function load_upload() {
-
-	layui.use(['tree', 'util', 'table', 'layer', 'upload', 'element'],
-			function() {
-				var layer = layui.layer;
-				var upload = layui.upload;
-				var table = layui.table;
-				var element = layui.element;
-				var upload_msg;
-				var uploadInst = upload.render({
-							elem : '#upload' // 绑定元素
-							,
-							url : '/iot_equipment/equipmentLedger/importEquipment' // 上传接口
-							,
-							data : {
-								equTypeId : equ_type_info.equTypeId
-							},
-							accept : 'file',
-							exts : 'xls',
-							field : 'exportFile',
-							choose : function() {
-								upload_msg = layer.load();
-							},
-							done : function(res) {
-								// 上传完毕回调
-								layer.close(upload_msg);
-								if (res.code == 0) {
-									// 导入数据成功
-									layer.msg(res.data);
-									load_table(table, {
-												"equTypeId" : equ_type_info.equTypeId
-											});
-								} else {
-									// 导入数据失败
-									layer.msg(res.data);
-								}
-							},
-							error : function() {
-								// 请求异常回调
-								layer.close(upload_msg);
-								layer.msg(res.data);
-							}
-						});
 
 			});
 
-}
-
-/**
- * 加载高级搜索表单
- * 
- * @param {}
- *            data
- */
-function load_search_form(data) {
-
-	var html = '';
-	var data_picker_ids = [];
-	// 将通用属性放入
-	golbal_common_property = [];
-
-	var num = 3;
-	if (screen.availWidth < 1920) {
-		num = 2;
-	}
-	$.each(data, function(index, item) {
-
-		if (item.propertyType == 1) {
-			golbal_common_property.push(item.field);
-		}
-		if (index % num == 0) {
-			html += '<div class="layui-form-item">'
-		}
-		var obj = {
-			'1' : '在用',
-			'2' : '备用',
-			'3' : '停用',
-			'4' : '闲置',
-			'5' : '报废'
-		};
-		console.log(JSON.stringify(obj));
-
-		switch (item.columnType) {
-			case 1 :
-				// 字符串格式
-				html += '<div class="layui-inline">'
-						+ '<label class="layui-form-label" style = "width:200px;">'
-						+ item.formName + '</label>'
-						+ '<div class="layui-input-inline">'
-						+ '<input type="text" name="' + item.field
-						+ '" placeholder=""' + '	class="layui-input">'
-						+ '</div>' + '</div>';
-				break;
-
-			case 2 :
-				// 日期格式(yyyy-MM-dd)
-				html += '<div class="layui-inline">'
-						+ '<label class="layui-form-label" style = "width:200px;">'
-						+ item.formName + '</label>'
-						+ '<div class="layui-input-inline">'
-						+ '<input type="text" class="layui-input" id="'
-						+ item.field + '"' + 'name="' + item.field
-						+ '"placeholder="yyyy-MM-dd">' + '</div>' + '</div>';
-				data_picker_ids.push(item.field);
-				break;
-			case 3 :
-				var key_value = JSON.parse(item.standby1);
-				html += '<div class="layui-inline">'
-						+ '<label class="layui-form-label" style = "width:200px;">'
-						+ item.formName + '</label>'
-						+ '<div class="layui-input-inline"><select name="'
-						+ item.field + '" id = "' + item.field
-						+ '" lay-verify="' + item.field + '">';
-				html += '<option value="">请选择</option>';
-				$.each(key_value, function(key, value) {
-							html += '<option value="' + key + '">' + value
-									+ '</option>';
-						});
-				html += '</select> </div>' + '</div>';
-
-				break;
-		}
-		if (index % num == (num - 1)) {
-			html += '</div>';
-		}
-	});
-	$('#key_word_search').css('display', 'none');
-	$('#advanced_search_form').html(html);
-	$('#advanced_search_btn').find('i').html('&#xe619;');
-
-	layui.use(['form', 'layer', 'laydate'], function() {
-				var form = layui.form;
-				var laydate = layui.laydate;
-				form.render();
-				$.each(data_picker_ids, function(index, item) {
-							// console.log(item);
-							laydate.render({
-										elem : '#' + item
-									});
-
-						});
-			});
-
-}
-/**
- * 加载右键菜单
- * 
- * @param {}
- *            data
- */
-function load_rightMenu(data) {
-	$(document).bind("contextmenu", function(e) {
-				return false;
-			});
-	// 表单鼠标右键操作
-	$('.layui-table-body tr').mousedown(function(e) {
-				var index = $(this).attr('data-index'); // 获取该表格行的数据
-				if (e.which == 3) { // 判断时鼠标右键按下
-					$(".rightmenu").show(); // 显示鼠标右键菜单列表
-					var x = e.originalEvent.x + 'px'; // 获取鼠标位置x坐标
-					var y = e.originalEvent.y + 'px'; // 获取鼠标位置y坐标
-					$(".rightmenu").css({
-								top : y, // 定位右键菜单的位置
-								left : x
-							});
-					global_trdata = data[index]; // 将该行的数据存放到自己定义的变量中
-					console.log(global_trdata);
-				}
-				if (e.which == 1) {
-					$(".rightmenu").hide(); // 如果是点击的鼠标左键，则隐藏菜单
-				}
-				return false;
-			});
-	$(document).click(function() {
-				$('.rightmenu').hide();
-			});
 }

@@ -10,6 +10,8 @@
 package cn.soa.service.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,6 +36,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
 
 import ch.qos.logback.core.joran.conditional.Condition;
+import cn.soa.dao.EquBeforeImportBackMapper;
 import cn.soa.dao.EquipmentCommonInfoBackMapper;
 import cn.soa.dao.EquipmentCommonInfoMapper;
 import cn.soa.dao.EquipmentDisplayInfoMapper;
@@ -49,6 +53,7 @@ import cn.soa.dao.EquipmentPropertiesMapper;
 import cn.soa.dao.EquipmentTypeMapper;
 import cn.soa.dao.EquipmentTypeRMapper;
 import cn.soa.entity.Column;
+import cn.soa.entity.EquBeforeImportBack;
 import cn.soa.entity.EquipmentCommonInfo;
 import cn.soa.entity.EquipmentDisplayInfo;
 import cn.soa.entity.EquipmentProperties;
@@ -56,10 +61,18 @@ import cn.soa.entity.EquipmentType;
 import cn.soa.entity.EquipmentTypeR;
 import cn.soa.entity.QueryCondition;
 import cn.soa.service.intel.EquipmentLedgerService;
+import cn.soa.utils.DateUtils;
 import cn.soa.utils.ExcelTool;
+import cn.soa.utils.GlobalUtil;
 
 @Service
 public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
+
+	@Value("${filePath.backup.real}")
+	private String backUpFilePathReal;// 备份文件真实路径
+
+	@Value("${filePath.backup.virtual}")
+	private String backUpFilePathVirtual;// 文件映射路径
 
 	@Autowired
 	private EquipmentTypeMapper equipmentTypeMapper;
@@ -81,6 +94,9 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 
 	@Autowired
 	private EquipmentTypeRMapper equipmentTypeRMapper;
+
+	@Autowired
+	private EquBeforeImportBackMapper equBeforeImportBackMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -351,6 +367,47 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		if (!(suffix.equals("xlsx") || suffix.equals("xls"))) {
 			return "error：上传的文件格式不正确，请检查后再上传！！！";
 		}
+
+		/**
+		 * 导入之前备份数据库该分类数据
+		 */
+
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		String userName = GlobalUtil.getCookie("name").replaceAll("\"", "");
+		EquBeforeImportBack backInfo = new EquBeforeImportBack();
+		backInfo.setEquTypeId(equTypeId);
+		backInfo.setOperator(userName);
+
+		QueryCondition condition = new QueryCondition();
+		condition.setEquTypeId(equTypeId);
+		condition.setExportType("3");
+
+		String nowStr = DateUtils.formatDate(DateUtils.getCurrentDate());
+
+		String filePathReal = backUpFilePathReal + "/" + nowStr + "/" + id + ".xls";
+		String filePathVirtual = backUpFilePathVirtual + "/" + nowStr + "/" + id + ".xls";
+		backInfo.setBackFileName(id + ".xls");
+		backInfo.setBackFilePathReal(filePathReal);
+		backInfo.setBackFilePathVirtual(filePathVirtual);
+
+		HSSFWorkbook hSSFWorkbook = getExcel(condition);
+
+		File path = new File(backUpFilePathReal + "/" + nowStr);
+		if (!path.exists() && !path.isDirectory()) {
+			path.mkdirs();
+		}
+
+		File file = new File(filePathReal);
+		file.createNewFile();
+
+		FileOutputStream output = new FileOutputStream(filePathReal);
+		hSSFWorkbook.write(output);
+		output.flush();
+		equBeforeImportBackMapper.insertSelective(backInfo);
+
+		/**
+		 * 执行导入
+		 */
 		InputStream inputStream = exportFile.getInputStream();
 
 		ExcelTool excelTool = new ExcelTool<>();
@@ -366,9 +423,7 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		// 获取多级表头的级数
 		int maxClassNum = 1;
 
-		QueryCondition condition = new QueryCondition();
 		List<String> commonProperty = new ArrayList<String>();
-		condition.setEquTypeId(equTypeId);
 		// 获取字段信息
 		List<EquipmentDisplayInfo> equipmentDisplayInfos = equipmentDisplayInfoMapper.selectByCondition(condition);
 		for (EquipmentDisplayInfo equipmentDisplayInfo : equipmentDisplayInfos) {
@@ -411,7 +466,7 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 			List<EquipmentProperties> equipmentPropertiesList = new ArrayList<EquipmentProperties>();
 			equipmentCommonInfo.setEquId(UUID.randomUUID().toString().replaceAll("-", ""));
 			equipmentCommonInfo.setEquTypeId(equTypeId);
-			
+
 			/**
 			 * 关系表
 			 */
@@ -419,7 +474,7 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 			equipmentTypeR.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 			equipmentTypeR.setEquTypeId(equTypeId);
 			equipmentTypeRList.add(equipmentTypeR);
-			
+
 			Set<String> keys = item.keySet();
 			for (String key : keys) {
 				if (commonProperty.contains(key)) {
@@ -451,7 +506,7 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 				equipmentPropertiesMapper.insertSelective(equipmentProperties);
 			}
 		}
-		
+
 		equipmentTypeRMapper.addRecores(equipmentTypeRList);
 
 		String msg = "成功导入了" + result + "条设备数据";
@@ -472,6 +527,94 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		List<EquipmentDisplayInfo> result = equipmentDisplayInfoMapper.selectSearchFormInfo(condition);
 
 		return result;
+	}
+
+	/**
+	 * 获取excel文件对象
+	 * 
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public HSSFWorkbook getExcel(QueryCondition condition) throws Exception {
+
+		// 表头数据
+		List<EquipmentDisplayInfo> headers = equipmentDisplayInfoMapper.selectByCondition(condition);
+		// 设备数据
+		List<EquipmentCommonInfo> equipmentList = null;
+
+		List<Map<String, Object>> equipmentMap = new ArrayList<Map<String, Object>>();
+
+		// 多级表头的基数
+		int classNum = 1;
+		Map<String, Object> coclunmMap = new HashMap<String, Object>();
+		switch (condition.getExportType()) {
+		case "1":
+			// 空白模板
+
+			for (EquipmentDisplayInfo equipmentDisplayInfo : headers) {
+				coclunmMap.put(equipmentDisplayInfo.getField(), equipmentDisplayInfo.getField());
+				if (equipmentDisplayInfo.getClassNum() > classNum) {
+					classNum = equipmentDisplayInfo.getClassNum();
+				}
+			}
+			equipmentMap.add(coclunmMap);
+			break;
+
+		case "2":
+			// 部分数据
+		case "3":
+			//
+			for (EquipmentDisplayInfo equipmentDisplayInfo : headers) {
+				coclunmMap.put(equipmentDisplayInfo.getField(), equipmentDisplayInfo.getField());
+				if (equipmentDisplayInfo.getClassNum() > classNum) {
+					classNum = equipmentDisplayInfo.getClassNum();
+				}
+			}
+			equipmentMap.add(coclunmMap);
+			long currentminis = System.currentTimeMillis();
+			equipmentList = equipmentCommonInfoMapper.selectByCondition(condition);
+			System.out.println(System.currentTimeMillis() - currentminis + "ms");
+			// 全部数据
+			for (EquipmentCommonInfo equipmentInfo : equipmentList) {
+				Map<String, Object> mapItem = new HashMap<String, Object>();
+				mapItem.put("equId", equipmentInfo.getEquId());
+				mapItem.put("equName", equipmentInfo.getEquName());
+				mapItem.put("equStatus", equipmentInfo.getEquStatus());
+				mapItem.put("equPositionNum", equipmentInfo.getEquPositionNum());
+				mapItem.put("processUnits", equipmentInfo.getProcessUnits());
+				mapItem.put("equModel", equipmentInfo.getEquModel());
+				mapItem.put("equType", equipmentInfo.getEquType());
+				mapItem.put("equTypeId", equipmentInfo.getEquTypeId());
+				mapItem.put("assetValue", equipmentInfo.getAssetValue());
+				mapItem.put("equManufacturer", equipmentInfo.getEquManufacturer());
+				mapItem.put("equProducDate", equipmentInfo.getEquProducDate());
+				mapItem.put("equCommissionDate", equipmentInfo.getEquCommissionDate());
+				mapItem.put("equInstallPosition", equipmentInfo.getEquInstallPosition());
+				for (EquipmentProperties property : equipmentInfo.getEquipmentProperties()) {
+					mapItem.put(property.getProNameEn(), property.getProValue());
+				}
+				equipmentMap.add(mapItem);
+			}
+			break;
+		default:
+			break;
+		}
+
+		ExcelTool excelTool = new ExcelTool(condition.getEquType(), 20, 20);
+
+		List<Column> titleData = excelTool.columnTransformer(headers, "id", "pId", "title", "field", "0");
+
+		HSSFWorkbook hSSFWorkbook = excelTool.exportWorkbook(titleData, equipmentMap, true);
+
+		/**
+		 * 空白模板隐藏字段行
+		 */
+			HSSFSheet sheet = hSSFWorkbook.getSheetAt(0);
+			HSSFRow row = sheet.getRow(classNum + 1);
+			row.setZeroHeight(true);
+		return hSSFWorkbook;
+
 	}
 
 }

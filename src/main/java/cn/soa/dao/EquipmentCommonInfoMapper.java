@@ -52,6 +52,11 @@ public interface EquipmentCommonInfoMapper {
 	 * @return
 	 */
 	int recoveryEquInfo(QueryCondition condition);
+
+	/**
+	 * @param equTypeId
+	 */
+	int deleteByEquTypeId(String equTypeId);
 	
 
 }

@@ -9,8 +9,11 @@
  */
 package cn.soa.service.intel;
 
+import java.util.List;
+
 import com.github.pagehelper.Page;
 
+import cn.soa.entity.EquBeforeImportBack;
 import cn.soa.entity.EquipmentCommonInfoBack;
 import cn.soa.entity.QueryCondition;
 
@@ -29,5 +32,23 @@ public interface EquipmentHistoryService {
 	 * @return
 	 */
 	String recoveryEquInfo(QueryCondition condition);
+
+
+	/**
+	 * 获取导入Excel数据前备份数据
+	 * @param condition
+	 * @return
+	 */
+	Page<EquBeforeImportBack> getExcelBackRecord(QueryCondition condition);
+
+
+	/**
+	 * 
+	 * 恢复导入Excel数据前备份数据
+	 * @param condition
+	 * @return
+	 * @throws Exception 
+	 */
+	String recoveryExcelBackRecord(QueryCondition condition) throws Exception;
 
 }

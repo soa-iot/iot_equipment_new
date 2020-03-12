@@ -188,7 +188,8 @@
 				IOT_EQUIPMENT_PROPERTIES
 				t4
 				where PRO_VALUE
-				like '%'|| #{condition.keyWord}
+				like
+				'%'|| #{condition.keyWord}
 				|| '%'
 				and t1.EQU_ID
 				= t4.EQU_ID
@@ -544,6 +545,11 @@
 			index="index" item="item">
 			#{item.equId,jdbcType=VARCHAR}
 		</foreach>
+	</delete>
+
+	<delete id="deleteByEquTypeId">
+		delete from IOT_EQUIPMENT_COMMON_INFO
+		where EQU_TYPE_ID = #{equTypeId,jdbcType=VARCHAR}
 	</delete>
 
 
