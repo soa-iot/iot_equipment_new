@@ -56,5 +56,5 @@ public interface EquipmentDisplayInfoMapper {
 	 * 查询所有数据
 	 * @return
 	 */
-	List<EquipmentDisplayInfo> findAll();
+	List<EquipmentDisplayInfo> findAllByEquType(String equTypeId);
 }

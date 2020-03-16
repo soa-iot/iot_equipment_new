@@ -81,7 +81,7 @@ public class SparePartManangerServiceImpl implements SparePartManangerService {
 	@Override
 	public List<EquipmentDisplayInfo> getEquBaseColumn(String equTypeId) {
 
-		List<EquipmentDisplayInfo> result = equipmentDisplayInfoMapper.findAll();
+		List<EquipmentDisplayInfo> result = equipmentDisplayInfoMapper.findAllByEquType(equTypeId);
 
 		return result;
 	}
