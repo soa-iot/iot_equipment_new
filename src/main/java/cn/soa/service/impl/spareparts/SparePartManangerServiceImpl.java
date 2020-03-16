@@ -67,8 +67,7 @@ public class SparePartManangerServiceImpl implements SparePartManangerService {
 	@Override
 	public Page<EquipmentCommonInfo> getEquInfo(QueryCondition condition) {
 
-		Page<EquipmentCommonInfo> result = equipmentCommonInfoMapper
-				.findBySelective(condition.getEquipmentCommonInfo());
+		Page<EquipmentCommonInfo> result = equipmentCommonInfoMapper.findBySelective(condition);
 
 		return result;
 	}
@@ -130,9 +129,9 @@ public class SparePartManangerServiceImpl implements SparePartManangerService {
 	 */
 	@Override
 	public List<EqOrSpRelation> getEquSpareRe(String eqId) {
-		
+
 		List<EqOrSpRelation> result = eqOrSpRelationMapper.findByEqId(eqId);
-		
+
 		return result;
 	}
 

@@ -305,58 +305,71 @@
 
 	<!-- 查询-动态匹配筛选条件 -->
 	<select id="findBySelective"
-		parameterType="cn.soa.entity.EquipmentCommonInfo"
-		resultMap="BaseResultMap">
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"></include>
 		from
 		IOT_EQUIPMENT_COMMON_INFO t1
 		<where>
-			<if test="equId != null and equId != ''">
-				and EQU_ID = #{equId,jdbcType=VARCHAR}
-			</if>
-			<if test="equName != null and equName != ''">
-				and EQU_NAME like '%' || #{equName,jdbcType=VARCHAR} ||
-				'%'
-			</if>
-			<if test="equStatus != null and equStatus != ''">
-				and EQU_ID = #{equId,jdbcType=VARCHAR}
-			</if>
-			<if test="equPositionNum != null and equPositionNum != ''">
-				and EQU_POSITION_NUM like '%' || #{equPositionNum,jdbcType=VARCHAR} ||
-				'%'
-			</if>
-			<if test="processUnits != null and processUnits != ''">
-				and PROCESS_UNITS like '%' || #{processUnits,jdbcType=VARCHAR} || '%'
-			</if>
-			<if test="processUnits != null and processUnits != ''">
-				and PROCESS_UNITS like '%' || #{processUnits,jdbcType=VARCHAR} || '%'
-			</if>
-			<if test="equModel != null and equModel != ''">
-				and EQU_MODEL like '%' || #{equModel,jdbcType=VARCHAR} || '%'
-			</if>
 			<if test="equTypeId != null and equTypeId != ''">
 				and EXISTS
-				(select EQU_ID from IOT_EQUIPMENT_TYPE_R t2 where
-				EQU_TYPE_ID
-				=
-				#{condition.equTypeId,jdbcType=VARCHAR} and t1.EQU_ID =
+				(select EQU_ID from IOT_EQUIPMENT_TYPE_R t2
+				where
+				EQU_TYPE_ID =
+				#{condition.equTypeId,jdbcType=VARCHAR} and
+				t1.EQU_ID =
 				t2.EQU_ID)
 			</if>
-			<if test="assetValue != null and assetValue != ''">
-				and ASSET_VALUE like '%' || #{assetValue,jdbcType=VARCHAR} || '%'
-			</if>
-			<if test="equManufacturer != null and equManufacturer != ''">
-				and EQU_MANUFACTURER like '%' || #{equManufacturer,jdbcType=VARCHAR} || '%'
-			</if>
-			<if test="equManufacturer != null and equManufacturer != ''">
-				and to_char(EQU_PRODUC_DATE,'yyyy-mm-dd') =  equProducDate
-			</if>
-			<if test="equCommissionDate != null and equCommissionDate != ''">
-				and to_char(EQU_COMMISSION_DATE,'yyyy-mm-dd') =  equCommissionDate
-			</if>
-			<if test="equInstallPosition != null and equInstallPosition != ''">
-				and EQU_INSTALL_POSITION like '%' || #{equInstallPosition,jdbcType=VARCHAR} || '%'
+			<if test="equipmentCommonInfo != null">
+				<if test="equId != null and equId != ''">
+					and EQU_ID = #{equId,jdbcType=VARCHAR}
+				</if>
+				<if test="equName != null and equName != ''">
+					and EQU_NAME like '%' || #{equName,jdbcType=VARCHAR} ||
+					'%'
+				</if>
+				<if test="equStatus != null and equStatus != ''">
+					and EQU_ID = #{equId,jdbcType=VARCHAR}
+				</if>
+				<if test="equPositionNum != null and equPositionNum != ''">
+					and EQU_POSITION_NUM like '%' ||
+					#{equPositionNum,jdbcType=VARCHAR} ||
+					'%'
+				</if>
+				<if test="processUnits != null and processUnits != ''">
+					and PROCESS_UNITS like '%' ||
+					#{processUnits,jdbcType=VARCHAR} || '%'
+				</if>
+				<if test="processUnits != null and processUnits != ''">
+					and PROCESS_UNITS like '%' ||
+					#{processUnits,jdbcType=VARCHAR} || '%'
+				</if>
+				<if test="equModel != null and equModel != ''">
+					and EQU_MODEL like '%' || #{equModel,jdbcType=VARCHAR}
+					|| '%'
+				</if>
+				<if test="assetValue != null and assetValue != ''">
+					and ASSET_VALUE like '%' ||
+					#{assetValue,jdbcType=VARCHAR} || '%'
+				</if>
+				<if test="equManufacturer != null and equManufacturer != ''">
+					and EQU_MANUFACTURER like '%' ||
+					#{equManufacturer,jdbcType=VARCHAR}
+					|| '%'
+				</if>
+				<if test="equManufacturer != null and equManufacturer != ''">
+					and to_char(EQU_PRODUC_DATE,'yyyy-mm-dd') =
+					equProducDate
+				</if>
+				<if test="equCommissionDate != null and equCommissionDate != ''">
+					and to_char(EQU_COMMISSION_DATE,'yyyy-mm-dd') =
+					equCommissionDate
+				</if>
+				<if
+					test="equInstallPosition != null and equInstallPosition != ''">
+					and EQU_INSTALL_POSITION like '%' ||
+					#{equInstallPosition,jdbcType=VARCHAR} || '%'
+				</if>
 			</if>
 		</where>
 	</select>

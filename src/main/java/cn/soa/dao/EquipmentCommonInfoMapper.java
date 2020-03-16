@@ -60,10 +60,10 @@ public interface EquipmentCommonInfoMapper {
 
 	/**
 	 * 动态匹配筛选条件
-	 * @param equipmentCommonInfo 
+	 * @param condition 
 	 * @return
 	 */
-	Page<EquipmentCommonInfo> findBySelective(EquipmentCommonInfo equipmentCommonInfo);
+	Page<EquipmentCommonInfo> findBySelective(QueryCondition condition);
 	
 
 }

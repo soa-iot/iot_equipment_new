@@ -11,6 +11,8 @@ package cn.soa.entity;
 
 import java.util.List;
 
+import cn.soa.entity.spareparts.SparePart;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,5 +58,8 @@ public class QueryCondition {
 	private String backId;// 设备历史操作表id
 
 	private String equPositionNum;// 设备位号
+	
+	@ApiModelProperty("设备备件信息（用于筛选条件）")
+	private SparePart sparePart;//设备备件信息
 
 }

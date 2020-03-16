@@ -53,11 +53,11 @@ public class SparePartManangerController {
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value = "获取设备分类树（树形结构）")
+	@ApiOperation(value = "获取设备备件分类树（树形结构）")
 	@RequestMapping(value = "/getSparepartsClassInfoAsTree", method = RequestMethod.GET)
 	public ResponseEntity<List<TreeObject>> getSparepartsClassInfoAsTree() {
 
-		log.info("=================获取设备分类树（树形结构）====================");
+		log.info("=================获取设备备件分类树（树形结构）====================");
 
 		ResponseEntity<List<TreeObject>> resObj = new ResponseEntity<List<TreeObject>>();
 		try {
@@ -66,12 +66,12 @@ public class SparePartManangerController {
 			resObj.setCount(result.size());
 			resObj.setData(result);
 			resObj.setMsg("query data success");
-			log.info("=================获取设备分类树（树形结构）成功====================");
+			log.info("=================获取设备备件分类树（树形结构）成功====================");
 		} catch (Exception e) {
 			resObj.setCode(-1);
 			resObj.setMsg("query data failed >>>" + e.getMessage());
 			e.printStackTrace();
-			log.debug("=================获取设备分类树（树形结构）失败！！！！====================" + e.getMessage());
+			log.debug("=================获取设备备件分类树（树形结构）失败！！！！====================" + e.getMessage());
 		}
 		return resObj;
 	}
@@ -177,7 +177,7 @@ public class SparePartManangerController {
 	 * @return
 	 */
 	@ApiOperation(value = "设备与备件关系数据添加")
-	@RequestMapping(value = "/addEquSpareRe", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/addEquSpareRe", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> addEquSpareRe(
 			@ApiParam("设备与备件关系对象数组") @RequestBody List<EqOrSpRelation> eqOrSpRelations) {
 
