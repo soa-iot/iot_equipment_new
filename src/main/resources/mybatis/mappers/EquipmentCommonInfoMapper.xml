@@ -316,7 +316,7 @@
 				(select EQU_ID from IOT_EQUIPMENT_TYPE_R t2
 				where
 				EQU_TYPE_ID =
-				#{condition.equTypeId,jdbcType=VARCHAR} and
+				#{equTypeId,jdbcType=VARCHAR} and
 				t1.EQU_ID =
 				t2.EQU_ID)
 			</if>
