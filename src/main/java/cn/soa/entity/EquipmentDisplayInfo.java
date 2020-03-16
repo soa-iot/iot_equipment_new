@@ -1,16 +1,27 @@
 package cn.soa.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("设备属性配置实体--EquipmentDisplayInfo")
 public class EquipmentDisplayInfo {
+	
+	@ApiModelProperty("id")
     private String id;
 
+	@ApiModelProperty("父级id")
     private String pId;
 
+	@ApiModelProperty("设备分类id")
     private String equTypeId;
 
+	@ApiModelProperty("字段名")
     private String field;
 
+	@ApiModelProperty("字段中文名")
     private String title;
 
+	@ApiModelProperty("表单显示名称")
     private String formName;
 
     private String width;
@@ -27,6 +38,7 @@ public class EquipmentDisplayInfo {
 
     private Short classNum;
 
+    @ApiModelProperty("字段类型")
     private Short propertyType;
 
     private Short isDisplay;

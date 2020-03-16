@@ -46,6 +46,16 @@
 		STANDBY1, STANDBY2,
 		STANDBY3
 	</sql>
+
+	<!-- 根据设备类型查询数据 -->
+	<select id="findAllByEquType" resultMap="BaseResultMap" parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_DISPLAY_INFO
+		where EQU_TYPE_ID =
+		#{equTypeId,jdbcType=VARCHAR}
+	</select>
+
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
@@ -89,7 +99,8 @@
 		#{equTypeId,jdbcType=VARCHAR}
 		and COLSPAN = 1
 		and IS_SEARCH = 1
-		order by SORT_NUM
+		order by
+		SORT_NUM
 	</select>
 
 

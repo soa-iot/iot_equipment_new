@@ -9,6 +9,8 @@
  */
 package cn.soa.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,14 +18,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("返回实体") 
 public class ResponseEntity<T> {
 
+	@ApiModelProperty("状态:0-请求成功；-1-请求失败")
 	private int code;// 数据状态
 
+	@ApiModelProperty("消息")
 	private String msg;// 返回消息
 
+	@ApiModelProperty("数据数量")
 	private long count;// 数据条数
 
+	@ApiModelProperty("数据")
 	private T data;// 数据
 
 }

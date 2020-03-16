@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.spareparts.SpClassifyMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.spareparts.SpClassify">
+		<result column="C_ID" jdbcType="VARCHAR" property="cId" />
+		<result column="P_ID" jdbcType="VARCHAR" property="pId" />
+		<result column="CLASSIFY_VALUE" jdbcType="VARCHAR"
+			property="classifyValue" />
+		<result column="CLASSIFY_NAME" jdbcType="VARCHAR"
+			property="classifyName" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<sql id="BaseColumn">
+		C_ID,P_ID,CLASSIFY_VALUE,CLASSIFY_NAME,REMARK
+	</sql>
+
+	<!-- 树形结构数据查询结果 -->
+	<resultMap id="TreeResultMap" type="cn.soa.entity.TreeObject">
+		<result column="C_ID" jdbcType="VARCHAR" property="id" />
+		<result column="CLASSIFY_NAME" jdbcType="VARCHAR"
+			property="title" />
+		<collection property="children" select="getChildNode"
+			column="C_ID"></collection>
+	</resultMap>
+
+	<!-- 查询树形结构数据 -->
+	<select id="findAsTree" resultMap="TreeResultMap">
+		select
+		<include refid="BaseColumn"></include>
+		from
+		IOT_SP_CLASSIFY
+		WHERE P_ID = '0'
+	</select>
+
+	<!-- 查询子节点 -->
+	<select id="getChildNode" resultMap="TreeResultMap">
+		select
+		<include refid="BaseColumn"></include>
+		from
+		IOT_SP_CLASSIFY
+		WHERE P_ID = #{C_ID,jdbcType=VARCHAR}
+	</select>
+
+
+
+
+	<insert id="insert"
+		parameterType="cn.soa.entity.spareparts.SpClassify">
+		insert into IOT_SP_CLASSIFY (C_ID, P_ID, CLASSIFY_VALUE,
+		CLASSIFY_NAME, REMARK)
+		values (#{cId,jdbcType=VARCHAR},
+		#{pId,jdbcType=VARCHAR},
+		#{classifyValue,jdbcType=VARCHAR},
+		#{classifyName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.spareparts.SpClassify">
+		insert into IOT_SP_CLASSIFY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				C_ID,
+			</if>
+			<if test="pId != null">
+				P_ID,
+			</if>
+			<if test="classifyValue != null">
+				CLASSIFY_VALUE,
+			</if>
+			<if test="classifyName != null">
+				CLASSIFY_NAME,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				#{cId,jdbcType=VARCHAR},
+			</if>
+			<if test="pId != null">
+				#{pId,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyValue != null">
+				#{classifyValue,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyName != null">
+				#{classifyName,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

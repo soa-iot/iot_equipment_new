@@ -57,6 +57,13 @@ public interface EquipmentCommonInfoMapper {
 	 * @param equTypeId
 	 */
 	int deleteByEquTypeId(String equTypeId);
+
+	/**
+	 * 动态匹配筛选条件
+	 * @param equipmentCommonInfo 
+	 * @return
+	 */
+	Page<EquipmentCommonInfo> findBySelective(EquipmentCommonInfo equipmentCommonInfo);
 	
 
 }

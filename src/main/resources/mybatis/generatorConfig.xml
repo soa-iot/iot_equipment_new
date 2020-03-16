@@ -26,7 +26,8 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:生成PO类的位置 -->
-		<javaModelGenerator targetPackage="cn.soa.entity"
+		<javaModelGenerator
+			targetPackage="cn.soa.entity.spareparts"
 			targetProject="iot_equipment_new">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
@@ -34,32 +35,47 @@
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- targetProject:mapper映射文件生成的位置 -->
-		<sqlMapGenerator targetPackage="cn.soa.dao"
+		<sqlMapGenerator targetPackage="cn.soa.dao.spareparts"
 			targetProject="iot_equipment_new">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 		<!-- targetPackage：mapper接口生成的位置 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="cn.soa.dao" targetProject="iot_equipment_new">
+			targetPackage="cn.soa.dao.spareparts"
+			targetProject="iot_equipment_new">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<!-- <table tableName="IOT_EQUIPMENT_COMMON_INFO" domainObjectName="EquipmentCommonInfo" 
-			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
-			enableSelectByExample="false" selectByExampleQueryId="false"></table> <table 
-			tableName="IOT_EQUIPMENT_PROPERTIES" domainObjectName="EquipmentProperties" 
-			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
-			enableSelectByExample="false" selectByExampleQueryId="false"></table> <table 
-			tableName="IOT_EQUIPMENT_TYPE" domainObjectName="EquipmentType" enableCountByExample="false" 
-			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
-			selectByExampleQueryId="false"></table> -->
-		<table tableName="IOT_EQU_BEFORE_IMPORT_BACK"
-			domainObjectName="EquBeforeImportBack"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table>
+		<table tableName="IOT_EQ_OR_SP_RELATION"
+			domainObjectName="EqOrSpRelation" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_CLASSIFY_SP_RELATION"
+			domainObjectName="classifySpRelation" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_SPARE_PART"
+			domainObjectName="SparePart" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_SP_REGISTER"
+			domainObjectName="SpRegister" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_SP_RECORD"
+			domainObjectName="SpRecord" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_SP_CLASSIFY"
+			domainObjectName="SpClassify" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="IOT_SP_PUT_IN"
+			domainObjectName="SpPutIn" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"></table>
 		<!-- 有些表的字段需要指定java类型 <table schema="" tableName=""> <columnOverride column="" 
 			javaType="" /> </table> -->
 	</context>

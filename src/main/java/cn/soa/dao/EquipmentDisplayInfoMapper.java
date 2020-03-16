@@ -51,4 +51,10 @@ public interface EquipmentDisplayInfoMapper {
 	 * @return
 	 */
 	List<EquipmentDisplayInfo> selectSearchFormInfo(QueryCondition condition);
+
+	/**
+	 * 查询所有数据
+	 * @return
+	 */
+	List<EquipmentDisplayInfo> findAll();
 }

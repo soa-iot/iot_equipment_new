@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.spareparts.SparePartMapper">
+  <resultMap id="BaseResultMap" type="cn.soa.entity.spareparts.SparePart">
+    <result column="SP_ID" jdbcType="VARCHAR" property="spId" />
+    <result column="SP_ENCODING" jdbcType="VARCHAR" property="spEncoding" />
+    <result column="SP_NAME" jdbcType="VARCHAR" property="spName" />
+    <result column="BRAND" jdbcType="VARCHAR" property="brand" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SPECIFICATION" jdbcType="VARCHAR" property="specification" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="UNIT_COST" jdbcType="DECIMAL" property="unitCost" />
+    <result column="SP_INVENTORY" jdbcType="DECIMAL" property="spInventory" />
+    <result column="PREWARNING_VAL" jdbcType="DECIMAL" property="prewarningVal" />
+    <result column="PROCUREMENT_CYCLE" jdbcType="VARCHAR" property="procurementCycle" />
+    <result column="LABEL_CODE" jdbcType="VARCHAR" property="labelCode" />
+    <result column="MANUFACTURE_FACTORY" jdbcType="VARCHAR" property="manufactureFactory" />
+    <result column="PRODUCTION_DATE" jdbcType="TIMESTAMP" property="productionDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.soa.entity.spareparts.SparePart">
+    insert into IOT_SPARE_PART (SP_ID, SP_ENCODING, SP_NAME, 
+      BRAND, TYPE, SPECIFICATION, 
+      UNIT, UNIT_COST, SP_INVENTORY, 
+      PREWARNING_VAL, PROCUREMENT_CYCLE, LABEL_CODE, 
+      MANUFACTURE_FACTORY, PRODUCTION_DATE, REMARK
+      )
+    values (#{spId,jdbcType=VARCHAR}, #{spEncoding,jdbcType=VARCHAR}, #{spName,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{unitCost,jdbcType=DECIMAL}, #{spInventory,jdbcType=DECIMAL}, 
+      #{prewarningVal,jdbcType=DECIMAL}, #{procurementCycle,jdbcType=VARCHAR}, #{labelCode,jdbcType=VARCHAR}, 
+      #{manufactureFactory,jdbcType=VARCHAR}, #{productionDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.soa.entity.spareparts.SparePart">
+    insert into IOT_SPARE_PART
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="spId != null">
+        SP_ID,
+      </if>
+      <if test="spEncoding != null">
+        SP_ENCODING,
+      </if>
+      <if test="spName != null">
+        SP_NAME,
+      </if>
+      <if test="brand != null">
+        BRAND,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="specification != null">
+        SPECIFICATION,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="unitCost != null">
+        UNIT_COST,
+      </if>
+      <if test="spInventory != null">
+        SP_INVENTORY,
+      </if>
+      <if test="prewarningVal != null">
+        PREWARNING_VAL,
+      </if>
+      <if test="procurementCycle != null">
+        PROCUREMENT_CYCLE,
+      </if>
+      <if test="labelCode != null">
+        LABEL_CODE,
+      </if>
+      <if test="manufactureFactory != null">
+        MANUFACTURE_FACTORY,
+      </if>
+      <if test="productionDate != null">
+        PRODUCTION_DATE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="spId != null">
+        #{spId,jdbcType=VARCHAR},
+      </if>
+      <if test="spEncoding != null">
+        #{spEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="spName != null">
+        #{spName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCost != null">
+        #{unitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="spInventory != null">
+        #{spInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="prewarningVal != null">
+        #{prewarningVal,jdbcType=DECIMAL},
+      </if>
+      <if test="procurementCycle != null">
+        #{procurementCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="labelCode != null">
+        #{labelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manufactureFactory != null">
+        #{manufactureFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="productionDate != null">
+        #{productionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

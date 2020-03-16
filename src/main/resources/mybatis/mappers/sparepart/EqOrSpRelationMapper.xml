@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.spareparts.EqOrSpRelationMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.spareparts.EqOrSpRelation">
+		<id column="R_ID" jdbcType="VARCHAR" property="rId" />
+		<result column="EQ_FIEID" jdbcType="VARCHAR" property="eqFieid" />
+		<result column="TYPE" jdbcType="DECIMAL" property="type" />
+		<result column="COSTOM_VALUE" jdbcType="VARCHAR"
+			property="costomValue" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="REMARK1" jdbcType="VARCHAR" property="remark1" />
+		<result column="EQ_ID" jdbcType="VARCHAR" property="eqId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		R_ID, EQ_FIEID, TYPE, COSTOM_VALUE, REMARK, REMARK1, EQ_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQ_OR_SP_RELATION
+		where R_ID = #{rId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据设备id查询数据 -->
+	<select id="findByEqId" parameterType="String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQ_OR_SP_RELATION
+		where EQ_ID = #{eqId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="String">
+		delete from
+		IOT_EQ_OR_SP_RELATION
+		where R_ID = #{rId,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 根据id批量删除数据 -->
+	<delete id="delByIdBatch"
+		parameterType="cn.soa.entity.spareparts.EqOrSpRelation">
+		delete from IOT_EQ_OR_SP_RELATION
+		where R_ID in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
+			#{item.rId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+
+	<insert id="insert"
+		parameterType="cn.soa.entity.spareparts.EqOrSpRelation">
+		insert into IOT_EQ_OR_SP_RELATION (R_ID, EQ_FIEID, TYPE,
+		COSTOM_VALUE, REMARK, REMARK1,
+		EQ_ID)
+		values (#{rId,jdbcType=VARCHAR},
+		#{eqFieid,jdbcType=VARCHAR},
+		#{type,jdbcType=DECIMAL},
+		#{costomValue,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{remark1,jdbcType=VARCHAR},
+		#{eqId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.spareparts.EqOrSpRelation">
+		insert into IOT_EQ_OR_SP_RELATION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				R_ID,
+			</if>
+			<if test="eqFieid != null">
+				EQ_FIEID,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="costomValue != null">
+				COSTOM_VALUE,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="remark1 != null">
+				REMARK1,
+			</if>
+			<if test="eqId != null">
+				EQ_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				#{rId,jdbcType=VARCHAR},
+			</if>
+			<if test="eqFieid != null">
+				#{eqFieid,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=DECIMAL},
+			</if>
+			<if test="costomValue != null">
+				#{costomValue,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark1 != null">
+				#{remark1,jdbcType=VARCHAR},
+			</if>
+			<if test="eqId != null">
+				#{eqId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.spareparts.EqOrSpRelation">
+		update IOT_EQ_OR_SP_RELATION
+		<set>
+			<if test="eqFieid != null">
+				EQ_FIEID = #{eqFieid,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="costomValue != null">
+				COSTOM_VALUE = #{costomValue,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark1 != null">
+				REMARK1 = #{remark1,jdbcType=VARCHAR},
+			</if>
+			<if test="eqId != null">
+				EQ_ID = #{eqId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where R_ID = #{rId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.spareparts.EqOrSpRelation">
+		update IOT_EQ_OR_SP_RELATION
+		set EQ_FIEID =
+		#{eqFieid,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=DECIMAL},
+		COSTOM_VALUE = #{costomValue,jdbcType=VARCHAR},
+		REMARK =
+		#{remark,jdbcType=VARCHAR},
+		REMARK1 = #{remark1,jdbcType=VARCHAR},
+		EQ_ID = #{eqId,jdbcType=VARCHAR}
+		where R_ID = #{rId,jdbcType=VARCHAR}
+	</update>
+</mapper>
