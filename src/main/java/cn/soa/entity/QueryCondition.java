@@ -11,6 +11,7 @@ package cn.soa.entity;
 
 import java.util.List;
 
+import cn.soa.entity.spareparts.SpPutIn;
 import cn.soa.entity.spareparts.SparePart;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -63,5 +64,11 @@ public class QueryCondition {
 
 	@ApiModelProperty("设备备件信息是否为告警信息（用于查询设备备件告警信息时传true）")
 	private String alarm;// 默认'false'
+	
+	@ApiModelProperty("备件分类id")
+	private String sparepartTypeId;//备件分类id
+	
+	@ApiModelProperty("设备备件申请信息（用于筛选条件）")
+	private SpPutIn spPutIn;//设备备件申请
 
 }

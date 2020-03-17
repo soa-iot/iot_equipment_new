@@ -46,8 +46,9 @@ public class SparepartsLedgerController {
 	 */
 	@RequestMapping(value = "/getSparePartsInfo", method = RequestMethod.POST, produces = "application/json;chartset=utf-8")
 	@ApiOperation("获取备件数据列表")
-	public ResponseEntity<Page<SparePart>> getSparePartsInfo(
-			@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数；当请求库存告警列表信息时，需传alarm参数，值为'true';") @RequestBody QueryCondition condition) {
+	public ResponseEntity<Page<SparePart>> getSparePartsInfo(@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数；"
+			+ "当请求库存告警列表信息时，需传alarm参数，值为'true';"
+			+ "通过备件分类过滤时，需传sparepartTypeId（备件分类id）参数") @RequestBody QueryCondition condition) {
 
 		log.info("==============获取设备备件数据列表=============");
 

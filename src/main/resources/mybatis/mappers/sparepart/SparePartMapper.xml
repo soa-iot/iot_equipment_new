@@ -40,10 +40,20 @@
 		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
 		select
 		<include refid="BaseColumn"></include>
-		from IOT_SPARE_PART
+		from IOT_SPARE_PART t1
 		<where>
 			<if test="alarm == 'true' or alarm == 'TRUE'">
 				and SP_INVENTORY &lt; PREWARNING_VAL
+			</if>
+			<!-- 匹配备件分类id -->
+			<if test="sparepartTypeId !=null and sparepartTypeId != ''">
+				and EXISTS
+				(select SP_ID from IOT_CLASSIFY_SP_RELATION t2
+				where
+				C_ID =
+				#{sparepartTypeId,jdbcType=VARCHAR} and
+				t1.SP_ID =
+				t2.SP_ID)
 			</if>
 			<if test="sparePart != null">
 				<!-- 匹配备件id -->
