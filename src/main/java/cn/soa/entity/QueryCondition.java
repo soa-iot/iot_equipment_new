@@ -23,11 +23,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class QueryCondition {
-	
-	
-	private String beginDate;//开始时间
-	
-	private String endDate;//结束时间
+
+	private String beginDate;// 开始时间
+
+	private String endDate;// 结束时间
 
 	private String id;// id
 
@@ -58,8 +57,11 @@ public class QueryCondition {
 	private String backId;// 设备历史操作表id
 
 	private String equPositionNum;// 设备位号
-	
+
 	@ApiModelProperty("设备备件信息（用于筛选条件）")
-	private SparePart sparePart;//设备备件信息
+	private SparePart sparePart;// 设备备件信息
+
+	@ApiModelProperty("设备备件信息是否为告警信息（用于查询设备备件告警信息时传true）")
+	private String alarm;// 默认'false'
 
 }

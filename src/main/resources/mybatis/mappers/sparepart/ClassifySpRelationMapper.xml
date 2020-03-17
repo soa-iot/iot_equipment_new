@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.soa.dao.spareparts.ClassifySpRelationMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.spareparts.ClassifySpRelation">
+		<result column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="C_ID" jdbcType="VARCHAR" property="cId" />
+		<result column="SP_ID" jdbcType="VARCHAR" property="spId" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+
+	<!-- 批量删除数据 -->
+	<delete id="delBatch"
+		parameterType="cn.soa.entity.spareparts.ClassifySpRelation">
+		delete from IOT_CLASSIFY_SP_RELATION
+		where ID in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
+			#{item.id,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+
+	<insert id="insert"
+		parameterType="cn.soa.entity.spareparts.ClassifySpRelation">
+		insert into IOT_CLASSIFY_SP_RELATION (ID, C_ID, SP_ID,
+		REMARK)
+		values (#{id,jdbcType=VARCHAR}, #{cId,jdbcType=VARCHAR},
+		#{spId,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.spareparts.ClassifySpRelation">
+		insert into IOT_CLASSIFY_SP_RELATION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="cId != null">
+				C_ID,
+			</if>
+			<if test="spId != null">
+				SP_ID,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="cId != null">
+				#{cId,jdbcType=VARCHAR},
+			</if>
+			<if test="spId != null">
+				#{spId,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

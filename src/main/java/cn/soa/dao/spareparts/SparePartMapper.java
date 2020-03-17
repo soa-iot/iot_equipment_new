@@ -17,6 +17,7 @@ public interface SparePartMapper {
 
 	/**
 	 * 根据条件查询数据
+	 * @param alarm 
 	 * @return
 	 */
 	Page<SparePart> findByCondition(QueryCondition condition);

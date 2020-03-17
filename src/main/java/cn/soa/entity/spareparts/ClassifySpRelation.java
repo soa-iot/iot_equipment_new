@@ -1,6 +1,6 @@
 package cn.soa.entity.spareparts;
 
-public class classifySpRelation {
+public class ClassifySpRelation {
     private String id;
 
     private String cId;

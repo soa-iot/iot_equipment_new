@@ -17,15 +17,11 @@ import cn.soa.entity.EquipmentCommonInfo;
 import cn.soa.entity.EquipmentDisplayInfo;
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.TreeObject;
+import cn.soa.entity.spareparts.ClassifySpRelation;
 import cn.soa.entity.spareparts.EqOrSpRelation;
 
 public interface SparePartManangerService {
 
-	/**
-	 * 获取设备备件分类树
-	 * @return
-	 */
-	List<TreeObject> getSparepartsClassInfoAsTree();
 
 	/**
 	 * 
@@ -66,6 +62,7 @@ public interface SparePartManangerService {
 	 * @return
 	 */
 	List<EqOrSpRelation> getEquSpareRe(String eqId);
+
 
 
 

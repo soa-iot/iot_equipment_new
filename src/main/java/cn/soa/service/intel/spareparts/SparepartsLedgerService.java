@@ -21,6 +21,7 @@ public interface SparepartsLedgerService {
 	/**
 	 * 获取设备备件数据列表
 	 * @param condition
+	 * @param alarm 
 	 * @return
 	 */
 	Page<SparePart> getSparePartsInfo(QueryCondition condition);

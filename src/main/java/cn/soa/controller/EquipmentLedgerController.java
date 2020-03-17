@@ -44,7 +44,7 @@ public class EquipmentLedgerController {
 	private EquipmentLedgerService equipmentLedgerService;
 
 	/**
-	 * 获取设备分类分析
+	 * 获取设备分类信息
 	 * 
 	 * @return
 	 */
@@ -59,12 +59,12 @@ public class EquipmentLedgerController {
 
 			resObj.setCode(0);
 			resObj.setData(result);
-			resObj.setCode(result.size());
+			resObj.setCount(result.size());
 			resObj.setMsg("query data success");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			resObj.setCode(0);
+			resObj.setCode(-1);
 			resObj.setMsg("query data field >>>" + e.getMessage());
 		}
 
@@ -92,7 +92,7 @@ public class EquipmentLedgerController {
 			resObj.setData(result);
 			resObj.setMsg("query data success");
 		} catch (Exception e) {
-			resObj.setCode(0);
+			resObj.setCode(-1);
 			resObj.setMsg("query data failed >>>" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -123,7 +123,7 @@ public class EquipmentLedgerController {
 			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 		} catch (Exception e) {
-			resObj.setCode(0);
+			resObj.setCode(-1);
 			resObj.setMsg("query data field >>>" + e.getMessage());
 			e.printStackTrace();
 		}

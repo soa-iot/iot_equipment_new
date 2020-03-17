@@ -31,8 +31,6 @@ import cn.soa.service.intel.spareparts.SparePartManangerService;
 @Service
 public class SparePartManangerServiceImpl implements SparePartManangerService {
 
-	@Autowired
-	private SpClassifyMapper spClassifyMapper;// 设备备件分类信息表mapper
 
 	@Autowired
 	private EquipmentCommonInfoMapper equipmentCommonInfoMapper;// 设备基本信息表mapper
@@ -43,19 +41,7 @@ public class SparePartManangerServiceImpl implements SparePartManangerService {
 	@Autowired
 	private EqOrSpRelationMapper eqOrSpRelationMapper;// 设备与备件关系表mapper
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cn.soa.service.intel.spareparts.SparePartManangerService#
-	 * getSparepartsClassInfoAsTree()
-	 */
-	@Override
-	public List<TreeObject> getSparepartsClassInfoAsTree() {
-
-		List<TreeObject> result = spClassifyMapper.findAsTree();
-
-		return result;
-	}
+	
 
 	/*
 	 * (non-Javadoc)

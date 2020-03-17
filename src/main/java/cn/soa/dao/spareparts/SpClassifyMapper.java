@@ -17,4 +17,18 @@ public interface SpClassifyMapper {
 	 * @return
 	 */
 	List<TreeObject> findAsTree();
+
+	/**
+	 * 批量删除数据
+	 * @param spClassifies
+	 * @return
+	 */
+	Integer delBatch(List<SpClassify> spClassifies);
+
+	/**
+	 * 动态更新数据
+	 * @param spClassify
+	 * @return
+	 */
+	Integer updateSelective(SpClassify spClassify);
 }

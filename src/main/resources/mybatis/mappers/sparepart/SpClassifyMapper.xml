@@ -44,6 +44,18 @@
 	</select>
 
 
+	<!-- 批量删除数据 -->
+	<delete id="delBatch"
+		parameterType="cn.soa.entity.spareparts.SpClassify">
+		delete
+		from
+		IOT_SP_CLASSIFY
+		where C_ID in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
+			#{item.cId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
 
 
 	<insert id="insert"
@@ -93,4 +105,27 @@
 			</if>
 		</trim>
 	</insert>
+
+
+	<!-- 动态更新数据 -->
+	<update id="updateSelective"
+		parameterType="cn.soa.entity.spareparts.SpClassify">
+		update IOT_SP_CLASSIFY
+		<set>
+			<if test="pId != null">
+				P_ID = #{pId,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyValue != null">
+				CLASSIFY_VALUE = #{classifyValue,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyName != null">
+				CLASSIFY_NAME = #{classifyName,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK =#{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where C_ID = #{cId,jdbcType=VARCHAR}
+	</update>
+
 </mapper>

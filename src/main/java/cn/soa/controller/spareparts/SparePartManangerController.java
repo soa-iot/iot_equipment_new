@@ -31,6 +31,7 @@ import cn.soa.entity.EquipmentDisplayInfo;
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.TreeObject;
+import cn.soa.entity.spareparts.ClassifySpRelation;
 import cn.soa.entity.spareparts.EqOrSpRelation;
 import cn.soa.service.intel.spareparts.SparePartManangerService;
 import io.swagger.annotations.Api;
@@ -48,33 +49,7 @@ public class SparePartManangerController {
 	@Autowired
 	private SparePartManangerService sparePartManangerService;
 
-	/**
-	 * 获取设备分类树（树形结构）
-	 * 
-	 * @return
-	 */
-	@ApiOperation(value = "获取设备备件分类树（树形结构）")
-	@RequestMapping(value = "/getSparepartsClassInfoAsTree", method = RequestMethod.GET)
-	public ResponseEntity<List<TreeObject>> getSparepartsClassInfoAsTree() {
-
-		log.info("=================获取设备备件分类树（树形结构）====================");
-
-		ResponseEntity<List<TreeObject>> resObj = new ResponseEntity<List<TreeObject>>();
-		try {
-			List<TreeObject> result = sparePartManangerService.getSparepartsClassInfoAsTree();
-			resObj.setCode(0);
-			resObj.setCount(result.size());
-			resObj.setData(result);
-			resObj.setMsg("query data success");
-			log.info("=================获取设备备件分类树（树形结构）成功====================");
-		} catch (Exception e) {
-			resObj.setCode(-1);
-			resObj.setMsg("query data failed >>>" + e.getMessage());
-			e.printStackTrace();
-			log.debug("=================获取设备备件分类树（树形结构）失败！！！！====================" + e.getMessage());
-		}
-		return resObj;
-	}
+	
 
 	/**
 	 * 获取设备基本信息列表数据
@@ -220,15 +195,16 @@ public class SparePartManangerController {
 			String result = sparePartManangerService.delEquSpareRe(eqOrSpRelations);
 			resObj.setCode(0);
 			resObj.setData(result);
-			resObj.setMsg("add data success");
+			resObj.setMsg("delete data success");
 			log.info("=================设备与备件关系数据删除成功====================");
 		} catch (Exception e) {
 			resObj.setCode(-1);
-			resObj.setMsg("add data failed >>>" + e.getMessage());
+			resObj.setMsg("delete data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.debug("=================设备与备件关系数据删除失败！！！！====================" + e.getMessage());
 		}
 		return resObj;
 	}
+	
 
 }

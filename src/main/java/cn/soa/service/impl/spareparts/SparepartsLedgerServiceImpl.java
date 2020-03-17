@@ -87,7 +87,7 @@ public class SparepartsLedgerServiceImpl implements SparepartsLedgerService {
 
 		Integer result = 0;
 		for (SparePart sparePart : spareParts) {
-			
+
 			result += sparePartMapper.insertSelective(sparePart);
 
 		}

@@ -47,7 +47,7 @@ public class SparepartsLedgerController {
 	@RequestMapping(value = "/getSparePartsInfo", method = RequestMethod.POST, produces = "application/json;chartset=utf-8")
 	@ApiOperation("获取备件数据列表")
 	public ResponseEntity<Page<SparePart>> getSparePartsInfo(
-			@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数") @RequestBody QueryCondition condition) {
+			@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数；当请求库存告警列表信息时，需传alarm参数，值为'true';") @RequestBody QueryCondition condition) {
 
 		log.info("==============获取设备备件数据列表=============");
 
@@ -95,11 +95,11 @@ public class SparepartsLedgerController {
 			String result = sparepartsLedgerService.delSparePartsInfo(spareParts);
 			resObj.setCode(0);
 			resObj.setData(result);
-			resObj.setMsg("query data success");
+			resObj.setMsg("delete data success");
 			log.info("==============删除设备备件数据列表成功=============");
 		} catch (Exception e) {
 			resObj.setCode(-1);
-			resObj.setMsg("query data failed >>>" + e.getMessage());
+			resObj.setMsg("delete data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.info("==============删除设备备件数据列表失败=============>>>" + e.getMessage());
 		}
@@ -107,17 +107,18 @@ public class SparepartsLedgerController {
 		return resObj;
 
 	}
-	
-	
+
 	/**
 	 * 
 	 * 更新设备备件信息
+	 * 
 	 * @param condition
 	 * @return
 	 */
 	@RequestMapping(value = "/updateSparePartsInfo", method = RequestMethod.PUT, produces = "application/json;chartset=utf-8")
 	@ApiOperation("更新备件数据")
-	public ResponseEntity<String> updateSparePartsInfo(@ApiParam("设备备件对象信息（根据需要传参数）") @RequestBody SparePart sparePart) {
+	public ResponseEntity<String> updateSparePartsInfo(
+			@ApiParam("设备备件对象信息（根据需要传参数）") @RequestBody SparePart sparePart) {
 
 		log.info("==============更新设备备件数据=============");
 
@@ -127,11 +128,11 @@ public class SparepartsLedgerController {
 			String result = sparepartsLedgerService.updateSparePartsInfo(sparePart);
 			resObj.setCode(0);
 			resObj.setData(result);
-			resObj.setMsg("query data success");
+			resObj.setMsg("update data success");
 			log.info("==============更新设备备件数据成功=============");
 		} catch (Exception e) {
 			resObj.setCode(-1);
-			resObj.setMsg("query data failed >>>" + e.getMessage());
+			resObj.setMsg("update data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.info("==============更新设备备件数据失败=============>>>" + e.getMessage());
 		}
@@ -139,10 +140,11 @@ public class SparepartsLedgerController {
 		return resObj;
 
 	}
-	
+
 	/**
 	 * 
-	 * 更新设备备件信息
+	 * 添加设备备件信息
+	 * 
 	 * @param condition
 	 * @return
 	 */
