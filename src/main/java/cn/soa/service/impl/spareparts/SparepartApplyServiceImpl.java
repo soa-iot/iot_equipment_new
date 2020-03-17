@@ -21,6 +21,7 @@ import cn.soa.entity.spareparts.SpPutIn;
 import cn.soa.entity.spareparts.SpRecord;
 import cn.soa.entity.spareparts.SparepartApply;
 import cn.soa.service.intel.spareparts.SparepartApplyService;
+import cn.soa.utils.DateUtils;
 
 @Service
 public class SparepartApplyServiceImpl implements SparepartApplyService {
@@ -49,6 +50,9 @@ public class SparepartApplyServiceImpl implements SparepartApplyService {
 		SpPutIn spPutIn = sparepartApply.getSpPutIn();// 备件申请单
 		List<SpRecord> spRecords = sparepartApply.getSpRecords();// 备件出入库记录
 
+		//设置申请日期
+		spPutIn.setApplicationDate(DateUtils.getCurrentDate());
+		
 		spPutInResult = spPutInMapper.insertSelective(spPutIn);
 
 		for (SpRecord spRecord : spRecords) {

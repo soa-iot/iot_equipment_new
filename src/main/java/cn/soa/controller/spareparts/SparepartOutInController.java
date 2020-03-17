@@ -21,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.spareparts.SpPutIn;
+import cn.soa.entity.spareparts.SpRegister;
 import cn.soa.entity.spareparts.SparepartOutInEntity;
 import cn.soa.service.intel.spareparts.SparepartOutInService;
 import io.swagger.annotations.Api;
@@ -40,7 +41,7 @@ public class SparepartOutInController {
 	/**
 	 * 获取采购申请单列表数据
 	 * 
-	 * @param spPutIn
+	 * @param condition
 	 * @return
 	 */
 	@RequestMapping(value = "/getSparepartApply", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
@@ -110,6 +111,43 @@ public class SparepartOutInController {
 			resObj.setMsg("operate data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.info("====================备件出入库操作失败========================>>>" + e.getMessage());
+		}
+
+		return resObj;
+	}
+
+	/**
+	 * 获取出入库登记数据列表
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping(value = "/getOutInRegisterInfo", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	@ApiOperation("获取出入库登记数据列表")
+	public ResponseEntity<Page<SpRegister>> getOutInRegisterInfo(@ApiParam("查询条件，支持分页，需要开启分页时需要传page和limit参数；"
+			+ "过滤需要传spRegister对象，若要匹配登记日期，需根据需要传beginDate、endDate两个参数") @RequestBody QueryCondition condition) {
+
+		log.info("====================获取出入库登记数据列表========================");
+
+		// 开启分页
+		if (condition.getPage() != null && condition.getLimit() != null) {
+			PageHelper.startPage(condition.getPage(), condition.getLimit());
+		}
+
+		ResponseEntity<Page<SpRegister>> resObj = new ResponseEntity<Page<SpRegister>>();
+
+		try {
+			Page<SpRegister> result = sparepartOutInService.getOutInRegisterInfo(condition);
+			resObj.setCode(0);
+			resObj.setCount(result.size());
+			resObj.setData(result);
+			resObj.setMsg("query data sucess");
+			log.info("====================获取出入库登记数据列表成功========================");
+		} catch (Exception e) {
+			resObj.setCode(-1);
+			resObj.setMsg("query data failed >>>" + e.getMessage());
+			e.printStackTrace();
+			log.info("====================获取出入库登记数据列表失败========================>>>" + e.getMessage());
 		}
 
 		return resObj;

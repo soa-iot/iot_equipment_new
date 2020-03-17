@@ -27,4 +27,10 @@ public interface SpPutInMapper {
 	 * @return
 	 */
 	Page<SpPutIn> findByCondition(QueryCondition condition);
+
+	/**
+	 * 根据申请单号更新数据
+	 * @param spPutIn
+	 */
+	Integer updateByRequestCode(SpPutIn spPutIn);
 }

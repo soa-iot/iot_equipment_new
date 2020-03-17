@@ -12,6 +12,7 @@ package cn.soa.entity;
 import java.util.List;
 
 import cn.soa.entity.spareparts.SpPutIn;
+import cn.soa.entity.spareparts.SpRegister;
 import cn.soa.entity.spareparts.SparePart;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -70,5 +71,8 @@ public class QueryCondition {
 	
 	@ApiModelProperty("设备备件申请信息（用于筛选条件）")
 	private SpPutIn spPutIn;//设备备件申请
+	
+	@ApiModelProperty("设备备件出入库登记信息（用于筛选条件）")
+	private SpRegister spRegister;//设备备件出入库登记信息
 
 }

@@ -1,129 +1,208 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.spareparts.SpRegisterMapper">
-  <resultMap id="BaseResultMap" type="cn.soa.entity.spareparts.SpRegister">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="REGISTER_CODE" jdbcType="VARCHAR" property="registerCode" />
-    <result column="REGISTER_TYPE" jdbcType="VARCHAR" property="registerType" />
-    <result column="EXPLAIN" jdbcType="VARCHAR" property="explain" />
-    <result column="REQUEST_CODE" jdbcType="VARCHAR" property="requestCode" />
-    <result column="REGISTER_PEOPLE" jdbcType="VARCHAR" property="registerPeople" />
-    <result column="REGISTER_DATE" jdbcType="TIMESTAMP" property="registerDate" />
-    <result column="RENARK" jdbcType="VARCHAR" property="renark" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, REGISTER_CODE, REGISTER_TYPE, EXPLAIN, REQUEST_CODE, REGISTER_PEOPLE, REGISTER_DATE, 
-    RENARK
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from IOT_SP_REGISTER
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from IOT_SP_REGISTER
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="cn.soa.entity.spareparts.SpRegister">
-    insert into IOT_SP_REGISTER (ID, REGISTER_CODE, REGISTER_TYPE, 
-      EXPLAIN, REQUEST_CODE, REGISTER_PEOPLE, 
-      REGISTER_DATE, RENARK)
-    values (#{id,jdbcType=VARCHAR}, #{registerCode,jdbcType=VARCHAR}, #{registerType,jdbcType=VARCHAR}, 
-      #{explain,jdbcType=VARCHAR}, #{requestCode,jdbcType=VARCHAR}, #{registerPeople,jdbcType=VARCHAR}, 
-      #{registerDate,jdbcType=TIMESTAMP}, #{renark,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.soa.entity.spareparts.SpRegister">
-    insert into IOT_SP_REGISTER
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="registerCode != null">
-        REGISTER_CODE,
-      </if>
-      <if test="registerType != null">
-        REGISTER_TYPE,
-      </if>
-      <if test="explain != null">
-        EXPLAIN,
-      </if>
-      <if test="requestCode != null">
-        REQUEST_CODE,
-      </if>
-      <if test="registerPeople != null">
-        REGISTER_PEOPLE,
-      </if>
-      <if test="registerDate != null">
-        REGISTER_DATE,
-      </if>
-      <if test="renark != null">
-        RENARK,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="registerCode != null">
-        #{registerCode,jdbcType=VARCHAR},
-      </if>
-      <if test="registerType != null">
-        #{registerType,jdbcType=VARCHAR},
-      </if>
-      <if test="explain != null">
-        #{explain,jdbcType=VARCHAR},
-      </if>
-      <if test="requestCode != null">
-        #{requestCode,jdbcType=VARCHAR},
-      </if>
-      <if test="registerPeople != null">
-        #{registerPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="registerDate != null">
-        #{registerDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="renark != null">
-        #{renark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.spareparts.SpRegister">
-    update IOT_SP_REGISTER
-    <set>
-      <if test="registerCode != null">
-        REGISTER_CODE = #{registerCode,jdbcType=VARCHAR},
-      </if>
-      <if test="registerType != null">
-        REGISTER_TYPE = #{registerType,jdbcType=VARCHAR},
-      </if>
-      <if test="explain != null">
-        EXPLAIN = #{explain,jdbcType=VARCHAR},
-      </if>
-      <if test="requestCode != null">
-        REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
-      </if>
-      <if test="registerPeople != null">
-        REGISTER_PEOPLE = #{registerPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="registerDate != null">
-        REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="renark != null">
-        RENARK = #{renark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.spareparts.SpRegister">
-    update IOT_SP_REGISTER
-    set REGISTER_CODE = #{registerCode,jdbcType=VARCHAR},
-      REGISTER_TYPE = #{registerType,jdbcType=VARCHAR},
-      EXPLAIN = #{explain,jdbcType=VARCHAR},
-      REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
-      REGISTER_PEOPLE = #{registerPeople,jdbcType=VARCHAR},
-      REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
-      RENARK = #{renark,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.spareparts.SpRegister">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="REGISTER_CODE" jdbcType="VARCHAR"
+			property="registerCode" />
+		<result column="REGISTER_TYPE" jdbcType="VARCHAR"
+			property="registerType" />
+		<result column="EXPLAIN" jdbcType="VARCHAR" property="explain" />
+		<result column="REQUEST_CODE" jdbcType="VARCHAR"
+			property="requestCode" />
+		<result column="REGISTER_PEOPLE" jdbcType="VARCHAR"
+			property="registerPeople" />
+		<result column="REGISTER_DATE" jdbcType="TIMESTAMP"
+			property="registerDate" />
+		<result column="RENARK" jdbcType="VARCHAR" property="renark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, REGISTER_CODE, REGISTER_TYPE, EXPLAIN, REQUEST_CODE,
+		REGISTER_PEOPLE,
+		REGISTER_DATE,
+		RENARK
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_SP_REGISTER
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据条件查询 -->
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_SP_REGISTER
+		<where>
+			<!-- 匹配申请日期 -->
+			<if test="beginDate != null and beginDate != ''">
+				and to_char(REGISTER_DATE,'YYYY-MM-DD') &gt;=
+				#{beginDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and to_char(REGISTER_DATE,'YYYY-MM-DD') &lt;=
+				#{endDate,jdbcType=VARCHAR}
+			</if>
+			<if test="spRegister != null">
+				<!-- 匹配id -->
+				<if test="spRegister.id != null and spRegister.id != ''">
+					and ID = #{spRegister.id,jdbcType=VARCHAR}
+				</if>
+				<!-- 匹配登记单号 -->
+				<if
+					test="spRegister.registerCode != null and spRegister.registerCode != ''">
+					and REGISTER_CODE =
+					#{spRegister.registerCode,jdbcType=VARCHAR}
+				</if>
+				<!-- 匹配登记类型 -->
+				<if
+					test="spRegister.registerType != null and spRegister.registerType != ''">
+					and REGISTER_TYPE =
+					#{spRegister.registerType,jdbcType=VARCHAR}
+				</if>
+				<!-- 匹配类型详情 -->
+				<if
+					test="spRegister.explain != null and spRegister.explain != ''">
+					and EXPLAIN = #{spRegister.explain,jdbcType=VARCHAR}
+				</if>
+				<!-- 匹配关联单号 -->
+				<if
+					test="spRegister.requestCode != null and spRegister.requestCode != ''">
+					and REQUEST_CODE = #{spRegister.requestCode,jdbcType=VARCHAR}
+				</if>
+				<!-- 匹配登记人员 -->
+				<if
+					test="spRegister.registerPeople != null and spRegister.registerPeople != ''">
+					and REGISTER_PEOPLE like '%' ||
+					#{spRegister.registerPeople,jdbcType=VARCHAR} || '%'
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_SP_REGISTER
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.soa.entity.spareparts.SpRegister">
+		insert into IOT_SP_REGISTER (ID, REGISTER_CODE,
+		REGISTER_TYPE,
+		EXPLAIN, REQUEST_CODE, REGISTER_PEOPLE,
+		REGISTER_DATE,
+		RENARK)
+		values (#{id,jdbcType=VARCHAR},
+		#{registerCode,jdbcType=VARCHAR},
+		#{registerType,jdbcType=VARCHAR},
+		#{explain,jdbcType=VARCHAR}, #{requestCode,jdbcType=VARCHAR},
+		#{registerPeople,jdbcType=VARCHAR},
+		#{registerDate,jdbcType=TIMESTAMP}, #{renark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.spareparts.SpRegister">
+		insert into IOT_SP_REGISTER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="registerCode != null">
+				REGISTER_CODE,
+			</if>
+			<if test="registerType != null">
+				REGISTER_TYPE,
+			</if>
+			<if test="explain != null">
+				EXPLAIN,
+			</if>
+			<if test="requestCode != null">
+				REQUEST_CODE,
+			</if>
+			<if test="registerPeople != null">
+				REGISTER_PEOPLE,
+			</if>
+			<if test="registerDate != null">
+				REGISTER_DATE,
+			</if>
+			<if test="renark != null">
+				RENARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="registerCode != null">
+				#{registerCode,jdbcType=VARCHAR},
+			</if>
+			<if test="registerType != null">
+				#{registerType,jdbcType=VARCHAR},
+			</if>
+			<if test="explain != null">
+				#{explain,jdbcType=VARCHAR},
+			</if>
+			<if test="requestCode != null">
+				#{requestCode,jdbcType=VARCHAR},
+			</if>
+			<if test="registerPeople != null">
+				#{registerPeople,jdbcType=VARCHAR},
+			</if>
+			<if test="registerDate != null">
+				#{registerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="renark != null">
+				#{renark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.spareparts.SpRegister">
+		update IOT_SP_REGISTER
+		<set>
+			<if test="registerCode != null">
+				REGISTER_CODE = #{registerCode,jdbcType=VARCHAR},
+			</if>
+			<if test="registerType != null">
+				REGISTER_TYPE = #{registerType,jdbcType=VARCHAR},
+			</if>
+			<if test="explain != null">
+				EXPLAIN = #{explain,jdbcType=VARCHAR},
+			</if>
+			<if test="requestCode != null">
+				REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
+			</if>
+			<if test="registerPeople != null">
+				REGISTER_PEOPLE = #{registerPeople,jdbcType=VARCHAR},
+			</if>
+			<if test="registerDate != null">
+				REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="renark != null">
+				RENARK = #{renark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.spareparts.SpRegister">
+		update IOT_SP_REGISTER
+		set REGISTER_CODE =
+		#{registerCode,jdbcType=VARCHAR},
+		REGISTER_TYPE =
+		#{registerType,jdbcType=VARCHAR},
+		EXPLAIN =
+		#{explain,jdbcType=VARCHAR},
+		REQUEST_CODE =
+		#{requestCode,jdbcType=VARCHAR},
+		REGISTER_PEOPLE =
+		#{registerPeople,jdbcType=VARCHAR},
+		REGISTER_DATE =
+		#{registerDate,jdbcType=TIMESTAMP},
+		RENARK = #{renark,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

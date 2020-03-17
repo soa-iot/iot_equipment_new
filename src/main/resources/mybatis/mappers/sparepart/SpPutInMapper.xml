@@ -80,10 +80,12 @@
 			</if>
 			<!-- 匹配申请日期 -->
 			<if test="beginDate != null and beginDate != ''">
-				and to_char(APPLICATION_DATE,'YYYY-MM-DD') &gt;= #{beginDate,jdbcType=VARCHAR}
+				and to_char(APPLICATION_DATE,'YYYY-MM-DD') &gt;=
+				#{beginDate,jdbcType=VARCHAR}
 			</if>
 			<if test="endDate != null and endDate != ''">
-				and to_char(APPLICATION_DATE,'YYYY-MM-DD') &lt;= #{endDate,jdbcType=VARCHAR}
+				and to_char(APPLICATION_DATE,'YYYY-MM-DD') &lt;=
+				#{endDate,jdbcType=VARCHAR}
 			</if>
 		</where>
 	</select>
@@ -232,5 +234,39 @@
 		#{outPutTime,jdbcType=TIMESTAMP},
 		REMARK = #{remark,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据单号更新 -->
+	<update id="updateByRequestCode"
+		parameterType="cn.soa.entity.spareparts.SpPutIn">
+		update IOT_SP_PUT_IN
+		<set>
+			<if test="proposer != null">
+				PROPOSER = #{proposer,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationDate != null">
+				APPLICATION_DATE = #{applicationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationStatus != null">
+				APPLICATION_STATUS =
+				#{applicationStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="passDate != null">
+				PASS_DATE = #{passDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outPutStatus != null">
+				OUT_PUT_STATUS = #{outPutStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="outPutTime != null">
+				OUT_PUT_TIME = #{outPutTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where REQUEST_CODE = #{requestCode,jdbcType=VARCHAR}
 	</update>
 </mapper>

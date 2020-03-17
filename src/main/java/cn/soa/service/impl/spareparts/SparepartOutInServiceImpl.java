@@ -30,6 +30,7 @@ import cn.soa.entity.spareparts.SparePart;
 import cn.soa.entity.spareparts.SparepartOutInEntity;
 import cn.soa.exception.ParameterNotDiscernmentException;
 import cn.soa.service.intel.spareparts.SparepartOutInService;
+import cn.soa.utils.DateUtils;
 
 @Service
 public class SparepartOutInServiceImpl implements SparepartOutInService {
@@ -80,6 +81,13 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 		// 备件出入库记录信息
 		List<SpRecord> spRecords = new ArrayList<>();
 
+		/**
+		 * 备件申请表数据回写数据（出入库状态、出入库时间）
+		 */
+		SpPutIn SpPutIn = new SpPutIn();
+		SpPutIn.setOutPutTime(DateUtils.getCurrentDate());
+		SpPutIn.setRequestCode(spRegister.getRequestCode());
+
 		switch (operateType) {
 		case "out":
 			// 出库
@@ -92,8 +100,9 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 				sparePart.setSpInventory((short) (spRecord.getSpInventory() - spRecord.getQuantity()));
 				// 更新库存
 				sparePartMapper.updateSelective(sparePart);
-
 			}
+			SpPutIn.setOutPutStatus("出库完成");
+			
 			break;
 		case "in":
 			// 采购入库
@@ -106,8 +115,10 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 				sparePart.setSpInventory((short) (spRecord.getSpInventory() + spRecord.getQuantity()));
 				// 更新库存
 				sparePartMapper.updateSelective(sparePart);
-
 			}
+
+			SpPutIn.setOutPutStatus("入库完成");
+			spPutInMapper.updateByRequestCode(SpPutIn);
 			break;
 		case "normalIn":
 			// 普通入库
@@ -120,18 +131,35 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 				sparePart.setSpInventory((short) (spRecord.getSpInventory() + spRecord.getQuantity()));
 				// 更新库存
 				sparePartMapper.updateSelective(sparePart);
-				
-				//写入数据到备件出入库记录表
+
+				// 写入数据到备件出入库记录表
 				spRecordMapper.insertSelective(spRecord);
 			}
 			break;
 		default:
 			throw new ParameterNotDiscernmentException("传入的参数operateType，参数值无法匹配");
 		}
+
+		//设置登记时间
+		spRegister.setRegisterDate(DateUtils.getCurrentDate());
+		
 		// 插入数据到备件出入库登记表
 		spRegisterMapper.insertSelective(spRegister);
 
 		return "备件出入库操作成功";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.intel.spareparts.SparepartOutInService#getOutInRegisterInfo(cn
+	 * .soa.entity.QueryCondition)
+	 */
+	@Override
+	public Page<SpRegister> getOutInRegisterInfo(QueryCondition condition) {
+		Page<SpRegister> result = spRegisterMapper.selectByCondition(condition);
+		return result;
 	}
 
 }
