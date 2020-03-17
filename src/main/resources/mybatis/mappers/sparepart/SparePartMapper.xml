@@ -42,7 +42,7 @@
 		<include refid="BaseColumn"></include>
 		from IOT_SPARE_PART
 		<where>
-			<if test="alarm == 'true' or alarm = 'TRUE'">
+			<if test="alarm == 'true' or alarm == 'TRUE'">
 				and SP_INVENTORY &lt; PREWARNING_VAL
 			</if>
 			<if test="sparePart != null">

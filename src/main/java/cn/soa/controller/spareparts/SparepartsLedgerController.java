@@ -56,6 +56,7 @@ public class SparepartsLedgerController {
 			log.info("==============开启分页=============");
 			PageHelper.startPage(condition.getPage(), condition.getLimit());
 		}
+		System.out.println(condition.getAlarm());
 
 		ResponseEntity<Page<SparePart>> resObj = new ResponseEntity<Page<SparePart>>();
 
