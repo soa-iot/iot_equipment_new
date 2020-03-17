@@ -1,5 +1,7 @@
 package cn.soa.dao.spareparts;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import cn.soa.entity.spareparts.SpRecord;
@@ -17,4 +19,11 @@ public interface SpRecordMapper {
     int updateByPrimaryKeySelective(SpRecord record);
 
     int updateByPrimaryKey(SpRecord record);
+    
+    /**
+     * 根据申请单号查询数据
+     * @param requestCode
+     * @return
+     */
+    List<SpRecord> selectByRequestCode(String requestCode);
 }

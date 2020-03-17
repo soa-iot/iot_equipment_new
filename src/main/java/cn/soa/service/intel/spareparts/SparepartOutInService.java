@@ -13,6 +13,8 @@ import com.github.pagehelper.Page;
 
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.spareparts.SpPutIn;
+import cn.soa.entity.spareparts.SparepartOutInEntity;
+import cn.soa.exception.ParameterNotDiscernmentException;
 
 public interface SparepartOutInService {
 
@@ -22,5 +24,12 @@ public interface SparepartOutInService {
 	 * @return
 	 */
 	Page<SpPutIn> getSparepartApply(QueryCondition condition);
+
+	/**
+	 * 备件出入库操作
+	 * @param sparepartOutInEntity
+	 * @return
+	 */
+	String doSparepartOutIn(SparepartOutInEntity sparepartOutInEntity) throws ParameterNotDiscernmentException;
 
 }
