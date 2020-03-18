@@ -12,20 +12,53 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EqOrSpRelation {
-	
-    private String rId;
 
-    private String eqFieid;
+	private String rId;
 
-    private BigDecimal type;
+	private String eqFieid;
 
-    private String costomValue;
+	private BigDecimal type;
 
-    private String remark;
+	private String costomValue;
 
-    private String remark1;
+	private String remark;
 
-    private String eqId;
+	private String remark1;
 
-   
+	private String eqId;
+
+	/**
+	 * 动态设置参数
+	 * @param propertyName
+	 * @param value
+	 */
+	public void setProperty(String propertyName, String value) {
+		switch (propertyName) {
+		case "rId":
+			this.setRId(value);
+			break;
+		case "eqFieid":
+			this.setEqFieid(value);
+			break;
+		case "type":
+			this.setType(BigDecimal.valueOf(Double.valueOf(value)));
+			break;
+		case "costomValue":
+			this.setCostomValue(value);
+			break;
+		case "remark":
+			this.setRemark(value);
+			break;
+		case "remark1":
+			this.setRemark1(value);
+			break;
+		case "eqId":
+			this.setEqId(value);
+			break;
+
+		default:
+			break;
+		}
+	}
+
 }

@@ -9,25 +9,32 @@
  */
 package cn.soa.service.impl.spareparts;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import cn.soa.dao.spareparts.EqOrSpRelationMapper;
+import cn.soa.entity.spareparts.EqOrSpRelation;
 import cn.soa.service.intel.spareparts.SparepartsExcelService;
 import cn.soa.utils.ExcelTool;
 
 @Service
 public class SparepartsExcelServiceImpl implements SparepartsExcelService {
+
+	@Autowired
+	private EqOrSpRelationMapper eqOrSpRelationMapper;// 设备备件关系表mapper
 
 	/*
 	 * (non-Javadoc)
@@ -37,6 +44,7 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 	 * springframework.web.multipart.MultipartFile)
 	 */
 	@Override
+	@Transactional
 	public String importEqOrSpRe(MultipartFile exportFile) throws Exception {
 
 		/**
@@ -80,19 +88,27 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 				String value = excelTool.getCellFormatValue(cell);
 				String key = excelTool.getCellFormatValue(sheet.getRow(1).getCell(colIndex));
 
-				
-
 				if (key != null && !"".equals(key)) {
 					dataMap.put(key, value);
 					System.out.println(key + ":" + value);
 				}
-					
 
 			}
 			dataList.add(dataMap);
 		}
 
-		return "";
+		Integer result = 0;
+		for (Map<String, Object> item : dataList) {
+			EqOrSpRelation eqOrSpRelation = new EqOrSpRelation();
+			Set<String> keys = item.keySet();
+			for (String key : keys) {
+				eqOrSpRelation.setProperty(key, String.valueOf(item.get(key)));
+			}
+			// 导入数据
+			result += eqOrSpRelationMapper.insertSelective(eqOrSpRelation);
+		}
+
+		return "成功导入了" + result + "条数据";
 	}
 
 }
