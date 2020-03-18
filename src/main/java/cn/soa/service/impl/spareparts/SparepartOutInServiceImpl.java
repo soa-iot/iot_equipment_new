@@ -102,11 +102,11 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 				sparePartMapper.updateSelective(sparePart);
 			}
 			SpPutIn.setOutPutStatus("出库完成");
-			
+
 			break;
 		case "in":
 			// 采购入库
-			spRecords = spRecordMapper.selectByRequestCode(spRegister.getRequestCode());
+			spRecords = spRecordMapper.selectByRequestCode(spRegister.getRequestCode()).getResult();
 			for (SpRecord spRecord : spRecords) {
 				SparePart sparePart = new SparePart();
 				// 设置id
@@ -140,9 +140,9 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 			throw new ParameterNotDiscernmentException("传入的参数operateType，参数值无法匹配");
 		}
 
-		//设置登记时间
+		// 设置登记时间
 		spRegister.setRegisterDate(DateUtils.getCurrentDate());
-		
+
 		// 插入数据到备件出入库登记表
 		spRegisterMapper.insertSelective(spRegister);
 
@@ -159,6 +159,20 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 	@Override
 	public Page<SpRegister> getOutInRegisterInfo(QueryCondition condition) {
 		Page<SpRegister> result = spRegisterMapper.selectByCondition(condition);
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.intel.spareparts.SparepartOutInService#getSpRecord(java.lang.
+	 * String)
+	 */
+	@Override
+	public Page<SpRecord> getSpRecord(String requestCode) {
+		System.out.println(requestCode);
+		Page<SpRecord> result = spRecordMapper.selectByRequestCode(requestCode);
 		return result;
 	}
 

@@ -13,6 +13,7 @@ import com.github.pagehelper.Page;
 
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.spareparts.SpPutIn;
+import cn.soa.entity.spareparts.SpRecord;
 import cn.soa.entity.spareparts.SpRegister;
 import cn.soa.entity.spareparts.SparepartOutInEntity;
 import cn.soa.exception.ParameterNotDiscernmentException;
@@ -39,5 +40,12 @@ public interface SparepartOutInService {
 	 * @return
 	 */
 	Page<SpRegister> getOutInRegisterInfo(QueryCondition condition);
+
+	/**
+	 * 根据单号查询设备出入库记录
+	 * @param requestCode
+	 * @return
+	 */
+	Page<SpRecord> getSpRecord(String requestCode);
 
 }

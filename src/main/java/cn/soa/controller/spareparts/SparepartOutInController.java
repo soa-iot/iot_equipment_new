@@ -21,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.spareparts.SpPutIn;
+import cn.soa.entity.spareparts.SpRecord;
 import cn.soa.entity.spareparts.SpRegister;
 import cn.soa.entity.spareparts.SparepartOutInEntity;
 import cn.soa.service.intel.spareparts.SparepartOutInService;
@@ -39,13 +40,13 @@ public class SparepartOutInController {
 	private SparepartOutInService sparepartOutInService;
 
 	/**
-	 * 获取采购申请单列表数据
+	 * 获取申请单列表数据
 	 * 
 	 * @param condition
 	 * @return
 	 */
 	@RequestMapping(value = "/getSparepartApply", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	@ApiOperation("获取采购申请单列表数据")
+	@ApiOperation("获取申请单列表数据")
 	public ResponseEntity<Page<SpPutIn>> getSparepartApply(@ApiParam("查询条件，支持分页，需要开启分页时需要传page和limit参数；"
 			+ "过滤需要传spPutIn对象，领用和申请用spPutIn的type属性过滤，若要匹配申请日期，需根据需要传beginDate、endDate两个参数") @RequestBody QueryCondition condition) {
 
@@ -148,6 +149,53 @@ public class SparepartOutInController {
 			resObj.setMsg("query data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.info("====================获取出入库登记数据列表失败========================>>>" + e.getMessage());
+		}
+
+		return resObj;
+	}
+
+	/**
+	 * 通过申请单号获取备件出入库记录
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping(value = "/getSpRecord", method = RequestMethod.GET)
+	@ApiOperation("通过申请单号获取备件出入库记录")
+	public ResponseEntity<Page<SpRecord>> getSpRecord(@ApiParam("申请单号") String requestCode,
+			@ApiParam("当前页码") Integer page, @ApiParam("每页条数") Integer limit) {
+
+		log.info("====================获取备件出入库记录========================");
+		ResponseEntity<Page<SpRecord>> resObj = new ResponseEntity<Page<SpRecord>>();
+
+		// 申请单号不存在时回传空数据
+		if (requestCode == null || "".equals(requestCode)) {
+			Page<SpRecord> result = new Page<SpRecord>();
+			resObj.setCode(0);
+			resObj.setCount(result.size());
+			resObj.setData(result);
+			resObj.setMsg("query data sucess");
+			log.info("====================获取备件出入库记录成功========================");
+			return resObj;
+		}
+
+		// 开启分页
+		if (page != null && limit != null) {
+			PageHelper.startPage(page, limit);
+		}
+
+		try {
+			Page<SpRecord> result = sparepartOutInService.getSpRecord(requestCode);
+			resObj.setCode(0);
+			resObj.setCount(result.size());
+			resObj.setData(result);
+			resObj.setMsg("query data sucess");
+			log.info("====================获取备件出入库记录成功========================");
+		} catch (Exception e) {
+			resObj.setCode(-1);
+			resObj.setMsg("query data failed >>>" + e.getMessage());
+			e.printStackTrace();
+			log.info("====================获取备件出入库记录失败========================>>>" + e.getMessage());
 		}
 
 		return resObj;

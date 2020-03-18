@@ -9,11 +9,90 @@
  */
 package cn.soa.service.impl.spareparts;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.soa.service.intel.spareparts.SparepartsExcelService;
+import cn.soa.utils.ExcelTool;
 
 @Service
 public class SparepartsExcelServiceImpl implements SparepartsExcelService {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.intel.spareparts.SparepartsExcelService#importEqOrSpRe(org.
+	 * springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public String importEqOrSpRe(MultipartFile exportFile) throws Exception {
+
+		/**
+		 * 执行导入前检查文件是否正确
+		 */
+		if (exportFile.isEmpty()) {
+			return "error：上传的文件为空，请检查后再上传！！！";
+		}
+		String fileName = exportFile.getOriginalFilename();
+		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+		if (!(suffix.equals("xlsx") || suffix.equals("xls"))) {
+			return "error：上传的文件格式不正确，请检查后再上传！！！";
+		}
+
+		/**
+		 * 执行导入
+		 */
+		InputStream inputStream = exportFile.getInputStream();
+
+		ExcelTool excelTool = new ExcelTool<>();
+
+		// 动态获取文件类型
+		Workbook workbook = excelTool.getWorkbookType(inputStream, fileName);
+		inputStream.close();
+
+		Sheet sheet = workbook.getSheetAt(0); // 第一个sheet
+		int rowLength = sheet.getLastRowNum() + 1; // 总行数
+		int colLength = sheet.getRow(0).getLastCellNum(); // 总列数
+
+		// 存放excel读取的数据
+		List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+
+		// 循环行
+		for (int rowIndex = 2; rowIndex < rowLength; rowIndex++) {
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			Row row = sheet.getRow(rowIndex);
+			// 循环列
+			for (int colIndex = 0; colIndex < colLength; colIndex++) {
+				// System.out.println("colIndex" + colIndex);
+				Cell cell = row.getCell(colIndex);
+				String value = excelTool.getCellFormatValue(cell);
+				String key = excelTool.getCellFormatValue(sheet.getRow(1).getCell(colIndex));
+
+				
+
+				if (key != null && !"".equals(key)) {
+					dataMap.put(key, value);
+					System.out.println(key + ":" + value);
+				}
+					
+
+			}
+			dataList.add(dataMap);
+		}
+
+		return "";
+	}
 
 }

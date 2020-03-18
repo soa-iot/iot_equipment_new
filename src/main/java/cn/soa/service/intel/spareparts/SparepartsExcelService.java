@@ -9,6 +9,17 @@
  */
 package cn.soa.service.intel.spareparts;
 
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public interface SparepartsExcelService {
+
+	/**
+	 * 设备与备件关系导入
+	 * @param exportFile
+	 * @return
+	 */
+	String importEqOrSpRe(MultipartFile exportFile) throws Exception;
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.github.pagehelper.Page;
+
 import cn.soa.entity.spareparts.SpRecord;
 
 @Mapper
@@ -25,5 +27,5 @@ public interface SpRecordMapper {
      * @param requestCode
      * @return
      */
-    List<SpRecord> selectByRequestCode(String requestCode);
+    Page<SpRecord> selectByRequestCode(String requestCode);
 }
