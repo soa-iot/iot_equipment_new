@@ -9,9 +9,12 @@
  */
 package cn.soa.service.intel.spareparts;
 
-import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import cn.soa.entity.QueryCondition;
 
 public interface SparepartsExcelService {
 
@@ -21,5 +24,20 @@ public interface SparepartsExcelService {
 	 * @return
 	 */
 	String importEqOrSpRe(MultipartFile exportFile) throws Exception;
+
+	/**
+	 * 备件导入
+	 * @param exportFile
+	 * @return
+	 */
+	String importSparepart(MultipartFile exportFile) throws Exception;
+
+	/**
+	 * 备件导出
+	 * @param condition
+	 * @param response
+	 */
+	void exportEquipment(QueryCondition condition, HttpServletResponse response) throws Exception;
+	
 
 }

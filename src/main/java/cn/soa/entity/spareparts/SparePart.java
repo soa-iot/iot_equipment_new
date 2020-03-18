@@ -2,154 +2,117 @@ package cn.soa.entity.spareparts;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class SparePart {
-    private String spId;
+	private String spId;
 
-    private String spEncoding;
+	private String spEncoding;
 
-    private String spName;
+	private String spName;
 
-    private String brand;
+	private String brand;
 
-    private String type;
+	private String type;
 
-    private String specification;
+	private String specification;
 
-    private String unit;
+	private String unit;
 
-    private Short unitCost;
+	private Short unitCost;
 
-    private Short spInventory;
+	private Short spInventory;
 
-    private Short prewarningVal;
+	private Short prewarningVal;
 
-    private String procurementCycle;
+	private String procurementCycle;
 
-    private String labelCode;
+	private String labelCode;
 
-    private String manufactureFactory;
+	private String manufactureFactory;
 
-    private Date productionDate;
+	private String productionDate;
 
-    private String remark;
+	private String remark;
 
-    public String getSpId() {
-        return spId;
-    }
+	/**
+	 * @param key
+	 * @param valueOf
+	 */
+	public void setProperty(String key, String value) {
 
-    public void setSpId(String spId) {
-        this.spId = spId == null ? null : spId.trim();
-    }
+		switch (key) {
+		case "SP_ID":
+		case "spId":
+			this.setSpId(value);
+			break;
+		case "SP_ENCODING":
+		case "spEncoding":
+			this.setSpEncoding(value);
 
-    public String getSpEncoding() {
-        return spEncoding;
-    }
+			break;
+		case "SP_NAME":
+		case "spName":
+			this.setSpName(value);
+			break;
+		case "BRAND":
+		case "brand":
+			this.setBrand(value);
+			break;
+		case "TYPE":
+		case "type":
+			this.setType(value);
+			break;
+		case "SPECIFICATION":
+		case "specification":
+			this.setSpecification(value);
+			break;
+		case "UNIT":
+		case "unit":
+			this.setUnit(value);
+			break;
+		case "UNIT_COST":
+		case "unitCost":
+			this.setUnitCost(Short.valueOf(value.substring(0,value.indexOf("."))));
+			break;
+		case "SP_INVENTORY":
+		case "spInventory":
+			this.setSpInventory(Short.valueOf(value.substring(0,value.indexOf("."))));
+			break;
+		case "PREWARNING_VAL":
+		case "prewarningVal":
+			this.setPrewarningVal(Short.valueOf(value.substring(0,value.indexOf("."))));
+			break;
+		case "PROCUREMENT_CYCLE":
+		case "procurementCycle":
+			this.setProcurementCycle(value);
+			break;
+		case "LABEL_CODE":
+		case "labelCode":
+			this.setLabelCode(value);
+			break;
+		case "MANUFACTURE_FACTORY":
+		case "manufactureFactory":
+			this.setManufactureFactory(value);
+			break;
+		case "PRODUCTION_DATE":
+		case "productionDate":
+			this.setProductionDate(value);
+			break;
+		case "REMARK":
+		case "remark":
+			this.setRemark(value);
+			break;
+		default:
+			break;
+		}
 
-    public void setSpEncoding(String spEncoding) {
-        this.spEncoding = spEncoding == null ? null : spEncoding.trim();
-    }
-
-    public String getSpName() {
-        return spName;
-    }
-
-    public void setSpName(String spName) {
-        this.spName = spName == null ? null : spName.trim();
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand == null ? null : brand.trim();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getSpecification() {
-        return specification;
-    }
-
-    public void setSpecification(String specification) {
-        this.specification = specification == null ? null : specification.trim();
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
-
-    public Short getUnitCost() {
-        return unitCost;
-    }
-
-    public void setUnitCost(Short unitCost) {
-        this.unitCost = unitCost;
-    }
-
-    public Short getSpInventory() {
-        return spInventory;
-    }
-
-    public void setSpInventory(Short spInventory) {
-        this.spInventory = spInventory;
-    }
-
-    public Short getPrewarningVal() {
-        return prewarningVal;
-    }
-
-    public void setPrewarningVal(Short prewarningVal) {
-        this.prewarningVal = prewarningVal;
-    }
-
-    public String getProcurementCycle() {
-        return procurementCycle;
-    }
-
-    public void setProcurementCycle(String procurementCycle) {
-        this.procurementCycle = procurementCycle == null ? null : procurementCycle.trim();
-    }
-
-    public String getLabelCode() {
-        return labelCode;
-    }
-
-    public void setLabelCode(String labelCode) {
-        this.labelCode = labelCode == null ? null : labelCode.trim();
-    }
-
-    public String getManufactureFactory() {
-        return manufactureFactory;
-    }
-
-    public void setManufactureFactory(String manufactureFactory) {
-        this.manufactureFactory = manufactureFactory == null ? null : manufactureFactory.trim();
-    }
-
-    public Date getProductionDate() {
-        return productionDate;
-    }
-
-    public void setProductionDate(Date productionDate) {
-        this.productionDate = productionDate;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	}
 }

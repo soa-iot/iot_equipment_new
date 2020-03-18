@@ -32,7 +32,7 @@
 	<sql id="BaseColumn">
 		SP_ID,SP_ENCODING,SP_NAME,BRAND,TYPE,SPECIFICATION,UNIT,UNIT_COST,
 		SP_INVENTORY,PREWARNING_VAL,PROCUREMENT_CYCLE,LABEL_CODE,MANUFACTURE_FACTORY,
-		PRODUCTION_DATE,REMARK
+		TO_CHAR(PRODUCTION_DATE,'YYYY-MM-DD') AS PRODUCTION_DATE,REMARK
 	</sql>
 
 	<!-- 根据条件查询数据 -->
@@ -260,7 +260,7 @@
 				#{manufactureFactory,jdbcType=VARCHAR},
 			</if>
 			<if test="productionDate != null">
-				#{productionDate,jdbcType=TIMESTAMP},
+				to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			</if>
 			<if test="remark != null">
 				#{remark,jdbcType=VARCHAR},
@@ -322,7 +322,7 @@
 				#{manufactureFactory,jdbcType=VARCHAR},
 			</if>
 			<if test="productionDate != null">
-				PRODUCTION_DATE = #{productionDate,jdbcType=TIMESTAMP},
+				PRODUCTION_DATE = to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			</if>
 			<if test="remark != null">
 				REMARK = #{remark,jdbcType=VARCHAR},
