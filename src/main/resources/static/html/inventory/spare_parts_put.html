@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>备件入库管理界面</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta charset="UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="stylesheet" href="../../jsPackage/layui-v2.4.2/css/layui.css">
+		<link rel="stylesheet" href="../../css/config.css">
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+			<legend>备件入库申请单</legend>
+		</fieldset>
+
+		<form class="layui-form layui-form-pane" action="">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">申请单号</label>
+					<div class="layui-input-block">
+						<input type="text" id="requestCode" disabled="disabled" name="requestCode" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">入库人</label>
+					<div class="layui-input-block">
+						<input type="text" id="proposer" name="proposer" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				<div class="layui-inline">
+					<label class="layui-form-label">入库类型</label>
+					<div class="layui-input-block">
+						<select name="interest" lay-filter="aihao">
+						        <option value=""></option>
+						        <option value="0">普通入库</option>
+						        <option value="1">采购入库</option>
+						      </select>
+					</div>
+				</div>
+				
+				<div class="layui-inline" id="selLydDiv" style="display: none; ">
+					<label class="layui-form-label">采购申请单</label>
+					<div class="layui-input-inline">
+						
+					 <button type="button" id="selLyd"  class="layui-btn layui-btn-primary">选择采购申请单</button>
+					
+					</div>
+				</div>
+			</div>
+			<!--  <div class="layui-form-item layui-form-text">
+		    <div class="layui-input-block">
+		      <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+		    </div>
+		  </div> -->
+			<div class="layui-inline" id="btn-group">
+				<button type="button" class="layui-btn" lay-submit id="search_button_search" lay-filter="search_button_search">
+					<i class="layui-icon">&#xe615;</i>提交
+				</button>
+			</div>
+		</form>
+
+		<div class="layui-row">
+
+			<div class="layui-col-md12 ">
+
+				<div class="component_container" id="equipment_list_table" lay-filter="sp"></div>
+
+			</div>
+
+		</div>
+	</body>
+	<!-- 备件登记-->
+	<script type="text/html" id="the_spare_parts_to_register">
+		<div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加</button>
+	 <!--   <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
+	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button> -->
+	  </div>
+	</script>
+
+	<div id="spare_parts_to_register" style="display: none; padding: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md12 ">
+				<div class="component_container" id="spare_parts_table" lay-filter="spare_parts_table"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!--采购申请单-->	
+	<script type="text/html" id="requisitions">
+		<div class="layui-btn-container">
+		    <button class="layui-btn layui-btn-sm" lay-event="getChe">添加</button>
+		  </div>
+		</script>
+	
+	<div id="purchase_requisitions" style="display: none; padding: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md12 ">
+				<div class="component_container" id="purchase_table" lay-filter="purchase_table1"></div>
+			</div>
+		</div>
+	</div>
+	<!--采购申请单-->
+	<script type="text/html" id="sprequisitions">
+		<div class="layui-btn-container">
+		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+		  </div>
+		</script>
+	
+	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
+	<script src="../../jsPackage/config/config.js"></script>
+	<script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../../js/inventory/spare_parts_put.js"></script>
+</html>
