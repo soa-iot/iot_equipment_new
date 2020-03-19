@@ -64,7 +64,7 @@ public class SparepartOutInController {
 		try {
 			Page<SpPutIn> result = sparepartOutInService.getSparepartApply(condition);
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 			resObj.setMsg("query data sucess");
 			log.info("====================获取采购申请单列表数据成功========================");
@@ -142,7 +142,7 @@ public class SparepartOutInController {
 		try {
 			Page<SpRegister> result = sparepartOutInService.getOutInRegisterInfo(condition);
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 			resObj.setMsg("query data sucess");
 			log.info("====================获取出入库登记数据列表成功========================");
@@ -174,7 +174,7 @@ public class SparepartOutInController {
 		if (requestCode == null || "".equals(requestCode)) {
 			Page<SpRecord> result = new Page<SpRecord>();
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(0);
 			resObj.setData(result);
 			resObj.setMsg("query data sucess");
 			log.info("====================获取备件出入库记录成功========================");
@@ -189,7 +189,7 @@ public class SparepartOutInController {
 		try {
 			Page<SpRecord> result = sparepartOutInService.getSpRecord(requestCode);
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 			resObj.setMsg("query data sucess");
 			log.info("====================获取备件出入库记录成功========================");

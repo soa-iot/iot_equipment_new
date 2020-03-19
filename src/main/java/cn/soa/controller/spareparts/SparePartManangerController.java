@@ -73,7 +73,7 @@ public class SparePartManangerController {
 			// 查询设备数据
 			Page<EquipmentCommonInfo> result = sparePartManangerService.getEquInfo(condition);
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 			resObj.setMsg("query data success");
 			log.info("=================获取设备基本信息成功====================");
