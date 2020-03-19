@@ -64,7 +64,7 @@ public class SparepartsLedgerController {
 		try {
 			Page<SparePart> result = sparepartsLedgerService.getSparePartsInfo(condition);
 			resObj.setCode(0);
-			resObj.setCount(result.size());
+			resObj.setCount(result.getTotal());
 			resObj.setData(result);
 			resObj.setMsg("query data success");
 			log.info("==============获取设备备件数据列表成功=============");
