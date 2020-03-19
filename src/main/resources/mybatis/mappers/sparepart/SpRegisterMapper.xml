@@ -20,7 +20,7 @@
 	<sql id="Base_Column_List">
 		ID, REGISTER_CODE, REGISTER_TYPE, EXPLAIN, REQUEST_CODE,
 		REGISTER_PEOPLE,
-		REGISTER_DATE,
+		to_char(REGISTER_DATE,'YYYY-MM-DD') AS REGISTER_DATE,
 		RENARK
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -152,7 +152,7 @@
 				#{registerPeople,jdbcType=VARCHAR},
 			</if>
 			<if test="registerDate != null">
-				#{registerDate,jdbcType=TIMESTAMP},
+				TO_DATE(#{registerDate,jdbcType=TIMESTAMP},'YYYY-MM-DD'),
 			</if>
 			<if test="renark != null">
 				#{renark,jdbcType=VARCHAR},
@@ -179,7 +179,7 @@
 				REGISTER_PEOPLE = #{registerPeople,jdbcType=VARCHAR},
 			</if>
 			<if test="registerDate != null">
-				REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
+				REGISTER_DATE = TO_DATE(#{registerDate,jdbcType=TIMESTAMP},'YYYY-MM-DD'),
 			</if>
 			<if test="renark != null">
 				RENARK = #{renark,jdbcType=VARCHAR},

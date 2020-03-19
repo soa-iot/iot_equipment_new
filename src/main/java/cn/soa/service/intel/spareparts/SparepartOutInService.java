@@ -32,7 +32,7 @@ public interface SparepartOutInService {
 	 * @param sparepartOutInEntity
 	 * @return
 	 */
-	String doSparepartOutIn(SparepartOutInEntity sparepartOutInEntity) throws ParameterNotDiscernmentException;
+	String doSparepartOutIn(SparepartOutInEntity sparepartOutInEntity) throws Exception;
 
 	/**
 	 * 获取设备出入库登记信息

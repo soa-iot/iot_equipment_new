@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.github.pagehelper.Page;
 
 import cn.soa.entity.QueryCondition;
+import cn.soa.entity.spareparts.SpRecord;
 import cn.soa.entity.spareparts.SparePart;
 
 @Mapper
@@ -39,5 +40,18 @@ public interface SparePartMapper {
 	 * @return
 	 */
 	Integer updateSelective(SparePart sparePart);
+
+
+	/**
+	 * 根据设备出入库记录表增加库存
+	 * @param spRecord
+	 */
+	Integer addNumBySpRecord(SpRecord spRecord);
+
+	/**
+	 * 根据设备出入库记录表减少库存
+	 * @param spRecord
+	 */
+	Integer subNumBySpRecord(SpRecord spRecord);
 
 }

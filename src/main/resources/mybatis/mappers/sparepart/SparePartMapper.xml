@@ -322,13 +322,29 @@
 				#{manufactureFactory,jdbcType=VARCHAR},
 			</if>
 			<if test="productionDate != null">
-				PRODUCTION_DATE = to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+				PRODUCTION_DATE =
+				to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			</if>
 			<if test="remark != null">
 				REMARK = #{remark,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where SP_ID = #{spId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据设备出入库记录更新库存 -->
+	<update id="addNumBySpRecord"
+		parameterType="cn.soa.entity.spareparts.SpRecord">
+		update IOT_SPARE_PART
+		set SP_INVENTORY = SP_INVENTORY
+		+ #{quantity,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="subNumBySpRecord"
+		parameterType="cn.soa.entity.spareparts.SpRecord">
+		update IOT_SPARE_PART
+		set SP_INVENTORY = SP_INVENTORY
+		- #{quantity,jdbcType=DECIMAL}
 	</update>
 
 

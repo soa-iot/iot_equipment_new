@@ -28,6 +28,7 @@ import cn.soa.entity.spareparts.SpRecord;
 import cn.soa.entity.spareparts.SpRegister;
 import cn.soa.entity.spareparts.SparePart;
 import cn.soa.entity.spareparts.SparepartOutInEntity;
+import cn.soa.exception.CommonException;
 import cn.soa.exception.ParameterNotDiscernmentException;
 import cn.soa.service.intel.spareparts.SparepartOutInService;
 import cn.soa.utils.DateUtils;
@@ -71,7 +72,7 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 	 */
 	@Override
 	@Transactional
-	public String doSparepartOutIn(SparepartOutInEntity sparepartOutInEntity) throws ParameterNotDiscernmentException {
+	public String doSparepartOutIn(SparepartOutInEntity sparepartOutInEntity) throws Exception {
 
 		String operateType = sparepartOutInEntity.getOperateType();
 
@@ -93,13 +94,17 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 			// 出库
 			spRecords = spRecordMapper.selectByRequestCode(spRegister.getRequestCode());
 			for (SpRecord spRecord : spRecords) {
-				SparePart sparePart = new SparePart();
-				// 设置id
-				sparePart.setSpId(spRecord.getSpId());
-				// 设置库存=当前库存-出库数量
-				sparePart.setSpInventory((short) (spRecord.getSpInventory() - spRecord.getQuantity()));
-				// 更新库存
-				sparePartMapper.updateSelective(sparePart);
+				/*
+				 * SparePart sparePart = new SparePart(); // 设置id
+				 * sparePart.setSpId(spRecord.getSpId()); // 设置库存=当前库存-出库数量
+				 * sparePart.setSpInventory((short) (spRecord.getSpInventory() -
+				 * spRecord.getQuantity())); // 更新库存 sparePartMapper.updateSelective(sparePart);
+				 */
+				sparePartMapper.subNumBySpRecord(spRecord);
+				if(spRecord.getQuantity()>spRecord.getSpInventory()) {
+					throw new CommonException(spRecord.getSpName()+"库存不足，无法完成出库！！！");
+				}
+
 			}
 			SpPutIn.setOutPutStatus("出库完成");
 
@@ -108,13 +113,13 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 			// 采购入库
 			spRecords = spRecordMapper.selectByRequestCode(spRegister.getRequestCode()).getResult();
 			for (SpRecord spRecord : spRecords) {
-				SparePart sparePart = new SparePart();
-				// 设置id
-				sparePart.setSpId(spRecord.getSpId());
-				// 设置库存=当前库存-出库数量
-				sparePart.setSpInventory((short) (spRecord.getSpInventory() + spRecord.getQuantity()));
-				// 更新库存
-				sparePartMapper.updateSelective(sparePart);
+				/*
+				 * SparePart sparePart = new SparePart(); // 设置id
+				 * sparePart.setSpId(spRecord.getSpId()); // 设置库存=当前库存-出库数量
+				 * sparePart.setSpInventory((short) (spRecord.getSpInventory() +
+				 * spRecord.getQuantity())); // 更新库存 sparePartMapper.updateSelective(sparePart);
+				 */
+				sparePartMapper.addNumBySpRecord(spRecord);
 			}
 
 			SpPutIn.setOutPutStatus("入库完成");
@@ -124,16 +129,15 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 			// 普通入库
 			spRecords = sparepartOutInEntity.getSpRecords();
 			for (SpRecord spRecord : spRecords) {
-				SparePart sparePart = new SparePart();
-				// 设置id
-				sparePart.setSpId(spRecord.getSpId());
-				// 设置库存=当前库存-出库数量
-				sparePart.setSpInventory((short) (spRecord.getSpInventory() + spRecord.getQuantity()));
-				// 更新库存
-				sparePartMapper.updateSelective(sparePart);
-
-				// 写入数据到备件出入库记录表
-				spRecordMapper.insertSelective(spRecord);
+				/*
+				 * SparePart sparePart = new SparePart(); // 设置id
+				 * sparePart.setSpId(spRecord.getSpId()); // 设置库存=当前库存-出库数量
+				 * sparePart.setSpInventory((short) (spRecord.getSpInventory() +
+				 * spRecord.getQuantity())); // 更新库存 sparePartMapper.updateSelective(sparePart);
+				 * 
+				 * // 写入数据到备件出入库记录表 spRecordMapper.insertSelective(spRecord);
+				 */
+				sparePartMapper.addNumBySpRecord(spRecord);
 			}
 			break;
 		default:
@@ -141,7 +145,7 @@ public class SparepartOutInServiceImpl implements SparepartOutInService {
 		}
 
 		// 设置登记时间
-		spRegister.setRegisterDate(DateUtils.getCurrentDate());
+		spRegister.setRegisterDate(DateUtils.formatDate(DateUtils.getCurrentDate()));
 
 		// 插入数据到备件出入库登记表
 		spRegisterMapper.insertSelective(spRegister);

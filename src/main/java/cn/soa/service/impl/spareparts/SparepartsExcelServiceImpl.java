@@ -34,7 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import cn.soa.dao.EquipmentCommonInfoMapper;
 import cn.soa.dao.spareparts.EqOrSpRelationMapper;
+import cn.soa.dao.spareparts.SpClassifyMapper;
 import cn.soa.dao.spareparts.SparePartMapper;
 import cn.soa.entity.Column;
 import cn.soa.entity.EquipmentCommonInfo;
@@ -42,6 +44,7 @@ import cn.soa.entity.EquipmentDisplayInfo;
 import cn.soa.entity.EquipmentProperties;
 import cn.soa.entity.QueryCondition;
 import cn.soa.entity.spareparts.EqOrSpRelation;
+import cn.soa.entity.spareparts.SpClassify;
 import cn.soa.entity.spareparts.SparePart;
 import cn.soa.entity.spareparts.SparePartColumn;
 import cn.soa.service.intel.spareparts.SparepartsExcelService;
@@ -55,6 +58,12 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 
 	@Autowired
 	private SparePartMapper sparePartMapper;// 备件信息表mapper
+
+	@Autowired
+	private SpClassifyMapper spClassifyMapper;// 备件分类表mapper
+
+	@Autowired
+	private EquipmentCommonInfoMapper equipmentCommonInfoMapper;// 设备通用信息表mapper
 
 	/*
 	 * (non-Javadoc)
@@ -125,6 +134,92 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 			}
 			// 导入数据
 			result += eqOrSpRelationMapper.insertSelective(eqOrSpRelation);
+
+			/**
+			 * 将相关数据加入到备件分类表
+			 */
+
+			SpClassify spClassify = new SpClassify();
+
+			if ("0".equals(eqOrSpRelation.getType().toString())) {
+				// 通过自定义关联
+				spClassify.setClassifyValue(eqOrSpRelation.getCostomValue());
+				spClassify.setClassifyName(eqOrSpRelation.getCostomValue());
+
+			} else if ("1".equals(eqOrSpRelation.getType().toString())) {
+				// 通过字段关联
+				EquipmentCommonInfo equipmentCommonInfo = equipmentCommonInfoMapper
+						.selectByPrimaryKey(eqOrSpRelation.getEqId());
+
+				switch (eqOrSpRelation.getEqFieid().replaceAll("_", "").toUpperCase()) {
+				case "EQUID":
+					// 通过设备id关联
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquId());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquId());
+					break;
+				case "EQUNAME":
+					// 通过设备名称关联
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquName());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquName());
+					break;
+				case "EQUSTATUS":
+					// 通过设备状态关联
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquStatus());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquStatus());
+					break;
+				case "EQUPOSITIONNUM":
+					// 通过设备位号关联
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquPositionNum());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquPositionNum());
+					break;
+				case "PROCESSUNITS":
+					spClassify.setClassifyValue(equipmentCommonInfo.getProcessUnits());
+					spClassify.setClassifyName(equipmentCommonInfo.getProcessUnits());
+					break;
+				case "EQUMODEL":
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquModel());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquModel());
+					break;
+				case "ASSETVALUE":
+					spClassify.setClassifyValue(equipmentCommonInfo.getAssetValue());
+					spClassify.setClassifyName(equipmentCommonInfo.getAssetValue());
+					break;
+				case "EQUMANUFACTURER":
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquManufacturer());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquManufacturer());
+					break;
+				case "EQUPRODUCDATE":
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquProducDate());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquProducDate());
+					break;
+				case "EQUCOMMISSIONDATE":
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquCommissionDate());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquCommissionDate());
+					break;
+				case "EQUINSTALLPOSITION":
+					spClassify.setClassifyValue(equipmentCommonInfo.getEquInstallPosition());
+					spClassify.setClassifyName(equipmentCommonInfo.getEquInstallPosition());
+					break;
+				case "STANDBY1":
+					spClassify.setClassifyValue(equipmentCommonInfo.getStandby1());
+					spClassify.setClassifyName(equipmentCommonInfo.getStandby1());
+					break;
+				case "STANDBY2":
+					spClassify.setClassifyValue(equipmentCommonInfo.getStandby2());
+					spClassify.setClassifyName(equipmentCommonInfo.getStandby2());
+					break;
+				case "STANDBY3":
+					spClassify.setClassifyValue(equipmentCommonInfo.getStandby3());
+					spClassify.setClassifyName(equipmentCommonInfo.getStandby3());
+					break;
+				default:
+					break;
+				}
+
+			}
+			// 备件分类表新增数据
+			spClassifyMapper.insertSelective(spClassify);
+
 		}
 
 		return "成功导入了" + result + "条数据";
@@ -221,7 +316,7 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 		Map<String, String> map1 = new HashMap<>();
 		map1.put("备件编码", "spEncoding");
 		headers.add(map1);
-		
+
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("备件名称", "spName");
 		headers.add(map2);
@@ -269,9 +364,9 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 			itemMap.put("type", sparePart.getType());
 			itemMap.put("specification", sparePart.getSpecification());
 			itemMap.put("unit", sparePart.getUnit());
-			itemMap.put("unitCost", sparePart.getUnitCost()+"");
-			itemMap.put("spInventory", sparePart.getSpInventory()+"");
-			itemMap.put("prewarningVal", sparePart.getPrewarningVal()+"");
+			itemMap.put("unitCost", sparePart.getUnitCost() + "");
+			itemMap.put("spInventory", sparePart.getSpInventory() + "");
+			itemMap.put("prewarningVal", sparePart.getPrewarningVal() + "");
 			itemMap.put("procurementCycle", sparePart.getProcurementCycle());
 			itemMap.put("labelCode", sparePart.getLabelCode());
 			itemMap.put("manufactureFactory", sparePart.getManufactureFactory());
@@ -279,8 +374,6 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 			dataMap.add(itemMap);
 		}
 		System.out.println(dataMap);
-
-		
 
 		ExcelTool excelTool = new ExcelTool("备件台账", 20, 20);
 
@@ -295,8 +388,7 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 		// 清空response
 		response.reset();
 		// 设置response的Header
-		response.setHeader("Content-Disposition",
-				"attachment;filename=" + URLEncoder.encode("备件台账.xls", "utf-8"));
+		response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("备件台账.xls", "utf-8"));
 		OutputStream os = new BufferedOutputStream(response.getOutputStream());
 		response.setContentType("application/vnd.ms-excel;charset=utf-8");
 		// 将excel写入到输出流中
