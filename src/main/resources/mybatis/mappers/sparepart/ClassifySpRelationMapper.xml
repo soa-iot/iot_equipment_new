@@ -22,6 +22,19 @@
 		</foreach>
 	</delete>
 
+
+	<!-- 根据备件id和备件分类id批量删除数据 -->
+	<delete id="delBatchByCidAndSpId"
+		parameterType="cn.soa.entity.spareparts.ClassifySpRelation">
+		delete from IOT_CLASSIFY_SP_RELATION
+		where C_ID || SP_ID in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
+			#{item.cId,jdbcType=VARCHAR} ||
+			#{item.spId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+
 	<insert id="insert"
 		parameterType="cn.soa.entity.spareparts.ClassifySpRelation">
 		insert into IOT_CLASSIFY_SP_RELATION (ID, C_ID, SP_ID,

@@ -19,4 +19,11 @@ public interface ClassifySpRelationMapper {
 	 * @return
 	 */
 	Integer delBatch(List<ClassifySpRelation> classifySpRelations);
+
+	/**
+	 * 根据备件id和备件分类id批量删除数据
+	 * @param classifySpRelations
+	 * @return
+	 */
+	Integer delBatchByCidAndSpId(List<ClassifySpRelation> classifySpRelations);
 }

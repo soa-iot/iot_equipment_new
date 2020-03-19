@@ -66,17 +66,19 @@ public class SparePartTypeController {
 
 	/**
 	 * 添加设备分类数据
+	 * 
 	 * @param SpClassifies
 	 * @return
 	 */
 	@ApiOperation(value = "添加设备备件分类数据")
 	@RequestMapping(value = "/addSparepartsClassInfo", method = RequestMethod.POST, produces = "application/json;chartset-utf-8")
-	public ResponseEntity<String> addSparepartsClassInfo(@ApiParam("设备分类信息对象数组") @RequestBody List<SpClassify> SpClassifies) {
+	public ResponseEntity<String> addSparepartsClassInfo(
+			@ApiParam("设备分类信息对象数组") @RequestBody List<SpClassify> SpClassifies) {
 
 		log.info("=================添加设备备件分类数据====================");
 
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
-		
+
 		try {
 			String result = sparePartTypeService.addSparepartsClassInfo(SpClassifies);
 			resObj.setCode(0);
@@ -91,20 +93,22 @@ public class SparePartTypeController {
 		}
 		return resObj;
 	}
-	
+
 	/**
 	 * 删除设备分类数据
+	 * 
 	 * @param SpClassifies
 	 * @return
 	 */
 	@ApiOperation(value = "删除设备备件分类数据")
 	@RequestMapping(value = "/delSparepartsClassInfo", method = RequestMethod.DELETE, produces = "application/json;chartset-utf-8")
-	public ResponseEntity<String> delSparepartsClassInfo(@ApiParam("设备分类信息对象数组") @RequestBody List<SpClassify> spClassifies) {
+	public ResponseEntity<String> delSparepartsClassInfo(
+			@ApiParam("设备分类信息对象数组") @RequestBody List<SpClassify> spClassifies) {
 
 		log.info("=================删除设备备件分类数据====================");
 
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
-		
+
 		try {
 			String result = sparePartTypeService.delSparepartsClassInfo(spClassifies);
 			resObj.setCode(0);
@@ -119,20 +123,22 @@ public class SparePartTypeController {
 		}
 		return resObj;
 	}
-	
+
 	/**
 	 * 更新设备分类数据
+	 * 
 	 * @param SpClassifies
 	 * @return
 	 */
 	@ApiOperation(value = "更新设备备件分类数据")
 	@RequestMapping(value = "/updateSparepartsClassInfo", method = RequestMethod.PUT, produces = "application/json;chartset-utf-8")
-	public ResponseEntity<String> updateSparepartsClassInfo(@ApiParam("设备分类信息对象数组") @RequestBody SpClassify spClassify) {
+	public ResponseEntity<String> updateSparepartsClassInfo(
+			@ApiParam("设备分类信息对象数组") @RequestBody SpClassify spClassify) {
 
 		log.info("=================更新设备备件分类数据====================");
 
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
-		
+
 		try {
 			String result = sparePartTypeService.updateSparepartsClassInfo(spClassify);
 			resObj.setCode(0);
@@ -147,7 +153,7 @@ public class SparePartTypeController {
 		}
 		return resObj;
 	}
-	
+
 	/**
 	 * 备件分类与备件关系数据添加
 	 * 
@@ -158,10 +164,9 @@ public class SparePartTypeController {
 	public ResponseEntity<String> addClassifySpRelation(
 			@ApiParam("备件分类与备件关系对象") @RequestBody List<ClassifySpRelation> classifySpRelations) {
 
-
 		log.info("=================备件分类与备件关系数据添加====================");
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
-		
+
 		try {
 			String result = sparePartTypeService.addClassifySpRelation(classifySpRelations);
 			resObj.setCode(0);
@@ -174,10 +179,10 @@ public class SparePartTypeController {
 			e.printStackTrace();
 			log.debug("=================备件分类与备件关系数据添加失败！！！！====================" + e.getMessage());
 		}
-		
+
 		return resObj;
 	}
-	
+
 	/**
 	 * 备件分类与备件关系数据删除
 	 * 
@@ -186,12 +191,11 @@ public class SparePartTypeController {
 	@ApiOperation(value = "备件分类与备件关系数据删除")
 	@RequestMapping(value = "/delClassifySpRelation", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> delClassifySpRelation(
-			@ApiParam("备件分类与备件关系对象") @RequestBody List<ClassifySpRelation> classifySpRelations) {
-
+			@ApiParam("备件分类与备件关系对象，属性必须传cId和spId") @RequestBody List<ClassifySpRelation> classifySpRelations) {
 
 		log.info("=================备件分类与备件关系数据删除====================");
 		ResponseEntity<String> resObj = new ResponseEntity<String>();
-		
+
 		try {
 			String result = sparePartTypeService.delClassifySpRelation(classifySpRelations);
 			resObj.setCode(0);
@@ -204,7 +208,7 @@ public class SparePartTypeController {
 			e.printStackTrace();
 			log.debug("=================备件分类与备件关系数据删除失败！！！！====================" + e.getMessage());
 		}
-		
+
 		return resObj;
 	}
 

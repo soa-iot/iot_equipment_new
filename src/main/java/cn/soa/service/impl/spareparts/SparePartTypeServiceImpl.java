@@ -119,7 +119,7 @@ public class SparePartTypeServiceImpl implements SparePartTypeService {
 	@Transactional
 	public String delClassifySpRelation(List<ClassifySpRelation> classifySpRelations) {
 		
-		Integer result = classifySpRelationMapper.delBatch(classifySpRelations);
+		Integer result = classifySpRelationMapper.delBatchByCidAndSpId(classifySpRelations);
 		
 		return "成功删除" + result + "条数据";
 	}
