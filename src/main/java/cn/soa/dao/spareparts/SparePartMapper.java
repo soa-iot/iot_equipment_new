@@ -54,4 +54,12 @@ public interface SparePartMapper {
 	 */
 	Integer subNumBySpRecord(SpRecord spRecord);
 
+	/**
+	 * 
+	 * 通过设备分类值查询设备备件信息
+	 * @param columnValues
+	 * @return
+	 */
+	Page<SparePart> findBySpTypeValues(List<String> columnValues);
+
 }
