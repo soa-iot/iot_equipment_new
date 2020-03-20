@@ -8,7 +8,8 @@ layui.use(['layer', 'tree','table'],
 		getspClassifyTree();
 		//设备基本信息列表数据获取
 		getEqOrSpData();
-
+		
+getEqOrSpDataad();
 
 //http://192.168.18.211:8080/iotapp-admin/html/equ_monitor.html
 
@@ -43,12 +44,11 @@ function setEqOrSpList(query_data){
 		  ,{field:'unit', title:'单位'}
 		  ,{field:'unitCost', title:'价格'}
 		  ,{field:'labelCode', title:'标签码'}
-		  ,{field:'remark', title:'备注'}
 	    ]];
 	table.render({
 					elem : '#equipment_list_table',
 					url : api.sparepartsLedger.getSparePartsInfo,
-					height : TABLE_H-130,
+					height : TABLE_H-50,
 					title : '备件台账',
 					method : 'post',
 					toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
@@ -62,6 +62,68 @@ function setEqOrSpList(query_data){
 						console.log(res.data);
 						}
 				});
+}
+
+
+function getEqOrSpDataad(){
+			var query_data={};
+			$.ajax({
+							url : api.sparepartsLedger.getSparePartsInfo,
+							type : 'post',
+							data : JSON.stringify(query_data),
+							dataType : 'json',
+							contentType : 'application/json',
+							success : function(res) {
+								if (res.code == 0) {
+									setTable(res.data)
+								} else {
+									layer.msg('数据保存失败，请联系管理员！！！', {
+												icon : 2
+											});
+								}
+							},
+							error : function() {
+								layer.msg('数据保存失败，请联系管理员！！！', {
+											icon : 2
+										});
+							}
+						});
+			
+		}
+
+
+function setTable(data){
+	console.log(data.length)
+	var cols=[[
+	      {type: 'checkbox', fixed: 'left'}
+	      ,{field:'spEncoding', title:'备件编码', fixed: 'left'}
+	      ,{field:'spName', title:'备件名称'}
+	      ,{field:'type', title:'类别'}
+	      ,{field:'specification', title:'型号规格'}
+	      ,{field:'spInventory', title:'当前库存数量'}
+		  ,{field:'prewarningVal', title:'合理库存数量'}
+		  ,{field:'brand', title:'品牌'}
+		  ,{field:'manufactureFactory', title:'生产厂家'}
+		  ,{field:'productionDate', title:'生产日期'}
+		  ,{field:'unit', title:'单位'}
+		  ,{field:'unitCost', title:'价格'}
+		  ,{field:'labelCode', title:'标签码'}
+	    ]];
+		
+	table.render({
+					elem : '#eq_list_table',
+					data : data,
+					height : TABLE_H-120,
+					title : '备件台账',
+					toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
+					cols : cols
+					,page : false
+					// ,limits : [10, 20, 30, 40, 50]
+					,limit : 3000000
+				});
+	
+	
+	
 }
 
 
@@ -126,18 +188,37 @@ function setEqOrSpList(query_data){
 					});
 		}
 		
+		
 		//头工具栏事件
 		 table.on('toolbar(equipment_list_table)', function(obj){
 		   var checkStatus = table.checkStatus(obj.config.id);
 		   switch(obj.event){
 		     case 'getCheckData':
-					  layer.open({
-					    type: 2,
-						title:'备件添加',
-					    skin: 'layui-layer-rim', //加上边框
-					    area: ['50%', '80%'], //宽高
-					    content: 'addspList.html?f_id='+f_id
-					  });
+			 if(f_id==''){
+				 layer.alert('请先选择分类', {icon: 5});  
+							  }else{
+								layer.open({
+								      type    : 1,
+								      offset  : 'r',
+								      area    : ['70%', '100%'],
+								      title   : '备件选择列表',
+								      shade   : 0.1,
+								      anim   : -1,
+								      skin:'layer-anim-07',
+								      move    : false,
+								      content:$('#openProductBox')
+								      ,cancel  : function (index) {
+								        var $layero = $('#layui-layer' + index);
+								        $layero.animate({
+								          left : $layero.offset().left + $layero.width()
+								        }, 300, function () {
+								          layer.close(index);
+								        });
+								        return false;
+								      }
+								    }); 
+								  
+							  }
 		     break;
 		     case 'isAll':
 			  var data = checkStatus.data;
@@ -195,6 +276,35 @@ function setEqOrSpList(query_data){
 							}
 						});
 		}
+		
+		
+		//头工具栏事件
+				  table.on('toolbar(eq_list_table)', function(obj){
+					  
+				   var checkStatus = table.checkStatus(obj.config.id);
+				   console.log(obj.event)
+				   switch(obj.event){
+				     case 'getChe':
+				       var data = checkStatus.data;
+				   	console.log(data);
+				   	var query_datas=[];
+				   	$.each(data,function(i,e){
+				   		var query_data={};
+				   	query_data.cId=f_id;
+				   	query_data.spId=e.spId
+				   		query_datas.push(query_data);
+				   	});				
+				   	console.log(query_datas);
+				   	saveSpList(query_datas)
+				     break;
+				     //自定义头工具栏右侧图标 - 提示
+				     case 'LAYTABLE_TIPS':
+				       layer.alert('这是工具栏右侧自定义的一个图标按钮');
+				     break;
+				   };
+				  }); 
+		
+		
 		
 		//添加分类
 		$(document).on('click',"#addClass",function(){
@@ -301,7 +411,36 @@ function setEqOrSpList(query_data){
 			 				});
 			 }	 
 			 	 
-		 
+		 function saveSpList(query_data){
+		 			  $.ajax({
+		 			  				url : api.sparePartType.addClassifySpRelation,
+		 			  				type : 'post',
+		 			  				data : JSON.stringify(query_data),
+		 			  				dataType : 'json',
+		 			  				contentType : 'application/json',
+		 			  				success : function(res) {
+		 								  console.log(res);
+		 			  					if (res.code == 0) {
+		 			  						layer.confirm('添加成功？', {
+		 			  						  btn: ['确定'] //按钮
+		 			  						}, function(){
+												 getEqOrSpData();
+		 										layer.closeAll(); 
+		 										return;
+		 			  						});
+		 			  					} else {
+		 			  						layer.msg('数据保存失败，请联系管理员！！！', {
+		 			  									icon : 2
+		 			  								});
+		 			  					}
+		 			  				},
+		 			  				error : function() {
+		 			  					layer.msg('数据保存失败，请联系管理员！！！', {
+		 			  								icon : 2
+		 			  							});
+		 			  				}
+		 			  			});
+		 }
 	});
 
 
