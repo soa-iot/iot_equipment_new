@@ -46,9 +46,9 @@ public class SparepartsLedgerController {
 	 */
 	@RequestMapping(value = "/getSparePartsInfo", method = RequestMethod.POST, produces = "application/json;chartset=utf-8")
 	@ApiOperation("获取备件数据列表")
-	public ResponseEntity<Page<SparePart>> getSparePartsInfo(@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数；"
-			+ "当请求库存告警列表信息时，需传alarm参数，值为'true';"
-			+ "通过备件分类过滤时，需传sparepartTypeId（备件分类id）参数") @RequestBody QueryCondition condition) {
+	public ResponseEntity<Page<SparePart>> getSparePartsInfo(
+			@ApiParam("筛选条件，传sparePart即可；支持分页，需要开启分页时需要传page和limit参数；" + "当请求库存告警列表信息时，需传alarm参数，值为'true';"
+					+ "通过备件分类过滤时，需传sparepartTypeId（备件分类id）参数") @RequestBody QueryCondition condition) {
 
 		log.info("==============获取设备备件数据列表=============");
 
@@ -169,6 +169,45 @@ public class SparepartsLedgerController {
 			resObj.setMsg("query data failed >>>" + e.getMessage());
 			e.printStackTrace();
 			log.info("==============添加设备备件数据失败=============>>>" + e.getMessage());
+		}
+
+		return resObj;
+
+	}
+
+	/**
+	 * 通过设备id获取设备备件数据列表
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping(value = "/getSparePartsInfoByEquId", method = RequestMethod.POST, produces = "application/json;chartset=utf-8")
+	@ApiOperation("通过设备id获取设备备件数据列表")
+	public ResponseEntity<Page<SparePart>> getSparePartsInfoByEquId(
+			@ApiParam("支持分页，需要开启分页时需要传page和limit参数,equId为必传参数") @RequestBody QueryCondition condition) {
+
+		ResponseEntity<Page<SparePart>> resObj = new ResponseEntity<Page<SparePart>>();
+
+		log.info("==============通过设备id获取设备备件数据列表=============");
+
+		// 开启分页
+		if (condition.getPage() != null && condition.getLimit() != null) {
+			log.info("==============开启分页=============");
+			PageHelper.startPage(condition.getPage(), condition.getLimit());
+		}
+
+		try {
+			Page<SparePart> result = sparepartsLedgerService.getSparePartsInfoByEquId(condition);
+			resObj.setCode(0);
+			resObj.setCount(result.getTotal());
+			resObj.setData(result);
+			resObj.setMsg("query data success");
+			log.info("==============通过设备id获取设备备件数据列表成功=============");
+		} catch (Exception e) {
+			resObj.setCode(-1);
+			resObj.setMsg("query data failed >>>" + e.getMessage());
+			e.printStackTrace();
+			log.info("==============通过设备id获取设备备件数据列表失败=============>>>" + e.getMessage());
 		}
 
 		return resObj;

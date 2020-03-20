@@ -146,6 +146,30 @@
 	</select>
 
 
+	<!-- 根据设备分类值查询备件信息 -->
+	<select id="findBySpTypeValues" parameterType="String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="BaseColumn"></include>
+		from IOT_SPARE_PART t1
+		where EXISTS
+		(select SP_ID from
+		IOT_CLASSIFY_SP_RELATION t2
+		where
+		C_ID IN
+		(select C_ID from IOT_SP_CLASSIFY
+		where CLASSIFY_VALUE in
+		<foreach collection="list" open="(" separator="," close=")"
+			index="index" item="item">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+		)
+		and
+		t1.SP_ID =
+		t2.SP_ID)
+	</select>
+
+
 	<insert id="insert"
 		parameterType="cn.soa.entity.spareparts.SparePart">
 		insert into IOT_SPARE_PART (SP_ID, SP_ENCODING, SP_NAME,
@@ -337,14 +361,16 @@
 		parameterType="cn.soa.entity.spareparts.SpRecord">
 		update IOT_SPARE_PART
 		set SP_INVENTORY = SP_INVENTORY
-		+ #{quantity,jdbcType=DECIMAL}
+		+
+		#{quantity,jdbcType=DECIMAL}
 	</update>
-	
+
 	<update id="subNumBySpRecord"
 		parameterType="cn.soa.entity.spareparts.SpRecord">
 		update IOT_SPARE_PART
 		set SP_INVENTORY = SP_INVENTORY
-		- #{quantity,jdbcType=DECIMAL}
+		-
+		#{quantity,jdbcType=DECIMAL}
 	</update>
 
 

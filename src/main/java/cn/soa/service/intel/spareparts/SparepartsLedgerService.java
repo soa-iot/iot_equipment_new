@@ -50,4 +50,12 @@ public interface SparepartsLedgerService {
 	 */
 	String addSparePartsInfo(List<SparePart> spareParts);
 
+	/**
+	 * 
+	 * 通过设备id获取设备备件信息
+	 * @param condition
+	 * @return
+	 */
+	Page<SparePart> getSparePartsInfoByEquId(QueryCondition condition) throws Exception;
+
 }

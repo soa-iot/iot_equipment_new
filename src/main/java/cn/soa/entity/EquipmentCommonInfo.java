@@ -128,4 +128,79 @@ public class EquipmentCommonInfo {
 		}
 	};
 
+	/**
+	 * 根据字段名称获取值
+	 * 
+	 * @return
+	 */
+	public String getProperty(String columnName) {
+
+		// 返回值
+		String result = "";
+
+		switch (columnName) {
+		case "equId":
+		case "EQU_ID":
+			result = this.getEquId();
+			break;
+		case "EQU_NAME":
+		case "equName":
+			result = this.getEquName();
+			break;
+		case "EQU_STATUS":
+		case "equStatus":
+			result = this.getEquStatus();
+			break;
+		case "equPositionNum":
+		case "EQU_POSITION_NUM":
+			result = this.getEquPositionNum();
+			break;
+		case "processUnits":
+		case "PROCESS_UNITS":
+			result = this.getProcessUnits();
+			break;
+		case "EQU_MODEL":
+		case "equModel":
+			result = this.getEquModel();
+			break;
+		case "assetValue":
+		case "ASSET_VALUE":
+			result = this.getAssetValue();
+			break;
+		case "equManufacturer":
+		case "EQU_MANUFACTURER":
+			result = this.getEquManufacturer();
+			break;
+		case "equProducDate":
+		case "EQU_PRODUC_DATE":
+			result = this.getEquProducDate();
+			break;
+		case "equCommissionDate":
+		case "EQU_COMMISSION_DATE":
+			result = this.getEquCommissionDate();
+			break;
+		case "equInstallPosition":
+		case "EQU_INSTALL_POSITION":
+			result = this.getEquInstallPosition();
+			break;
+		case "standby1":
+		case "STANDBY1":
+			result = this.getStandby1();
+			break;
+		case "standby2":
+		case "STANDBY2":
+			result = this.getStandby2();
+			break;
+		case "standby3":
+		case "STANDBY3":
+			result = this.getStandby3();
+			break;
+
+		default:
+			break;
+		}
+
+		return null;
+	}
+
 }
