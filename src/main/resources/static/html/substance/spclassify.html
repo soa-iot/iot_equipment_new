@@ -12,53 +12,47 @@
 	</head>
 	<body>
 		<div class="layui-container">
-	
+
 			<div class="layui-row layui-col-space10" style="height: 100%">
-	
+
 				<div class="layui-col-xs2 layui-col-sm2 layui-col-md2 equipment_type">
-	
+
 					<div class="layui-row">
-	
-						<div
-	
-							class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
-	
+
+						<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+
 							<span>备件分类</span>
-	<span style="float: right;">
-		<button type="button" class="layui-btn layui-btn-sm" id="addClass"><i class="layui-icon"></i></button>
-	</span>
+							<span style="float: right;">
+								<button type="button" class="layui-btn layui-btn-sm" id="addClass"><i class="layui-icon"></i></button>
+							</span>
 						</div>
-	
+
 					</div>
-	
+
 					<div class="layui-row">
-	
+
 						<div id="spClassify" class="demo-tree-more"></div>
-	
+
 					</div>
-	
+
 				</div>
-	
-				<div
-	
-					class="layui-col-xs10 layui-col-sm10 layui-col-md10 equipment_list">
-	
+
+				<div class="layui-col-xs10 layui-col-sm10 layui-col-md10 equipment_list">
+
 					<div class="layui-row">
-	
-						<div
-	
-							class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
-	
-							<span>设备列表</span>
-	
+
+						<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+
+							<span>备件列表</span>
+
 						</div>
-	
+
 					</div>
-	
+
 					<div class="layui-row">
-	
+
 						<div class="layui-col-md12 " id="equipment_list">
-	
+
 							<!-- <fieldset class="layui-elem-field layui-field-title"
 	
 								style="margin-top: 20px;">
@@ -66,37 +60,35 @@
 								<legend style="color: green;">静设备</legend>
 	
 							</fieldset> -->
-	
+
 						</div>
-	
+
 					</div>
-	
+
 					<div class="layui-row">
-	
+
 						<div class="layui-fluid " style="overflow: visible">
 							<!-- 表格-->
-	
+
 							<div class="layui-row">
-	
+
 								<div class="layui-col-md12 ">
-	
-									<div class="component_container" id="equipment_list_table"
-	
-										lay-filter="equipment_list_table"></div>
-	
+
+									<div class="component_container" id="equipment_list_table" lay-filter="equipment_list_table"></div>
+
 								</div>
-	
+
 							</div>
-	
+
 						</div>
-	
+
 					</div>
-	
+
 				</div>
-	
+
 			</div>
 		</div>
-</body>
+	</body>
 
 	<script type="text/html" id="toolbar">
 		<div class="layui-btn-container">
@@ -104,6 +96,22 @@
 	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
 	  </div>
 	</script>
+
+<div id="openProductBox" style="display: none;">
+		<div class="layui-row">
+			<div class="layui-col-md12 ">
+				<div class="component_container" id="eq_list_table" lay-filter="eq_list_table"></div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/html" id="toolbar222">
+		<div class="layui-btn-container">
+		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+		  </div>
+		</script>
+
 
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
 	<script src="../../jsPackage/config/config.js"></script>

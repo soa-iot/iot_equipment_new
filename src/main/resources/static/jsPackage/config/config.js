@@ -1,9 +1,10 @@
 //全局通用配置信息
-var host = 'localhost';
-var port = '8080';
+var host = '192.168.18.114';
+var port = '10238';
 var project = 'iot_equipment';
 var url = "http://" + host + ":" + port;
-var BASE_WEB = url + "/" + project + "/"; //测试服务器地址
+var BASE_WEB =  "/" + project + "/"; //测试服务器地址
+// var BASE_WEB = url + "/" + project + "/"; //测试服务器地址
 var TABLE_H = document.documentElement.clientHeight;
 /**
  * Api接口
@@ -24,6 +25,7 @@ var api = {
 		delSparePartsInfo: BASE_WEB + 'sparepartsLedger/delSparePartsInfo', //删除备件数据列表
 		getSparePartsInfo: BASE_WEB + 'sparepartsLedger/getSparePartsInfo', //获取备件数据列表
 		updateSparePartsInfo: BASE_WEB + 'sparepartsLedger/updateSparePartsInfo', //更新备件数据
+		getSparePartsInfoByEquId: BASE_WEB + 'sparepartsLedger/getSparePartsInfoByEquId' //通过设备id获取设备备件数据列表
 	},
 	sparepartApply: { //备件申请（采购/领用）
 	addSparepartApply: BASE_WEB + 'sparepartApply/addSparepartApply' ,//添加备件采购/领用申请

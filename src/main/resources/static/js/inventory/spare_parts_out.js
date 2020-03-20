@@ -11,14 +11,26 @@ layui.use(['layer', 'tree','table'],
 		
 		//加载领用申请单
 		$(document).on('click',"#selLyd",function(){
-				parent.layer.open({
-				  type: 1,
-					title:'备件添加',
-				  skin: 'layui-layer-rim', //加上边框
-				  area: ['70%', '400px'], //宽高
-				  // content: 'addspList.html?request='+request,
-						 content:$('#openProductBox')
-				});
+			layer.open({
+			      type    : 1,
+			      offset  : 'r',
+			      area    : ['70%', '100%'],
+			      title   : '领用申请单选择列表',
+			      shade   : 0.1,
+			      anim   : -1,
+			      skin:'layer-anim-07',
+			      move    : false,
+			      content:$('#openProductBox')
+			      ,cancel  : function (index) {
+			        var $layero = $('#layui-layer' + index);
+			        $layero.animate({
+			          left : $layero.offset().left + $layero.width()
+			        }, 300, function () {
+			          layer.close(index);
+			        });
+			        return false;
+			      }
+			    });
 		 });
 		
 		getEqOrSpList();
@@ -44,7 +56,7 @@ function setEqOrSpList(data){
 				table.render({
 								elem : '#equipment_list_table',
 								data : data,
-								height : TABLE_H-260,
+								height : TABLE_H-210,
 								title : '领用申请单',
 								method : 'post',
 								// toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
@@ -76,16 +88,16 @@ function setEqOrSpList(data){
 			table.render({
 							elem : '#eq_list_table',
 							url : api.sparepartOutIn.getSparepartApply,
-							// height : 400,
+							height : TABLE_H-130,
 							title : '领用申请单',
 							method : 'post',
 							toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
 							contentType : 'application/json',
 							where : query_data,
 							cols : cols,
-							page : true,
-							limits : [30, 60, 90, 120, 150],
-							limit : 30,
+							page : false,
+							// limits : [30, 60, 90, 120, 150],
+							limit : 3000000,
 							parseData : function(res) {
 								console.log(res.data);
 								}

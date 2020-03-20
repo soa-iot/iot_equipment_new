@@ -126,6 +126,7 @@ layui.use(['layer', 'tree', 'form', 'table', 'laydate'],
 		table.render({
 						elem : '#eq_list_table',
 						data :data,
+						height : TABLE_H-100,
 						title : '备件台账',
 						cols : cols,
 						page : true,

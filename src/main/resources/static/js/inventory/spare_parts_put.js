@@ -56,12 +56,17 @@ layui.use(['form','layer', 'tree','table'],
 							   }
 							   
 						  }else if(type==1){
-							  //采购入库 
-							   spRegister.explain='采购入库';
-							   spRegister.requestCode=requestCode;
-							   query_data.operateType='in';
-							   query_data.spRegister=spRegister;
-							    save(query_data); 
+							  
+							  if(requestCode==''){
+								   layer.alert('请选择采购申请单', {icon: 5}); 
+							  }else{
+								//采购入库
+								 spRegister.explain='采购入库';
+								 spRegister.requestCode=requestCode;
+								 query_data.operateType='in';
+								 query_data.spRegister=spRegister;
+								  save(query_data);   
+							  }
 							  }
 						
 							  
@@ -127,12 +132,11 @@ layui.use(['form','layer', 'tree','table'],
 				  ,{field:'unit', title:'单位'}
 				  ,{field:'unitCost', title:'价格'}
 				  ,{field:'labelCode', title:'标签码'}
-				  ,{field:'remark', title:'备注'}
 			    ]];
 			table.render({
 							elem : '#spare_parts_table',
 							url : api.sparepartsLedger.getSparePartsInfo,
-							// height : 400,
+							height : TABLE_H-120,
 							title : '备件台账',
 							method : 'post',
 							toolbar: '#sprequisitions', //开启头部工具栏，并为其绑定左侧模板
@@ -162,7 +166,7 @@ layui.use(['form','layer', 'tree','table'],
 					table.render({
 									elem : '#equipment_list_table',
 									data : data,
-									height : TABLE_H-260,
+									height : TABLE_H-280,
 									title : '领用申请单',
 									method : 'post',
 									toolbar: '#the_spare_parts_to_register', //开启头部工具栏，并为其绑定左侧模板
@@ -189,7 +193,7 @@ function setup_register_common(data){
 					table.render({
 									elem : '#equipment_list_table',
 									data : data,
-									height : TABLE_H-260,
+									height : TABLE_H-180,
 									title : '领用申请单',
 									method : 'post',
 									toolbar: '#the_spare_parts_to_register', //开启头部工具栏，并为其绑定左侧模板
@@ -220,16 +224,16 @@ function setup_register_common(data){
 			table.render({
 							elem : '#purchase_table',
 							url : api.sparepartOutIn.getSparepartApply,
-							// height : 400,
+							height : TABLE_H-200,
 							title : '采购申请单',
 							method : 'post',
 							toolbar: '#requisitions', //开启头部工具栏，并为其绑定左侧模板
 							contentType : 'application/json',
 							where : query_data,
 							cols : cols,
-							page : true,
-							limits : [30, 60, 90, 120, 150],
-							limit : 30,
+							page : false,
+							// limits : [30, 60, 90, 120, 150],
+							limit : 300000,
 							parseData : function(res) {
 								console.log(res.data);
 								}
@@ -270,13 +274,26 @@ function setup_register_common(data){
 						  }else if(type==1){
 						  layer.alert('采购入库不可以操作', {icon: 5});
 						  }else{
-					   parent.layer.open({
-					     type: 1,
-					   	title:'备件添加',
-					     skin: 'layui-layer-rim', //加上边框
-					     area: ['50%', '400px'], //宽高
-					   		 content:$('#spare_parts_to_register')
-					   });
+							  layer.open({
+							        type    : 1,
+							        offset  : 'r',
+							        area    : ['70%', '100%'],
+							        title   : '备件选择列表',
+							        shade   : 0.1,
+							        anim   : -1,
+							        skin:'layer-anim-07',
+							        move    : false,
+							        content:$('#spare_parts_to_register')
+							        ,cancel  : function (index) {
+							          var $layero = $('#layui-layer' + index);
+							          $layero.animate({
+							            left : $layero.offset().left + $layero.width()
+							          }, 300, function () {
+							            layer.close(index);
+							          });
+							          return false;
+							        }
+							      });
 					   }
 		  		      break;
 		  		      //自定义头工具栏右侧图标 - 提示
@@ -316,14 +333,26 @@ function setup_register_common(data){
 	//----------------------------------------------------------	  
 		  //选择采购申请单按钮事件
 		  $(document).on('click',"#selLyd",function(){
-		  		parent.layer.open({
-		  		  type: 1,
-		  			title:'备件添加',
-		  		  skin: 'layui-layer-rim', //加上边框
-		  		  area: ['70%', '400px'], //宽高
-		  		  // content: 'addspList.html?request='+request,
-		  				 content:$('#purchase_requisitions')
-		  		});
+			  layer.open({
+			        type    : 1,
+			        offset  : 'r',
+			        area    : ['50%', '100%'],
+			        title   : '采购申请单选择',
+			        shade   : 0.1,
+			        anim   : -1,
+			        skin:'layer-anim-07',
+			        move    : false,
+			        content:$('#purchase_requisitions')
+			        ,cancel  : function (index) {
+			          var $layero = $('#layui-layer' + index);
+			          $layero.animate({
+			            left : $layero.offset().left + $layero.width()
+			          }, 300, function () {
+			            layer.close(index);
+			          });
+			          return false;
+			        }
+			      });
 		   });
 		  
 		  //类型选择事件

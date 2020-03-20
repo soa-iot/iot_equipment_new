@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>设备与备件的关系维护界面</title>
+		<title>设备备件查看</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta charset="UTF-8">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -13,30 +13,122 @@
 	<body>
 		<div class="layui-container">
 			<div class="layui-row layui-col-space10" style="height: 100%">
+				<div class="layui-col-xs2 layui-col-sm2 layui-col-md2 equipment_type">
+					<div class="layui-row">
+						<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+							<span>设备分类</span>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div id="equipment_type" class="demo-tree-more"></div>
+					</div>
+				</div>
 				<div class="layui-col-xs10 layui-col-sm10 layui-col-md10 equipment_list">
 					<div class="layui-row">
+						<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 tree-title">
+							<span>设备列表</span>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div class="layui-col-md12 " id="equipment_list">
+						</div>
+					</div>
+					<div class="layui-row">
+
 						<div class="layui-fluid " style="overflow: visible">
-							<div class="layui-row">
-								<div class="layui-col-md12 " id="equipment_list">
-									<div class="component_container" id="equipment_list_table" lay-filter="equipment_list_table"></div>
+
+							<!-- 搜索条件 -->
+
+							<div class="layui-row layui-col-space10">
+
+								<div class="layui-col-md12 ">
+
+									<div style="margin-top: 10px; vertical-align: middle; background-color: #F2F2F2;">
+
+										<form class="layui-form" action="" style="margin-top: 15px;" id="search">
+
+											<div class="layui-form-item">
+
+												<div class="layui-inline">
+													<label class="layui-form-label">设备名称</label>
+
+													<div class="layui-input-inline">
+
+														<input name="equName" id="equName" class="layui-input" placeholder="请输入">
+
+													</div>
+
+												</div>
+
+												<div class="layui-inline">
+
+													<label class="layui-form-label">设备位号</label>
+
+													<div class="layui-input-inline">
+
+														<input name="equPositionNum" id="equPositionNum" class="layui-input" placeholder="请输入">
+
+													</div>
+
+												</div>
+
+												<div class="layui-inline" id="btn-group">
+
+													<button class="layui-btn" type="button" lay-submit id="search_button_search" lay-filter="search_button_search">
+
+														<i class="layui-icon">&#xe615;</i>查询
+
+													</button>
+
+													<button type="reset" class="layui-btn layui-btn-primary">
+
+														<i class="layui-icon layui-icon-refresh"></i> 重置
+
+													</button>
+													<button type="button" class="layui-btn layui-btn-sm" lay-event="import" id = "importData">
+															<i class="layui-icon">&#xe681;</i>导入
+														</button>
+													
+													
+												</div>
+
+											</div>
+
+										</form>
+
+									</div>
+
 								</div>
 							</div>
+							<!-- 表格-->
+
+							<div class="layui-row">
+
+								<div class="layui-col-md12 " id="equipment_list2">
+
+									<div class="component_container" id="eqsp_list_table" lay-filter="eqsp_list_table"></div>
+
+								</div>
+
+							</div>
+
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
-
-	<script type="text/html" id="data_operate">
-
-		<button type="button" class="layui-btn  layui-btn-xs" lay-event="detail">查看详情</button>
- 
- </script>
-
+	<div id="openProductBox" style="display: none;">
+			<div class="layui-row">
+				<div class="layui-col-md12 ">
+					<div class="component_container" id="eq_list_table" lay-filter="eq_list_table"></div>
+					
+				</div>
+			</div>
+		</div>
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
 	<script src="../../jsPackage/config/config.js"></script>
 	<script type="text/javascript" src="../../jsPackage/layui-v2.4.2/layui.js" charset="utf-8"></script>
 	<script type="text/javascript" src="../../js/eqorsp/record.js"></script>
-	</body>
 </html>
