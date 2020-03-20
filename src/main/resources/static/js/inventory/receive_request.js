@@ -22,7 +22,7 @@ function setEqOrSpList(){
 	table.render({
 					elem : '#equipment_list_table',
 					data : dataList,
-					height : TABLE_H-250,
+					height : TABLE_H-200,
 					title : '备件台账',
 					method : 'post',
 					toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
@@ -42,14 +42,26 @@ function setEqOrSpList(){
     var checkStatus = table.checkStatus(obj.config.id);
     switch(obj.event){
       case 'getCheckData':
-	  parent.layer.open({
-	    type: 1,
-	  	title:'备件添加',
-	    skin: 'layui-layer-rim', //加上边框
-	    area: ['50%', '400px'], //宽高
-	    // content: 'addspList.html?request='+request,
-		 content:$('#openProductBox')
-	  });
+	  layer.open({
+	        type    : 1,
+	        offset  : 'r',
+	        area    : ['70%', '100%'],
+	        title   : '备件选择列表',
+	        shade   : 0.1,
+	        anim   : -1,
+	        skin:'layer-anim-07',
+	        move    : false,
+	        content:$('#openProductBox')
+	        ,cancel  : function (index) {
+	          var $layero = $('#layui-layer' + index);
+	          $layero.animate({
+	            left : $layero.offset().left + $layero.width()
+	          }, 300, function () {
+	            layer.close(index);
+	          });
+	          return false;
+	        }
+	      });
       break;
       case 'getCheckLength':
         var data = checkStatus.data;
@@ -87,16 +99,16 @@ function setEqOrSpList(){
 			table.render({
 							elem : '#eq_list_table',
 							url : api.sparepartsLedger.getSparePartsInfo,
-							// height : 400,
+							height : TABLE_H-130,
 							title : '备件台账',
 							method : 'post',
 							toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
 							contentType : 'application/json',
 							where : query_data,
 							cols : cols,
-							page : true,
-							limits : [30, 60, 90, 120, 150],
-							limit : 30,
+							page : false,
+							// limits : [30, 60, 90, 120, 150],
+							limit : 3000000,
 							parseData : function(res) {
 								console.log(res.data);
 								}
