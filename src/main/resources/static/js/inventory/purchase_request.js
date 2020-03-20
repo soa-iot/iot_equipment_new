@@ -1,8 +1,9 @@
 //导入 用layui upload插件layui.use([ "element", "laypage", "layer", "upload"], function() {
-layui.use(['layer', 'tree','table'],
+layui.use(['layer', 'tree','table','form'],
 	function() {
 		var layer = layui.layer,table = layui.table,
-			tree = layui.tree,dataList=[];
+			tree = layui.tree,dataList=[],form=layui.form;
+
 
 //采购申请单号
 		var request = 'CG' + Date.now(); 
@@ -22,7 +23,7 @@ function setEqOrSpList(){
 	table.render({
 					elem : '#equipment_list_table',
 					data : dataList,
-					height : TABLE_H-250,
+					height : TABLE_H-150,
 					title : '备件台账',
 					method : 'post',
 					toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
@@ -42,14 +43,26 @@ function setEqOrSpList(){
     var checkStatus = table.checkStatus(obj.config.id);
     switch(obj.event){
       case 'getCheckData':
-	  parent.layer.open({
-	    type: 1,
-	  	title:'备件添加',
-	    skin: 'layui-layer-rim', //加上边框
-	    area: ['50%', '400px'], //宽高
-	    // content: 'addspList.html?request='+request,
-		 content:$('#openProductBox')
-	  });
+	layer.open({
+	      type    : 1,
+	      offset  : 'r',
+	      area    : ['70%', '100%'],
+	      title   : '备件选择列表',
+	      shade   : 0.1,
+	      anim   : -1,
+	      skin:'layer-anim-07',
+	      move    : false,
+	      content:$('#openProductBox')
+	      ,cancel  : function (index) {
+	        var $layero = $('#layui-layer' + index);
+	        $layero.animate({
+	          left : $layero.offset().left + $layero.width()
+	        }, 300, function () {
+	          layer.close(index);
+	        });
+	        return false;
+	      }
+	    });
       break;
       case 'getCheckLength':
         var data = checkStatus.data;
@@ -68,40 +81,65 @@ function setEqOrSpList(){
 
 		function getEqOrSpData(){
 			var query_data={};
-			var cols=[[
-			      {type: 'checkbox', fixed: 'left'}
-			      ,{field:'spEncoding', title:'备件编码', fixed: 'left'}
-			      ,{field:'spName', title:'备件名称'}
-			      ,{field:'type', title:'类别'}
-			      ,{field:'specification', title:'型号规格'}
-			      ,{field:'spInventory', title:'当前库存数量'}
-				  ,{field:'prewarningVal', title:'合理库存数量'}
-				  ,{field:'brand', title:'品牌'}
-				  ,{field:'manufactureFactory', title:'生产厂家'}
-				  ,{field:'productionDate', title:'生产日期'}
-				  ,{field:'unit', title:'单位'}
-				  ,{field:'unitCost', title:'价格'}
-				  ,{field:'labelCode', title:'标签码'}
-				  ,{field:'remark', title:'备注'}
-			    ]];
-			table.render({
-							elem : '#eq_list_table',
+			$.ajax({
 							url : api.sparepartsLedger.getSparePartsInfo,
-							// height : 400,
-							title : '备件台账',
-							method : 'post',
-							toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
+							type : 'post',
+							data : JSON.stringify(query_data),
+							dataType : 'json',
 							contentType : 'application/json',
-							where : query_data,
-							cols : cols,
-							page : true,
-							limits : [30, 60, 90, 120, 150],
-							limit : 30,
-							parseData : function(res) {
-								console.log(res.data);
+							success : function(res) {
+								if (res.code == 0) {
+									setTable(res.data)
+								} else {
+									layer.msg('数据保存失败，请联系管理员！！！', {
+												icon : 2
+											});
 								}
+							},
+							error : function() {
+								layer.msg('数据保存失败，请联系管理员！！！', {
+											icon : 2
+										});
+							}
 						});
+			
 		}
+
+
+function setTable(data){
+	console.log(data.length)
+	var cols=[[
+	      {type: 'checkbox', fixed: 'left'}
+	      ,{field:'spEncoding', title:'备件编码', fixed: 'left'}
+	      ,{field:'spName', title:'备件名称'}
+	      ,{field:'type', title:'类别'}
+	      ,{field:'specification', title:'型号规格'}
+	      ,{field:'spInventory', title:'当前库存数量'}
+		  ,{field:'prewarningVal', title:'合理库存数量'}
+		  ,{field:'brand', title:'品牌'}
+		  ,{field:'manufactureFactory', title:'生产厂家'}
+		  ,{field:'productionDate', title:'生产日期'}
+		  ,{field:'unit', title:'单位'}
+		  ,{field:'unitCost', title:'价格'}
+		  ,{field:'labelCode', title:'标签码'}
+	    ]];
+		
+	table.render({
+					elem : '#eq_list_table',
+					data : data,
+					height : TABLE_H-120,
+					title : '备件台账',
+					toolbar: '#toolbar222', //开启头部工具栏，并为其绑定左侧模板
+					cols : cols
+					,page : false
+					// ,limits : [10, 20, 30, 40, 50]
+					,limit : 3000000
+				});
+	
+	
+	
+}
+
 
 //头工具栏事件
 		  table.on('toolbar(eq_list_table)', function(obj){
