@@ -261,6 +261,7 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 		int rowLength = sheet.getLastRowNum() + 1; // 总行数
 		int colLength = sheet.getRow(0).getLastCellNum(); // 总列数
 
+
 		// 存放excel读取的数据
 		List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 

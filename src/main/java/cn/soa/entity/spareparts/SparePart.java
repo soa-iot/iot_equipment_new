@@ -26,11 +26,11 @@ public class SparePart {
 
 	private String unit;
 
-	private Short unitCost;
+	private Double unitCost;
 
-	private Short spInventory;
+	private Integer spInventory;
 
-	private Short prewarningVal;
+	private Integer prewarningVal;
 
 	private String procurementCycle;
 
@@ -47,6 +47,10 @@ public class SparePart {
 	 * @param valueOf
 	 */
 	public void setProperty(String key, String value) {
+
+		if (value == null || "".equals(value)) {
+			return;
+		}
 
 		switch (key) {
 		case "SP_ID":
@@ -80,15 +84,17 @@ public class SparePart {
 			break;
 		case "UNIT_COST":
 		case "unitCost":
-			this.setUnitCost(Short.valueOf(value.substring(0,value.indexOf("."))));
+			this.setUnitCost(Double.valueOf(value));
 			break;
 		case "SP_INVENTORY":
 		case "spInventory":
-			this.setSpInventory(Short.valueOf(value.substring(0,value.indexOf("."))));
+			Float floatleValue = Float.valueOf(value);
+			this.setSpInventory(Math.round(floatleValue));
 			break;
 		case "PREWARNING_VAL":
 		case "prewarningVal":
-			this.setPrewarningVal(Short.valueOf(value.substring(0,value.indexOf("."))));
+			Float floatleValue2 = Float.valueOf(value);
+			this.setPrewarningVal(Math.round(floatleValue2));
 			break;
 		case "PROCUREMENT_CYCLE":
 		case "procurementCycle":
