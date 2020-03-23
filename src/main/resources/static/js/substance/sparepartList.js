@@ -107,7 +107,21 @@ layui.use(['element','layer', 'table','upload'],
 		      break;
 		      case 'getCheckLength':
 		        var data = checkStatus.data;
-		        layer.msg('选中了：'+ data.length + ' 个');
+				console.log(data)
+				if(data.length<=0){
+					 layer.alert('请选择1条需要修改的数据', {icon: 5});
+				}else if(data.length > 1){
+				 layer.alert('请选择1条需要修改的数据', {icon: 5});
+				}else{
+					var da=data[0];
+				layer.open({
+				  type: 1,
+								title:'备件修改',
+				  skin: 'layui-layer-rim', //加上边框
+				  area: ['50%', '80%'], //宽高
+				  content:$('#editProductBox')
+				});	
+				}
 		      break;
 		      case 'isAll':
 			  //删除

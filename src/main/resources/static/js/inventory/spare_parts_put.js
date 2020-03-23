@@ -119,19 +119,19 @@ layui.use(['form','layer', 'tree','table'],
 		function loading_spare_parts_list(){
 			var query_data={};
 			var cols=[[
-			      {type: 'checkbox', fixed: 'left'}
-			      ,{field:'spEncoding', title:'备件编码', fixed: 'left'}
-			      ,{field:'spName', title:'备件名称'}
-			      ,{field:'type', title:'类别'}
-			      ,{field:'specification', title:'型号规格'}
-			      ,{field:'spInventory', title:'当前库存数量'}
-				  ,{field:'prewarningVal', title:'合理库存数量'}
-				  ,{field:'brand', title:'品牌'}
-				  ,{field:'manufactureFactory', title:'生产厂家'}
-				  ,{field:'productionDate', title:'生产日期'}
-				  ,{field:'unit', title:'单位'}
-				  ,{field:'unitCost', title:'价格'}
-				  ,{field:'labelCode', title:'标签码'}
+			     {type: 'checkbox', fixed: 'left', width: 60}
+			     ,{field:'spEncoding', title:'备件编码', width: 180}
+			     ,{field:'spName', title:'备件名称', width: 180}
+			     ,{field:'type', title:'类别', width: 80}
+			     ,{field:'specification', title:'型号规格', width: 180}
+			     ,{field:'spInventory', title:'当前库存数量', width: 220}
+			     ,{field:'prewarningVal', title:'合理库存数量', width: 220}
+			     ,{field:'brand', title:'品牌', width: 80}
+			     ,{field:'manufactureFactory', title:'生产厂家', width: 180}
+			     ,{field:'productionDate', title:'生产日期', width: 180}
+			     ,{field:'unit', title:'单位', width: 80}
+			     ,{field:'unitCost', title:'价格', width: 80}
+			     ,{field:'labelCode', title:'标签码', width: 180}
 			    ]];
 			table.render({
 							elem : '#spare_parts_table',

@@ -46,8 +46,7 @@ layui.use(['layer', 'tree','table'],
 		
 function setEqOrSpList(data){
 	var cols=[[
-	      {type: 'checkbox', fixed: 'left'}
-	      ,{field:'spName', title:'备件名称', fixed: 'left'}
+	      {field:'spName', title:'备件名称', fixed: 'left'}
 	      ,{field:'spInventory', title:'当前库存'}
 	      ,{field:'quantity', title:'申请数量'}
 	      ,{field:'unitCost', title:'备件单价'}

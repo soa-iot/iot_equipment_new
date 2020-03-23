@@ -2,7 +2,8 @@ layui.use(['element','layer', 'tree','table','upload'],
 	function() {
 		var layer = layui.layer,table = layui.table,
 			element = layui.element,tree = layui.tree,eqId='',upload = layui.upload;
-upload.render({
+			//excal导入
+	upload.render({
 		elem : '#importData' // 绑定元素
 		,
 		url :api.SparepartsExcel.importEqOrSpRe
@@ -56,7 +57,6 @@ function getEqList(){
 }
 
 function getEqOrSpData(query_data){
-	console.log(11111)
 	$.get(api.sparepatsManager.getEquSpareRe, query_data, function(results) {
 		setEqOrSpList(results.data);
 	});
@@ -187,6 +187,9 @@ var tmpobj=null;
 			  }else  if(Fieid==''){
 				layer.alert('请先选择字段', {icon: 5});
 				}else{
+					
+					$('#add').attr("checked", true); //注意这里使用的是attr()
+					layui.form.render(); //重新渲染显示效果
 			  var query_data={
 			  	eqFieid:Fieid,
 			  	type:'1',
@@ -256,7 +259,7 @@ var tmpobj=null;
 						});
 		}
 		
-		
+		//数据删除
 		function deletetable(query_data){
 			$.ajax({
 							url : api.sparepatsManager.delEquSpareRe,

@@ -11,65 +11,104 @@
 		<link rel="stylesheet" href="../../css/config.css">
 	</head>
 	<body>
-		<br />
-		<span style="font-size: 24px;"> 领用申请单 </span>
-		<br /><br />
-		<form class="layui-form layui-form-pane" action="">
-		  <div class="layui-form-item">
-		   <label class="layui-form-label">申请单号</label>
-			<div class="layui-input-inline">
-		  	<input type="text" id="requestCode" disabled="disabled" name="requestCode" autocomplete="off" class="layui-input">
-		  </div>
-		  </div>
-		  <div class="layui-form-item">
-		     <div class="layui-inline">
-		       <label class="layui-form-label">申请人</label>
-		      <div class="layui-input-inline">
-		      	<input type="text" id="proposer" name="proposer" autocomplete="off" class="layui-input">
-		      </div>
-		     </div>
-		     <div class="layui-inline">
-		       <label class="layui-form-label">领用类型</label>
-		       <div class="layui-input-inline">
-		               <select name="modules" id="modules"  lay-verify="required" lay-search="">
-		                 <option value="">直接选择或搜索选择</option>
-		                 <option value="维修">维修</option>
-		                 <option value="维修">养护</option>
-		                 <option value="维修">其他</option>
-		               </select>
-		             </div>
-		     </div>
-			 <div class="layui-inline" id="btn-group">
-			 	<button type="button" class="layui-btn" lay-submit id="search_button_search" lay-filter="search_button_search">
-			 		<i class="layui-icon">&#xe615;</i>提交
-			 	</button>
-			 </div>
-		   </div>
-		<!--  <div class="layui-form-item layui-form-text">
-		    <div class="layui-input-block">
-		      <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
-		    </div>
-		  </div> -->
-		 
-		</form>
+		<div class="layui-container">
+			<div class="layui-row layui-col-space12" style="height: 100%">
+				<div class="layui-col-xs10 layui-col-sm10 layui-col-md12 equipment_list">
+					<div class="layui-row">
+						<div class="layui-col-md12 " id="equipment_list">
+						</div>
+					</div>
+					<div class="layui-row">
 		
+						<div class="layui-fluid " style="overflow: visible">
 		
+							<!-- 搜索条件 -->
 		
-	<div class="layui-row">
-	
-			<div class="layui-col-md12 ">
-	
-				<div class="component_container" id="equipment_list_table" lay-filter="sp"></div>
-	
+							<div class="layui-row layui-col-space10">
+		
+								<div class="layui-col-md12 ">
+		
+									<div style="margin-top: 10px; vertical-align: middle; background-color: #F2F2F2;">
+		
+										<form class="layui-form" action="" style="margin-top: 15px;" id="search">
+		
+											<div class="layui-form-item">
+		
+												<div class="layui-inline">
+		
+													<label class="layui-form-label">申请单号</label>
+																<div class="layui-input-inline">
+														<input type="text" id="requestCode" disabled="disabled" name="requestCode" autocomplete="off" class="layui-input">
+													</div>
+		
+												</div>
+		
+												<div class="layui-inline">
+		
+												<label class="layui-form-label">申请人</label>
+												<div class="layui-input-inline">
+													<input type="text" id="proposer" name="proposer" autocomplete="off" class="layui-input">
+												</div>
+		
+												</div>
+		
+											<div class="layui-inline">
+		
+													<label class="layui-form-label">领用类型</label>
+													<div class="layui-input-inline">
+													        <select name="modules" id="modules"  lay-verify="required" lay-search="">
+													          <option value="">直接选择或搜索选择</option>
+													          <option value="维修">维修</option>
+													          <option value="维修">养护</option>
+													          <option value="维修">其他</option>
+													        </select>
+													      </div>
+		
+												</div>
+		
+												<div class="layui-inline" id="btn-group">
+		
+													<button type="button" class="layui-btn layui-btn-normal" lay-submit id="search_button_search" lay-filter="search_button_search">
+														<i class="layui-icon layui-icon-ok "></i>提交
+													</button>
+		
+												</div>
+		
+											</div>
+		
+										</form>
+		
+									</div>
+		
+								</div>
+							</div>
+		
+							<!-- 表格-->
+		
+							<div class="layui-row">
+		
+								<div class="layui-col-md12 ">
+		
+									<div class="component_container" id="equipment_list_table" lay-filter="sp"></div>
+		
+								</div>
+		
+							</div>
+		
+						</div>
+		
+					</div>
+				</div>
+		
 			</div>
-	
+		
 		</div>
 	</body>
 	<script type="text/html" id="toolbar">
 		<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
+	  <!--  <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
+	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button> -->
 	  </div>
 	</script>
 	
