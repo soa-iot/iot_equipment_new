@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.spareparts.SpPutInMapper">
-  <resultMap id="BaseResultMap" type="cn.soa.entity.spareparts.SpPutIn">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="REQUEST_CODE" jdbcType="VARCHAR" property="requestCode" />
-    <result column="PROPOSER" jdbcType="VARCHAR" property="proposer" />
-    <result column="APPLICATION_DATE" jdbcType="TIMESTAMP" property="applicationDate" />
-    <result column="TYPE" jdbcType="VARCHAR" property="type" />
-    <result column="APPLICATION_STATUS" jdbcType="VARCHAR" property="applicationStatus" />
-    <result column="PASS_DATE" jdbcType="TIMESTAMP" property="passDate" />
-    <result column="OUT_PUT_STATUS" jdbcType="VARCHAR" property="outPutStatus" />
-    <result column="OUT_PUT_TIME" jdbcType="TIMESTAMP" property="outPutTime" />
-    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
-    <result column="PURCHASE_TITLE" jdbcType="VARCHAR" property="purchaseTitle" />
-    <result column="PURCHASE_REASON" jdbcType="VARCHAR" property="purchaseReason" />
-    <result column="STANDBY1" jdbcType="VARCHAR" property="standby1" />
-    <result column="STANDBY2" jdbcType="VARCHAR" property="standby2" />
-    <result column="STANDBY3" jdbcType="VARCHAR" property="standby3" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, REQUEST_CODE, PROPOSER, APPLICATION_DATE, TYPE, APPLICATION_STATUS, PASS_DATE, 
-    OUT_PUT_STATUS, OUT_PUT_TIME, REMARK, PURCHASE_TITLE, PURCHASE_REASON, STANDBY1, 
-    STANDBY2, STANDBY3
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from IOT_SP_PUT_IN
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  <!-- 根据条件查询数据 -->
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.spareparts.SpPutIn">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="REQUEST_CODE" jdbcType="VARCHAR"
+			property="requestCode" />
+		<result column="PROPOSER" jdbcType="VARCHAR"
+			property="proposer" />
+		<result column="APPLICATION_DATE" jdbcType="TIMESTAMP"
+			property="applicationDate" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="APPLICATION_STATUS" jdbcType="VARCHAR"
+			property="applicationStatus" />
+		<result column="PASS_DATE" jdbcType="TIMESTAMP"
+			property="passDate" />
+		<result column="OUT_PUT_STATUS" jdbcType="VARCHAR"
+			property="outPutStatus" />
+		<result column="OUT_PUT_TIME" jdbcType="TIMESTAMP"
+			property="outPutTime" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="PURCHASE_TITLE" jdbcType="VARCHAR"
+			property="purchaseTitle" />
+		<result column="PURCHASE_REASON" jdbcType="VARCHAR"
+			property="purchaseReason" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="SPPURPOSE" jdbcType="VARCHAR"
+			property="sppurpose" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, REQUEST_CODE, PROPOSER, APPLICATION_DATE, TYPE,
+		APPLICATION_STATUS,
+		PASS_DATE,
+		OUT_PUT_STATUS, OUT_PUT_TIME, REMARK,
+		PURCHASE_TITLE, PURCHASE_REASON, STANDBY1,
+		STANDBY2, STANDBY3,
+		SPPURPOSE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_SP_PUT_IN
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据条件查询数据 -->
 	<select id="findByCondition"
 		parameterType="cn.soa.entity.QueryCondition" resultMap="BaseResultMap">
 		select
@@ -73,12 +93,14 @@
 					#{spPutIn.remark,jdbcType=VARCHAR} || '%'
 				</if>
 				<!-- 模糊匹配采购理由 -->
-				<if test="spPutIn.purchaseReason != null and spPutIn.purchaseReason != ''">
+				<if
+					test="spPutIn.purchaseReason != null and spPutIn.purchaseReason != ''">
 					and PURCHASE_REASON like '%' ||
 					#{spPutIn.purchaseReason,jdbcType=VARCHAR} || '%'
 				</if>
-				<!-- 模糊匹配采购标题-->
-				<if test="spPutIn.purchaseTitle != null and spPutIn.purchaseTitle != ''">
+				<!-- 模糊匹配采购标题 -->
+				<if
+					test="spPutIn.purchaseTitle != null and spPutIn.purchaseTitle != ''">
 					and PURCHASE_TITLE like '%' ||
 					#{spPutIn.purchaseTitle,jdbcType=VARCHAR} || '%'
 				</if>
@@ -95,6 +117,11 @@
 					and STANDBY3 like '%' ||
 					#{spPutIn.standby3,jdbcType=VARCHAR} || '%'
 				</if>
+				<!-- 模糊匹配用途 -->
+				<if test="spPutIn.sppurpose != null and spPutIn.sppurpose != ''">
+					and SPPURPOSE like '%' ||
+					#{spPutIn.sppurpose,jdbcType=VARCHAR} || '%'
+				</if>
 			</if>
 			<!-- 匹配申请日期 -->
 			<if test="beginDate != null and beginDate != ''">
@@ -107,193 +134,224 @@
 			</if>
 		</where>
 	</select>
-	
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from IOT_SP_PUT_IN
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="cn.soa.entity.spareparts.SpPutIn">
-	insert into IOT_SP_PUT_IN (ID, REQUEST_CODE, PROPOSER,
-	APPLICATION_DATE, TYPE, APPLICATION_STATUS,
-	PASS_DATE, OUT_PUT_STATUS, OUT_PUT_TIME,
-	REMARK, PURCHASE_TITLE, PURCHASE_REASON,
-	STANDBY1, STANDBY2, STANDBY3
-	)
-	values (#{id,jdbcType=VARCHAR}, #{requestCode,jdbcType=VARCHAR},
-	#{proposer,jdbcType=VARCHAR},
-	#{applicationDate,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{applicationStatus,jdbcType=VARCHAR},
-	#{passDate,jdbcType=TIMESTAMP}, #{outPutStatus,jdbcType=VARCHAR},
-	#{outPutTime,jdbcType=TIMESTAMP},
-	#{remark,jdbcType=VARCHAR}, #{purchaseTitle,jdbcType=VARCHAR}, #{purchaseReason,jdbcType=VARCHAR},
-	#{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR},
-	#{standby3,jdbcType=VARCHAR}
-	)
-  </insert>
-  <insert id="insertSelective" parameterType="cn.soa.entity.spareparts.SpPutIn">
-    insert into IOT_SP_PUT_IN
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="requestCode != null">
-        REQUEST_CODE,
-      </if>
-      <if test="proposer != null">
-        PROPOSER,
-      </if>
-      <if test="applicationDate != null">
-        APPLICATION_DATE,
-      </if>
-      <if test="type != null">
-        TYPE,
-      </if>
-      <if test="applicationStatus != null">
-        APPLICATION_STATUS,
-      </if>
-      <if test="passDate != null">
-        PASS_DATE,
-      </if>
-      <if test="outPutStatus != null">
-        OUT_PUT_STATUS,
-      </if>
-      <if test="outPutTime != null">
-        OUT_PUT_TIME,
-      </if>
-      <if test="remark != null">
-        REMARK,
-      </if>
-      <if test="purchaseTitle != null">
-        PURCHASE_TITLE,
-      </if>
-      <if test="purchaseReason != null">
-        PURCHASE_REASON,
-      </if>
-      <if test="standby1 != null">
-        STANDBY1,
-      </if>
-      <if test="standby2 != null">
-        STANDBY2,
-      </if>
-      <if test="standby3 != null">
-        STANDBY3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="requestCode != null">
-        #{requestCode,jdbcType=VARCHAR},
-      </if>
-      <if test="proposer != null">
-        #{proposer,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationDate != null">
-        #{applicationDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationStatus != null">
-        #{applicationStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="passDate != null">
-        #{passDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="outPutStatus != null">
-        #{outPutStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="outPutTime != null">
-        #{outPutTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseTitle != null">
-        #{purchaseTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseReason != null">
-        #{purchaseReason,jdbcType=VARCHAR},
-      </if>
-      <if test="standby1 != null">
-        #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        #{standby3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.spareparts.SpPutIn">
-    update IOT_SP_PUT_IN
-    <set>
-      <if test="requestCode != null">
-        REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
-      </if>
-      <if test="proposer != null">
-        PROPOSER = #{proposer,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationDate != null">
-        APPLICATION_DATE = #{applicationDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        TYPE = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationStatus != null">
-        APPLICATION_STATUS = #{applicationStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="passDate != null">
-        PASS_DATE = #{passDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="outPutStatus != null">
-        OUT_PUT_STATUS = #{outPutStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="outPutTime != null">
-        OUT_PUT_TIME = #{outPutTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        REMARK = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseTitle != null">
-        PURCHASE_TITLE = #{purchaseTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseReason != null">
-        PURCHASE_REASON = #{purchaseReason,jdbcType=VARCHAR},
-      </if>
-      <if test="standby1 != null">
-        STANDBY1 = #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        STANDBY2 = #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        STANDBY3 = #{standby3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.spareparts.SpPutIn">
-    update IOT_SP_PUT_IN
-    set REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
-      PROPOSER = #{proposer,jdbcType=VARCHAR},
-      APPLICATION_DATE = #{applicationDate,jdbcType=TIMESTAMP},
-      TYPE = #{type,jdbcType=VARCHAR},
-      APPLICATION_STATUS = #{applicationStatus,jdbcType=VARCHAR},
-      PASS_DATE = #{passDate,jdbcType=TIMESTAMP},
-      OUT_PUT_STATUS = #{outPutStatus,jdbcType=VARCHAR},
-      OUT_PUT_TIME = #{outPutTime,jdbcType=TIMESTAMP},
-      REMARK = #{remark,jdbcType=VARCHAR},
-      PURCHASE_TITLE = #{purchaseTitle,jdbcType=VARCHAR},
-      PURCHASE_REASON = #{purchaseReason,jdbcType=VARCHAR},
-      STANDBY1 = #{standby1,jdbcType=VARCHAR},
-      STANDBY2 = #{standby2,jdbcType=VARCHAR},
-      STANDBY3 = #{standby3,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  
-  <!-- 根据单号更新 -->
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_SP_PUT_IN
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.soa.entity.spareparts.SpPutIn">
+		insert into IOT_SP_PUT_IN (ID, REQUEST_CODE, PROPOSER,
+		APPLICATION_DATE, TYPE, APPLICATION_STATUS,
+		PASS_DATE, OUT_PUT_STATUS,
+		OUT_PUT_TIME,
+		REMARK, PURCHASE_TITLE, PURCHASE_REASON,
+		STANDBY1,
+		STANDBY2, STANDBY3,
+		SPPURPOSE)
+		values (#{id,jdbcType=VARCHAR},
+		#{requestCode,jdbcType=VARCHAR},
+		#{proposer,jdbcType=VARCHAR},
+		#{applicationDate,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR},
+		#{applicationStatus,jdbcType=VARCHAR},
+		#{passDate,jdbcType=TIMESTAMP},
+		#{outPutStatus,jdbcType=VARCHAR},
+		#{outPutTime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR}, #{purchaseTitle,jdbcType=VARCHAR},
+		#{purchaseReason,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR},
+		#{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR},
+		#{sppurpose,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.spareparts.SpPutIn">
+		insert into IOT_SP_PUT_IN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="requestCode != null">
+				REQUEST_CODE,
+			</if>
+			<if test="proposer != null">
+				PROPOSER,
+			</if>
+			<if test="applicationDate != null">
+				APPLICATION_DATE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="applicationStatus != null">
+				APPLICATION_STATUS,
+			</if>
+			<if test="passDate != null">
+				PASS_DATE,
+			</if>
+			<if test="outPutStatus != null">
+				OUT_PUT_STATUS,
+			</if>
+			<if test="outPutTime != null">
+				OUT_PUT_TIME,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="purchaseTitle != null">
+				PURCHASE_TITLE,
+			</if>
+			<if test="purchaseReason != null">
+				PURCHASE_REASON,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+			<if test="sppurpose != null">
+				SPPURPOSE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="requestCode != null">
+				#{requestCode,jdbcType=VARCHAR},
+			</if>
+			<if test="proposer != null">
+				#{proposer,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationDate != null">
+				#{applicationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationStatus != null">
+				#{applicationStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="passDate != null">
+				#{passDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outPutStatus != null">
+				#{outPutStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="outPutTime != null">
+				#{outPutTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseTitle != null">
+				#{purchaseTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseReason != null">
+				#{purchaseReason,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="sppurpose != null">
+				#{sppurpose,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.spareparts.SpPutIn">
+		update IOT_SP_PUT_IN
+		<set>
+			<if test="requestCode != null">
+				REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
+			</if>
+			<if test="proposer != null">
+				PROPOSER = #{proposer,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationDate != null">
+				APPLICATION_DATE = #{applicationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="applicationStatus != null">
+				APPLICATION_STATUS =
+				#{applicationStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="passDate != null">
+				PASS_DATE = #{passDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outPutStatus != null">
+				OUT_PUT_STATUS = #{outPutStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="outPutTime != null">
+				OUT_PUT_TIME = #{outPutTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseTitle != null">
+				PURCHASE_TITLE = #{purchaseTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseReason != null">
+				PURCHASE_REASON = #{purchaseReason,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="sppurpose != null">
+				SPPURPOSE = #{sppurpose,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.spareparts.SpPutIn">
+		update IOT_SP_PUT_IN
+		set REQUEST_CODE =
+		#{requestCode,jdbcType=VARCHAR},
+		PROPOSER =
+		#{proposer,jdbcType=VARCHAR},
+		APPLICATION_DATE =
+		#{applicationDate,jdbcType=TIMESTAMP},
+		TYPE = #{type,jdbcType=VARCHAR},
+		APPLICATION_STATUS = #{applicationStatus,jdbcType=VARCHAR},
+		PASS_DATE =
+		#{passDate,jdbcType=TIMESTAMP},
+		OUT_PUT_STATUS =
+		#{outPutStatus,jdbcType=VARCHAR},
+		OUT_PUT_TIME =
+		#{outPutTime,jdbcType=TIMESTAMP},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		PURCHASE_TITLE = #{purchaseTitle,jdbcType=VARCHAR},
+		PURCHASE_REASON =
+		#{purchaseReason,jdbcType=VARCHAR},
+		STANDBY1 =
+		#{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR},
+		SPPURPOSE =
+		#{sppurpose,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据单号更新 -->
 	<update id="updateByRequestCode"
 		parameterType="cn.soa.entity.spareparts.SpPutIn">
 		update IOT_SP_PUT_IN
@@ -323,7 +381,26 @@
 			<if test="remark != null">
 				REMARK = #{remark,jdbcType=VARCHAR},
 			</if>
+			<if test="purchaseTitle != null">
+				PURCHASE_TITLE = #{purchaseTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseReason != null">
+				PURCHASE_REASON = #{purchaseReason,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="sppurpose != null">
+				SPPURPOSE = #{sppurpose,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where REQUEST_CODE = #{requestCode,jdbcType=VARCHAR}
 	</update>
+
 </mapper>

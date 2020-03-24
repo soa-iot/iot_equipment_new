@@ -33,6 +33,8 @@ public class SpPutIn {
 
     private String standby3;
 
+    private String sppurpose;
+
     public String getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class SpPutIn {
 
     public void setStandby3(String standby3) {
         this.standby3 = standby3 == null ? null : standby3.trim();
+    }
+
+    public String getSppurpose() {
+        return sppurpose;
+    }
+
+    public void setSppurpose(String sppurpose) {
+        this.sppurpose = sppurpose == null ? null : sppurpose.trim();
     }
 }
