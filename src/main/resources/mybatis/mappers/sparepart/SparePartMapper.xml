@@ -157,7 +157,8 @@
 		IOT_CLASSIFY_SP_RELATION t2
 		where
 		C_ID IN
-		(select C_ID from IOT_SP_CLASSIFY
+		(select C_ID from
+		IOT_SP_CLASSIFY
 		where CLASSIFY_VALUE in
 		<foreach collection="list" open="(" separator="," close=")"
 			index="index" item="item">
@@ -168,6 +169,158 @@
 		t1.SP_ID =
 		t2.SP_ID)
 	</select>
+
+	<!-- 更新或插入 -->
+	<insert id="mergeIntoData"
+		parameterType="cn.soa.entity.spareparts.SparePart">
+		MERGE INTO IOT_SPARE_PART T1
+		USING (SELECT
+		#{spEncoding,jdbcType=VARCHAR} as SP_ENCODING FROM dual) T2 on
+		(T1.SP_ENCODING=T2.SP_ENCODING)
+		WHEN MATCHED THEN
+		update
+		<set>
+			<if test="spName != null">
+				SP_NAME = #{spName,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				BRAND = #{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="specification != null">
+				SPECIFICATION = #{specification,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				UNIT = #{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="unitCost != null">
+				UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+			</if>
+			<if test="spInventory != null">
+				SP_INVENTORY = #{spInventory,jdbcType=DECIMAL},
+			</if>
+			<if test="prewarningVal != null">
+				PREWARNING_VAL = #{prewarningVal,jdbcType=DECIMAL},
+			</if>
+			<if test="procurementCycle != null">
+				PROCUREMENT_CYCLE = #{procurementCycle,jdbcType=VARCHAR},
+			</if>
+			<if test="labelCode != null">
+				LABEL_CODE = #{labelCode,jdbcType=VARCHAR},
+			</if>
+			<if test="manufactureFactory != null">
+				MANUFACTURE_FACTORY =
+				#{manufactureFactory,jdbcType=VARCHAR},
+			</if>
+			<if test="productionDate != null">
+				PRODUCTION_DATE =
+				to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where SP_ENCODING = #{spEncoding,jdbcType=VARCHAR}
+		WHEN
+		NOT MATCHED THEN
+		insert
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="spId != null">
+				SP_ID,
+			</if>
+			<if test="spEncoding != null">
+				SP_ENCODING,
+			</if>
+			<if test="spName != null">
+				SP_NAME,
+			</if>
+			<if test="brand != null">
+				BRAND,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="specification != null">
+				SPECIFICATION,
+			</if>
+			<if test="unit != null">
+				UNIT,
+			</if>
+			<if test="unitCost != null">
+				UNIT_COST,
+			</if>
+			<if test="spInventory != null">
+				SP_INVENTORY,
+			</if>
+			<if test="prewarningVal != null">
+				PREWARNING_VAL,
+			</if>
+			<if test="procurementCycle != null">
+				PROCUREMENT_CYCLE,
+			</if>
+			<if test="labelCode != null">
+				LABEL_CODE,
+			</if>
+			<if test="manufactureFactory != null">
+				MANUFACTURE_FACTORY,
+			</if>
+			<if test="productionDate != null">
+				PRODUCTION_DATE,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="spId != null">
+				#{spId,jdbcType=VARCHAR},
+			</if>
+			<if test="spEncoding != null">
+				#{spEncoding,jdbcType=VARCHAR},
+			</if>
+			<if test="spName != null">
+				#{spName,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				#{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="specification != null">
+				#{specification,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				#{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="unitCost != null">
+				#{unitCost,jdbcType=DECIMAL},
+			</if>
+			<if test="spInventory != null">
+				#{spInventory,jdbcType=DECIMAL},
+			</if>
+			<if test="prewarningVal != null">
+				#{prewarningVal,jdbcType=DECIMAL},
+			</if>
+			<if test="procurementCycle != null">
+				#{procurementCycle,jdbcType=VARCHAR},
+			</if>
+			<if test="labelCode != null">
+				#{labelCode,jdbcType=VARCHAR},
+			</if>
+			<if test="manufactureFactory != null">
+				#{manufactureFactory,jdbcType=VARCHAR},
+			</if>
+			<if test="productionDate != null">
+				to_date(#{productionDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
 
 
 	<insert id="insert"

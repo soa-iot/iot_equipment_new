@@ -291,8 +291,8 @@ public class SparepartsExcelServiceImpl implements SparepartsExcelService {
 			for (String key : keys) {
 				sparePart.setProperty(key, String.valueOf(item.get(key)));
 			}
-			// 导入数据
-			result += sparePartMapper.insertSelective(sparePart);
+			// 导入数据:spEncoding重复时会更新该条数据
+			result += sparePartMapper.mergeIntoData(sparePart);
 		}
 
 		return "成功导入了" + result + "条数据";

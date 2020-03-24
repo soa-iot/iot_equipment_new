@@ -41,15 +41,16 @@ public interface SparePartMapper {
 	 */
 	Integer updateSelective(SparePart sparePart);
 
-
 	/**
 	 * 根据设备出入库记录表增加库存
+	 * 
 	 * @param spRecord
 	 */
 	Integer addNumBySpRecord(SpRecord spRecord);
 
 	/**
 	 * 根据设备出入库记录表减少库存
+	 * 
 	 * @param spRecord
 	 */
 	Integer subNumBySpRecord(SpRecord spRecord);
@@ -57,9 +58,18 @@ public interface SparePartMapper {
 	/**
 	 * 
 	 * 通过设备分类值查询设备备件信息
+	 * 
 	 * @param columnValues
 	 * @return
 	 */
 	Page<SparePart> findBySpTypeValues(List<String> columnValues);
+
+	/**
+	 * 更新/插入数据；
+	 * 当spEncoding存在时更新，不同时插入数据
+	 * @param record
+	 * @return
+	 */
+	Integer mergeIntoData(SparePart record);
 
 }
