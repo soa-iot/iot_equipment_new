@@ -48,30 +48,6 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table tableName="IOT_EQ_OR_SP_RELATION"
-			domainObjectName="EqOrSpRelation" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
-		<table tableName="IOT_CLASSIFY_SP_RELATION"
-			domainObjectName="classifySpRelation" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
-		<table tableName="IOT_SPARE_PART"
-			domainObjectName="SparePart" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
-		<table tableName="IOT_SP_REGISTER"
-			domainObjectName="SpRegister" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
-		<table tableName="IOT_SP_RECORD"
-			domainObjectName="SpRecord" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
-		<table tableName="IOT_SP_CLASSIFY"
-			domainObjectName="SpClassify" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false"></table>
 		<table tableName="IOT_SP_PUT_IN"
 			domainObjectName="SpPutIn" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"

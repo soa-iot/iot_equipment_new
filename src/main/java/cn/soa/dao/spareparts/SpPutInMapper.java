@@ -9,20 +9,21 @@ import cn.soa.entity.spareparts.SpPutIn;
 
 @Mapper
 public interface SpPutInMapper {
-    int deleteByPrimaryKey(String id);
+	int deleteByPrimaryKey(String id);
 
-    int insert(SpPutIn record);
+	int insert(SpPutIn record);
 
-    int insertSelective(SpPutIn record);
+	int insertSelective(SpPutIn record);
 
-    SpPutIn selectByPrimaryKey(String id);
+	SpPutIn selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(SpPutIn record);
+	int updateByPrimaryKeySelective(SpPutIn record);
 
-    int updateByPrimaryKey(SpPutIn record);
+	int updateByPrimaryKey(SpPutIn record);
 
 	/**
 	 * 根据条件查询数据
+	 * 
 	 * @param condition
 	 * @return
 	 */
@@ -30,6 +31,7 @@ public interface SpPutInMapper {
 
 	/**
 	 * 根据申请单号更新数据
+	 * 
 	 * @param spPutIn
 	 */
 	Integer updateByRequestCode(SpPutIn spPutIn);
