@@ -82,7 +82,7 @@
 				</if>
 			</if>
 		</where>
-		order by registerDate desc
+		order by REGISTER_DATE desc
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
