@@ -93,13 +93,35 @@
 	<script type="text/html" id="toolbar">
 		<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
+	    <button class="layui-btn layui-btn-sm"  lay-event="isAll">删除</button>
 	  </div>
 	</script>
 
 <div id="openProductBox" style="display: none;">
 		<div class="layui-row">
 			<div class="layui-col-md12 ">
+			
+				  <div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">备件编码</label>
+				      <div class="layui-input-inline">
+				        <input type="tel" name="spEncoding" id="spEncoding"  autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+				    <div class="layui-inline">
+				      <label class="layui-form-label">备件名称</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="spName" id="spName" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+					<div class="layui-inline">
+					  <label class="layui-form-label">类别</label>
+					  <div class="layui-input-inline">
+					    <input type="text" name="type" id="type" autocomplete="off" class="layui-input">
+					  </div>
+					</div>
+				  </div>
+				
 				<div class="component_container" id="eq_list_table" lay-filter="eq_list_table"></div>
 				
 			</div>
@@ -109,7 +131,13 @@
 	<script type="text/html" id="toolbar222">
 		<div class="layui-btn-container">
 		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+			
+			<button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit id="search_button_search" lay-filter="search_button_search">
+		 	<i class="layui-icon">&#xe615;</i>查询
+		 
+		 </button>
 		  </div>
+		  
 		</script>
 
 

@@ -47,9 +47,15 @@ layui.use(['layer', 'tree', 'form', 'table', 'laydate'],
 			var cols=[[
 			     {field:'requestCode', title:'申请单号'}
 			      ,{field:'proposer', title:'申请人'}
-			      ,{field:'applicationDate', title:'申请日期'}
+			      ,{field:'applicationDate', title:'申请日期'
+				   ,templet : function(d) {
+				  				return SoaIot.transitionDate(d.applicationDate);
+				  			}}
 			      ,{field:'type', title:'申请状态'}
-			      ,{field:'passDate', title:'审核通过日期'}
+			      ,{field:'passDate', title:'审核通过日期'
+				   ,templet : function(d) {
+				  				return SoaIot.transitionDate(d.passDate);
+				  			}}
 			      ,{field:'remark', title:'类型'}
 			    ]];
 			table.render({
@@ -76,8 +82,7 @@ layui.use(['layer', 'tree', 'form', 'table', 'laydate'],
 		   var checkStatus = table.checkStatus(obj.config.id);
 		   switch(obj.event){
 		     case 'getCheckData':
-			 console.log(11111)
-			 window.open('../inventory/receive_request.html');    //跳转
+			  window.location.href='../inventory/receive_request.html?type=1';
 		     break;
 		     //自定义头工具栏右侧图标 - 提示
 		     case 'LAYTABLE_TIPS':

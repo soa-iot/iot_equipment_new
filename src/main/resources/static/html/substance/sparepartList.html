@@ -64,7 +64,7 @@
 
 													<div class="layui-input-inline">
 
-														<input name="type" id="type" class="layui-input" placeholder="请输入">
+														<input name="types" id="types" class="layui-input" placeholder="请输入">
 
 													</div>
 
@@ -82,7 +82,7 @@
 														<i class="layui-icon layui-icon-refresh"></i> 重置
 
 													</button>
-													<button type="button" class="layui-btn layui-btn-normal" lay-event="import" id="importData">
+													<button type="button" class="layui-btn layui-btn-normal"  id="download">
 														<i class="layui-icon">&#xe681;</i>导入
 													</button>
 												</div>
@@ -116,11 +116,33 @@
 
 		</div>
 
+<!-- 弹出界面-->    
+	<div id="openProductBox" style="display: none; padding: 10px;">
+			<div class="layui-row">
+				<div class="layui-col-md12 ">
+						 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						    <legend>1、导入前请先下载模板填入备件信息</legend>
+						  </fieldset>
+						<button type="button" class="layui-btn layui-btn-normal" id="download">
+							<i class="layui-icon">&#xe681;</i>模板下载
+						</button>
+						<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						   <legend>2、添加需要导入的模板文件，点击开始导入</legend>
+						 </fieldset>
+						<div class="layui-upload">
+						  <button type="button" class="layui-btn layui-btn-normal" id="importData">选择文件</button>
+						  <button type="button" class="layui-btn" id="import">开始上传</button>
+						</div>
+				</div>
+			</div>
+		</div>
+
+
 	</body>
 	<script type="text/html" id="toolbar">
 		<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">新增</button>
-	    <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button> -->
+	    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
 	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
 	  </div>
 	</script>

@@ -66,10 +66,8 @@
 												</div>
 												<div class="layui-inline" id="selLydDiv" style="display: none; ">
 													<label class="layui-form-label">采购申请单</label>
-													<div class="layui-input-inline">
-
-														<button type="button" id="selLyd" class="layui-btn layui-btn-primary">选择采购申请单</button>
-
+													<div class="layui-input-block">
+														<button style="width: 175px" type="button" id="selLyd" class="layui-btn layui-btn-primary">选择采购申请单</button>
 													</div>
 												</div>
 
@@ -115,14 +113,46 @@
 	<script type="text/html" id="the_spare_parts_to_register">
 		<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加</button>
-	 <!--   <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button> -->
 	  </div>
 	</script>
+
+
+<!--备件列表-->
+	<script type="text/html" id="sprequisitions">
+		<div class="layui-btn-container">
+		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit id="sel_sp_search" lay-filter="sel_sp_search">
+			<i class="layui-icon">&#xe615;</i>查询
+			</button>
+		  </div>
+		</script>
 
 	<div id="spare_parts_to_register" style="display: none; padding: 10px;">
 		<div class="layui-row">
 			<div class="layui-col-md12 ">
+				
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">备件编码</label>
+						<div class="layui-input-inline">
+							<input type="tel" name="spEncoding" id="spEncoding" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">备件名称</label>
+						<div class="layui-input-inline">
+							<input type="text" name="spName" id="spName" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">类别</label>
+						<div class="layui-input-inline">
+							<input type="text" name="type" id="type" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</div>
+				
+				
 				<div class="component_container" id="spare_parts_table" lay-filter="spare_parts_table"></div>
 			</div>
 		</div>
@@ -132,22 +162,40 @@
 	<script type="text/html" id="requisitions">
 		<div class="layui-btn-container">
 		    <button class="layui-btn layui-btn-sm" lay-event="getChe">添加</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit id="sel_search" lay-filter="sel_search">
+			<i class="layui-icon">&#xe615;</i>查询
+			</button>
 		  </div>
 		</script>
 
 	<div id="purchase_requisitions" style="display: none; padding: 10px;">
 		<div class="layui-row">
 			<div class="layui-col-md12 ">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">申请单号</label>
+						<div class="layui-input-inline">
+							<input type="tel" name="requestCode" id="requestCodes" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">申请人</label>
+						<div class="layui-input-inline">
+							<input type="text" name="proposer" id="proposers" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">申请时间</label>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" id="applicationDate" placeholder=" - ">
+						</div>
+					</div>
+				</div>
+				
 				<div class="component_container" id="purchase_table" lay-filter="purchase_table1"></div>
 			</div>
 		</div>
 	</div>
-	<!--采购申请单-->
-	<script type="text/html" id="sprequisitions">
-		<div class="layui-btn-container">
-		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
-		  </div>
-		</script>
 
 	<script src="../../jsPackage/js/jquery-1.9.1.min.js"></script>
 	<script src="../../jsPackage/config/config.js"></script>

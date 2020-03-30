@@ -11,7 +11,6 @@
 		<link rel="stylesheet" href="../../css/config.css">
 	</head>
 	<body>
-
 		<div class="layui-container">
 			<div class="layui-row layui-col-space12" style="height: 100%">
 				<div class="layui-col-xs10 layui-col-sm10 layui-col-md12 equipment_list">
@@ -34,29 +33,59 @@
 										<form class="layui-form" action="" style="margin-top: 15px;" id="search">
 
 											<div class="layui-form-item">
+												<div>
+													<div class="layui-inline">
 
-												<div class="layui-inline">
+														<label class="layui-form-label">申请单号</label>
+														<div class="layui-input-block">
+															<input type="text" id="requestCode" disabled="disabled" name="requestCode" autocomplete="off" class="layui-input">
+														</div>
+													</div>
+												</div>
 
-													<label class="layui-form-label">申请单号</label>
-													<div class="layui-input-block">
-														<input type="text" id="requestCode" disabled="disabled" name="requestCode" autocomplete="off" class="layui-input">
+												<div>
+													<div class="layui-inline">
+														<label class="layui-form-label">申请人</label>
+														<div class="layui-input-inline">
+															<input type="text" id="proposer" name="proposer" autocomplete="off" class="layui-input">
+														</div>
+
+													</div>
+
+													<div class="layui-inline">
+														<label class="layui-form-label">采购标题</label>
+														<div class="layui-input-inline">
+															<input type="text" id="purchase_title" placeholder="请输入采购标题" name="purchase_title" autocomplete="off"
+															 class="layui-input">
+														</div>
+													</div>
+												</div>
+												<div>
+													<div class="layui-inline">
+														<label class="layui-form-label">采购理由</label>
+														<div class="layui-input-inline">
+															<textarea placeholder="请输入采购理由" name="purchase_reason" id="purchase_reason" class="layui-textarea"></textarea>
+														</div>
+													</div>
+
+													<div class="layui-inline">
+
+														<label class="layui-form-label">备注</label>
+														<div class="layui-input-inline">
+															<textarea placeholder="请输入备注" id="remark" name="remark" class="layui-textarea"></textarea>
+														</div>
+
 													</div>
 
 												</div>
-
-												<div class="layui-inline">
-
-													<label class="layui-form-label">申请人</label>
-													<div class="layui-input-inline">
-														<input type="text" id="proposer" name="proposer" autocomplete="off" class="layui-input">
-													</div>
-
-												</div>
-
 												<div class="layui-inline" id="btn-group">
 
 													<button type="button" class="layui-btn layui-btn-normal" lay-submit id="search_button_search" lay-filter="search_button_search">
 														<i class="layui-icon layui-icon-ok "></i>提交
+													</button>
+
+											<button type="button" style="display: none;" class="layui-btn layui-btn-normal" lay-submit id="button_return" lay-filter="button_return">
+														返回
 													</button>
 
 												</div>
@@ -86,23 +115,40 @@
 
 					</div>
 				</div>
-
 			</div>
-
 		</div>
+		 
+		
 		<script type="text/html" id="toolbar">
-			<div class="layui-btn-container">
+		<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加</button>
-	    <!-- <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button> -->
+	   <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
 	  </div>
 	</script>
-
 		<div id="openProductBox" style="display: none;">
 			<div class="layui-row">
 				<div class="layui-col-md12 ">
-
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">备件编码</label>
+							<div class="layui-input-inline">
+								<input type="tel" name="spEncoding" id="spEncoding" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">备件名称</label>
+							<div class="layui-input-inline">
+								<input type="text" name="spName" id="spName" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">类别</label>
+							<div class="layui-input-inline">
+								<input type="text" name="type" id="type" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+					</div>
 					<div class="component_container" id="eq_list_table" lay-filter="eq_list_table"></div>
-
 				</div>
 			</div>
 		</div>
@@ -110,6 +156,9 @@
 		<script type="text/html" id="toolbar222">
 			<div class="layui-btn-container">
 		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit id="sel_button_search" lay-filter="sel_button_search">
+			<i class="layui-icon">&#xe615;</i>查询
+			</button>
 		  </div>
 		</script>
 

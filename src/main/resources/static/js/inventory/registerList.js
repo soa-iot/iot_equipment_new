@@ -86,7 +86,7 @@ layui.use(['layer', 'table','laydate'],
 			layer.open({
 			      type    : 1,
 			      offset  : 'r',
-			      area    : ['600px', '100%'],
+			      area    : ['50%', '100%'],
 			      title   : '申请单详情',
 			      shade   : 0,
 			      anim   : -1,
@@ -135,9 +135,9 @@ layui.use(['layer', 'table','laydate'],
 								if (res.code == 0) {
 									var data=res.data;
 									//页面信息
-									$('#applicationDate').val(data[0].applicationDate);
+									$('#applicationDate').val(SoaIot.transitionDate(data[0].applicationDate));
 									$('#applicationStatus').val(data[0].applicationStatus);
-									$('#passDate').val(data[0].passDate);
+									$('#passDate').val(SoaIot.transitionDate(data[0].passDate));
 									$('#proposer').val(data[0].proposer);
 									$('#requestCode').val(data[0].requestCode);
 									$('#type').val(data[0].type);

@@ -1,13 +1,29 @@
-layui.use(['layer', 'tree','table'],
+layui.use(['layer', 'tree','form','laydate','table'],
 	function() {
 		var layer = layui.layer,table = layui.table,
-			tree = layui.tree,requestCode='';
+			tree = layui.tree,requestCode='',laydate = layui.laydate,
+			form = layui.form;
 		//出库登记单号
 		var request = 'CQ' + Date.now(); 
 		$('#requestCode').val(request);
+		$('#proposer').val(SoaIot.getCookis('name'));
+		 //常规用法
 		
+		  laydate.render({
+		    elem: '#applicationDate'
+		    ,range: true
+		  });
+		  getEqOrSpDatas();
+		  function getEqOrSpDatas(){
+			 var query_data={};
+			  var spPutIn={};
+			spPutIn.type='领用';
+			query_data.spPutIn=spPutIn;  
+			getEqOrSpData(query_data);
+		  }
+	
 		//申请单
-		getEqOrSpData();
+		
 		
 		//加载领用申请单
 		$(document).on('click',"#selLyd",function(){
@@ -70,11 +86,7 @@ function setEqOrSpList(data){
 							});
 }
 
-		function getEqOrSpData(){
-			var query_data={};
-			var spPutIn={};
-			spPutIn.type='领用';
-			query_data.spPutIn=spPutIn;
+		function getEqOrSpData(query_data){
 			var cols=[[
 			      {type:'radio'}
 				 ,{field:'requestCode', title:'申请单号', width:180,}
@@ -126,6 +138,26 @@ function setEqOrSpList(data){
 		      break;
 		    };
 		  }); 
+		  
+		  //监听搜索
+		    form.on('submit(sel_button_search)', function(data){
+				var str=$('#applicationDate').val();
+				var arr= str.split(" - ");
+				
+		  			var query_data={};
+		  			var spPutIn={};
+		  			spPutIn.requestCode=$('#requestCodes').val();
+		  			spPutIn.proposer=$('#proposers').val();
+					spPutIn.type='领用';
+					
+					query_data.beginDate=arr[0];
+					query_data.endDate=arr[1];
+		  			query_data.spPutIn=spPutIn;
+					console.log(query_data)
+		  			getEqOrSpData(query_data)
+		  		    return false;
+		  		  });
+		  
 		  
 		  //提交事件
 		  

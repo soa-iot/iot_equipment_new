@@ -57,7 +57,7 @@
 													<label class="layui-form-label">领用申请单</label>
 													<div class="layui-input-inline">
 														
-													 <button type="button" id="selLyd"  class="layui-btn layui-btn-primary">选择领用申请单</button>
+													 <button type="button" id="selLyd" style="width: 175px;" class="layui-btn layui-btn-primary">选择领用申请单</button>
 													
 													</div>
 		
@@ -107,6 +107,28 @@
 	<div id="openProductBox" style="display: none;">
 		<div class="layui-row">
 			<div class="layui-col-md12 ">
+				
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">申请单号</label>
+						<div class="layui-input-inline">
+							<input type="tel" name="requestCode" id="requestCodes" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">申请人</label>
+						<div class="layui-input-inline">
+							<input type="text" name="proposer" id="proposers" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">申请时间</label>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" id="applicationDate" placeholder=" - ">
+						</div>
+					</div>
+				</div>
+				
 				<div class="component_container" id="eq_list_table" lay-filter="eq_list_table"></div>
 			</div>
 		</div>
@@ -114,6 +136,9 @@
 	<script type="text/html" id="toolbar222">
 		<div class="layui-btn-container">
 		    <button class="layui-btn layui-btn-sm" lay-event="getChe">提交</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit id="sel_button_search" lay-filter="sel_button_search">
+			<i class="layui-icon">&#xe615;</i>查询
+			</button>
 		  </div>
 		</script>
 

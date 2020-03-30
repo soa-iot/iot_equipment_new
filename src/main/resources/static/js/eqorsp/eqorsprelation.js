@@ -116,7 +116,7 @@ function setEqTable(query_data){
 	table.render({
 					elem : '#eqsp_list_table',
 					url : api.sparepatsManager.getEquInfo,
-					height : TABLE_H/2-90,
+					height : TABLE_H-130,
 					method : 'post',
 					contentType : 'application/json',
 					where : query_data,
@@ -149,6 +149,27 @@ var tmpobj=null;
 	
 	var query_data={eqId:eqId};
 		getEqOrSpData(query_data);
+
+		layer.open({
+		      type    : 1,
+		      offset  : 'r',
+		      area    : ['50%', '100%'],
+		      title   : '采购备件详情',
+		      shade   : 0,
+		      anim   : -1,
+		      skin:'layer-anim-07',
+		      move    : false,
+		      content:$('#openProductBox'),
+		      cancel  : function (index) {
+		        var $layero = $('#layui-layer' + index);
+		        $layero.animate({
+		          left : $layero.offset().left + $layero.width()
+		        }, 300, function () {
+		          layer.close(index);
+		        });
+		        return false;
+		      }
+		    });
   });
 		//设置显示设备分类树
 		function setTree(data) {
@@ -238,12 +259,13 @@ var tmpobj=null;
 							contentType : 'application/json',
 							success : function(res) {
 								if (res.code == 0) {
-									layer.confirm('添加成功？', {
+									var a=layer.confirm('添加成功？', {
 									  btn: ['确定'] //按钮
 									}, function(){
 									var query_data={eqId:eqId};
 										getEqOrSpData(query_data);
-										layer.closeAll(); 
+										layer.close(a)
+										// layer.closeAll(); 
 									});
 								} else {
 									layer.msg('数据保存失败，请联系管理员！！！', {
@@ -270,12 +292,13 @@ var tmpobj=null;
 							success : function(res) {
 								console.log(res)
 								if (res.code == 0) {
-									layer.confirm('删除成功？', {
+									var a=layer.confirm('删除成功？', {
 									  btn: ['确定'] //按钮
 									}, function(){
 									var query_data={eqId:eqId};
 										getEqOrSpData(query_data);
-										layer.closeAll(); 
+										layer.close(a)
+										// layer.closeAll(); 
 									});
 								} else {
 									layer.msg('数据保存失败，请联系管理员！！！', {

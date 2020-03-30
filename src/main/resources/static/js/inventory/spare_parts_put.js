@@ -1,11 +1,15 @@
-layui.use(['form','layer', 'tree','table'],
+layui.use(['form','layer', 'tree','laydate','table'],
 	function() {
 		var form = layui.form,layer = layui.layer,table = layui.table,
-			tree = layui.tree,requestCode='',type='';
+			tree = layui.tree,requestCode='',type='',laydate = layui.laydate;
 		//入库登记单号
 		var request = 'RQ' + Date.now(); 
 		$('#requestCode').val(request);
-		
+		$('#proposer').val(SoaIot.getCookis('name'));
+		laydate.render({
+		  elem: '#applicationDate'
+		  ,range: true
+		});
 		//------提交事件-------------------------------------------
 		
 		$(document).on('click','#search_button_search',function(){
@@ -104,9 +108,17 @@ layui.use(['form','layer', 'tree','table'],
 		}
 		
 		//------数据加载--------------------------------------
-		loading_spare_parts_list();//加载备件列表
+		loading_spare_parts_list({});//加载备件列表
 		set_the_purchase_request_form();//设置采购申请单
-		lode_the_purchase_request_form();//加载采购申请单列表
+		lode_the_purchase_request_forms();//加载采购申请单列表
+		
+		function lode_the_purchase_request_forms(){
+			var query_data={};
+			var spPutIn={};
+			spPutIn.type='采购';
+			query_data.spPutIn=spPutIn;
+			lode_the_purchase_request_form(query_data);
+		}
 		
 		function set_the_purchase_request_form(query_data){
 				$.get(api.sparepartOutIn.getSpRecord, query_data, function(results) {
@@ -116,8 +128,7 @@ layui.use(['form','layer', 'tree','table'],
 					});
 		}
 			
-		function loading_spare_parts_list(){
-			var query_data={};
+		function loading_spare_parts_list(query_data){
 			var cols=[[
 			     {type: 'checkbox', fixed: 'left', width: 60}
 			     ,{field:'spEncoding', title:'备件编码', width: 180}
@@ -143,9 +154,8 @@ layui.use(['form','layer', 'tree','table'],
 							contentType : 'application/json',
 							where : query_data,
 							cols : cols,
-							page : true,
-							limits : [30, 60, 90, 120, 150],
-							limit : 30,
+							page : false,
+							limit : 3000000,
 							parseData : function(res) {
 								console.log(res.data);
 								}
@@ -208,11 +218,7 @@ function setup_register_common(data){
 								});
 	}
 	
-		function lode_the_purchase_request_form(){
-			var query_data={};
-			var spPutIn={};
-			spPutIn.type='采购';
-			query_data.spPutIn=spPutIn;
+		function lode_the_purchase_request_form(query_data){
 			var cols=[[
 			      {type:'radio'}
 				 ,{field:'requestCode', title:'申请单号', width:180,}
@@ -365,7 +371,37 @@ function setup_register_common(data){
 			   }
 				   form.render('select');
 		      	});
-		  
+				
+				//----------查询------------------------
+				//备件查询
+				  form.on('submit(sel_sp_search)', function(data){
+							var query_data={};
+							var sparePart={};
+							sparePart.spEncoding=$('#spEncoding').val();
+							sparePart.spName=$('#spName').val();
+							sparePart.type=$('#type').val();
+							query_data.sparePart=sparePart;
+							loading_spare_parts_list(query_data)
+						    return false;
+						  });
+						  
+		  //申请单查询
+		  form.on('submit(sel_search)', function(data){
+			  var str=$('#applicationDate').val();
+			  var arr= str.split(" - ");
+			  
+			  	var query_data={};
+			  	var spPutIn={};
+			  	spPutIn.requestCode=$('#requestCodes').val();
+			  	spPutIn.proposer=$('#proposers').val();
+			  	spPutIn.type='采购';
+			  	
+			  	query_data.beginDate=arr[0];
+			  	query_data.endDate=arr[1];
+			  	query_data.spPutIn=spPutIn;
+			  	console.log(query_data)
+			  	lode_the_purchase_request_form(query_data)
+		  						  });
 	});
 
 

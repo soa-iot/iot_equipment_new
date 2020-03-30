@@ -7,15 +7,17 @@ layui.use(['element','layer', 'table','upload'],
 				url :api.SparepartsExcel.importSparepart
 				,
 				data : {},
+				 auto: false,
 				accept : 'file',
 				exts : 'xls|xlsx|xlsm|xlt|xltx|xltm',
 				field : 'exportFile',
-				choose : function() {
-					upload_msg = layer.load();
-				},
+				bindAction: '#import',
+				// choose : function() {
+				// 	upload_msg = layer.load();
+				// },
 				done : function(res) {
 					// 上传完毕回调
-					layer.close(upload_msg);
+					// layer.close(upload_msg);
 					if (res.code == 0) {
 						// 导入数据成功
 						layer.msg(res.data);
@@ -49,10 +51,21 @@ layui.use(['element','layer', 'table','upload'],
 		 			  var sparePart={};
 		 			  sparePart.spEncoding=$('#spEncoding').val();
 		 			  sparePart.spName=$('#spName').val();
-					 sparePart.type==$('#type').val();
+					  sparePart.type=$('#types').val();
 		 			  query_data.sparePart=sparePart;
-					  console.log(query_data)
 		 			  setSpTable(query_data);
+		 });
+		
+		//文件下载
+		 $(document).on('click','#download',function(){
+			 // window.open(api.doc.spexcal);
+			 layer.open({
+			   type: 1,
+			   area: ['700px', '450px'],
+			   fixed: false, //不固定
+			   maxmin: true,
+			   content: $('#openProductBox')
+			 });
 		 });
 		
 		
@@ -97,13 +110,15 @@ layui.use(['element','layer', 'table','upload'],
 		    var checkStatus = table.checkStatus(obj.config.id);
 		    switch(obj.event){
 		      case 'getCheckData':
-			  layer.open({
-			    type: 2,
-				title:'备件添加',
-			    skin: 'layui-layer-rim', //加上边框
-			    area: ['50%', '80%'], //宽高
-			    content: 'addsp.html'
-			  });
+			 //  layer.open({
+			 //    type: 2,
+				// title:'备件添加',
+			 //    skin: 'layui-layer-rim', //加上边框
+			 //    area: ['50%', '80%'], //宽高
+			 //    content: 'addsp.html?spid='
+			 //  });
+			 window.location.href='addsp.html?spid=';
+			 
 		      break;
 		      case 'getCheckLength':
 		        var data = checkStatus.data;
@@ -113,14 +128,14 @@ layui.use(['element','layer', 'table','upload'],
 				}else if(data.length > 1){
 				 layer.alert('请选择1条需要修改的数据', {icon: 5});
 				}else{
-					var da=data[0];
-				layer.open({
-				  type: 1,
-								title:'备件修改',
-				  skin: 'layui-layer-rim', //加上边框
-				  area: ['50%', '80%'], //宽高
-				  content:$('#editProductBox')
-				});	
+				// layer.open({
+				//   type: 2,
+				// 				title:'备件修改',
+				//   skin: 'layui-layer-rim', //加上边框
+				//   area: ['50%', '80%'], //宽高
+				//   content: 'addsp.html?spid='+data[0].spId
+				// });	
+				 window.location.href= 'addsp.html?spid='+data[0].spId;
 				}
 		      break;
 		      case 'isAll':

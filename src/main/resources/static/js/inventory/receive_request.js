@@ -1,15 +1,24 @@
 //导入 用layui upload插件layui.use([ "element", "laypage", "layer", "upload"], function() {
-layui.use(['layer', 'tree','table'],
+layui.use(['layer', 'tree','table','form'],
 	function() {
 		var layer = layui.layer,table = layui.table,
-			tree = layui.tree,dataList=[];
-
+			tree = layui.tree,dataList=[],form=layui.form,array = [];
+var types=SoaIot.getUrlParam('type');
+if(types==1){
+	// button_return
+	 $("#button_return").show();//表示为display：block，
+}
+ //返回
+		 $(document).on('click',"#button_return",function(){
+		        window.location.href='../eqorsp/purchaseList.html';
+		  });
 //采购申请单号
 		var request = 'LY' + Date.now(); 
 		$('#requestCode').val(request);
+		$('#proposer').val(SoaIot.getCookis('name'));
 		setEqOrSpList();
 
-		getEqOrSpData();
+		getEqOrSpData({});
 function setEqOrSpList(){
 	var cols=[[
 	      {type: 'checkbox', fixed: 'left'}
@@ -17,7 +26,8 @@ function setEqOrSpList(){
 	      ,{field:'spInventory', title:'当前库存'}
 	      ,{field:'quantity', title:'申请数量',edit: 'text'}
 	      ,{field:'unitCost', title:'备件单价'}
-	      ,{field:'unit', title:'备件单位'}
+	      ,{field:'unit', title:'备件单位'},
+		  ,{field:'subtotal', title:'小计'}
 	    ]];
 	table.render({
 					elem : '#equipment_list_table',
@@ -30,12 +40,24 @@ function setEqOrSpList(){
 					cols : cols,
 					page : true,
 					limits : [30, 60, 90, 120, 150],
-					limit : 30,
+					limit : 30000,
 					parseData : function(res) {
 						console.log(res.data);
 						}
 				});
 }
+
+//监听搜索
+  form.on('submit(sel_button_search)', function(data){
+			var query_data={};
+			var sparePart={};
+			sparePart.spEncoding=$('#spEncoding').val();
+			sparePart.spName=$('#spName').val();
+			sparePart.type=$('#type').val();
+			query_data.sparePart=sparePart;
+			getEqOrSpData(query_data)
+		    return false;
+		  });
 
  //头工具栏事件
   table.on('toolbar(sp)', function(obj){
@@ -68,7 +90,10 @@ function setEqOrSpList(){
         layer.msg('选中了：'+ data.length + ' 个');
       break;
       case 'isAll':
-        layer.msg(checkStatus.isAll ? '全选': '未全选');
+        array.forEach((item) => {
+                                       item.remove(); //删除dom结构
+                                       // obj.checked = 'false';
+                                   })
       break;
       
       //自定义头工具栏右侧图标 - 提示
@@ -79,8 +104,7 @@ function setEqOrSpList(){
   });
 
 
-		function getEqOrSpData(){
-			var query_data={};
+		function getEqOrSpData(query_data){
 			$.ajax({
 							url : api.sparepartsLedger.getSparePartsInfo,
 							type : 'post',
@@ -151,6 +175,7 @@ function setTable(data){
 					query_data.spInventory=e.spInventory;
 					query_data.unitCost=e.unitCost;
 					query_data.unit=e.unit;
+					query_data.subtotal=0;
 					query_datas.push(query_data);
 				});				
 				saveSpList(query_datas);
@@ -199,7 +224,10 @@ function setTable(data){
 				 			  da.proposer=proposer;
 				 			  da.type='领用';
 				 			  da.applicationStatus='申请中';
-							  da.remark=modules;
+							  da.standby1=modules;
+							  da.remark=$('#remark').val();
+							  da.sppurpose=$('#sppurpose').val();
+							  
 				 var query_data={};
 				 query_data.spPutIn=da;
 				 query_data.spRecords=dataLista;
@@ -237,6 +265,36 @@ function setTable(data){
 			  			});
 		  }
 		  
+		  
+		  table.on('edit(sp)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+		     var datas=obj.data;
+		    datas.subtotal=datas.quantity * datas.unitCost;
+		    obj.update(datas); //修改当前行数
+		  });
+		  
+		  
+		  table.on('checkbox(sp)', function (obj) {
+		                  // console.log(obj.tr) //得到当前行元素对象
+		                  var tr = obj.tr; //得到当前点击复选框的行元素对象
+		                  if (obj.type == 'all') { //点击全选按钮触发此处
+		                      var len = array.length;
+		                      array.splice(0, len); //全选后删除数组项，重新添加全选的dom元素
+		                      array.push(obj.tr.prevObject[0]);
+		                  }
+		                  else {
+		                      if (obj.checked) { //多选框被选中则添加dom元素到数组
+		                          array.push(tr);
+		                      } else {//取消多选框的选中则在数组中删除自己
+		                          var indexs = obj.tr[0].rowIndex;  //获取取消选中的元素对象下标
+		                          array.forEach((item, index) => {
+		                              //当数组中任意一个元素的rowIndex值与取消复选框的元素对象属性rowIndex的下标值相等，则在数组中删除该元素
+		                              if (item[0].rowIndex == indexs) {
+		                                  array.splice(index, 1);
+		                              }
+		                          })
+		                      }
+		                  }
+		  });
 	});
 
 
