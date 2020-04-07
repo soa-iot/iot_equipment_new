@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.EquipmentCommonInfo;
+import cn.soa.entity.EquipmentType;
 import cn.soa.entity.QueryCondition;
 
 @Mapper
@@ -64,6 +65,8 @@ public interface EquipmentCommonInfoMapper {
 	 * @return
 	 */
 	Page<EquipmentCommonInfo> findBySelective(QueryCondition condition);
+
+	
 	
 
 }

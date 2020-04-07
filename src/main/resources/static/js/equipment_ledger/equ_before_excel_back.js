@@ -77,6 +77,7 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form', 'laydate'],
 							layer.msg('请至少或至多选择一条数据！！！', {
 										icon : '2'
 									});
+							return;
 						}
 						var index = layer.load();
 						$.ajax({

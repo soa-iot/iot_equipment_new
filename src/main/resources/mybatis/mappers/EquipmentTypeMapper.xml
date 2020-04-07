@@ -54,15 +54,23 @@
 	</select>
 
 	<!-- 获取子类 -->
-	<select id="getChildren"
-		resultMap="withChildren">
+	<select id="getChildren" resultMap="withChildren">
 		select
-		ID, EQU_TYPE_NAME, TYPE_PARENT_ID, STANDBY1,
+		ID, EQU_TYPE_NAME,
+		TYPE_PARENT_ID, STANDBY1,
 		STANDBY2,
 		STANDBY3
 		from IOT_EQUIPMENT_TYPE
 		where TYPE_PARENT_ID =
 		#{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据id获取其所有下级数据 -->
+	<select id="selectChildrenById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_EQUIPMENT_TYPE t start with t.ID = #{equTypeId} connect by
+		PRIOR t.ID = t.TYPE_PARENT_ID
 	</select>
 
 

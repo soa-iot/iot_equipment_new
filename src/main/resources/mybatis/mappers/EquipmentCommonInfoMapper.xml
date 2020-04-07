@@ -127,6 +127,19 @@
 				#{condition.equTypeId,jdbcType=VARCHAR} and t1.EQU_ID =
 				t2.EQU_ID)
 			</if>
+			<if
+				test="condition.equTypes != null  and condition.equTypes.size()>0">
+				and EXISTS
+				(select EQU_ID from IOT_EQUIPMENT_TYPE_R t2 where
+				EQU_TYPE_ID
+				in
+				<foreach collection="condition.equTypes" open="("
+					separator="," close=")" index="index" item="item">
+					#{item.id,jdbcType=VARCHAR}
+				</foreach>
+				and t1.EQU_ID =
+				t2.EQU_ID)
+			</if>
 			<if test="condition.equipmentCommonInfo != null">
 				<if
 					test="condition.equipmentCommonInfo.equipmentProperties !=null">

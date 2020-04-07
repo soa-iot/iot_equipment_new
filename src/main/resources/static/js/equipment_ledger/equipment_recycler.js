@@ -403,7 +403,7 @@ function load_table(table, query_data) {
 				elem : '#equ_history',
 				url : '/iot_equipment/equipmentHistory/getEquHistoryList',
 				height : 'full-150',
-				toolbar : '#toolbar',
+				toolbar : '#recovery',
 				title : '设备历史版本',
 				method : 'post',
 				contentType : 'application/json',

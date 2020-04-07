@@ -42,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import ch.qos.logback.core.joran.conditional.Condition;
 import cn.soa.dao.EquBeforeImportBackMapper;
@@ -137,6 +138,21 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 	public Page<EquipmentCommonInfo> getEquipmentList(QueryCondition condition) {
 
 		Page<EquipmentCommonInfo> result = equipmentCommonInfoMapper.selectByCondition(condition);
+
+		if (result.size() <= 0) {
+			/**
+			 * 查询的设备数据列表为空，则获取该设备分类下级所有分类的数据
+			 */
+			// step1 根据当前设备分类id查询出所有下级的设备分类id
+			List<EquipmentType> chlidren = equipmentTypeMapper.selectChildrenById(condition.getEquTypeId());
+
+			condition.setEquTypes(chlidren);
+			condition.setEquTypeId(null);
+			// step2 查询设备数据EquipmentType
+			PageHelper.startPage(condition.getPage(), condition.getLimit());
+			Page<EquipmentCommonInfo> result2 = equipmentCommonInfoMapper.selectByCondition(condition);
+			return result2;
+		}
 
 		return result;
 	}
@@ -610,9 +626,9 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		/**
 		 * 空白模板隐藏字段行
 		 */
-			HSSFSheet sheet = hSSFWorkbook.getSheetAt(0);
-			HSSFRow row = sheet.getRow(classNum + 1);
-			row.setZeroHeight(true);
+		HSSFSheet sheet = hSSFWorkbook.getSheetAt(0);
+		HSSFRow row = sheet.getRow(classNum + 1);
+		row.setZeroHeight(true);
 		return hSSFWorkbook;
 
 	}

@@ -36,6 +36,8 @@ public class QueryCondition {
 
 	private String equTypeId;// 设备类型id
 
+	private List<EquipmentType> equTypes;// 设备类型list
+
 	private Integer page;// 页码
 
 	private Integer limit;// 每页数据条数
@@ -65,14 +67,14 @@ public class QueryCondition {
 
 	@ApiModelProperty("设备备件信息是否为告警信息（用于查询设备备件告警信息时传true）")
 	private String alarm;// 默认'false'
-	
+
 	@ApiModelProperty("备件分类id")
-	private String sparepartTypeId;//备件分类id
-	
+	private String sparepartTypeId;// 备件分类id
+
 	@ApiModelProperty("设备备件申请信息（用于筛选条件）")
-	private SpPutIn spPutIn;//设备备件申请
-	
+	private SpPutIn spPutIn;// 设备备件申请
+
 	@ApiModelProperty("设备备件出入库登记信息（用于筛选条件）")
-	private SpRegister spRegister;//设备备件出入库登记信息
+	private SpRegister spRegister;// 设备备件出入库登记信息
 
 }

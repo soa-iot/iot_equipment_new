@@ -25,4 +25,11 @@ public interface EquipmentTypeMapper {
      * @return
      */
     List<EquipmentType> selectAllWithChidren();
+
+	/**
+	 * 根据id获取其下级所有的数据
+	 * @param equTypeId
+	 * @return
+	 */
+	List<EquipmentType> selectChildrenById(String equTypeId);
 }

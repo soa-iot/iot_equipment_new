@@ -51,6 +51,7 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
 				query_data.keyWord = form_data.key_word
 				var equipmentCommonInfo = {};
 				var equipmentProperties = [];
+
 				$.each(form_data, function(key, item) {
 							console.log(golbal_common_property);
 							console.log(key);
@@ -58,7 +59,8 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
 								return true;
 							}
 
-							if (golbal_common_property.indexOf(key) < 0) {
+							if (golbal_common_property.indexOf(key) < 0
+									&& $('#advanced_search_form').html() != '') {
 								if (key != "key_word") {
 									var equipmentProperty = {};
 									equipmentProperty.proNameEn = key;
@@ -287,13 +289,14 @@ layui.use(['tree', 'util', 'table', 'layer', 'upload', 'form'], function() {
  *            data
  */
 function load_tree(tree, data, table) {
-	// 基本演示
 	tree.render({
 				elem : '#equipment_type',
 				data : data,
 				showCheckbox : false // 是否显示复选框
 				,
 				id : 'id',
+				onlyIconControl : true,
+				accordion : true,
 				isJump : true // 是否允许点击节点时弹出新窗口跳转
 				,
 				click : function(obj) {
@@ -338,62 +341,108 @@ function load_table(table, query_data) {
 			var cols = [[{
 						type : 'checkbox',
 						// fixed : 'left',
-						rowspan : 2
+						rowspan : 1
 
 					}, {
 						title : '序号',
 						type : 'numbers',
 						// fixed : 'left',
-						rowspan : 2
+						rowspan : 1
 					}]];
 
-			var data_item = {};
-			var maxClass = 1;
+			if (res.data == null || res.data.length > 0) {
+				// 存在配置数据
+				console.log(">>>>>>>>>>>>>>>>>>>>");
+				var data_item = {};
+				var maxClass = 1;
 
-			/**
-			 * 循环表头数据，生成layui要求格式的表头数据
-			 */
-			$.each(res.data, function(index, item) {
+				/**
+				 * 循环表头数据，生成layui要求格式的表头数据
+				 */
+				$.each(res.data, function(index, item) {
 
-						if (item.classNum > maxClass) {
-							maxClass = item.classNum;
-						}
+							if (item.classNum > maxClass) {
+								maxClass = item.classNum;
+							}
 
-						// console.log(index);
-						var cols_index = parseInt(item.classNum) - 1;
-						// console.log(item);
-						var cols_item = {};
-						cols_item.title = item.title;
-						cols_item.field = item.field;
-						cols_item.colspan = item.colspan;
-						cols_item.rowspan = item.rowspan;
-						cols_item.fixed = item.fixed;
-						cols_item.sort = item.sort;
-						cols_item.type = item.displayType;
-						cols_item.width = parseInt(item.width);
+							// console.log(index);
+							var cols_index = parseInt(item.classNum) - 1;
+							// console.log(item);
+							var cols_item = {};
+							cols_item.title = item.title;
+							cols_item.field = item.field;
+							cols_item.colspan = item.colspan;
+							cols_item.rowspan = item.rowspan;
+							cols_item.fixed = item.fixed;
+							cols_item.sort = item.sort;
+							cols_item.type = item.displayType;
+							cols_item.width = parseInt(item.width);
 
-						if (item.colspan != 1) {
-							cols_item.unresize = true;
-						} else {
-							cols_item.unresize = false;
-						}
+							if (item.colspan != 1) {
+								cols_item.unresize = true;
+							} else {
+								cols_item.unresize = false;
+							}
 
-						data_item[item.field] = item.field;
+							data_item[item.field] = item.field;
 
-						if (!cols[parseInt(item.classNum) - 1]) {
-							cols.push([]);
-						}
+							if (!cols[parseInt(item.classNum) - 1]) {
+								cols.push([]);
+							}
 
-						cols[cols_index][cols[cols_index].length] = cols_item;
+							cols[cols_index][cols[cols_index].length] = cols_item;
 
-					});
-			cols[0][0].rowspan = maxClass;
-			cols[0][1].rowspan = maxClass;
+						});
+				cols[0][0].rowspan = maxClass;
+				cols[0][1].rowspan = maxClass;
+			} else {
+
+				// 不存在配置数据
+				cols = [[{
+							type : 'checkbox',
+							rowspan : 1
+
+						}, {
+							title : '序号',
+							type : 'numbers',
+							rowspan : 1
+						}, {
+							title : '设备名称',
+							field : 'equName'
+						}, {
+							title : '设备状态',
+							field : 'equStatus'
+						}, {
+							title : '设备位号',
+							field : 'equPositionNum'
+						}, {
+							title : '生产装置',
+							field : 'processUnits'
+						}, {
+							title : '规格型号',
+							field : 'equModel'
+						}, {
+							title : '资产原值',
+							field : 'assetValue'
+						}, {
+							title : '生产厂家',
+							field : 'equManufacturer'
+						}, {
+							title : '出厂日期',
+							field : 'equProducDate'
+						}, {
+							title : '投用日期',
+							field : 'equCommissionDate'
+						}, {
+							title : '安装位置',
+							field : 'equInstallPosition'
+						}]];
+			}
 
 			table.render({
 				elem : '#equipment_list_table',
 				url : '/iot_equipment/equipmentLedger/getEquipmentList',
-				height : '790',
+				height : 'full-200',
 				toolbar : '#toolbar',
 				title : '设备台账',
 				method : 'post',
